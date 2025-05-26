@@ -10,10 +10,11 @@ public class Message : Entity
 {
     public int SenderId { get; set; }
     public int ReceiverId { get; set; }
-    public string Body { get; set; }
+    public required string Body { get; set; }
     public DateTime SentTime { get; set; }
     public DateTime? EditTime { get; set; } = null; // 'null' means that the message has not been edited at all
 
+    public Message() { }
     public Message(int id, int senderId, int receiverId, string body, DateTime sentTime)
     {
         Id = id;
