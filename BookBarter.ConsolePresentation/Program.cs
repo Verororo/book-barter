@@ -15,8 +15,7 @@ class Program
         var diContainer = new ServiceCollection()
             .AddSingleton<IUserRepository, UserRepository>()
             .AddSingleton<IBookRepository, BookRepository>()
-            .AddSingleton<IUserHasBookRepository, UserHasBookRepository>()
-            .AddSingleton<IUserWantsBookRepository, UserWantsBookRepository>()
+            .AddSingleton<IOwnedBookRepository, OwnedBookRepository>()
             .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(IUserRepository).Assembly))
             .BuildServiceProvider();
 
@@ -30,28 +29,15 @@ class Program
         var book2 = await mediator.Send(new CreateBook("9780201633610", "Design Patterns", 0));
 
         // Vasya has Clean Code
-        var userBook1 = await mediator.Send(new CreateUserHasBook(user1.Id, book1.Id, 0));
+        var userBook1 = await mediator.Send(new CreateOwnedBook(user1.Id, book1.Id, 0));
         // Vasya has Design Patterns
-        var userBook2 = await mediator.Send(new CreateUserHasBook(user1.Id, book2.Id, 0));
-
-        // Anton wants Clean Code
-        var wantedUserBook1 = await mediator.Send(new CreateUserWantsBook(user2.Id, book1.Id));
-        // Maxim wants Design Patterns
-        var wantedUserBook2 = await mediator.Send(new CreateUserWantsBook(user3.Id, book2.Id));
+        var userBook2 = await mediator.Send(new CreateOwnedBook(user1.Id, book2.Id, 0));
 
         Console.WriteLine("Vasya's owned books:");
-        var vasyasBooks = await mediator.Send(new GetByPredicateUserHasBooks(x => x.UserId == user1.Id));
+        var vasyasBooks = await mediator.Send(new GetByPredicateOwnedBooks(x => x.UserId == user1.Id));
         foreach (var userBook in vasyasBooks)
         {
             var book = await mediator.Send(new GetByIdBook(userBook.BookId));
-            Console.WriteLine($"{book.Title}, {book.GenreId}");
-        }
-
-        Console.WriteLine("Anton's wanted books:");
-        var antonsWantedBooks = await mediator.Send(new GetByPredicateUserWantsBooks(x => x.UserId == user2.Id));
-        foreach (var wantedUserBook in antonsWantedBooks)
-        {
-            var book = await mediator.Send(new GetByIdBook(wantedUserBook.BookId));
             Console.WriteLine($"{book.Title}, {book.GenreId}");
         }
     }

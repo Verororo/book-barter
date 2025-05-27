@@ -1,5 +1,4 @@
 ﻿
-using System;
 using BookBarter.Application.Abstractions;
 using BookBarter.Application.Books.Responses;
 using BookBarter.Domain.Entities;

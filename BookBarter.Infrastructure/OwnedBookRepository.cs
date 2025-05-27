@@ -2,24 +2,24 @@
 using BookBarter.Application.Abstractions;
 using BookBarter.Domain.Entities;
 
-public class UserHasBookRepository : IUserHasBookRepository
+public class OwnedBookRepository : IOwnedBookRepository
 {
-    private readonly List<UserHasBook> _userBooks = new();
+    private readonly List<OwnedBook> _userBooks = new();
 
-    public UserHasBook Create(UserHasBook userBook)
+    public OwnedBook Create(OwnedBook userBook)
     {
         _userBooks.Add(userBook);
         return userBook;
     }
-    public IList<UserHasBook> GetAll()
+    public IList<OwnedBook> GetAll()
     {
         return _userBooks.ToList();
     }
-    public List<UserHasBook> GetByPredicate(Func<UserHasBook, bool> predicate)
+    public List<OwnedBook> GetByPredicate(Func<OwnedBook, bool> predicate)
     {
         return _userBooks.Where(predicate).ToList();
     }
-    public void Delete(UserHasBook userBook)
+    public void Delete(OwnedBook userBook)
     {
         _userBooks.RemoveAll(e => e.UserId == userBook.UserId && e.BookId == userBook.BookId);
     }

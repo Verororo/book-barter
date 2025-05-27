@@ -3,15 +3,15 @@ using BookBarter.Domain.Exceptions;
 using MediatR;
 
 namespace BookBarter.Application.Users.Commands;
-public record DeleteUserHasBook(int userId, int bookId) : IRequest<Unit>;
-public class DeleteUserBookHandler : IRequestHandler<DeleteUserHasBook, Unit>
+public record DeleteOwnedBook(int userId, int bookId) : IRequest<Unit>;
+public class DeleteUserBookHandler : IRequestHandler<DeleteOwnedBook, Unit>
 {
-    private readonly IUserHasBookRepository _userBookRepository;
-    public DeleteUserBookHandler(IUserHasBookRepository userBookRepository)
+    private readonly IOwnedBookRepository _userBookRepository;
+    public DeleteUserBookHandler(IOwnedBookRepository userBookRepository)
     {
         _userBookRepository = userBookRepository;
     }
-    public Task<Unit> Handle(DeleteUserHasBook request, CancellationToken cancellationToken)
+    public Task<Unit> Handle(DeleteOwnedBook request, CancellationToken cancellationToken)
     {
         var userBook = _userBookRepository.GetByPredicate(x => x.UserId == request.userId &&
                                                             x.BookId == request.bookId)[0];

@@ -1,7 +1,6 @@
 ﻿
 using BookBarter.Application.Abstractions;
 using BookBarter.Application.Users.Responses;
-using BookBarter.Domain.Entities;
 using BookBarter.Domain.Exceptions;
 using MediatR;
 
