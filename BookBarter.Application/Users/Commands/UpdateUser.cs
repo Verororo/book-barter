@@ -21,7 +21,7 @@ public class UpdateUserHandler : IRequestHandler<UpdateBook, UserDto>
         {
             throw new RepoMemberAbsentException($"User with id {request.id} has not been found");
         }
-        var newUser = new User(request.id, request.name, request.email, request.city);
+        var newUser = new User { Id = request.id, Name = request.name, Email = request.email, City = request.city };
         var updatedUser = _userRepository.Update(newUser);
         return Task.FromResult(UserDto.FromUser(updatedUser));
     }

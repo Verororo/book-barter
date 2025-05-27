@@ -1,24 +1,11 @@
-﻿namespace BookBarter.Domain.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace BookBarter.Domain.Entities;
 public class Book : Entity
 {
-    public required string Isbn { get; set; }
-    public required string Title { get; set; }
-    public DateTime PublicationDate {  get; set; }
-    public required string Genre { get; set; }
+    public string Isbn { get; set; } = default!;
+    public string Title { get; set; } = default!;
+    public DateOnly PublicationDate { get; set; } // is it right to use DateOnly?
+    public int? GenreId { get; set; } // 'null' means no genre is set yet
     public bool Approved { get; set; }
-
-    public Book() { }
-    public Book(string isbn, string title, string genre)
-    {
-        Isbn = isbn;
-        Title = title;
-        Genre = genre;
-    }
-    public Book(int id, string isbn, string title, string genre)
-    {
-        Id = id;
-        Isbn = isbn;
-        Title = title;
-        Genre = genre;
-    }
 }

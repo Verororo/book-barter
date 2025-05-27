@@ -2,7 +2,7 @@
 using BookBarter.Application.Abstractions;
 using BookBarter.Domain.Entities;
 
-public class WantedUserBookRepository : IUserWantsBookRepository
+public class UserWantsBookRepository : IUserWantsBookRepository
 {
     private readonly List<UserWantsBook> _wantedUserBooks = new();
 

@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace BookBarter.Domain.Entities;
 
-public class BookAuthor
+public class Genre : Entity
 {
-    public int AuthorId { get; set; }
-    public int BookId { get; set; }
+    public string Name { get; set; } = default!;
 }

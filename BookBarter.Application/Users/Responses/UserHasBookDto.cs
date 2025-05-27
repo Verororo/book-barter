@@ -1,5 +1,4 @@
-﻿using BookBarter.Domain.Enums;
-using BookBarter.Domain.Entities;
+﻿using BookBarter.Domain.Entities;
 
 namespace BookBarter.Application.Users.Responses
 {
@@ -7,7 +6,7 @@ namespace BookBarter.Application.Users.Responses
     {
         public int BookId { get; set; }
         public int UserId { get; set; }
-        public State BookState { get; set; }
+        public int BookStateId { get; set; }
 
         public static UserHasBookDto FromUserBook(UserHasBook userBook)
         {
@@ -15,7 +14,7 @@ namespace BookBarter.Application.Users.Responses
             {
                 BookId = userBook.BookId,
                 UserId = userBook.UserId,
-                BookState = userBook.BookState
+                BookStateId = userBook.BookStateId
             };
         }
     }

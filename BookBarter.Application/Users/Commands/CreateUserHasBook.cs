@@ -1,13 +1,12 @@
 ﻿
 using BookBarter.Application.Abstractions;
-using BookBarter.Domain.Enums;
 using MediatR;
 using BookBarter.Domain.Entities;
 using BookBarter.Domain.Exceptions;
 using BookBarter.Application.Users.Responses;
 
 namespace BookBarter.Application.Users.Commands;
-public record CreateUserHasBook(int userId, int bookId, State bookState) : IRequest<UserHasBookDto>;
+public record CreateUserHasBook(int userId, int bookId, int bookStateId) : IRequest<UserHasBookDto>;
 public class CreateUserBookHandler : IRequestHandler<CreateUserHasBook, UserHasBookDto>
 {
     private readonly IUserWantsBookRepository _wantedUserBookRepository;
@@ -47,7 +46,7 @@ public class CreateUserBookHandler : IRequestHandler<CreateUserHasBook, UserHasB
         {
             throw new BusinessLogicException($"User {request.userId} already has book {request.bookId}");
         }
-        var userBook = new UserHasBook(request.userId, request.bookId, request.bookState);
+        var userBook = new UserHasBook { BookId = request.bookId, UserId = request.userId, BookStateId = request.bookStateId};
         var createdUserBook = _userBookRepository.Create(userBook);
         return Task.FromResult(UserHasBookDto.FromUserBook(createdUserBook));
     }

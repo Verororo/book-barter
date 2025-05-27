@@ -15,7 +15,7 @@ public class CreateUserHandler : IRequestHandler<CreateUser, UserDto>
     }
     public Task<UserDto> Handle(CreateUser request, CancellationToken cancellationToken)
     {
-        var user = new User(GetNextId(), request.name, request.email, request.city);
+        var user = new User { Id = GetNextId(), Name = request.name, Email = request.email, City = request.city };
         var createdUser = _userRepository.Create(user);
         return Task.FromResult(UserDto.FromUser(createdUser));
     }

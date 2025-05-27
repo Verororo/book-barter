@@ -15,8 +15,8 @@ class Program
         var diContainer = new ServiceCollection()
             .AddSingleton<IUserRepository, UserRepository>()
             .AddSingleton<IBookRepository, BookRepository>()
-            .AddSingleton<IUserHasBookRepository, UserBookRepository>()
-            .AddSingleton<IUserWantsBookRepository, WantedUserBookRepository>()
+            .AddSingleton<IUserHasBookRepository, UserHasBookRepository>()
+            .AddSingleton<IUserWantsBookRepository, UserWantsBookRepository>()
             .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(IUserRepository).Assembly))
             .BuildServiceProvider();
 
@@ -26,13 +26,13 @@ class Program
         var user2 = await mediator.Send(new CreateUser("Anton", "anton@example.com", "Chisinau"));
         var user3 = await mediator.Send(new CreateUser("Maxim", "maxim@example.com", "Chisinau"));
 
-        var book1 = await mediator.Send(new CreateBook("9780132350884", "Clean Code", "Applied Skills"));
-        var book2 = await mediator.Send(new CreateBook("9780201633610", "Design Patterns", "Applied Skills"));
+        var book1 = await mediator.Send(new CreateBook("9780132350884", "Clean Code", 0));
+        var book2 = await mediator.Send(new CreateBook("9780201633610", "Design Patterns", 0));
 
         // Vasya has Clean Code
-        var userBook1 = await mediator.Send(new CreateUserHasBook(user1.Id, book1.Id, BookBarter.Domain.Enums.State.New));
+        var userBook1 = await mediator.Send(new CreateUserHasBook(user1.Id, book1.Id, 0));
         // Vasya has Design Patterns
-        var userBook2 = await mediator.Send(new CreateUserHasBook(user1.Id, book2.Id, BookBarter.Domain.Enums.State.New));
+        var userBook2 = await mediator.Send(new CreateUserHasBook(user1.Id, book2.Id, 0));
 
         // Anton wants Clean Code
         var wantedUserBook1 = await mediator.Send(new CreateUserWantsBook(user2.Id, book1.Id));
@@ -44,7 +44,7 @@ class Program
         foreach (var userBook in vasyasBooks)
         {
             var book = await mediator.Send(new GetByIdBook(userBook.BookId));
-            Console.WriteLine($"{book.Title}, {book.Genre}");
+            Console.WriteLine($"{book.Title}, {book.GenreId}");
         }
 
         Console.WriteLine("Anton's wanted books:");
@@ -52,7 +52,7 @@ class Program
         foreach (var wantedUserBook in antonsWantedBooks)
         {
             var book = await mediator.Send(new GetByIdBook(wantedUserBook.BookId));
-            Console.WriteLine($"{book.Title}, {book.Genre}");
+            Console.WriteLine($"{book.Title}, {book.GenreId}");
         }
     }
 }

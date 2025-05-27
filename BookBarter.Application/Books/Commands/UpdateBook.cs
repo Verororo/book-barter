@@ -6,7 +6,7 @@ using BookBarter.Application.Books.Responses;
 using BookBarter.Domain.Exceptions;
 
 namespace BookBarter.Application.Books.Commands;
-public record UpdateBook(int id, string isbn, string name, string email) : IRequest<BookDto>;
+public record UpdateBook(int id, string isbn, string title, int genreId) : IRequest<BookDto>;
 public class UpdateBookHandler : IRequestHandler<UpdateBook, BookDto>
 {
     private readonly IBookRepository _bookRepository;
@@ -21,7 +21,7 @@ public class UpdateBookHandler : IRequestHandler<UpdateBook, BookDto>
         {
             throw new RepoMemberAbsentException($"Book with id {request.id} has not been found");
         }
-        var newBook = new Book(request.id, request.isbn, request.name, request.email);
+        var newBook = new Book { Id = request.id, Isbn = request.isbn, Title = request.title, GenreId = request.genreId };
         var updatedBook = _bookRepository.Update(newBook);
         return Task.FromResult(BookDto.FromBook(updatedBook));
     }

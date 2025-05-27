@@ -11,6 +11,11 @@ namespace BookBarter.Application.Users.Responses
 
         public static UserDto FromUser(User user)
         {
+            if (user.Name == null || user.Email == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+
             return new UserDto
             {
                 Id = user.Id,

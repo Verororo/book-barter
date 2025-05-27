@@ -43,7 +43,7 @@ public class CreateWantedUserBookHandler : IRequestHandler<CreateUserWantsBook, 
                 $"book {request.bookId} as wanted");
         }
         
-        var wantedUserBook = new UserWantsBook(request.userId, request.bookId);
+        var wantedUserBook = new UserWantsBook { UserId = request.userId, BookId = request.bookId };
         var createdWantedUserBook = _wantedUserBookRepository.Create(wantedUserBook);
         return Task.FromResult(UserWantsBookDto.FromWantedUserBook(createdWantedUserBook));
     }
