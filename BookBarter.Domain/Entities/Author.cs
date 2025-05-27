@@ -12,4 +12,5 @@ public class Author : Entity
     public string FirstName { get; set; } = default!;
     public string MiddleName { get; set; } = string.Empty;
     public string LastName { get; set; } = default!;
+    public ICollection<Book> Books { get; set; } = default!;
 }

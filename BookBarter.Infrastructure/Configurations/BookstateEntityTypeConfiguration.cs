@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BookBarter.Infrastructure.Configurations;
 
-public class StateEntityTypeConfiguration : IEntityTypeConfiguration<State>
+public class BookstateEntityTypeConfiguration : IEntityTypeConfiguration<Bookstate>
 {
-    public void Configure(EntityTypeBuilder<State> builder)
+    public void Configure(EntityTypeBuilder<Bookstate> builder)
     {
         builder
             .Property(e => e.Name)
@@ -20,9 +20,9 @@ public class StateEntityTypeConfiguration : IEntityTypeConfiguration<State>
 
         builder
             .HasData(
-                new State { Id = 1, Name = "Old" },
-                new State { Id = 2, Name = "Medium" },
-                new State { Id = 3, Name = "New" }
+                new Bookstate { Id = 1, Name = "Old" },
+                new Bookstate { Id = 2, Name = "Medium" },
+                new Bookstate { Id = 3, Name = "New" }
                 );
     }
 }

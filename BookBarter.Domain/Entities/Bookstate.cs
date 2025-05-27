@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BookBarter.Domain.Entities;
 
-public class State : Entity
+public class Bookstate : Entity
 {
     public string Name { get; set; } = default!;
 }

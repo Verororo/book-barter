@@ -9,7 +9,9 @@ namespace BookBarter.Domain.Entities;
 
 public class Message : Entity
 {
+    public User Sender { get; set; } = default!;
     public int SenderId { get; set; }
+    public User Receiver { get; set; } = default!;
     public int ReceiverId { get; set; }
     public string Body { get; set; } = default!;
     public DateTime SentTime { get; set; }
