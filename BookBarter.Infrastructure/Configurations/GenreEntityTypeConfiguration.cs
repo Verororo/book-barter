@@ -17,5 +17,7 @@ public class GenreEntityTypeConfiguration : IEntityTypeConfiguration<Genre>
             .Property(e => e.Name)
             .HasMaxLength(20)
             .IsRequired(true);
+
+        // icons?
     }
 }

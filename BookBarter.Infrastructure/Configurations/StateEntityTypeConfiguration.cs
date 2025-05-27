@@ -17,5 +17,12 @@ public class StateEntityTypeConfiguration : IEntityTypeConfiguration<State>
             .Property(e => e.Name)
             .HasMaxLength(20)
             .IsRequired(true);
+
+        builder
+            .HasData(
+                new State { Id = 1, Name = "Old" },
+                new State { Id = 2, Name = "Medium" },
+                new State { Id = 3, Name = "New" }
+                );
     }
 }
