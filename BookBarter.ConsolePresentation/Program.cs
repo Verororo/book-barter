@@ -2,43 +2,75 @@
 using BookBarter.Application.Abstractions;
 using BookBarter.Application.Books.Commands;
 using BookBarter.Application.Books.Queries;
-using BookBarter.Application.Users.Commands;
 using BookBarter.Application.Users.Queries;
+using BookBarter.Domain.Entities;
+using BookBarter.Infrastructure;
+using BookBarter.Infrastructure.Repositories;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-
 
 class Program
 {
     static async Task Main()
     {
         var diContainer = new ServiceCollection()
-            .AddSingleton<IUserRepository, UserRepository>()
-            .AddSingleton<IBookRepository, BookRepository>()
-            .AddSingleton<IOwnedBookRepository, OwnedBookRepository>()
-            .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(IUserRepository).Assembly))
+            .AddDbContext<AppDbContext>()
+            .AddMediatR(cfg =>
+                cfg.RegisterServicesFromAssembly(typeof(CreateBookCommand).Assembly))
+            .AddScoped(typeof(IRepository<>), typeof(Repository<>))
+            .AddScoped(typeof(IReadingRepository<>), typeof(ReadingRepository<>))
             .BuildServiceProvider();
 
         var mediator = diContainer.GetRequiredService<IMediator>();
 
-        var user1 = await mediator.Send(new CreateUser("Vasya", "vasya@example.com", "Chisinau"));
-        var user2 = await mediator.Send(new CreateUser("Anton", "anton@example.com", "Chisinau"));
-        var user3 = await mediator.Send(new CreateUser("Maxim", "maxim@example.com", "Chisinau"));
+        //var user1 = await mediator.Send(new CreateUser("Vasya", "vasya@example.com", "Chisinau"));
+        //var user2 = await mediator.Send(new CreateUser("Anton", "anton@example.com", "Chisinau"));
+        //var user3 = await mediator.Send(new CreateUser("Maxim", "maxim@example.com", "Chisinau"));
 
-        var book1 = await mediator.Send(new CreateBook("9780132350884", "Clean Code", 0));
-        var book2 = await mediator.Send(new CreateBook("9780201633610", "Design Patterns", 0));
-
-        // Vasya has Clean Code
-        var userBook1 = await mediator.Send(new CreateOwnedBook(user1.Id, book1.Id, 0));
-        // Vasya has Design Patterns
-        var userBook2 = await mediator.Send(new CreateOwnedBook(user1.Id, book2.Id, 0));
-
-        Console.WriteLine("Vasya's owned books:");
-        var vasyasBooks = await mediator.Send(new GetByPredicateOwnedBooks(x => x.UserId == user1.Id));
-        foreach (var userBook in vasyasBooks)
+        var chisinauUsers = await mediator.Send(new GetByPredicateUsersCommand(u => u.City == "Chisinau"));
+        Console.WriteLine("Users from Chisinau are:");
+        foreach (var item in chisinauUsers)
         {
-            var book = await mediator.Send(new GetByIdBook(userBook.BookId));
-            Console.WriteLine($"{book.Title}, {book.GenreId}");
+            Console.WriteLine(item.Name);
+        }
+
+        // adding books
+        var genreClassic = new Genre { Name = "Classic" };
+        var authorTolstoi = new Author { FirstName = "Leo", LastName = "Tolstoi" };
+        var authorHugo = new Author { FirstName = "Victor", LastName = "Hugo" };
+
+        //var book1 = await mediator.Send(new CreateBook("9780449300022", "Les Miserables",
+        //    new DateOnly(1982, 12, 12), 1, [authorHugo]));
+
+        var allBooks = await mediator.Send(new GetAllBooksCommand());
+        Console.WriteLine("All books registered are:");
+        foreach (var item in allBooks)
+        {
+            var authorName = item.Authors.First().FirstName + ' ' + item.Authors.First().LastName;
+            Console.WriteLine(item.Title + " - " + authorName);
+        }
+
+        // adding an owned book - Les Miserables to Vasya, in an Old state
+        // await mediator.Send(new CreateOwnedBook(1, 1, 1));
+
+        var vasyasBooks = await mediator.Send(new GetAllOwnedBooksByUserCommand(1));
+        Console.WriteLine("Vasya's owned books:");
+        foreach (var ownedBook in vasyasBooks)
+        {
+            var book = ownedBook.Book;
+            var authorName = book.Authors.First().FirstName + ' ' + book.Authors.First().LastName;
+            Console.WriteLine(book.Title + " - " + authorName + " - " + "State: " + ownedBook.BookState.Name);
+        }
+
+        // adding a wanted book - Les Miserables to Anton
+//        await mediator.Send(new CreateWantedBook(2, 1));
+
+        var antonsBooks = await mediator.Send(new GetAllWantedBooksByUserCommand(2));
+        Console.WriteLine("Antons' wanted books:");
+        foreach (var book in antonsBooks)
+        {
+            var authorName = book.Authors.First().FirstName + ' ' + book.Authors.First().LastName;
+            Console.WriteLine(book.Title + " - " + authorName);
         }
     }
 }
