@@ -5,9 +5,9 @@ using MediatR;
 
 namespace BookBarter.Application.Users.Queries;
 
-public record GetAllWantedBooksByUserCommand(int userId) : IRequest<List<Book>>;
+public record GetAllWantedBooksByUserQuery(int userId) : IRequest<List<Book>>;
 
-public class GetAllWantedBooksByUserHandler : IRequestHandler<GetAllWantedBooksByUserCommand, List<Book>>
+public class GetAllWantedBooksByUserHandler : IRequestHandler<GetAllWantedBooksByUserQuery, List<Book>>
 {
     private readonly IReadingRepository<User> _userRepository;
 
@@ -16,7 +16,7 @@ public class GetAllWantedBooksByUserHandler : IRequestHandler<GetAllWantedBooksB
         _userRepository = userRepository;
     }
 
-    public async Task<List<Book>> Handle(GetAllWantedBooksByUserCommand request, 
+    public async Task<List<Book>> Handle(GetAllWantedBooksByUserQuery request, 
         CancellationToken cancellationToken)
     {
         var user = await _userRepository.GetByIdAsync(request.userId, x => x.WantedBooks,

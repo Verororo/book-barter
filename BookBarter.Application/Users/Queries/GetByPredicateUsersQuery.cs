@@ -6,9 +6,9 @@ using MediatR;
 
 namespace BookBarter.Application.Users.Queries;
 
-public record GetByPredicateUsersCommand(Expression<Func<User, bool>> predicate) : IRequest<List<User>>;
+public record GetByPredicateUsersQuery(Expression<Func<User, bool>> predicate) : IRequest<List<User>>;
 
-public class GetByPredicateUsersHandler : IRequestHandler<GetByPredicateUsersCommand, List<User>>
+public class GetByPredicateUsersHandler : IRequestHandler<GetByPredicateUsersQuery, List<User>>
 {
     private readonly IReadingRepository<User> _userRepository;
 
@@ -17,7 +17,7 @@ public class GetByPredicateUsersHandler : IRequestHandler<GetByPredicateUsersCom
         _userRepository = userRepository;
     }
 
-    public async Task<List<User>> Handle(GetByPredicateUsersCommand request, CancellationToken cancellationToken)
+    public async Task<List<User>> Handle(GetByPredicateUsersQuery request, CancellationToken cancellationToken)
     {
         return await _userRepository.GetByPredicateAsync(request.predicate);
     }

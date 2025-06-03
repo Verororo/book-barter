@@ -27,7 +27,7 @@ class Program
         //var user2 = await mediator.Send(new CreateUser("Anton", "anton@example.com", "Chisinau"));
         //var user3 = await mediator.Send(new CreateUser("Maxim", "maxim@example.com", "Chisinau"));
 
-        var chisinauUsers = await mediator.Send(new GetByPredicateUsersCommand(u => u.City == "Chisinau"));
+        var chisinauUsers = await mediator.Send(new GetByPredicateUsersQuery(u => u.City == "Chisinau"));
         Console.WriteLine("Users from Chisinau are:");
         foreach (var item in chisinauUsers)
         {
@@ -42,7 +42,7 @@ class Program
         //var book1 = await mediator.Send(new CreateBook("9780449300022", "Les Miserables",
         //    new DateOnly(1982, 12, 12), 1, [authorHugo]));
 
-        var allBooks = await mediator.Send(new GetAllBooksCommand());
+        var allBooks = await mediator.Send(new GetAllBooksQuery());
         Console.WriteLine("All books registered are:");
         foreach (var item in allBooks)
         {
@@ -53,7 +53,7 @@ class Program
         // adding an owned book - Les Miserables to Vasya, in an Old state
         // await mediator.Send(new CreateOwnedBook(1, 1, 1));
 
-        var vasyasBooks = await mediator.Send(new GetAllOwnedBooksByUserCommand(1));
+        var vasyasBooks = await mediator.Send(new GetAllOwnedBooksByUserQuery(1));
         Console.WriteLine("Vasya's owned books:");
         foreach (var ownedBook in vasyasBooks)
         {
@@ -65,7 +65,7 @@ class Program
         // adding a wanted book - Les Miserables to Anton
 //        await mediator.Send(new CreateWantedBook(2, 1));
 
-        var antonsBooks = await mediator.Send(new GetAllWantedBooksByUserCommand(2));
+        var antonsBooks = await mediator.Send(new GetAllWantedBooksByUserQuery(2));
         Console.WriteLine("Antons' wanted books:");
         foreach (var book in antonsBooks)
         {

@@ -5,9 +5,9 @@ using MediatR;
 
 namespace BookBarter.Application.Books.Queries;
 
-public record GetAllBooksCommand() : IRequest<List<Book>>;
+public record GetAllBooksQuery() : IRequest<List<Book>>;
 
-public class GetAllBooksHandler : IRequestHandler<GetAllBooksCommand, List<Book>>
+public class GetAllBooksHandler : IRequestHandler<GetAllBooksQuery, List<Book>>
 {
     private readonly IReadingRepository<Book> _bookRepository;
 
@@ -16,7 +16,7 @@ public class GetAllBooksHandler : IRequestHandler<GetAllBooksCommand, List<Book>
         _bookRepository = bookRepository;
     }
 
-    public Task<List<Book>> Handle(GetAllBooksCommand request, CancellationToken cancellationToken)
+    public Task<List<Book>> Handle(GetAllBooksQuery request, CancellationToken cancellationToken)
     {
         return _bookRepository.GetAllAsync(x => x.Authors, x => x.Genre);
     }

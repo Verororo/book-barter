@@ -12,6 +12,13 @@ public record CreateBookCommand(
     ICollection<Author> authors,
     string? newGenreName = null) : IRequest; // DTO
 
+// 1st lecture:
+// - create, delete, update and getbyid book
+// - for create and update only use authorId (existing authors)
+
+// 4th lecture:
+// - add DTO for new authors
+
 // CreateBookCommandHandler
 // TODO: remove GetAll and GetPredicate business logic operations and replace them with more specific ones
 public class CreateBookHandler : IRequestHandler<CreateBookCommand>
