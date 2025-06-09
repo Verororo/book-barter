@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BookBarter.Domain.Entities;
 
-public class Publisher
+public class Publisher : Entity
 {
     public string Name { get; set; } = default!;
 }

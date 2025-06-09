@@ -1,57 +1,60 @@
-﻿
-using BookBarter.Application.Abstractions;
+﻿using BookBarter.Application.Common.Interfaces.Repositories;
+using BookBarter.Application.Common.Services;
 using BookBarter.Domain.Entities;
 using MediatR;
+using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using BookBarter.Application.Common.Interfaces;
 
 namespace BookBarter.Application.Books.Commands;
-public record CreateBookCommand(
-    string isbn, 
-    string title, 
-    DateOnly publicationDate, 
-    int genreId,
-    ICollection<Author> authors,
-    string? newGenreName = null) : IRequest; // DTO
-
-// 1st lecture:
-// - create, delete, update and getbyid book
-// - for create and update only use authorId (existing authors)
+public class CreateBookCommand : IRequest
+{
+    public string Isbn { get; set; } = default!;
+    public string Title { get; set; } = default!;
+    public DateOnly PublicationDate { get; set; }
+    public List<int> AuthorsIds { get; set; } = default!;
+    public int GenreId { get; set; }
+    public int PublisherId { get; set; }
+}
 
 // 4th lecture:
 // - add DTO for new authors
 
-// CreateBookCommandHandler
-// TODO: remove GetAll and GetPredicate business logic operations and replace them with more specific ones
-public class CreateBookHandler : IRequestHandler<CreateBookCommand>
+public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand>
 {
-    private readonly IRepository<Book> _bookRepository;
-    public CreateBookHandler(IRepository<Book> bookRepository)
+    private readonly IWritingRepository<Book> _bookRepository;
+    private readonly IWritingRepository<Author> _authorRepository;
+    private readonly IEntityExistenceValidator _validator;
+    public CreateBookCommandHandler(
+        IWritingRepository<Book> bookRepository,
+        IWritingRepository<Author> authorRepository,
+        IEntityExistenceValidator validator
+        )
     {
         _bookRepository = bookRepository;
+        _authorRepository = authorRepository;
+        _validator = validator;
     }
     public async Task Handle(CreateBookCommand request, CancellationToken cancellationToken)
     {
+        await _validator.ValidateAsync<Genre>(request.GenreId, cancellationToken); 
+        await _validator.ValidateAsync<Publisher>(request.PublisherId, cancellationToken);
+        await _validator.ValidateAsync<Author>(request.AuthorsIds, cancellationToken);
+
+        var existingAuthors = await _authorRepository.GetByPredicateAsync
+            (a => request.AuthorsIds.Contains(a.Id), cancellationToken);
+
         var book = new Book
         {
-            Isbn = request.isbn,
-            Title = request.title,
-            PublicationDate = request.publicationDate,
-            Authors = request.authors
+            Isbn = request.Isbn,
+            Title = request.Title,
+            PublicationDate = request.PublicationDate,
+            GenreId = request.GenreId,
+            PublisherId = request.PublisherId,
+            Authors = existingAuthors
         };
 
-        if (request.genreId != 0)
-        {
-            book.GenreId = request.genreId;
-        }
-        else
-        {
-            if (request.newGenreName == null)
-            {
-                throw new Exception($"Genre id was specified as 0, but no new genre name was provided");
-            }
-            book.Genre = new Genre { Name = request.newGenreName };
-        }
-
         _bookRepository.Add(book);
-        await _bookRepository.SaveAsync();
+        await _bookRepository.SaveAsync(cancellationToken);
     }
 }

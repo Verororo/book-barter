@@ -6,34 +6,32 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookBarter.Infrastructure.Repositories;
 
-public class ReadingRepository<T> : IReadingRepository<T> where T : Entity
+public class WritingRepository<T> : IWritingRepository<T> where T : Entity
 {
-    // merge Writing and Reading repos into one
-    // and use generic methods in it
     private readonly AppDbContext _context;
     private readonly DbSet<T> _dbSet;
-    public ReadingRepository(AppDbContext context)
+    public WritingRepository(AppDbContext context)
     {
         _context = context;
         _dbSet = _context.Set<T>();
     }
-    public Task<T?> GetByIdAsync(int id, CancellationToken cancellationToken, 
-        params Expression<Func<T, object>>[] includes)
+    public void Add(T entity)
     {
-        IQueryable<T> query = _dbSet;
-        if (includes != null)
-        {
-            foreach (var include in includes)
-            {
-                query = query.Include(include);
-            }
-        }
-
-        return query
-            .AsNoTracking()
-            .FirstOrDefaultAsync(e => e.Id == id);
+        _dbSet.Add(entity);
     }
-    public Task<List<T>> GetAllAsync(CancellationToken cancellationToken, 
+    public void Update(T entity)
+    {
+        _context.Update(entity);
+    }
+    public void Delete(T entity)
+    {
+        _dbSet.Remove(entity);
+    }
+    public void Delete(List<T> entities)
+    {
+        _dbSet.RemoveRange(entities);
+    }
+    public Task<T?> GetByIdAsync(int id, CancellationToken cancellationToken,
         params Expression<Func<T, object>>[] includes)
     {
         IQueryable<T> query = _dbSet;
@@ -45,9 +43,7 @@ public class ReadingRepository<T> : IReadingRepository<T> where T : Entity
             }
         }
 
-        return query
-            .AsNoTracking()
-            .ToListAsync();
+        return query.SingleOrDefaultAsync(e => e.Id == id);
     }
     public Task<List<T>> GetByPredicateAsync(Expression<Func<T, bool>> predicate, 
         CancellationToken cancellationToken, params Expression<Func<T, object>>[] includes)
@@ -63,7 +59,6 @@ public class ReadingRepository<T> : IReadingRepository<T> where T : Entity
 
         return query
             .Where(predicate)
-            .AsNoTracking()
             .ToListAsync();
     }
     public Task<bool> ExistsByIdAsync(int id, CancellationToken cancellationToken)
@@ -71,14 +66,8 @@ public class ReadingRepository<T> : IReadingRepository<T> where T : Entity
         return _dbSet.AnyAsync(x => x.Id == id);
     }
 
-    public Task<List<int>> GetExistingIds(List<int> ids, CancellationToken cancellationToken)
+    public Task SaveAsync(CancellationToken cancellationToken)
     {
-        if (ids == null || !ids.Any())
-            return Task.FromResult(new List<int>());
-
-        return _dbSet
-            .Where(e => ids.Contains(e.Id))
-            .Select(e => e.Id)
-            .ToListAsync();
+        return _context.SaveChangesAsync();
     }
 }

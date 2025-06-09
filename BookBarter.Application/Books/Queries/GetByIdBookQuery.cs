@@ -1,29 +1,32 @@
-﻿
-using BookBarter.Application.Abstractions;
+﻿using AutoMapper;
+using BookBarter.Application.Books.Responses;
+using BookBarter.Application.Common.Interfaces.Repositories;
+using BookBarter.Application.Common.Services;
 using BookBarter.Domain.Entities;
 using BookBarter.Domain.Exceptions;
 using MediatR;
 
 namespace BookBarter.Application.Books.Queries;
 
-public record GetByIdBookQuery(int id) : IRequest<Book>;
-
-public class GetByIdBookHandler : IRequestHandler<GetByIdBookQuery, Book>
+public class GetByIdBookQuery : IRequest<BookDto>
 {
-    private readonly IReadingRepository<Book> _bookRepository;
+    public int Id { get; set; }
+}
 
-    public GetByIdBookHandler(IReadingRepository<Book> bookRepository)
+public class GetByIdBookQueryHandler : IRequestHandler<GetByIdBookQuery, BookDto>
+{
+    private readonly IBookRepository _bookRepository;
+
+    public GetByIdBookQueryHandler(IBookRepository bookRepository)
     {
         _bookRepository = bookRepository;
     }
 
-    public async Task<Book> Handle(GetByIdBookQuery request, CancellationToken cancellationToken)
+    public async Task<BookDto> Handle(GetByIdBookQuery request, CancellationToken cancellationToken)
     {
-        var book = await _bookRepository.GetByIdAsync(request.id, x => x.Authors, x => x.Genre);
-        if (book == null)
-        {
-            throw new EntityNotFoundException($"Book with id {request.id} has not been found");
-        }
-        return book;
+        var bookDto = await _bookRepository.GetDtoByIdAsync(request.Id, cancellationToken);
+        if (bookDto == null) throw new EntityNotFoundException(typeof(Book).Name, request.Id);
+
+        return bookDto;
     }
 }

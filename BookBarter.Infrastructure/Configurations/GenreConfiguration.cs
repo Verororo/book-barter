@@ -17,5 +17,8 @@ public class GenreConfiguration : IEntityTypeConfiguration<Genre>
         builder
             .HasIndex(e => e.Name)
             .IsUnique();
+
+        builder
+            .HasData(new Genre { Id = 1, Name = "Classics" });
     }
 }

@@ -9,19 +9,8 @@ namespace BookBarter.Infrastructure;
 public class AppDbContext : DbContext
 {
     public AppDbContext (DbContextOptions options) : base(options) { }
-
     public AppDbContext() { }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (!optionsBuilder.IsConfigured)
-        {
-            optionsBuilder
-                .UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=BookBarter;Trusted_Connection=True")
-                .LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name },
-                    LogLevel.Information);
-        }
-    }
     public DbSet<Author> Authors { get; set; }
     public DbSet<BookState> BookStates { get; set; }
     public DbSet<Book> Books { get; set; }

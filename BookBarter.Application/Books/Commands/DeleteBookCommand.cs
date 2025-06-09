@@ -1,27 +1,27 @@
-﻿
-using BookBarter.Application.Abstractions;
+﻿using BookBarter.Application.Common.Interfaces.Repositories;
+using BookBarter.Application.Common.Services;
 using BookBarter.Domain.Entities;
 using BookBarter.Domain.Exceptions;
 using MediatR;
 
 namespace BookBarter.Application.BookBooks.Commands;
-public record DeleteBookCommand(int id) : IRequest;
-public class DeleteBookHandler : IRequestHandler<DeleteBookCommand>
+public class DeleteBookCommand : IRequest
 {
-    private readonly IRepository<Book> _bookRepository;
-    public DeleteBookHandler(IRepository<Book> bookRepository)
+    public int Id { get; set; }
+}
+public class DeleteBookCommandHandler : IRequestHandler<DeleteBookCommand>
+{
+    private readonly IWritingRepository<Book> _bookRepository;
+    public DeleteBookCommandHandler(IWritingRepository<Book> bookRepository)
     {
         _bookRepository = bookRepository;
     }
     public async Task Handle(DeleteBookCommand request, CancellationToken cancellationToken)
     {
-        var book = await _bookRepository.GetByIdAsync(request.id);
-        if (book == null)
-        {
-            throw new EntityNotFoundException($"Book with id {request.id} has not been found");
-        }
+        var book = await _bookRepository.GetByIdAsync(request.Id, cancellationToken);
+        if (book == null) throw new EntityNotFoundException(typeof(Book).Name, request.Id);
 
         _bookRepository.Delete(book);
-        await _bookRepository.SaveAsync();
+        await _bookRepository.SaveAsync(cancellationToken);
     }
 }

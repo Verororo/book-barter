@@ -4,7 +4,7 @@ public class Book : Entity
 {
     public string Isbn { get; set; } = default!;
     public string Title { get; set; } = default!;
-    public DateOnly PublicationDate { get; set; }
+    public required DateOnly PublicationDate { get; set; }
     public bool Approved { get; set; }
     public Genre Genre { get; set; } = default!;
     public int GenreId { get; set; }

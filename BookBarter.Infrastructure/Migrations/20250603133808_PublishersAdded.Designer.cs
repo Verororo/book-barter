@@ -4,6 +4,7 @@ using BookBarter.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookBarter.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250603133808_PublishersAdded")]
+    partial class PublishersAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -137,7 +140,7 @@ namespace BookBarter.Infrastructure.Migrations
                             Approved = false,
                             GenreId = 1,
                             Isbn = "9781400079988",
-                            PublicationDate = new DateOnly(2008, 12, 2),
+                            PublicationDate = new DateOnly(1, 1, 1),
                             PublisherId = 1,
                             Title = "War and Peace"
                         },
@@ -147,7 +150,7 @@ namespace BookBarter.Infrastructure.Migrations
                             Approved = false,
                             GenreId = 1,
                             Isbn = "9781613820254",
-                            PublicationDate = new DateOnly(2012, 9, 26),
+                            PublicationDate = new DateOnly(1, 1, 1),
                             PublisherId = 2,
                             Title = "Les Miserables"
                         });
@@ -309,11 +312,6 @@ namespace BookBarter.Infrastructure.Migrations
                         {
                             Id = 2,
                             Name = "Simon & Brown"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Global Publishers"
                         });
                 });
 

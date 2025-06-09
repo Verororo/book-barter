@@ -1,0 +1,46 @@
+﻿
+using BookBarter.Application.Common.Interfaces;
+using BookBarter.Application.Common.Interfaces.Repositories;
+using BookBarter.Domain.Entities;
+using BookBarter.Domain.Exceptions;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace BookBarter.Application.Common.Services;
+
+public class EntityExistenceValidator : IEntityExistenceValidator
+{
+    private readonly IServiceProvider _serviceProvider;
+    public EntityExistenceValidator(IServiceProvider serviceProvider)
+    {
+        _serviceProvider = serviceProvider;
+    }
+
+    public async Task ValidateAsync<T>(int id, CancellationToken cancellationToken)
+        where T : Entity
+    {
+        var repository = _serviceProvider.GetRequiredService<IReadingRepository<T>>();
+
+        bool exists = await repository.ExistsByIdAsync(id, cancellationToken);
+        if (!exists) throw new EntityNotFoundException(typeof(T).Name, id);
+    }
+    public async Task ValidateAsync<T>(List<int> ids, CancellationToken cancellationToken)
+        where T : Entity
+    {
+        var repository = _serviceProvider.GetRequiredService<IReadingRepository<T>>();
+
+        var existingIds = await repository.GetExistingIds(ids, cancellationToken);
+        var nonExistingIds = ids.Except(existingIds).ToList();
+
+        if (!nonExistingIds.Any())
+        {
+            return;
+        }
+
+        var exceptions = new List<EntityNotFoundException>();
+        foreach (var id in nonExistingIds)
+        {
+            exceptions.Add(new EntityNotFoundException(typeof(T).Name, id));
+        }
+        throw new AggregateException(exceptions);
+    }
+}
