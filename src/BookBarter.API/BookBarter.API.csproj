@@ -11,9 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\BookBarter.Application\BookBarter.Application.csproj" />
-    <ProjectReference Include="..\..\BookBarter.Domain\BookBarter.Domain.csproj" />
-    <ProjectReference Include="..\..\BookBarter.Infrastructure\BookBarter.Infrastructure.csproj" />
+    <ProjectReference Include="..\BookBarter.Application\BookBarter.Application.csproj" />
+    <ProjectReference Include="..\BookBarter.Domain\BookBarter.Domain.csproj" />
+    <ProjectReference Include="..\BookBarter.Infrastructure\BookBarter.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

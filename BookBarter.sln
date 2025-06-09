@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35919.96
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookBarter.Domain", "..\BookBarter.Domain\BookBarter.Domain.csproj", "{C392E113-7C34-485F-82B1-753995A909C2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookBarter.Domain", "src\BookBarter.Domain\BookBarter.Domain.csproj", "{C392E113-7C34-485F-82B1-753995A909C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookBarter.Application", "..\BookBarter.Application\BookBarter.Application.csproj", "{DB946960-025A-4090-A560-A314FB9E6AAB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookBarter.Application", "src\BookBarter.Application\BookBarter.Application.csproj", "{DB946960-025A-4090-A560-A314FB9E6AAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookBarter.Infrastructure", "..\BookBarter.Infrastructure\BookBarter.Infrastructure.csproj", "{19C538BD-D90E-48B0-BDE3-39E8A57E0FF6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookBarter.Infrastructure", "src\BookBarter.Infrastructure\BookBarter.Infrastructure.csproj", "{19C538BD-D90E-48B0-BDE3-39E8A57E0FF6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookBarter.API", "BookBarter.API\BookBarter.API.csproj", "{8BF27D95-7F3C-4C27-A687-6C0817CEF53F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookBarter.API", "src\BookBarter.API\BookBarter.API.csproj", "{8BF27D95-7F3C-4C27-A687-6C0817CEF53F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
