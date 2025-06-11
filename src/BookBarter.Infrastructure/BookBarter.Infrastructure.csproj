@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BookBarter.Application\BookBarter.Application.csproj" />
+    <ProjectReference Include="..\BookBarter.Domain\BookBarter.Domain.csproj" />
   </ItemGroup>
 
 </Project>

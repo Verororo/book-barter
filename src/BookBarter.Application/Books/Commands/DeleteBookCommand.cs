@@ -11,17 +11,17 @@ public class DeleteBookCommand : IRequest
 }
 public class DeleteBookCommandHandler : IRequestHandler<DeleteBookCommand>
 {
-    private readonly IWritingRepository<Book> _bookRepository;
-    public DeleteBookCommandHandler(IWritingRepository<Book> bookRepository)
+    private readonly IGenericRepository _repository;
+    public DeleteBookCommandHandler(IGenericRepository repository)
     {
-        _bookRepository = bookRepository;
+        _repository = repository;
     }
     public async Task Handle(DeleteBookCommand request, CancellationToken cancellationToken)
     {
-        var book = await _bookRepository.GetByIdAsync(request.Id, cancellationToken);
+        var book = await _repository.GetByIdAsync<Book>(request.Id, cancellationToken);
         if (book == null) throw new EntityNotFoundException(typeof(Book).Name, request.Id);
 
-        _bookRepository.Delete(book);
-        await _bookRepository.SaveAsync(cancellationToken);
+        _repository.Delete<Book>(book);
+        await _repository.SaveAsync(cancellationToken);
     }
 }

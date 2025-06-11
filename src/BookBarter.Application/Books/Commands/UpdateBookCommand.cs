@@ -19,17 +19,14 @@ public class UpdateBookCommand : IRequest
 }
 public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand>
 {
-    private readonly IWritingRepository<Book> _bookRepository;
-    private readonly IWritingRepository<Author> _authorRepository;
+    private readonly IGenericRepository _repository;
     private readonly IEntityExistenceValidator _validator;
     public UpdateBookCommandHandler(
-        IWritingRepository<Book> bookRepository,
-        IWritingRepository<Author> authorRepository,
+        IGenericRepository repository,
         IEntityExistenceValidator validator
         )
     {
-        _bookRepository = bookRepository;
-        _authorRepository = authorRepository;
+        _repository = repository;
         _validator = validator;
     }
     public async Task Handle(UpdateBookCommand request, CancellationToken cancellationToken)
@@ -38,10 +35,10 @@ public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand>
         await _validator.ValidateAsync<Publisher>(request.PublisherId, cancellationToken);
         await _validator.ValidateAsync<Author>(request.AuthorsIds, cancellationToken);
 
-        var book = await _bookRepository.GetByIdAsync(request.Id, cancellationToken, b => b.Authors);
+        var book = await _repository.GetByIdAsync<Book>(request.Id, cancellationToken, b => b.Authors);
         if (book == null) throw new EntityNotFoundException(typeof(Book).Name, request.Id);
 
-        var existingAuthors = await _authorRepository.GetByPredicateAsync
+        var existingAuthors = await _repository.GetByPredicateAsync<Author>
             (a => request.AuthorsIds.Contains(a.Id), cancellationToken);
 
         book.Isbn = request.Isbn;
@@ -51,6 +48,6 @@ public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand>
         book.PublisherId = request.PublisherId;
         book.Authors = existingAuthors;
 
-        await _bookRepository.SaveAsync(cancellationToken);
+        await _repository.SaveAsync(cancellationToken);
     }
 }

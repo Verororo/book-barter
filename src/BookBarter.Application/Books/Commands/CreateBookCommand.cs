@@ -17,22 +17,16 @@ public class CreateBookCommand : IRequest
     public int PublisherId { get; set; }
 }
 
-// 4th lecture:
-// - add DTO for new authors
-
 public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand>
 {
-    private readonly IWritingRepository<Book> _bookRepository;
-    private readonly IWritingRepository<Author> _authorRepository;
+    private readonly IGenericRepository _repository;
     private readonly IEntityExistenceValidator _validator;
     public CreateBookCommandHandler(
-        IWritingRepository<Book> bookRepository,
-        IWritingRepository<Author> authorRepository,
+        IGenericRepository repository,
         IEntityExistenceValidator validator
         )
     {
-        _bookRepository = bookRepository;
-        _authorRepository = authorRepository;
+        _repository = repository;
         _validator = validator;
     }
     public async Task Handle(CreateBookCommand request, CancellationToken cancellationToken)
@@ -41,7 +35,7 @@ public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand>
         await _validator.ValidateAsync<Publisher>(request.PublisherId, cancellationToken);
         await _validator.ValidateAsync<Author>(request.AuthorsIds, cancellationToken);
 
-        var existingAuthors = await _authorRepository.GetByPredicateAsync
+        var existingAuthors = await _repository.GetByPredicateAsync<Author>
             (a => request.AuthorsIds.Contains(a.Id), cancellationToken);
 
         var book = new Book
@@ -54,7 +48,7 @@ public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand>
             Authors = existingAuthors
         };
 
-        _bookRepository.Add(book);
-        await _bookRepository.SaveAsync(cancellationToken);
+        _repository.Add<Book>(book);
+        await _repository.SaveAsync(cancellationToken);
     }
 }
