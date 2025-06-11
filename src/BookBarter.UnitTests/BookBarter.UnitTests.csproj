@@ -18,10 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\BookBarter.API\BookBarter.API.csproj" />
-    <ProjectReference Include="..\src\BookBarter.Application\BookBarter.Application.csproj" />
-    <ProjectReference Include="..\src\BookBarter.Domain\BookBarter.Domain.csproj" />
-    <ProjectReference Include="..\src\BookBarter.Infrastructure\BookBarter.Infrastructure.csproj" />
+    <ProjectReference Include="..\BookBarter.API\BookBarter.API.csproj" />
+    <ProjectReference Include="..\BookBarter.Application\BookBarter.Application.csproj" />
+    <ProjectReference Include="..\BookBarter.Domain\BookBarter.Domain.csproj" />
+    <ProjectReference Include="..\BookBarter.Infrastructure\BookBarter.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

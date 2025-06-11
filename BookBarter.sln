@@ -11,9 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookBarter.Infrastructure",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookBarter.API", "src\BookBarter.API\BookBarter.API.csproj", "{8BF27D95-7F3C-4C27-A687-6C0817CEF53F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookBarter.UnitTests", "BookBarter.UnitTests\BookBarter.UnitTests.csproj", "{50103CB2-A6A7-4E26-9C11-327AF8C54651}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookBarter.UnitTests", "src\BookBarter.UnitTests\BookBarter.UnitTests.csproj", "{50103CB2-A6A7-4E26-9C11-327AF8C54651}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookBarter.IntegrationTests", "BookBarter.IntegrationTests\BookBarter.IntegrationTests.csproj", "{0DBAA875-D7CC-4BDC-8B36-2635CFFA1050}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookBarter.IntegrationTests", "src\BookBarter.IntegrationTests\BookBarter.IntegrationTests.csproj", "{0DBAA875-D7CC-4BDC-8B36-2635CFFA1050}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
