@@ -29,7 +29,9 @@ namespace BookBarter.Application.Auth.Commands
             var user = new User
             {
                 UserName = request.UserName,
-                Email = request.Email
+                Email = request.Email,
+                City = request.City,
+                RegistrationDate = DateTime.UtcNow,
             };
 
             var result = await _userManager.CreateAsync(user, request.Password);

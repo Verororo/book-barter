@@ -1,18 +1,22 @@
-﻿using System.Text.Json.Serialization;
-using BookBarter.Application.Books;
+﻿using BookBarter.Application.Books;
 using BookBarter.Application.Extensions;
+using BookBarter.Domain.Entities;
 using BookBarter.Infrastructure;
 using BookBarter.Infrastructure.Extensions;
-using Microsoft.Extensions.Configuration;
-using Microsoft.EntityFrameworkCore;
-using BookBarter.Domain.Entities;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Authentication.OAuth;
-using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using BookBarter.Infrastructure.Options;
+
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+
+using System.Text.Json.Serialization;
 
 namespace BookBarter.API.Extensions;
 
@@ -28,7 +32,15 @@ public static class ServiceCollectionExtensions
         builder.Services.AddInfrastructure();
         builder.Services.AddApplication();
 
-        builder.Services.AddControllers()
+        builder.Services.AddControllers(config =>
+        {
+
+            var policy = new AuthorizationPolicyBuilder()
+                  .RequireAuthenticatedUser()
+                  .Build();
+
+            config.Filters.Add(new AuthorizeFilter(policy));
+        })
             .AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
@@ -43,7 +55,7 @@ public static class ServiceCollectionExtensions
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddAutoMapper(typeof(BookProfile).Assembly);
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwagger();
     }
 
     public static IServiceCollection AddAuthentication(this IServiceCollection services, 

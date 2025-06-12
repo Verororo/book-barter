@@ -21,6 +21,7 @@ public class LoginCommand : IRequest<string>
 
 public class LoginCommandHandler : IRequestHandler<LoginCommand, string>
 {
+    // UserManager to infrastructure project
     private readonly UserManager<User> _userManager;
     private readonly IAuthenticationService _authenticationService;
     private readonly ITokenService _tokenService;

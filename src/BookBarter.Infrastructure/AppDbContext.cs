@@ -28,12 +28,4 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
 
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AuthorConfiguration).Assembly);
     }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (!optionsBuilder.IsConfigured)
-        {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=BookBarter;Trusted_Connection=True");
-        }
-    }
 }

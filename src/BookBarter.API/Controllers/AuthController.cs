@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using BookBarter.Application.Auth.Commands;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookBarter.API.Controllers
 {
@@ -17,6 +18,7 @@ namespace BookBarter.API.Controllers
         }
 
         [HttpPost("register")]
+        [AllowAnonymous]
         public async Task<ActionResult> Register([FromBody] RegisterCommand command)
         {
             var result = await _mediator.Send(command);
