@@ -24,6 +24,7 @@ app.UseRequestLogging();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

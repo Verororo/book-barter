@@ -86,6 +86,6 @@ public class RequestLoggingMiddleware
             .Where(h => !_options.SensitiveHeaders.Contains(h.Key, StringComparer.OrdinalIgnoreCase))
             .ToDictionary(
                 h => h.Key,
-                h => string.Join(", ", h.Value!));
+                h => string.Join(", ", (string)h.Value!));
     }
 }

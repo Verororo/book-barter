@@ -1,9 +1,9 @@
 ﻿
+using Microsoft.AspNetCore.Identity;
+
 namespace BookBarter.Domain.Entities;
-public class User : Entity
+public class User : IdentityUser<int>
 {
-    public string Name { get; set; } = default!;
-    public string Email { get; set; } = default!;
     public string? About { get; set; }
     public string City { get; set; } = default!;
     public DateTime RegistrationDate { get; set; }

@@ -1,5 +1,7 @@
 ﻿
+using BookBarter.Application.Common.Interfaces.Auth;
 using BookBarter.Application.Common.Interfaces.Repositories;
+using BookBarter.Infrastructure.Auth;
 using BookBarter.Infrastructure.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +14,9 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped(typeof(IGenericRepository), typeof(GenericRepository));
         services.AddScoped(typeof(IBookRepository), typeof(BookRepository));
+
+        services.AddTransient<IAuthenticationService, AuthenticationService>();
+        services.AddTransient<ITokenService, TokenService>();
 
         return services;
     }

@@ -4,6 +4,7 @@ using BookBarter.Application.Books.Commands;
 using BookBarter.Application.Books.Queries;
 using BookBarter.Application.Books.Responses;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // divide exceptions by critical and invalid user outputs
@@ -30,6 +31,7 @@ namespace BookBarter.API.Controllers
             return response;
         }
 
+        [Authorize]
         [HttpPost]
         public async Task CreateBook([FromBody] CreateBookCommand command, 
             CancellationToken cancellationToken)
@@ -37,6 +39,7 @@ namespace BookBarter.API.Controllers
             await _mediator.Send(command, cancellationToken);
         }
 
+        [Authorize]
         [HttpPut]
         public async Task UpdateBook(int id, [FromBody] UpdateBookCommand command,
             CancellationToken cancellationToken)
@@ -45,6 +48,7 @@ namespace BookBarter.API.Controllers
             await _mediator.Send(command, cancellationToken);
         }
 
+        [Authorize]
         [HttpDelete]
         [Route("{id}")]
         public async Task DeleteBook(int id, CancellationToken cancellationToken)

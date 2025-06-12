@@ -3,10 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using BookBarter.Domain.Entities;
 using BookBarter.Infrastructure.Configurations;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 
 namespace BookBarter.Infrastructure;
 
-public class AppDbContext : DbContext
+public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
 {
     public AppDbContext (DbContextOptions options) : base(options) { }
     public AppDbContext() { }
@@ -18,10 +21,19 @@ public class AppDbContext : DbContext
     public DbSet<Message> Messages { get; set; }
     public DbSet<OwnedBook> OwnedBooks { get; set; }
     public DbSet<Publisher> Publishers { get; set; }
-    public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AuthorConfiguration).Assembly);
+    }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=BookBarter;Trusted_Connection=True");
+        }
     }
 }

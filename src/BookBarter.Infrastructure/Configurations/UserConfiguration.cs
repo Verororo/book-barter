@@ -10,16 +10,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     public void Configure(EntityTypeBuilder<User> builder)
     {
         builder
-            .Property(e => e.Email)
-            .HasMaxLength(50)
-            .IsRequired();
-
-        builder
-            .Property(e => e.Name)
-            .HasMaxLength(50)
-            .IsRequired();
-
-        builder
             .Property(e => e.About)
             .HasMaxLength(500);
 
