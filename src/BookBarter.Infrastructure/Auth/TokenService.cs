@@ -1,7 +1,7 @@
 ﻿
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using BookBarter.Application.Common.Interfaces.Auth;
+using BookBarter.Application.Auth.Interfaces;
 using BookBarter.Infrastructure.Options;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -17,15 +17,16 @@ public class TokenService : ITokenService
         _authenticationOptions = authenticationOptions.Value;
     }
 
-    public string GenerateAccessToken()
+    public string GenerateAccessToken(List<Claim> claims)
     {
-        var signinCredentials = new SigningCredentials(_authenticationOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256);
+        var signinCredentials = new SigningCredentials(_authenticationOptions.GetSymmetricSecurityKey(), 
+            SecurityAlgorithms.HmacSha256);
 
         var jwtSecurityToken = new JwtSecurityToken(
              issuer: _authenticationOptions.Issuer,
              audience: _authenticationOptions.Audience,
-             claims: new List<Claim>(),
-             expires: DateTime.Now.AddDays(30),
+             claims: claims,
+             expires: DateTime.Now.AddMinutes(_authenticationOptions.TokenLifetimeMinutes), // change to 1 day
              signingCredentials: signinCredentials
         );
 

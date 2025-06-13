@@ -24,6 +24,7 @@ namespace BookBarter.API.Controllers
 
         [HttpGet]
         [Route("{id}")]
+        [Authorize(Roles = "User")]
         // IActionResult -> BookDto / ActionResult<BookDto>
         public async Task<BookDto> GetBookById(int id, CancellationToken cancellationToken)
         {
@@ -31,16 +32,17 @@ namespace BookBarter.API.Controllers
             return response;
         }
 
-        [Authorize]
         [HttpPost]
+        [Authorize(Roles = "User")]
         public async Task CreateBook([FromBody] CreateBookCommand command, 
             CancellationToken cancellationToken)
         {
             await _mediator.Send(command, cancellationToken);
         }
 
-        [Authorize]
+        // Moderator authorization
         [HttpPut]
+        [Authorize(Roles = "Moderator")]
         public async Task UpdateBook(int id, [FromBody] UpdateBookCommand command,
             CancellationToken cancellationToken)
         {
@@ -48,9 +50,10 @@ namespace BookBarter.API.Controllers
             await _mediator.Send(command, cancellationToken);
         }
 
-        [Authorize]
+        // Moderator authorization
         [HttpDelete]
         [Route("{id}")]
+        [Authorize(Roles = "Moderator")]
         public async Task DeleteBook(int id, CancellationToken cancellationToken)
         {
             await _mediator.Send(new DeleteBookCommand { Id = id }, cancellationToken);

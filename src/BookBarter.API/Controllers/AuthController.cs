@@ -22,14 +22,15 @@ namespace BookBarter.API.Controllers
         public async Task<ActionResult> Register([FromBody] RegisterCommand command)
         {
             var result = await _mediator.Send(command);
-            return Ok(new { Message = result });
+            return Ok(result);
         }
 
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<ActionResult> Login([FromBody] LoginCommand command)
         {
             var token = await _mediator.Send(command);
-            return Ok(new { Token = token });
+            return Ok(token);
         }
     }
 }

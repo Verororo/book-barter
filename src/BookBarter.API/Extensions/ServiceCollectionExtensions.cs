@@ -1,22 +1,12 @@
 ﻿using BookBarter.Application.Books;
 using BookBarter.Application.Extensions;
-using BookBarter.Domain.Entities;
 using BookBarter.Infrastructure;
 using BookBarter.Infrastructure.Extensions;
 using BookBarter.Infrastructure.Options;
-
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authentication.OAuth;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-
-using System.Text.Json.Serialization;
 
 namespace BookBarter.API.Extensions;
 
@@ -31,28 +21,8 @@ public static class ServiceCollectionExtensions
 
         builder.Services.AddInfrastructure();
         builder.Services.AddApplication();
-
-        builder.Services.AddControllers(config =>
-        {
-
-            var policy = new AuthorizationPolicyBuilder()
-                  .RequireAuthenticatedUser()
-                  .Build();
-
-            config.Filters.Add(new AuthorizeFilter(policy));
-        })
-            .AddJsonOptions(options =>
-            {
-                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-                options.JsonSerializerOptions.WriteIndented = true;
-            });
-
-        builder.Services.AddIdentity<User, IdentityRole<int>>()
-            .AddEntityFrameworkStores<AppDbContext>()
-            .AddDefaultTokenProviders();
-
-        builder.Services.AddAuthentication();
-
+        builder.Services.AddAuthentication(builder.Configuration);
+        builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddAutoMapper(typeof(BookProfile).Assembly);
         builder.Services.AddSwagger();
@@ -104,7 +74,7 @@ public static class ServiceCollectionExtensions
         var authOptionsConfigurationSection = configuration.GetSection("AuthOptions");
         services.Configure<AuthOptions>(authOptionsConfigurationSection);
         var authOptions = authOptionsConfigurationSection.Get<AuthOptions>();
-        return authOptions;
+        return authOptions!;
     }
 
     private static void AddJwtAuthentication(this IServiceCollection services, AuthOptions authOptions)
@@ -122,6 +92,8 @@ public static class ServiceCollectionExtensions
 
                 ValidateAudience = true,
                 ValidAudience = authOptions.Audience,
+
+                ValidateLifetime = true,
 
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = authOptions.GetSymmetricSecurityKey(),

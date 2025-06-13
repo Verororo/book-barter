@@ -1,6 +1,7 @@
 using BookBarter.API.Extensions;
 using Microsoft.Extensions.Options;
 using BookBarter.API.Middleware;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ builder.AddServices();
 
 var app = builder.Build();
 
+await app.SeedRolesApiAsync("User", "Moderator", "Admin");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
