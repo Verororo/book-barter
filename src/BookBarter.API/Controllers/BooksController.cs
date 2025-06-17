@@ -7,14 +7,11 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-// divide exceptions by critical and invalid user outputs
-// (decided by how the frontend handles them)
-
 namespace BookBarter.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class BooksController : ControllerBase // custom ControllerBase? (see sample project)
+    public class BooksController : ControllerBase
     {
         private readonly IMediator _mediator;
         public BooksController(IMediator mediator)
@@ -24,8 +21,6 @@ namespace BookBarter.API.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        [Authorize(Roles = "User")]
-        // IActionResult -> BookDto / ActionResult<BookDto>
         public async Task<BookDto> GetBookById(int id, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(new GetByIdBookQuery { Id = id }, cancellationToken);
@@ -33,14 +28,24 @@ namespace BookBarter.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "User")]
+        [Route("paged")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetBooksPaged([FromBody] GetPagedBooksQuery getPagedBooksQuery,
+            CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(getPagedBooksQuery, cancellationToken);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        // [Authorize(Roles = "User")]
+        [AllowAnonymous]
         public async Task CreateBook([FromBody] CreateBookCommand command, 
             CancellationToken cancellationToken)
         {
             await _mediator.Send(command, cancellationToken);
         }
 
-        // Moderator authorization
         [HttpPut]
         [Authorize(Roles = "Moderator")]
         public async Task UpdateBook(int id, [FromBody] UpdateBookCommand command,
@@ -50,7 +55,6 @@ namespace BookBarter.API.Controllers
             await _mediator.Send(command, cancellationToken);
         }
 
-        // Moderator authorization
         [HttpDelete]
         [Route("{id}")]
         [Authorize(Roles = "Moderator")]

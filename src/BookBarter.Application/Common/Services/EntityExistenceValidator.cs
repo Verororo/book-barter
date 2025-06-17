@@ -36,11 +36,6 @@ public class EntityExistenceValidator : IEntityExistenceValidator
             return;
         }
 
-        var exceptions = new List<EntityNotFoundException>();
-        foreach (var id in nonExistingIds)
-        {
-            exceptions.Add(new EntityNotFoundException(typeof(T).Name, id));
-        }
-        throw new AggregateException(exceptions);
+        throw new EntityNotFoundException(typeof(T).Name, nonExistingIds);
     }
 }

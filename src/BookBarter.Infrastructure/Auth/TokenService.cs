@@ -26,7 +26,7 @@ public class TokenService : ITokenService
              issuer: _authenticationOptions.Issuer,
              audience: _authenticationOptions.Audience,
              claims: claims,
-             expires: DateTime.Now.AddMinutes(_authenticationOptions.TokenLifetimeMinutes), // change to 1 day
+             expires: DateTime.Now.AddDays(1),
              signingCredentials: signinCredentials
         );
 

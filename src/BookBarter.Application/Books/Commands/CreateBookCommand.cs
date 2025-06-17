@@ -1,9 +1,6 @@
 ﻿using BookBarter.Application.Common.Interfaces.Repositories;
-using BookBarter.Application.Common.Services;
 using BookBarter.Domain.Entities;
 using MediatR;
-using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using BookBarter.Application.Common.Interfaces;
 
 namespace BookBarter.Application.Books.Commands;
@@ -20,20 +17,20 @@ public class CreateBookCommand : IRequest
 public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand>
 {
     private readonly IGenericRepository _repository;
-    private readonly IEntityExistenceValidator _validator;
+    private readonly IEntityExistenceValidator _existenceValidator;
     public CreateBookCommandHandler(
         IGenericRepository repository,
-        IEntityExistenceValidator validator
+        IEntityExistenceValidator existenceValidator
         )
     {
         _repository = repository;
-        _validator = validator;
+        _existenceValidator = existenceValidator;
     }
     public async Task Handle(CreateBookCommand request, CancellationToken cancellationToken)
     {
-        await _validator.ValidateAsync<Genre>(request.GenreId, cancellationToken); 
-        await _validator.ValidateAsync<Publisher>(request.PublisherId, cancellationToken);
-        await _validator.ValidateAsync<Author>(request.AuthorsIds, cancellationToken);
+        await _existenceValidator.ValidateAsync<Genre>(request.GenreId, cancellationToken); 
+        await _existenceValidator.ValidateAsync<Publisher>(request.PublisherId, cancellationToken);
+        await _existenceValidator.ValidateAsync<Author>(request.AuthorsIds, cancellationToken);
 
         var existingAuthors = await _repository.GetByPredicateAsync<Author>
             (a => request.AuthorsIds.Contains(a.Id), cancellationToken);
@@ -43,6 +40,7 @@ public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand>
             Isbn = request.Isbn,
             Title = request.Title,
             PublicationDate = request.PublicationDate,
+            AddedToDatabaseDate = DateTime.UtcNow,
             GenreId = request.GenreId,
             PublisherId = request.PublisherId,
             Authors = existingAuthors

@@ -1,7 +1,4 @@
 using BookBarter.API.Extensions;
-using Microsoft.Extensions.Options;
-using BookBarter.API.Middleware;
-using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,11 +20,14 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseRequestLogging();
+app.UseExceptionHandling();
 
 app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseTransaction();
 
 app.MapControllers();
 

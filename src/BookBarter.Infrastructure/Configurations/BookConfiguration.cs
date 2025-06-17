@@ -11,7 +11,7 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
     {
         builder
             .Property(e => e.Isbn)
-            .HasMaxLength(13)
+            .HasMaxLength(13) // change to exact length
             .IsRequired();
 
         builder
@@ -31,6 +31,7 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
                     Id = 1,
                     Isbn = "9781400079988",
                     Title = "War and Peace",
+                    AddedToDatabaseDate = DateTime.Parse("2025-01-01"),
                     PublicationDate = DateOnly.Parse("2008-12-02"),
                     GenreId = 1,
                     PublisherId = 1
@@ -40,6 +41,7 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
                     Id = 2,
                     Isbn = "9781613820254",
                     Title = "Les Miserables",
+                    AddedToDatabaseDate = DateTime.Parse("2025-01-01"),
                     PublicationDate = DateOnly.Parse("2012-09-26"),
                     GenreId = 1,
                     PublisherId = 2

@@ -61,9 +61,10 @@ public class GenericRepository : IGenericRepository
     }
     public Task<bool> ExistsByIdAsync<T>(int id, CancellationToken cancellationToken) where T : Entity
     {
-        return _context.Set<T>().AnyAsync(x => x.Id == id);
+        return _context.Set<T>().AnyAsync(x => x.Id == id, cancellationToken: cancellationToken);
     }
-    public Task<List<int>> GetExistingIds<T>(List<int> ids, CancellationToken cancellationToken) where T : Entity
+    public Task<List<int>> GetExistingIds<T>(List<int> ids, CancellationToken cancellationToken) 
+        where T : Entity
     {
         if (ids == null || !ids.Any())
             return Task.FromResult(new List<int>());
@@ -71,10 +72,10 @@ public class GenericRepository : IGenericRepository
         return _context.Set<T>()
             .Where(e => ids.Contains(e.Id))
             .Select(e => e.Id)
-            .ToListAsync();
+            .ToListAsync(cancellationToken: cancellationToken);
     }
     public Task SaveAsync(CancellationToken cancellationToken)
     {
-        return _context.SaveChangesAsync();
+        return _context.SaveChangesAsync(cancellationToken);
     }
 }
