@@ -1,12 +1,43 @@
 ﻿
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using BookBarter.Application.Books.Queries;
+using BookBarter.Application.Common.Models;
+using BookBarter.Domain.Entities;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
 
 namespace BookBarter.Infrastructure.Extensions;
 
 public static class PaginationExtensions
 {
-    public static IQueryable<T> Sort<T>(this IQueryable<T> query, GetPagedBooksQuery request)
+    public async static Task<PaginatedResult<TDto>> CreatePaginatedResultAsync<TEntity, TDto>
+        (this IQueryable<TEntity> query, PagedQuery request, IMapper mapper, 
+        CancellationToken cancellationToken)
+        where TEntity : Entity
+        where TDto : class
+    {
+        // filters have already been applied in the repository
+
+        var total = await query.CountAsync(cancellationToken);
+
+        var resultQuery = query.ProjectTo<TDto>(mapper.ConfigurationProvider)
+            .Order(request)
+            .Paginate(request);
+
+        var result = await resultQuery.ToListAsync(cancellationToken);
+
+        return new PaginatedResult<TDto>()
+        {
+            Items = result,
+            Total = total,
+            PageNumber = request.PageNumber,
+            PageSize = request.PageSize
+        };
+    }
+
+    private static IQueryable<T> Order<T>(this IQueryable<T> query, PagedQuery request)
     {
         if (!string.IsNullOrWhiteSpace(request.OrderByProperty))
         {
@@ -15,10 +46,10 @@ public static class PaginationExtensions
         return query;
     }
 
-    public static IQueryable<T> Paginate<T>(this IQueryable<T> query, GetPagedBooksQuery request)
+    private static IQueryable<T> Paginate<T>(this IQueryable<T> query, PagedQuery request)
     {
         var entities = query
-            .Skip((request.PageNumber - 1) * request.PageSize)
+            .Skip((request.PageNumber - 1) * request.PageSize) // depends
             .Take(request.PageSize);
         return entities;
     }

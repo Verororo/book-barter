@@ -35,7 +35,6 @@ public class BookRepository : IBookRepository
         CancellationToken cancellationToken)
     {
         IQueryable<Book> books = _dbSet;
-        var total = await books.CountAsync();
 
         if (!string.IsNullOrWhiteSpace(request.Title))
         {
@@ -74,17 +73,9 @@ public class BookRepository : IBookRepository
             books = books.Where(b => b.PublisherId == request.PublisherId);
         }
 
-        var result = await books.ProjectTo<BookDto>(_mapper.ConfigurationProvider)
-            .Sort(request)
-            .Paginate(request)
-            .ToListAsync(cancellationToken);
+        var paginatedResult = await PaginationExtensions.CreatePaginatedResultAsync<Book, BookDto>
+            (books, request, _mapper, cancellationToken);
 
-        return new PaginatedResult<BookDto>
-        {
-            PageNumber = request.PageNumber,
-            PageSize = request.PageSize,
-            Total = total,
-            Items = result
-        };
+        return paginatedResult;
     }
 }

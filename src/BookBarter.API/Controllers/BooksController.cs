@@ -21,7 +21,7 @@ namespace BookBarter.API.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<BookDto> GetBookById(int id, CancellationToken cancellationToken)
+        public async Task<BookDto> GetByIdBook(int id, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(new GetByIdBookQuery { Id = id }, cancellationToken);
             return response;
@@ -30,7 +30,7 @@ namespace BookBarter.API.Controllers
         [HttpPost]
         [Route("paged")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetBooksPaged([FromBody] GetPagedBooksQuery getPagedBooksQuery,
+        public async Task<IActionResult> GetPagedBooks([FromBody] GetPagedBooksQuery getPagedBooksQuery,
             CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(getPagedBooksQuery, cancellationToken);
