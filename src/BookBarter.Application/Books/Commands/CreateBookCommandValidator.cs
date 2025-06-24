@@ -8,7 +8,7 @@ public class CreateBookCommandValidator : AbstractValidator<CreateBookCommand>
     public CreateBookCommandValidator()
     {
         RuleFor(b => b.Isbn)
-            .NotEmpty() // why not use 'required' in the command?
+            .NotEmpty()
             .Length(13);
             
         RuleFor(b => b.Title)

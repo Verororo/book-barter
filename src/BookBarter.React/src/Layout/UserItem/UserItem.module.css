@@ -1,0 +1,69 @@
+
+.userItem {
+  background-color: white;
+  border: 1px solid gray;
+  border-radius: 20px;
+  width: 750px;
+  box-sizing: border-box;
+}
+
+.userItemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 10px 10px 15px;
+  border-bottom: 1px solid #B4B4B4;
+  margin-bottom: 10px;
+}
+
+.userItemHeaderLeft,
+.userItemHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.userItemName {
+  font-weight: bold;
+  margin: 0;
+}
+
+.userItemLocation,
+.userItemLastUpdate {
+  margin: 0;
+  color: gray;
+}
+
+.userItemLastUpdate {
+  font-size: 0.85em;
+}
+
+.userItemHeaderButtons {
+  display: flex;
+  gap: 8px;
+}
+
+.viewProfileBtn,
+.messageBtn {
+  border: 0px;
+  font-family: inherit;
+  padding: 6px 12px;
+  font-size: 0.85em;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.viewProfileBtn:hover,
+.messageBtn:hover {
+  background-color: #e8e8e8;
+  cursor: pointer;
+}
+
+.messageBtn {
+  background-color: #2c2c2c;
+  color: white;
+}
+
+.messageBtn:hover {
+  background-color: #222222;
+}

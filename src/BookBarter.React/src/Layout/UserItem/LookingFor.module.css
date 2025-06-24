@@ -1,0 +1,23 @@
+.givingOut {
+  padding-bottom: 15px;
+  border-bottom: 1px solid #B4B4B4;
+}
+
+.givingOut,
+.lookingFor {
+  margin-bottom: 15px;
+  padding-left: 15px;
+}
+
+.givingOut p,
+.lookingFor p {
+  margin: 0 0 8px 0;
+  font-weight: 500;
+}
+
+.bookItemContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+}

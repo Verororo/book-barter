@@ -1,0 +1,31 @@
+.bookItem {
+  background-color: #EDEDED;
+  border-radius: 5px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bookItemHeader {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.bookItemDescription {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.bookItemTitle,
+.bookItemAuthor {
+  font-weight: 600;
+  font-size: 0.9em;
+}
+
+.bookItemPublishedAndState {
+  font-size: 0.8em;
+  line-height: 1;
+}
