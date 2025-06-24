@@ -4,6 +4,7 @@
   border: 1px solid gray;
   border-radius: 20px;
   width: 750px;
+  max-width: 70%;
   box-sizing: border-box;
 }
 
@@ -20,7 +21,7 @@
 .userItemHeaderRight {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .userItemName {

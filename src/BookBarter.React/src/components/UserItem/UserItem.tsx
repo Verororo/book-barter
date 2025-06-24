@@ -2,6 +2,8 @@ import styles from './UserItem.module.css'
 import type { Book } from '../BookItem/BookItem'
 import GivingOutSection from './GivingOutSection'
 import LookingForSection from './LookingForSection'
+import Button from '@mui/material/Button'
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 
 export type User = {
   userName: string,
@@ -62,6 +64,7 @@ function formatLastUpdate(date: Date) {
   }
 }
 
+// use UserItemProps
 const UserItem = ({ userName, city, lastUpdateDate }: User ) => (
   <div className={styles.userItem}>
     <div className={styles.userItemHeader}>
@@ -75,8 +78,16 @@ const UserItem = ({ userName, city, lastUpdateDate }: User ) => (
           last update: {formatLastUpdate(lastUpdateDate)}
         </p>
         <div className={styles.userItemHeaderButtons}>
-          <button className={styles.viewProfileBtn}>View Profile</button>
-          <button className={styles.messageBtn}>Message</button>
+          <Button variant='outlined'>
+            View Profile
+          </Button>
+          <Button 
+            variant='contained'
+            startIcon={
+              <ChatBubbleOutlineIcon fontSize="inherit" />
+            }>
+            Message
+          </Button>
         </div>
       </div>
     </div>

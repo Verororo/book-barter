@@ -1,10 +1,12 @@
 
 import UserItem from "./UserItem"
 import styles from './UserItemContainer.module.css'
-import Pagination from "../Pagination/Pagination"
 import type { User } from "./UserItem"
 import { useState } from "react"
+
+//import Pagination from "../Pagination/Pagination"
 import { usePagination } from "./CustomHooks/UsePagination"
+import Pagination from "@mui/material/Pagination";
 
 const userList : User[] = [
   {
@@ -135,6 +137,18 @@ const UserItemContainer = () => {
 
   const paginatedResult = usePagination(userList, currentPage, pageSize)
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    setTimeout(scrollToTop, 50);
+  };
+
   return (
     <>
       <div className={styles.userItemContainer}>
@@ -144,14 +158,13 @@ const UserItemContainer = () => {
             {...user}
           />
         ))}
-      </div>
 
-      <Pagination
-        pageNumber={paginatedResult.pageNumber}
-        pageSize={paginatedResult.pageSize}
-        total={paginatedResult.total}
-        onPageChange={setCurrentPage}
-      />
+        <Pagination
+          count={Math.ceil(paginatedResult.total / paginatedResult.pageSize)}
+          page={paginatedResult.pageNumber}
+          onChange={(_event, page) => handlePageChange(page)}
+        />
+      </div>
     </>
   )
 }
