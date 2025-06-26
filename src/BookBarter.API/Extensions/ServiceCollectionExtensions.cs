@@ -26,6 +26,15 @@ public static class ServiceCollectionExtensions
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddAutoMapper(typeof(BookProfile).Assembly);
         builder.Services.AddSwagger();
+
+        builder.Services.AddCors(opts =>
+            opts.AddPolicy("DevPolicy", builder =>
+            builder.WithOrigins("http://localhost:5173")
+           .AllowAnyMethod()
+           .AllowAnyHeader()
+           .AllowCredentials()
+  )
+);
     }
 
     public static IServiceCollection AddAuthentication(this IServiceCollection services, 

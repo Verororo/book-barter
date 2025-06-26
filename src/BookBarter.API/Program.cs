@@ -19,6 +19,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("DevPolicy");
 app.UseRequestLogging();
 app.UseExceptionHandling();
 
