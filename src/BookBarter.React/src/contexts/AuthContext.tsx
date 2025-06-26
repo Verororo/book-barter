@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const isAuthenticated = user !== null;
 
   // use .env to set the API base URL
-  const API_BASE_URL = 'https://localhost:7290/api';
+  const API_BASE_URL = 'https://localhost:5123/api';
   const api = axios.create({
     baseURL: API_BASE_URL,
     headers: {
