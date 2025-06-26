@@ -4,7 +4,7 @@
   padding: 8px 10px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 1px;
 }
 
 .bookItemHeader {
@@ -17,6 +17,7 @@
   display: flex;
   gap: 4px;
   align-items: center;
+  color: dimgray;
 }
 
 .bookItemTitle,
@@ -26,6 +27,6 @@
 }
 
 .bookItemPublishedAndState {
-  font-size: 0.8em;
+  font-size: 0.75em;
   line-height: 1;
 }

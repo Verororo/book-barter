@@ -3,7 +3,11 @@ import type { Book } from '../BookItem/BookItem'
 import GivingOutSection from './GivingOutSection'
 import LookingForSection from './LookingForSection'
 import Button from '@mui/material/Button'
+
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import PersonIcon from '@mui/icons-material/Person';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { useAuth } from '../../contexts/AuthContext'
 
 export type User = {
   userName: string,
@@ -64,38 +68,57 @@ function formatLastUpdate(date: Date) {
   }
 }
 
-// use UserItemProps
-const UserItem = ({ userName, city, lastUpdateDate }: User ) => (
-  <div className={styles.userItem}>
-    <div className={styles.userItemHeader}>
-      <div className={styles.userItemHeaderLeft}>
-        <p className={styles.userItemName}>{userName}</p>
-        <p className={styles.userItemCity}>{city}</p>
-      </div>
+type UserItemProps = {
+  user: User
+}
 
-      <div className={styles.userItemHeaderRight}>
-        <p className={styles.userItemLastUpdate}>
-          last update: {formatLastUpdate(lastUpdateDate)}
-        </p>
-        <div className={styles.userItemHeaderButtons}>
-          <Button variant='outlined'>
-            View Profile
-          </Button>
-          <Button 
-            variant='contained'
-            startIcon={
-              <ChatBubbleOutlineIcon fontSize="inherit" />
-            }>
-            Message
-          </Button>
+const UserItem = ({ user }: UserItemProps) => {
+  const { isAuthenticated } = useAuth();
+
+  return (
+    <div className={styles.userItem}>
+      <div className={styles.userItemHeader}>
+        <div className={styles.userItemHeaderLeft}>
+          <p className={styles.userItemName}>
+            <PersonIcon fontSize='large' />
+            {user.userName}
+          </p>
+
+          <p className={styles.userItemCity}>
+            <LocationOnIcon fontSize='small' />
+            {user.city}
+          </p>
+        </div>
+
+        <div className={styles.userItemHeaderRight}>
+          <p className={styles.userItemLastUpdate}>
+            last update: {formatLastUpdate(user.lastUpdateDate)}
+          </p>
+
+          <div className={styles.userItemHeaderButtons}>
+            <Button variant='outlined'>
+              View Profile
+            </Button>
+
+
+            {isAuthenticated && (
+              <Button
+                variant='contained'
+                startIcon={
+                  <ChatBubbleOutlineIcon fontSize="inherit" />
+                }>
+                Message
+              </Button>
+            )}
+          </div>
         </div>
       </div>
+
+      <GivingOutSection givingOutBooks={givingOutBooks} />
+
+      <LookingForSection lookingForBooks={lookingForBooks} />
     </div>
-
-    <GivingOutSection givingOutBooks={givingOutBooks} />
-
-    <LookingForSection lookingForBooks={lookingForBooks} />
-  </div>
-)
+  )
+}
 
 export default UserItem

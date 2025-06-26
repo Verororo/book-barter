@@ -1,68 +1,31 @@
 
-import './App.css'
 import Navigation from './components/Navigation/Navigation'
-import UserItemContainer from './components/UserItem/UserItemContainer'
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { grey } from '@mui/material/colors';
-import CssBaseline from '@mui/material/CssBaseline';
+import UserItemContainer from './pages/Home/UserItemContainer'
 
-// place in separate file
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
+import theme from './ThemeSettings'
+import { ThemeProvider } from '@mui/material/styles'
+import CssBaseline from '@mui/material/CssBaseline'
 
-const theme = createTheme({
-  palette: {
-    background: {
-      default: '#FFFBF2',
-    },
-    primary: {
-      main: grey[800],
-    },
-  },
-  components: {
-    MuiCssBaseline: {
-      styleOverrides: {
-        body: {
-          paddingTop: "24px",
-          paddingBottom: "24px",
-        },
-      },
-    },
-    MuiPagination: {
-      defaultProps: {
-        variant: "outlined",
-        shape: "rounded",
-        color: "primary"
-      },
-      styleOverrides: {
-        root: {
-          marginTop: "24px"
-        }
-      }
-    },
-    MuiButton: {
-      defaultProps: {
-        disableElevation: true
-      },
-      styleOverrides: {
-        root: {
-          textTransform: "none"
-        }
-      }
-    }
-  }
-})
-// 
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
+import Auth from './pages/Auth/Auth'
+import { AuthProvider } from './contexts/AuthContext';
+
+// add lazy loading for separate pages
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Navigation/>
-      <UserItemContainer/>
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Router>
+          <Navigation/>
+          <Routes>
+            <Route path='/' element={<UserItemContainer />} />
+            <Route path='/auth' element={<Auth />} />
+          </Routes>
+        </Router>
+      </ThemeProvider>
+    </AuthProvider>
   )
 }
 

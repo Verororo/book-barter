@@ -1,12 +1,10 @@
 
-import UserItem from "./UserItem"
+import UserItem from "../../components/UserItem/UserItem"
 import styles from './UserItemContainer.module.css'
-import type { User } from "./UserItem"
-import { useState } from "react"
-
-//import Pagination from "../Pagination/Pagination"
-import { usePagination } from "./CustomHooks/UsePagination"
 import Pagination from "@mui/material/Pagination";
+import type { User } from "../../components/UserItem/UserItem"
+import { useState } from "react"
+import { usePagination } from "../../components/Pagination/CustomHooks/UsePagination"
 
 const userList : User[] = [
   {
@@ -155,7 +153,7 @@ const UserItemContainer = () => {
         {paginatedResult.items.map(user => (
           <UserItem
             key={`${user.userName}`}
-            {...user}
+            user={user}
           />
         ))}
 

@@ -11,8 +11,9 @@
 .userItemHeader {
   display: flex;
   justify-content: space-between;
+  gap: 10px;
   align-items: center;
-  padding: 10px 10px 10px 15px;
+  padding: 5px 10px 5px 15px;
   border-bottom: 1px solid #B4B4B4;
   margin-bottom: 10px;
 }
@@ -21,15 +22,31 @@
 .userItemHeaderRight {
   display: flex;
   align-items: center;
+}
+
+.userItemHeaderRight {
   gap: 10px;
 }
 
+.userItemHeaderLeft {
+  gap: 20px;
+}
+
 .userItemName {
+  display: flex;
+  gap: 9px;
+  align-items: center;
   font-weight: bold;
   margin: 0;
 }
 
-.userItemLocation,
+.userItemCity {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  font-size: 0.9em;
+}
+
 .userItemLastUpdate {
   margin: 0;
   color: gray;

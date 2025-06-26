@@ -1,0 +1,8 @@
+.homeButtonBox {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 15px 10px 10px 15px;
+  border-bottom: 1px solid #B4B4B4;
+  margin-bottom: 10px;
+}
