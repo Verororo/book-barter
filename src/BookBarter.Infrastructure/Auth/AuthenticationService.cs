@@ -58,10 +58,13 @@ public class AuthenticationService : IAuthenticationService
             return new LoginDto { Succeeded = false };
 
         var claims = new List<Claim>();
+        var userNameClaim = new Claim("userName", user.UserName!);
+        claims.Add(userNameClaim);
+
         var roles = await _userManager.GetRolesAsync(user);
         foreach (var role in roles)
         {
-            var roleClaim = new Claim(ClaimTypes.Role, role);
+            var roleClaim = new Claim("role", role); // or "ClaimTypes.Role"?
             claims.Add(roleClaim);
         }
 

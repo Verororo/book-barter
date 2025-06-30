@@ -120,14 +120,6 @@ const Auth = () => {
         <div className={styles.authBoxBody}>
           <h2 className={styles.title}>Welcome back, {user.userName}!</h2>
           <p className={styles.subtitle}>You are already signed in.</p>
-          <Button
-            variant="contained"
-            onClick={() => navigate('/')}
-            className={styles.submitButton}
-            size="large"
-          >
-            Go to Home
-          </Button>
         </div>
       </div>
     )
