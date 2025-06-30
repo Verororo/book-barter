@@ -6,7 +6,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ForumIcon from '@mui/icons-material/Forum';
 import BuildIcon from '@mui/icons-material/Build';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '../../contexts/Auth/UseAuth';
 
 const Navigation = () => {
   const { isAuthenticated, user, logout } = useAuth();

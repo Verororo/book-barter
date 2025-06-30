@@ -7,7 +7,7 @@ import Button from '@mui/material/Button'
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import PersonIcon from '@mui/icons-material/Person';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { useAuth } from '../../contexts/AuthContext'
+import { useAuth } from '../../contexts/Auth/UseAuth'
 
 export type User = {
   userName: string,

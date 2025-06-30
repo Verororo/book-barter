@@ -1,34 +1,11 @@
-import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
+import { createContext, useState, useEffect, type ReactNode } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 
-type User = {
-  userName: string;
-  email: string;
-  city: string;
-  role: 'User' | 'Moderator' | 'Admin';
-}
-
-type LoginRequest = {
-  email: string;
-  password: string;
-}
-
-type RegisterRequest = {
-  email: string;
-  password: string;
-  confirmPassword: string;
-  userName: string;
-  city: string;
-}
-
-type JwtPayload = {
-  userName: string;
-  email: string;
-  city: string;
-  role: string;
-  exp: Date;
-}
+import type { User } from './types/User';
+import type { LoginRequest } from './types/LoginRequest';
+import type { RegisterRequest } from './types/RegisterRequest';
+import type { JwtPayload } from './types/JwtPayload';
 
 interface AuthContextType {
   user: User | null;
@@ -42,15 +19,7 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
+export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
@@ -71,7 +40,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       try {
         const decoded = jwtDecode<JwtPayload>(token);
 
-        if (decoded.exp && decoded.exp.getMilliseconds() < Date.now()) {
+        if (decoded.exp && decoded.exp < Date.now()) {
           const userData: User = {
             userName: decoded.userName,
             email: decoded.email,

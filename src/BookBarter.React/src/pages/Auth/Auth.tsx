@@ -1,4 +1,3 @@
-// Auth.tsx
 import { useState } from 'react'
 import styles from './Auth.module.css'
 import TextField from '@mui/material/TextField'
@@ -10,7 +9,7 @@ import Button from '@mui/material/Button'
 
 import { useFormik } from 'formik'
 import HomeButton from '../../components/Navigation/HomeButton'
-import { useAuth } from '../../contexts/AuthContext'
+import { useAuth } from '../../contexts/Auth/UseAuth'
 import { useNavigate } from 'react-router-dom'
 
 type FormValues = {
@@ -30,7 +29,7 @@ type FormErrors = {
 }
 
 const Auth = () => {
-  const [hasAccount, setHasAccount] = useState('yes')
+  const [hasAccount, setHasAccount] = useState(true)
   const { login, register, isAuthenticated, user } = useAuth()
   const navigate = useNavigate()
 
@@ -49,7 +48,7 @@ const Auth = () => {
       errors.password = "Password must be at least 6 characters."
     }
 
-    if (hasAccount === 'no') {
+    if (!hasAccount) {
       if (values.confirmPassword != values.password) {
         errors.confirmPassword = "Passwords don't match."
       }
@@ -79,13 +78,13 @@ const Auth = () => {
     validate,
     onSubmit: async (values) => {
       try {
-        if (hasAccount === 'yes') {
+        if (hasAccount) {
           await login({
-            email: values.email, 
+            email: values.email,
             password: values.password
           })
           navigate('/')
-        } 
+        }
         else {
           await register({
             email: values.email,
@@ -95,7 +94,7 @@ const Auth = () => {
             city: values.city
           })
 
-          setHasAccount('yes')
+          setHasAccount(true)
           formik.setValues({
             email: values.email,
             password: '',
@@ -111,7 +110,7 @@ const Auth = () => {
   })
 
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setHasAccount(event.target.value)
+    setHasAccount(JSON.parse(event.target.value))
   }
 
   if (isAuthenticated && user) {
@@ -176,19 +175,19 @@ const Auth = () => {
               onChange={handleRadioChange}
             >
               <FormControlLabel
-                value="yes"
+                value={true}
                 control={<Radio size="small" />}
                 label="I have an account"
               />
               <FormControlLabel
-                value="no"
+                value={false}
                 control={<Radio size="small" />}
                 label="I don't have an account"
               />
             </RadioGroup>
           </FormControl>
 
-          {hasAccount === 'no' && (
+          {!hasAccount && (
             <div className={styles.additionalFields}>
               <TextField
                 id="confirmPassword"
@@ -238,7 +237,7 @@ const Auth = () => {
             className={styles.submitButton}
             size="large"
           >
-            {hasAccount === 'yes' ? 'Sign in' : 'Sign up'}
+            {hasAccount ? 'Sign in' : 'Sign up'}
           </Button>
         </form>
       </div>

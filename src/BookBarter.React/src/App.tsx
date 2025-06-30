@@ -9,7 +9,7 @@ import CssBaseline from '@mui/material/CssBaseline'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import Auth from './pages/Auth/Auth'
-import { AuthProvider } from './contexts/AuthContext';
+import { AuthProvider } from './contexts/Auth/AuthContext';
 
 // add lazy loading for separate pages
 function App() {
