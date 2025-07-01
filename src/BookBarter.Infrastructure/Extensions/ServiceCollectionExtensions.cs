@@ -16,6 +16,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped(typeof(IGenericRepository), typeof(GenericRepository));
         services.AddScoped(typeof(IBookRepository), typeof(BookRepository));
+        services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
 
         services.AddIdentity<User, IdentityRole<int>>()
             .AddRoles<IdentityRole<int>>()

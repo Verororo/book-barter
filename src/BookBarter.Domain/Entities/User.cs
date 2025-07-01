@@ -5,7 +5,7 @@ namespace BookBarter.Domain.Entities;
 public class User : IdentityUser<int>
 {
     public string? About { get; set; }
-    public string City { get; set; } = default!;
+    public string City { get; set; } = default!; // use a pre-defined list of cities?
     public DateTime RegistrationDate { get; set; }
     public DateTime? LastOnlineDate { get; set; }
     public ICollection<OwnedBook> OwnedBooks { get; set; } = [];

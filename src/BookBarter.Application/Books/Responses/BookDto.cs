@@ -1,6 +1,4 @@
-﻿using BookBarter.Application.Books.Responses;
-
-namespace BookBarter.Application.Books.Responses;
+﻿namespace BookBarter.Application.Books.Responses;
 
 public class BookDto
 {

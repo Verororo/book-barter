@@ -13,9 +13,8 @@ namespace BookBarter.Infrastructure.Extensions;
 public static class PaginationExtensions
 {
     public async static Task<PaginatedResult<TDto>> CreatePaginatedResultAsync<TEntity, TDto>
-        (this IQueryable<TEntity> query, PagedQuery request, IMapper mapper, 
-        CancellationToken cancellationToken)
-        where TEntity : Entity
+        (this IQueryable<TEntity> query, PagedQuery request, IMapper mapper, CancellationToken cancellationToken)
+        //where TEntity : Entity
         where TDto : class
     {
         // filters have already been applied in the repository
