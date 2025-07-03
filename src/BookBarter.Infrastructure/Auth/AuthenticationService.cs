@@ -30,7 +30,7 @@ public class AuthenticationService : IAuthenticationService
             UserName = userName,
             Email = email,
             CityId = cityId,
-            RegistrationDate = DateTime.UtcNow,
+            RegistrationDate = DateTime.UtcNow
         };
 
         var result = await _userManager.CreateAsync(user, password);

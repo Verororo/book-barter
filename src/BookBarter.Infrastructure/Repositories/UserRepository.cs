@@ -78,29 +78,27 @@ public class UserRepository : IUserRepository
         if (request.WantedBooksIds?.Any() == true)
         {
             users = users.Where(u => request.WantedBooksIds
-                .All(bookId => u.WantedBooks.Any(b => b.Id == bookId)));
+                .All(bookId => u.WantedBooks.Any(ob => ob.BookId == bookId)));
         }
 
         if (request.WantedBookAuthorsIds?.Any() == true)
         {
             users = users.Where(u => request.WantedBookAuthorsIds
-                .All(authorId => u.WantedBooks.Any(b => b.Authors.Any(a => a.Id == authorId))));
+                .All(authorId => u.WantedBooks.Any(ob => ob.Book.Authors.Any(a => a.Id == authorId))));
         }
 
         if (request.WantedBookGenreId.HasValue)
         {
-            users = users.Where(u => u.WantedBooks.Any(b => b.GenreId == request.WantedBookGenreId));
+            users = users.Where(u => u.WantedBooks.Any(ob => ob.Book.GenreId == request.WantedBookGenreId));
         }
 
         if (request.WantedBookPublisherId.HasValue)
         {
-            users = users.Where(b => b.WantedBooks.Any(b => b.PublisherId == request.WantedBookPublisherId));
+            users = users.Where(b => b.WantedBooks.Any(ob => ob.Book.PublisherId == request.WantedBookPublisherId));
         }
 
         var paginatedResult = await PaginationExtensions.CreatePaginatedResultAsync<User, TDto>
             (users, request, _mapper, cancellationToken);
-
-        // seeding (?)
 
         return paginatedResult;
     }

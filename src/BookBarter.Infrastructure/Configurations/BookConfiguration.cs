@@ -11,8 +11,9 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
     {
         builder
             .Property(e => e.Isbn)
-            .HasMaxLength(13) // change to exact length
-            .IsRequired();
+            .HasMaxLength(13)
+            .IsRequired()
+            .IsFixedLength();
 
         builder
             .Property(e => e.Title)

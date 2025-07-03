@@ -22,10 +22,5 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder
             .HasIndex(e => e.Email)
             .IsUnique();
-
-        builder
-            .HasMany(u => u.WantedBooks)
-            .WithMany(b => b.WantedByUsers)
-            .UsingEntity(uwb => uwb.ToTable("WantedBooks"));
     }
 }

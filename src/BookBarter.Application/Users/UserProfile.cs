@@ -13,6 +13,7 @@ public class UserProfile : Profile
         CreateMap<User, UserDto>();
         CreateMap<User, ListedUserDto>();
         CreateMap<OwnedBook, OwnedBookDto>();
+        CreateMap<WantedBook, WantedBookDto>();
         CreateMap<BookState, BookStateDto>();
     }
 }

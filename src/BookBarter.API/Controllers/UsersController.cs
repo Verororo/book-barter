@@ -2,7 +2,7 @@
 using BookBarter.Application.Common.Models;
 using BookBarter.Application.Users.Commands;
 using BookBarter.Application.Users.Commands.OwnedBooks;
-using BookBarter.Application.Users.Commands.WantedBook;
+using BookBarter.Application.Users.Commands.WantedBooks;
 using BookBarter.Application.Users.Queries;
 using BookBarter.Application.Users.Responses;
 using MediatR;

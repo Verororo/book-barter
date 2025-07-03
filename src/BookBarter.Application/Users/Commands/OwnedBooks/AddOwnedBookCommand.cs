@@ -2,7 +2,6 @@
 using BookBarter.Application.Common.Interfaces;
 using MediatR;
 using BookBarter.Domain.Entities;
-using BookBarter.Domain.Exceptions;
 
 namespace BookBarter.Application.Users.Commands.OwnedBooks;
 
@@ -16,42 +15,41 @@ public class AddOwnedBookCommand : IRequest
 public class AddOwnedBookCommandHandler : IRequestHandler<AddOwnedBookCommand>
 {
     private readonly IGenericRepository _repository;
+    private readonly IBookRelationshipRepository _bookRelationshipRepository;
     private readonly IEntityExistenceValidator _existenceValidator;
-    public AddOwnedBookCommandHandler(IGenericRepository repository, 
+    public AddOwnedBookCommandHandler(IGenericRepository repository,
+        IBookRelationshipRepository bookRelationshipRepository,
         IEntityExistenceValidator existenceValidator)
     {
         _repository = repository;
+        _bookRelationshipRepository = bookRelationshipRepository;
         _existenceValidator = existenceValidator;
     }
     public async Task Handle(AddOwnedBookCommand request, CancellationToken cancellationToken)
     {
-        var user = await _repository.GetByIdAsync<User>(request.UserId, cancellationToken,
-            u => u.OwnedBooks, u => u.WantedBooks);
-        if (user == null) throw new EntityNotFoundException(typeof(User).Name, request.UserId);
-
+        await _existenceValidator.ValidateAsync<User>(request.UserId, cancellationToken);
         await _existenceValidator.ValidateAsync<Book>(request.BookId, cancellationToken);
         await _existenceValidator.ValidateAsync<BookState>(request.BookStateId, cancellationToken);
 
-        var existingOwnedBook = user.OwnedBooks.Any(ob => ob.BookId == request.BookId);
-        if (existingOwnedBook)
+        if (await _bookRelationshipRepository.ExistsAsync<OwnedBook>(request.UserId, request.BookId, cancellationToken))
         {
-            throw new Exception($"Book {request.BookId} is already owned by User {request.UserId}.");
+            throw new Exception($"Book {request.BookId} is already owned by user {request.UserId}.");
         }
 
-        var existingWantedBook = user.WantedBooks.Any(b => b.Id == request.BookId);
-        if (existingWantedBook)
+        if (await _bookRelationshipRepository.ExistsAsync<WantedBook>(request.UserId, request.BookId, cancellationToken))
         {
-            throw new Exception($"Book {request.BookId} is already wanted by User {request.UserId}.");
+            throw new Exception($"Book {request.BookId} is already wanted by user {request.UserId}.");
         }
 
         var newOwnedBook = new OwnedBook
         {
-            User = user,
+            UserId = request.UserId,
             BookId = request.BookId,
-            BookStateId = request.BookStateId
+            BookStateId = request.BookStateId,
+            AddedDate = DateTime.UtcNow
         };
 
-        user.OwnedBooks.Add(newOwnedBook);
+        _repository.Add<OwnedBook>(newOwnedBook);
 
         await _repository.SaveAsync(cancellationToken);
     }

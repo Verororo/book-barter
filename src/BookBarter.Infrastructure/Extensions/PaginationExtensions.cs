@@ -1,10 +1,8 @@
 ﻿
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using BookBarter.Application.Books.Queries;
 using BookBarter.Application.Common.Models;
 using BookBarter.Domain.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
 
@@ -17,8 +15,6 @@ public static class PaginationExtensions
         where TEntity : class, IEntity
         where TDto : class
     {
-        // filters have already been applied in the repository
-
         var total = await query.CountAsync(cancellationToken);
 
         var resultQuery = query.ProjectTo<TDto>(mapper.ConfigurationProvider)

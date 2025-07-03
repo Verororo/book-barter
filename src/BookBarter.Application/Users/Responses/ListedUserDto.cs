@@ -10,5 +10,5 @@ public class ListedUserDto
     public string City { get; set; } = default!;
     public DateTime? LastOnlineDate { get; set; }
     public ICollection<OwnedBookDto> OwnedBooks { get; set; } = [];
-    public ICollection<BookDto> WantedBooks { get; set; } = [];
+    public ICollection<WantedBookDto> WantedBooks { get; set; } = [];
 }

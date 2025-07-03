@@ -1,10 +1,11 @@
 ﻿namespace BookBarter.Domain.Entities;
-public class OwnedBook : Entity
+public class OwnedBook : Entity, IBookRelationship
 {
-    public int BookId { get; set; }
-    public int UserId { get; set; }
-    public int BookStateId { get; set; }
     public Book Book { get; set; } = default!;
+    public int BookId { get; set; }
     public User User { get; set; } = default!;
+    public int UserId { get; set; }
     public BookState BookState { get; set; } = default!;
+    public int BookStateId { get; set; }
+    public DateTime AddedDate { get; set; }
 }

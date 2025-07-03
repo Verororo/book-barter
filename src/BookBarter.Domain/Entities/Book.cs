@@ -11,7 +11,8 @@ public class Book : Entity
     public int GenreId { get; set; }
     public Publisher Publisher { get; set; } = default!;
     public int PublisherId { get; set; }
+
     public ICollection<Author> Authors { get; set; } = [];
     public ICollection<OwnedBook> OwnedByUsers { get; set; } = [];
-    public ICollection<User> WantedByUsers { get; set; } = [];
+    public ICollection<WantedBook> WantedByUsers { get; set; } = [];
 }

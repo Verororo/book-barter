@@ -1,10 +1,9 @@
 ﻿
 using BookBarter.Application.Common.Interfaces.Repositories;
 using MediatR;
-using BookBarter.Domain.Exceptions;
 using BookBarter.Domain.Entities;
 
-namespace BookBarter.Application.Users.Commands.WantedBook;
+namespace BookBarter.Application.Users.Commands.WantedBooks;
 
 public class DeleteWantedBookCommand : IRequest
 {
@@ -22,14 +21,11 @@ public class DeleteWantedBookCommandHandler : IRequestHandler<DeleteWantedBookCo
 
     public async Task Handle(DeleteWantedBookCommand request, CancellationToken cancellationToken)
     {
-        var user = await _repository.GetByIdAsync<User>(request.UserId, cancellationToken,
-            u => u.WantedBooks);
-        if (user == null) { throw new EntityNotFoundException(typeof(User).Name, request.UserId); }
+        var wantedBooks = await _repository.GetByPredicateAsync<WantedBook>
+            (ob => ob.UserId == request.UserId && ob.BookId == request.BookId, cancellationToken);
+        if (!wantedBooks.Any()) { throw new Exception($"User {request.UserId} doesn't want the book {request.BookId}."); }
 
-        var book = user.WantedBooks.FirstOrDefault(b => b.Id == request.BookId);
-        if (book == null) { throw new Exception($"User {user.Id} doesn't want the book {request.BookId}."); }
-
-        user.WantedBooks.Remove(book);
+        _repository.Delete(wantedBooks);
 
         await _repository.SaveAsync(cancellationToken);
     }

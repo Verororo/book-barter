@@ -12,5 +12,5 @@ public class UserDto
     public DateTime RegistrationDate { get; set; }
     public DateTime? LastOnlineDate { get; set; }
     public ICollection<OwnedBookDto> OwnedBooks { get; set; } = [];
-    public ICollection<BookDto> WantedBooks { get; set; } = [];
+    public ICollection<WantedBookDto> WantedBooks { get; set; } = [];
 }

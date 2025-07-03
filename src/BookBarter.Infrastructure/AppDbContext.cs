@@ -1,11 +1,9 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using BookBarter.Domain.Entities;
 using BookBarter.Infrastructure.Configurations;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
 
 namespace BookBarter.Infrastructure;
 
@@ -21,6 +19,7 @@ public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
     public DbSet<Genre> Genres { get; set; }
     public DbSet<Message> Messages { get; set; }
     public DbSet<OwnedBook> OwnedBooks { get; set; }
+    public DbSet<WantedBook> WantedBooks { get; set; }
     public DbSet<Publisher> Publishers { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

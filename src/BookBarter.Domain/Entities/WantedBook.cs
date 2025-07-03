@@ -1,7 +1,7 @@
 ﻿
 namespace BookBarter.Domain.Entities;
 
-public class WantedBook
+public class WantedBook : Entity, IBookRelationship
 {
     public Book Book { get; set; } = default!;
     public int BookId { get; set; }
