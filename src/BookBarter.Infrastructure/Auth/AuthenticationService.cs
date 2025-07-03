@@ -22,14 +22,14 @@ public class AuthenticationService : IAuthenticationService
         _tokenService = tokenService;
     }
 
-    public async Task<RegisterDto> RegisterUserAsync(string userName, string email, string city, 
+    public async Task<RegisterDto> RegisterUserAsync(string userName, string email, int cityId, 
         string password)
     {
         var user = new User
         {
             UserName = userName,
             Email = email,
-            City = city,
+            CityId = cityId,
             RegistrationDate = DateTime.UtcNow,
         };
 
@@ -60,6 +60,9 @@ public class AuthenticationService : IAuthenticationService
         var claims = new List<Claim>();
         var userNameClaim = new Claim("userName", user.UserName!);
         claims.Add(userNameClaim);
+
+        var idClaim = new Claim("id", user.Id.ToString());
+        claims.Add(idClaim);
 
         var roles = await _userManager.GetRolesAsync(user);
         foreach (var role in roles)

@@ -14,7 +14,7 @@ public static class PaginationExtensions
 {
     public async static Task<PaginatedResult<TDto>> CreatePaginatedResultAsync<TEntity, TDto>
         (this IQueryable<TEntity> query, PagedQuery request, IMapper mapper, CancellationToken cancellationToken)
-        //where TEntity : Entity
+        where TEntity : class, IEntity
         where TDto : class
     {
         // filters have already been applied in the repository
@@ -48,7 +48,7 @@ public static class PaginationExtensions
     private static IQueryable<T> Paginate<T>(this IQueryable<T> query, PagedQuery request)
     {
         var entities = query
-            .Skip((request.PageNumber - 1) * request.PageSize) // depends
+            .Skip((request.PageNumber - 1) * request.PageSize)
             .Take(request.PageSize);
         return entities;
     }

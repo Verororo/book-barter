@@ -2,7 +2,8 @@
 using BookBarter.Application.BookBooks.Commands;
 using BookBarter.Application.Books.Commands;
 using BookBarter.Application.Books.Queries;
-using BookBarter.Application.Books.Responses;
+using BookBarter.Application.Common.Models;
+using BookBarter.Application.Common.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,11 +31,11 @@ public class BooksController : ControllerBase
     [HttpPost]
     [Route("paged")]
     [AllowAnonymous]
-    public async Task<IActionResult> GetPagedBooks([FromBody] GetPagedBooksQuery getPagedBooksQuery,
+    public async Task<PaginatedResult<BookDto>> GetPagedBooks([FromBody] GetPagedBooksQuery getPagedBooksQuery,
         CancellationToken cancellationToken)
     {
-        var result = await _mediator.Send(getPagedBooksQuery, cancellationToken);
-        return Ok(result);
+        var response = await _mediator.Send(getPagedBooksQuery, cancellationToken);
+        return response;
     }
 
     [HttpPost]
@@ -47,6 +48,7 @@ public class BooksController : ControllerBase
     }
 
     [HttpPut]
+    [Route("{id}")]
     [Authorize(Roles = "Moderator")]
     public async Task UpdateBook(int id, [FromBody] UpdateBookCommand command,
         CancellationToken cancellationToken)

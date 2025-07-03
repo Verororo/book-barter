@@ -16,7 +16,7 @@ public class EntityExistenceValidator : IEntityExistenceValidator
     }
 
     public async Task ValidateAsync<T>(int id, CancellationToken cancellationToken)
-        where T : Entity
+        where T : class, IEntity
     {
         var repository = _serviceProvider.GetRequiredService<IGenericRepository>();
 
@@ -24,7 +24,7 @@ public class EntityExistenceValidator : IEntityExistenceValidator
         if (!exists) throw new EntityNotFoundException(typeof(T).Name, id);
     }
     public async Task ValidateAsync<T>(List<int> ids, CancellationToken cancellationToken)
-        where T : Entity
+        where T : class, IEntity
     {
         var repository = _serviceProvider.GetRequiredService<IGenericRepository>();
 

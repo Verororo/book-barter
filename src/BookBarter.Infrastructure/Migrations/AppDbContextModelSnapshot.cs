@@ -193,6 +193,27 @@ namespace BookBarter.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("BookBarter.Domain.Entities.City", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CountryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cities");
+                });
+
             modelBuilder.Entity("BookBarter.Domain.Entities.Genre", b =>
                 {
                     b.Property<int>("Id")
@@ -337,10 +358,8 @@ namespace BookBarter.Infrastructure.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int?>("CityId")
+                        .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -393,6 +412,8 @@ namespace BookBarter.Infrastructure.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CityId");
 
                     b.HasIndex("Email")
                         .IsUnique()
@@ -636,6 +657,16 @@ namespace BookBarter.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("BookBarter.Domain.Entities.User", b =>
+                {
+                    b.HasOne("BookBarter.Domain.Entities.City", "City")
+                        .WithMany("Users")
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("City");
+                });
+
             modelBuilder.Entity("BookUser", b =>
                 {
                     b.HasOne("BookBarter.Domain.Entities.Book", null)
@@ -705,6 +736,11 @@ namespace BookBarter.Infrastructure.Migrations
             modelBuilder.Entity("BookBarter.Domain.Entities.Book", b =>
                 {
                     b.Navigation("OwnedByUsers");
+                });
+
+            modelBuilder.Entity("BookBarter.Domain.Entities.City", b =>
+                {
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("BookBarter.Domain.Entities.User", b =>

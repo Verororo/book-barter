@@ -1,5 +1,5 @@
-﻿using BookBarter.Application.Books.Responses;
-using BookBarter.Application.Common.Interfaces.Repositories;
+﻿using BookBarter.Application.Common.Interfaces.Repositories;
+using BookBarter.Application.Common.Responses;
 using BookBarter.Domain.Entities;
 using BookBarter.Domain.Exceptions;
 using MediatR;

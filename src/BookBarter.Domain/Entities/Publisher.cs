@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace BookBarter.Domain.Entities;
 
 public class Publisher : Entity
 {
     public string Name { get; set; } = default!;
+    public bool Approved { get; set; }
 }

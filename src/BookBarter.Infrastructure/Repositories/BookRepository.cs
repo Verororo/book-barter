@@ -1,6 +1,4 @@
-﻿
-using BookBarter.Application.Books.Responses;
-using BookBarter.Domain.Entities;
+﻿using BookBarter.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -8,6 +6,7 @@ using BookBarter.Application.Common.Interfaces.Repositories;
 using BookBarter.Application.Books.Queries;
 using BookBarter.Application.Common.Models;
 using BookBarter.Infrastructure.Extensions;
+using BookBarter.Application.Common.Responses;
 
 namespace BookBarter.Infrastructure.Repositories;
 

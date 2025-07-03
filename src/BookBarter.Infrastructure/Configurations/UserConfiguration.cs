@@ -14,9 +14,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMaxLength(500);
 
         builder
-            .Property(e => e.City)
-            .HasMaxLength(50)
-            .IsRequired();
+            .HasOne(u => u.City)
+            .WithMany(c => c.Users)
+            .HasForeignKey(u => u.CityId)
+            .OnDelete(DeleteBehavior.SetNull);
 
         builder
             .HasIndex(e => e.Email)

@@ -1,4 +1,5 @@
 ﻿using BookBarter.Application.Books;
+using BookBarter.Application.Common;
 using BookBarter.Application.Extensions;
 using BookBarter.Infrastructure;
 using BookBarter.Infrastructure.Extensions;
@@ -24,7 +25,7 @@ public static class ServiceCollectionExtensions
         builder.Services.AddAuthentication(builder.Configuration);
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddAutoMapper(typeof(BookProfile).Assembly);
+        builder.Services.AddAutoMapper(typeof(CommonProfile).Assembly);
         builder.Services.AddSwagger();
 
         builder.Services.AddCors(opts =>

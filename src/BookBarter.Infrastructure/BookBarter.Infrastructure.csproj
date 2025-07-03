@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CsvHelper" Version="33.1.0" />
     <PackageReference Include="MediatR" Version="12.5.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.6" />
 	<FrameworkReference Include="Microsoft.AspNetCore.App" />
@@ -24,6 +25,12 @@
   <ItemGroup>
     <ProjectReference Include="..\BookBarter.Application\BookBarter.Application.csproj" />
     <ProjectReference Include="..\BookBarter.Domain\BookBarter.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="DataSeed\Data\worldcities.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

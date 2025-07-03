@@ -13,24 +13,24 @@ public class GenericRepository : IGenericRepository
     {
         _context = context;
     }
-    public void Add<T>(T entity) where T : Entity
+    public void Add<T>(T entity) where T : class, IEntity
     {
         _context.Set<T>().Add(entity);
     }
-    public void Update<T>(T entity) where T : Entity
+    public void Update<T>(T entity) where T : class, IEntity
     {
         _context.Set<T>().Update(entity);
     }
-    public void Delete<T>(T entity) where T : Entity
+    public void Delete<T>(T entity) where T : class, IEntity
     {
         _context.Set<T>().Remove(entity);
     }
-    public void Delete<T>(List<T> entities) where T : Entity
+    public void Delete<T>(List<T> entities) where T : class, IEntity
     {
         _context.Set<T>().RemoveRange(entities);
     }
     public Task<T?> GetByIdAsync<T>(int id, CancellationToken cancellationToken,
-        params Expression<Func<T, object>>[] includes) where T : Entity
+        params Expression<Func<T, object>>[] includes) where T : class, IEntity
     {
         IQueryable<T> query = _context.Set<T>();
         if (includes != null)
@@ -44,7 +44,8 @@ public class GenericRepository : IGenericRepository
         return query.SingleOrDefaultAsync(e => e.Id == id);
     }
     public Task<List<T>> GetByPredicateAsync<T>(Expression<Func<T, bool>> predicate, 
-        CancellationToken cancellationToken, params Expression<Func<T, object>>[] includes) where T : Entity
+        CancellationToken cancellationToken, params Expression<Func<T, object>>[] includes) 
+        where T : class, IEntity
     {
         IQueryable<T> query = _context.Set<T>();
         if (includes != null)
@@ -59,12 +60,12 @@ public class GenericRepository : IGenericRepository
             .Where(predicate)
             .ToListAsync();
     }
-    public Task<bool> ExistsByIdAsync<T>(int id, CancellationToken cancellationToken) where T : Entity
+    public Task<bool> ExistsByIdAsync<T>(int id, CancellationToken cancellationToken) where T : class, IEntity
     {
         return _context.Set<T>().AnyAsync(x => x.Id == id, cancellationToken: cancellationToken);
     }
     public Task<List<int>> GetExistingIds<T>(List<int> ids, CancellationToken cancellationToken) 
-        where T : Entity
+        where T : class, IEntity
     {
         if (ids == null || !ids.Any())
             return Task.FromResult(new List<int>());

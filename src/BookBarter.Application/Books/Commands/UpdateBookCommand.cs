@@ -7,8 +7,7 @@ using BookBarter.Application.Common.Interfaces;
 namespace BookBarter.Application.Books.Commands;
 public class UpdateBookCommand : IRequest
 {
-    // at this point, specifying every property is required for updating
-    // is is possible to make them optional? (except for Id)
+    // make separate endpoint for approving books (?)
     public int Id { get; set; }
     public string Isbn { get; set; } = default!;
     public string Title { get; set; } = default!;

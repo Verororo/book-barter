@@ -2,10 +2,11 @@
 using Microsoft.AspNetCore.Identity;
 
 namespace BookBarter.Domain.Entities;
-public class User : IdentityUser<int>
+public class User : IdentityUser<int>, IEntity
 {
     public string? About { get; set; }
-    public string City { get; set; } = default!; // use a pre-defined list of cities?
+    public City City { get; set; } = default!;
+    public int? CityId { get; set; }
     public DateTime RegistrationDate { get; set; }
     public DateTime? LastOnlineDate { get; set; }
     public ICollection<OwnedBook> OwnedBooks { get; set; } = [];
