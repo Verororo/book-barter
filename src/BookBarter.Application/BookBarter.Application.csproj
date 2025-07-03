@@ -25,4 +25,11 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Cities\" />
+    <Folder Include="Genres\" />
+    <Folder Include="Authors\" />
+    <Folder Include="Publishers\" />
+  </ItemGroup>
+
 </Project>

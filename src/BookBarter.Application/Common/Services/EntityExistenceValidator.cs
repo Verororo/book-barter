@@ -1,7 +1,7 @@
 ﻿
 using BookBarter.Application.Common.Interfaces;
 using BookBarter.Application.Common.Interfaces.Repositories;
-using BookBarter.Domain.Entities;
+using BookBarter.Domain.Entities.Abstractions;
 using BookBarter.Domain.Exceptions;
 using Microsoft.Extensions.DependencyInjection;
 

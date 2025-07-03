@@ -1,4 +1,5 @@
 ﻿
+using BookBarter.Domain.Entities.Abstractions;
 using Microsoft.AspNetCore.Identity;
 
 namespace BookBarter.Domain.Entities;

@@ -1,4 +1,6 @@
-﻿namespace BookBarter.Domain.Entities;
+﻿using BookBarter.Domain.Entities.Abstractions;
+
+namespace BookBarter.Domain.Entities;
 
 public class Genre : Entity
 {

@@ -2,6 +2,7 @@
 using BookBarter.Application.Common.Interfaces.Repositories;
 using MediatR;
 using BookBarter.Domain.Entities;
+using BookBarter.Domain.Exceptions;
 
 namespace BookBarter.Application.Users.Commands.OwnedBooks;
 
@@ -23,7 +24,7 @@ public class DeleteOwnedBookCommandHandler : IRequestHandler<DeleteOwnedBookComm
     {
         var ownedBooks = await _repository.GetByPredicateAsync<OwnedBook>
             (ob => ob.UserId == request.UserId && ob.BookId == request.BookId, cancellationToken);
-        if (!ownedBooks.Any()) { throw new Exception($"User {request.UserId} doesn't own the book {request.BookId}."); }
+        if (!ownedBooks.Any()) { throw new EntityNotFoundException($"User {request.UserId} doesn't own the book {request.BookId}."); }
 
         _repository.Delete(ownedBooks);
 

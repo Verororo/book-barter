@@ -3,6 +3,7 @@ using BookBarter.Application.Common.Interfaces.Repositories;
 using BookBarter.Application.Common.Interfaces;
 using BookBarter.Domain.Entities;
 using MediatR;
+using BookBarter.Domain.Exceptions;
 
 namespace BookBarter.Application.Users.Commands.WantedBooks;
 
@@ -32,12 +33,12 @@ public class AddWantedBookCommandHandler : IRequestHandler<AddWantedBookCommand>
 
         if (await _bookRelationshipRepository.ExistsAsync<OwnedBook>(request.UserId, request.BookId, cancellationToken))
         {
-            throw new Exception($"Book {request.BookId} is already owned by user {request.UserId}.");
+            throw new BusinessLogicException($"Book {request.BookId} is already owned by user {request.UserId}.");
         }
 
         if (await _bookRelationshipRepository.ExistsAsync<WantedBook>(request.UserId, request.BookId, cancellationToken))
         {
-            throw new Exception($"Book {request.BookId} is already wanted by user {request.UserId}.");
+            throw new BusinessLogicException($"Book {request.BookId} is already wanted by user {request.UserId}.");
         }
 
         var newWantedBook = new WantedBook

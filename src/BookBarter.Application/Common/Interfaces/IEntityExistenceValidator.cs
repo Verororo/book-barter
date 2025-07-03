@@ -1,5 +1,4 @@
-﻿
-using BookBarter.Domain.Entities;
+﻿using BookBarter.Domain.Entities.Abstractions;
 
 namespace BookBarter.Application.Common.Interfaces;
 

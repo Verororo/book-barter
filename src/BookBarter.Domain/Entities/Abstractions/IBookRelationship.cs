@@ -1,5 +1,4 @@
-﻿
-namespace BookBarter.Domain.Entities;
+﻿namespace BookBarter.Domain.Entities.Abstractions;
 
 public interface IBookRelationship
 {

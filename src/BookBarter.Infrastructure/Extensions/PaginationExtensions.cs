@@ -2,7 +2,7 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using BookBarter.Application.Common.Models;
-using BookBarter.Domain.Entities;
+using BookBarter.Domain.Entities.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
 

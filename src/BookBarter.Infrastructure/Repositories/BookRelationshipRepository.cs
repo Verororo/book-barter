@@ -1,6 +1,6 @@
 ﻿
 using BookBarter.Application.Common.Interfaces.Repositories;
-using BookBarter.Domain.Entities;
+using BookBarter.Domain.Entities.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookBarter.Infrastructure.Repositories;

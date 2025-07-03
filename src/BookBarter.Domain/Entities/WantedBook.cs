@@ -1,4 +1,6 @@
 ﻿
+using BookBarter.Domain.Entities.Abstractions;
+
 namespace BookBarter.Domain.Entities;
 
 public class WantedBook : Entity, IBookRelationship
@@ -8,5 +10,4 @@ public class WantedBook : Entity, IBookRelationship
     public User User { get; set; } = default!;
     public int UserId { get; set; }
     public DateTime AddedDate { get; set; }
-    public int BookStateId { get; set; }
 }

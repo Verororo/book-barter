@@ -1,4 +1,6 @@
 ﻿
+using BookBarter.Domain.Entities.Abstractions;
+
 namespace BookBarter.Domain.Entities;
 
 public class City : Entity
