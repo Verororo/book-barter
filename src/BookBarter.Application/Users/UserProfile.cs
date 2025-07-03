@@ -12,7 +12,11 @@ public class UserProfile : Profile
     {
         CreateMap<User, UserDto>();
         CreateMap<User, ListedUserDto>();
-        CreateMap<OwnedBook, OwnedBookDto>();
+        CreateMap<Book, ListedBookDto>()
+            .ForMember(x => x.GenreName, o => o.MapFrom(x => x.Genre.Name))
+            .ForMember(x => x.PublisherName, o => o.MapFrom(x => x.Publisher.Name));
+        CreateMap<OwnedBook, OwnedBookDto>()
+            .ForMember(x => x.BookStateName, o => o.MapFrom(x => x.BookState.Name));
         CreateMap<WantedBook, WantedBookDto>();
         CreateMap<BookState, BookStateDto>();
     }

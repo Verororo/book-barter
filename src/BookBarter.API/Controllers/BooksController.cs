@@ -2,6 +2,7 @@
 using BookBarter.Application.BookBooks.Commands;
 using BookBarter.Application.Books.Commands;
 using BookBarter.Application.Books.Queries;
+using BookBarter.Application.Books.Responses;
 using BookBarter.Application.Common.Models;
 using BookBarter.Application.Common.Responses;
 using MediatR;

@@ -25,8 +25,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Books\Responses\" />
-  </ItemGroup>
-
 </Project>

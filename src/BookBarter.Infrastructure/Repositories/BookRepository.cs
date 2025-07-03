@@ -7,6 +7,7 @@ using BookBarter.Application.Books.Queries;
 using BookBarter.Application.Common.Models;
 using BookBarter.Infrastructure.Extensions;
 using BookBarter.Application.Common.Responses;
+using BookBarter.Application.Books.Responses;
 
 namespace BookBarter.Infrastructure.Repositories;
 

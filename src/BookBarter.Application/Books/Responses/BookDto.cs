@@ -1,9 +1,12 @@
-﻿namespace BookBarter.Application.Common.Responses;
+﻿
+using BookBarter.Application.Common.Responses;
+
+namespace BookBarter.Application.Books.Responses;
 
 public class BookDto
 {
     public int Id { get; set; }
-    public string Isbn { get; set; } = default!; // split into two models. better to name them differently
+    public string Isbn { get; set; } = default!;
     public string Title { get; set; } = default!;
     public DateOnly PublicationDate { get; set; }
     public bool Approved { get; set; }
