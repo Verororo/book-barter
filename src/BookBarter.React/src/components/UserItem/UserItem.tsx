@@ -10,50 +10,53 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useAuth } from '../../contexts/Auth/UseAuth'
 
 export type User = {
-  userName: string,
-  city: string,
-  lastUpdateDate: Date
+  userName: string
+  cityName: string
+  lastOnlineDate: string
+  ownedBooks: OwnedBookDto[]
+  wantedBooks: WantedBookDto[]
 }
 
-const givingOutBooks: Book[] = [
-  {
-    author: "Plato",
-    bookTitle: "The Republic",
-    yearPublished: 2012,
-    publisher: "Penguin Classics",
-    state: "Medium"
-  },
-  {
-    author: "Zorich",
-    bookTitle: "Mathematical Analysis. Part I",
-    yearPublished: 2019,
-    publisher: "MCCME",
-    state: "New"
-  }
-]
+type AuthorDto = { firstName: string; middleName?: string; lastName: string }
+type BookDto = {
+  id: number
+  title: string
+  publicationDate: string    // e.g. "2025-07-04"
+  approved: boolean
+  genreName: string
+  publisherName: string
+  authors: AuthorDto[]
+}
+type OwnedBookDto = {
+  id: number
+  book: BookDto
+  bookStateName: string
+  addedDate: string
+}
+type WantedBookDto = {
+  id: number
+  book: BookDto
+  addedDate: string
+}
 
-const lookingForBooks: Book[] = [
-  {
-    author: "Kant",
-    bookTitle: "Critique of Pure Reason",
-    yearPublished: 2007,
-    publisher: "Penguin Classics"
-  },
-  {
-    author: "Tolstoi",
-    bookTitle: "War and Peace",
-    yearPublished: 2005,
-    publisher: "T. Egerton"
-  },
-  {
-    author: "Dick",
-    bookTitle: "Do Android Dream of Electric Sheep?",
-    yearPublished: 1996,
-    publisher: "Del Rey"
-  }
-]
+const dtoToView = (dto: OwnedBookDto | WantedBookDto): Book => {
+  const { book, bookStateName } = dto as OwnedBookDto
+  // concatenate authors:
+  const authors = book.authors
+    .map(a => a.lastName).join(', ')
 
-function formatLastUpdate(date: Date) {
+  return {
+    title: book.title,
+    authors,
+    publicationYear: new Date(book.publicationDate).getFullYear(),
+    publisherName: book.publisherName,
+    bookStateName: 'bookStateName' in dto ? dto.bookStateName : undefined
+  }
+}
+
+const formatLastOnline = (isoDate: string) => {
+  const date = new Date(isoDate)
+
   const now = new Date()
   const diffInMilliseconds = now.getTime() - date.getTime()
   const diffInHours = Math.floor(diffInMilliseconds / (1000 * 60 * 60))
@@ -86,13 +89,13 @@ const UserItem = ({ user }: UserItemProps) => {
 
           <p className={styles.userItemCity}>
             <LocationOnIcon fontSize='small' />
-            {user.city}
+            {user.cityName}
           </p>
         </div>
 
         <div className={styles.userItemHeaderRight}>
           <p className={styles.userItemLastUpdate}>
-            last update: {formatLastUpdate(user.lastUpdateDate)}
+            last update: {formatLastOnline(user.lastOnlineDate)}
           </p>
 
           <div className={styles.userItemHeaderButtons}>
@@ -114,9 +117,9 @@ const UserItem = ({ user }: UserItemProps) => {
         </div>
       </div>
 
-      <GivingOutSection givingOutBooks={givingOutBooks} />
+      <GivingOutSection givingOutBooks={user.ownedBooks.map(dtoToView)} />
 
-      <LookingForSection lookingForBooks={lookingForBooks} />
+      <LookingForSection lookingForBooks={user.wantedBooks.map(dtoToView)} />
     </div>
   )
 }

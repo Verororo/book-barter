@@ -15,7 +15,7 @@ const GivingOutSection = ({ givingOutBooks }: GivingOutSectionProps) => {
       <div className={styles.bookItemContainer}>
         {givingOutBooks.map(book => (
           <BookItem
-            key={book.bookTitle}
+            key={book.title}
             {...book}
           />
         ))}
