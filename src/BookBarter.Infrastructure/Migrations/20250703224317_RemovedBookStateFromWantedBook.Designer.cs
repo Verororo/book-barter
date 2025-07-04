@@ -4,6 +4,7 @@ using BookBarter.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookBarter.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250703224317_RemovedBookStateFromWantedBook")]
+    partial class RemovedBookStateFromWantedBook
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,6 +38,18 @@ namespace BookBarter.Infrastructure.Migrations
                     b.HasIndex("BooksId");
 
                     b.ToTable("AuthorBook");
+
+                    b.HasData(
+                        new
+                        {
+                            AuthorsId = 1,
+                            BooksId = 1
+                        },
+                        new
+                        {
+                            AuthorsId = 2,
+                            BooksId = 2
+                        });
                 });
 
             modelBuilder.Entity("BookBarter.Domain.Entities.Author", b =>
@@ -64,6 +79,22 @@ namespace BookBarter.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Authors");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Approved = false,
+                            FirstName = "Leo",
+                            LastName = "Tolstoy"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Approved = false,
+                            FirstName = "Victor",
+                            LastName = "Hugo"
+                        });
                 });
 
             modelBuilder.Entity("BookBarter.Domain.Entities.Book", b =>
@@ -110,6 +141,30 @@ namespace BookBarter.Infrastructure.Migrations
                     b.HasIndex("PublisherId");
 
                     b.ToTable("Books");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AddedToDatabaseDate = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Approved = false,
+                            GenreId = 1,
+                            Isbn = "9781400079988",
+                            PublicationDate = new DateOnly(2008, 12, 2),
+                            PublisherId = 1,
+                            Title = "War and Peace"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AddedToDatabaseDate = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Approved = false,
+                            GenreId = 1,
+                            Isbn = "9781613820254",
+                            PublicationDate = new DateOnly(2012, 9, 26),
+                            PublisherId = 2,
+                            Title = "Les Miserables"
+                        });
                 });
 
             modelBuilder.Entity("BookBarter.Domain.Entities.BookState", b =>
@@ -187,6 +242,13 @@ namespace BookBarter.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Genres");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Classics"
+                        });
                 });
 
             modelBuilder.Entity("BookBarter.Domain.Entities.Message", b =>
@@ -277,6 +339,26 @@ namespace BookBarter.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Publishers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Approved = false,
+                            Name = "Vintage"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Approved = false,
+                            Name = "Simon & Brown"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Approved = false,
+                            Name = "Global Publishers"
+                        });
                 });
 
             modelBuilder.Entity("BookBarter.Domain.Entities.User", b =>

@@ -15,8 +15,10 @@ public static class DataSeederExtensions
             var services = scope.ServiceProvider;
             var context = services.GetRequiredService<AppDbContext>();
             var userManager = services.GetRequiredService<UserManager<User>>();
+            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<int>>>();
 
-            await SeedFacade.SeedData(context, userManager);
+            
+            await SeedFacade.SeedData(context, userManager, roleManager);
         }
     }
 }

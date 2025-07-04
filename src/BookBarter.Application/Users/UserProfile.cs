@@ -10,8 +10,10 @@ public class UserProfile : Profile
 {
     public UserProfile()
     {
-        CreateMap<User, UserDto>();
-        CreateMap<User, ListedUserDto>();
+        CreateMap<User, UserDto>()
+            .ForMember(x => x.CityName, o => o.MapFrom(x => x.City.Name));
+        CreateMap<User, ListedUserDto>()
+            .ForMember(x => x.CityName, o => o.MapFrom(x => x.City.Name));
         CreateMap<Book, ListedBookDto>()
             .ForMember(x => x.GenreName, o => o.MapFrom(x => x.Genre.Name))
             .ForMember(x => x.PublisherName, o => o.MapFrom(x => x.Publisher.Name));

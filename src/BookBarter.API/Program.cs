@@ -10,7 +10,6 @@ builder.AddServices();
 
 var app = builder.Build();
 
-await app.SeedRolesApiAsync("User", "Moderator", "Admin");
 await app.SeedDataApiAsync();
 
 // Configure the HTTP request pipeline.

@@ -9,7 +9,8 @@ public class GetPagedUsersQueryValidator : AbstractValidator<GetPagedUsersQuery>
     public GetPagedUsersQueryValidator()
     {
         RuleFor(x => x.OrderByProperty)
-            .NotEqual("wantedBooks", StringComparer.OrdinalIgnoreCase)
-            .NotEqual("ownedBooks", StringComparer.OrdinalIgnoreCase);
+            .Must(x => string.IsNullOrEmpty(x) 
+                || new[] { "LastOnlineDate", "RegistrationDate", "UserName" }.Contains(x, StringComparer.OrdinalIgnoreCase))
+            .WithMessage("OrderByProperty must be one of: LastOnlineDate, RegistrationDate, UserName");
     }
 }

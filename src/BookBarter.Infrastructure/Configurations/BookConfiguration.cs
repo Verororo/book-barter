@@ -23,42 +23,5 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
         builder
             .HasIndex(e => e.Isbn)
             .IsUnique();
-
-        // FOR TESTING
-        builder
-            .HasData(
-                new Book
-                {
-                    Id = 1,
-                    Isbn = "9781400079988",
-                    Title = "War and Peace",
-                    AddedToDatabaseDate = DateTime.Parse("2025-01-01"),
-                    PublicationDate = DateOnly.Parse("2008-12-02"),
-                    GenreId = 1,
-                    PublisherId = 1
-                },
-                new Book
-                {
-                    Id = 2,
-                    Isbn = "9781613820254",
-                    Title = "Les Miserables",
-                    AddedToDatabaseDate = DateTime.Parse("2025-01-01"),
-                    PublicationDate = DateOnly.Parse("2012-09-26"),
-                    GenreId = 1,
-                    PublisherId = 2
-                }
-            );
-
-        builder
-            .HasMany(b => b.Authors)
-            .WithMany(a => a.Books)
-            .UsingEntity(t => t
-                .HasData(new[]
-                    {
-                        new { AuthorsId = 1, BooksId = 1 },
-                        new { AuthorsId = 2, BooksId = 2 }
-                    }
-                )
-            );
     }
 }

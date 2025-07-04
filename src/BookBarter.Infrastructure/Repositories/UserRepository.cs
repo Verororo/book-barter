@@ -36,6 +36,10 @@ public class UserRepository : IUserRepository
     {
         IQueryable<User> users = _dbSet;
 
+        // Don't return users with no lists specified
+        users = users.Where(u => u.WantedBooks.Any());
+        users = users.Where(u => u.OwnedBooks.Any());
+
         // MAIN FILTERS
 
         if (!string.IsNullOrWhiteSpace(request.UserName))

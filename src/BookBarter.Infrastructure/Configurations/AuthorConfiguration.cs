@@ -20,10 +20,12 @@ public class AuthorConfiguration : IEntityTypeConfiguration<Author>
             .IsRequired();
 
         // FOR TESTING
+        /*
         builder
             .HasData(
                 new Author { Id = 1, FirstName = "Leo", LastName = "Tolstoy" },
                 new Author { Id = 2, FirstName = "Victor", LastName = "Hugo" }
                 );
+        */
     }
 }

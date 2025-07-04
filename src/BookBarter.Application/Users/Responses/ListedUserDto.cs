@@ -7,7 +7,7 @@ public class ListedUserDto
 {
     public int Id { get; set; }
     public string UserName { get; set; } = default!;
-    public string City { get; set; } = default!;
+    public string CityName { get; set; } = default!;
     public DateTime? LastOnlineDate { get; set; }
     public ICollection<OwnedBookDto> OwnedBooks { get; set; } = [];
     public ICollection<WantedBookDto> WantedBooks { get; set; } = [];

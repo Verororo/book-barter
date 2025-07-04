@@ -21,8 +21,6 @@ public class PagedQueryValidator<T> : AbstractValidator<T> where T : PagedQuery
             .Must(d => orderDirections.Contains(d))
             .WithMessage("The order direction must be either 'asc' (ascending) or 'desc' (descending).");
 
-        // property validation
-        // (ideally should use caching)
         RuleFor(q => q.OrderByProperty)
             .Must((q, prop) => {
                 if (string.IsNullOrWhiteSpace(prop))

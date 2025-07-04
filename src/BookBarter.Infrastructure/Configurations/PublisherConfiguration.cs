@@ -17,13 +17,5 @@ public class PublisherConfiguration : IEntityTypeConfiguration<Publisher>
         builder
             .HasIndex(e => e.Name)
             .IsUnique();
-
-        // FOR TESTING
-        builder
-            .HasData(
-                new Publisher { Id = 1, Name = "Vintage" },
-                new Publisher { Id = 2, Name = "Simon & Brown" },
-                new Publisher { Id = 3, Name = "Global Publishers" }
-            );
     }
 }

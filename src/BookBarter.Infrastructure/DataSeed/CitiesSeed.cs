@@ -10,7 +10,9 @@ public class CitiesSeed
 {
     public static async Task Seed(AppDbContext context)
     {
-        var dataPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "/DataSeed/Data/worldcities.csv";
+        if (context.Cities.Any()) return;
+
+        var dataPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "/DataSeed/Data/cities.csv";
         using var reader = new StreamReader(dataPath);
         using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
 

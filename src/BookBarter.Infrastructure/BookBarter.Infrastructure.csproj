@@ -28,7 +28,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="DataSeed\Data\worldcities.csv">
+    <None Update="DataSeed\Data\authors.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DataSeed\Data\cities.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DataSeed\Data\genres.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DataSeed\Data\publishers.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
