@@ -1,9 +1,9 @@
+import type { ListedBook } from "../../api/view-models/listed-book"
 import BookItem from "../BookItem/BookItem"
-import type { Book } from '../BookItem/BookItem'
 import styles from './GivingOut.module.css'
 
 type GivingOutSectionProps = {
-  givingOutBooks: Book[]
+  givingOutBooks: ListedBook[]
 }
 
 const GivingOutSection = ({ givingOutBooks }: GivingOutSectionProps) => {

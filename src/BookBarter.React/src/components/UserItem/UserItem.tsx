@@ -1,5 +1,4 @@
 import styles from './UserItem.module.css'
-import type { Book } from '../BookItem/BookItem'
 import GivingOutSection from './GivingOutSection'
 import LookingForSection from './LookingForSection'
 import Button from '@mui/material/Button'
@@ -8,51 +7,7 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import PersonIcon from '@mui/icons-material/Person';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useAuth } from '../../contexts/Auth/UseAuth'
-
-export type User = {
-  userName: string
-  cityName: string
-  lastOnlineDate: string
-  ownedBooks: OwnedBookDto[]
-  wantedBooks: WantedBookDto[]
-}
-
-type AuthorDto = { firstName: string; middleName?: string; lastName: string }
-type BookDto = {
-  id: number
-  title: string
-  publicationDate: string    // e.g. "2025-07-04"
-  approved: boolean
-  genreName: string
-  publisherName: string
-  authors: AuthorDto[]
-}
-type OwnedBookDto = {
-  id: number
-  book: BookDto
-  bookStateName: string
-  addedDate: string
-}
-type WantedBookDto = {
-  id: number
-  book: BookDto
-  addedDate: string
-}
-
-const dtoToView = (dto: OwnedBookDto | WantedBookDto): Book => {
-  const { book, bookStateName } = dto as OwnedBookDto
-  // concatenate authors:
-  const authors = book.authors
-    .map(a => a.lastName).join(', ')
-
-  return {
-    title: book.title,
-    authors,
-    publicationYear: new Date(book.publicationDate).getFullYear(),
-    publisherName: book.publisherName,
-    bookStateName: 'bookStateName' in dto ? dto.bookStateName : undefined
-  }
-}
+import type { ListedUser } from '../../api/view-models/listed-user'
 
 const formatLastOnline = (isoDate: string) => {
   const date = new Date(isoDate)
@@ -72,7 +27,7 @@ const formatLastOnline = (isoDate: string) => {
 }
 
 type UserItemProps = {
-  user: User
+  user: ListedUser
 }
 
 const UserItem = ({ user }: UserItemProps) => {
@@ -117,9 +72,9 @@ const UserItem = ({ user }: UserItemProps) => {
         </div>
       </div>
 
-      <GivingOutSection givingOutBooks={user.ownedBooks.map(dtoToView)} />
+      <GivingOutSection givingOutBooks={user.ownedBooks} />
 
-      <LookingForSection lookingForBooks={user.wantedBooks.map(dtoToView)} />
+      <LookingForSection lookingForBooks={user.wantedBooks} />
     </div>
   )
 }

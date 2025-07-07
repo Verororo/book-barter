@@ -1,15 +1,8 @@
 
+import type { ListedBook } from '../../api/view-models/listed-book';
 import styles from './BookItem.module.css';
 
-export type Book = {
-  authors: string
-  title: string
-  publicationYear: number
-  publisherName: string
-  bookStateName?: string
-}
-
-const BookItem = ({ authors, title, publicationYear, publisherName, bookStateName } : Book) => (
+const BookItem = ({ authors, title, publicationYear, publisherName, bookStateName } : ListedBook) => (
   <div className={styles.bookItem}>
     <div className={styles.bookItemHeader}>
       <p className={styles.bookItemAuthor}>{authors}.</p>

@@ -1,44 +1,33 @@
 
 import UserItem from "../../components/UserItem/UserItem"
 import styles from './UserItemContainer.module.css'
-import Pagination from "@mui/material/Pagination";
-import type { User } from "../../components/UserItem/UserItem"
+import Pagination from "@mui/material/Pagination"
 import { useEffect, useState } from "react"
-import axios from "axios";
+
+import { fetchListedUsersPaginated } from "../../api/user-client"
+import type { ListedUser } from "../../api/view-models/listed-user"
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner"
 
 const UserItemContainer = () => {
   const pageSize = 10
-  const [users, setUsers] = useState<User[]>([])
+  const [users, setUsers] = useState<ListedUser[]>([])
   const [total, setTotal] = useState(0)
   const [currentPage, setCurrentPage] = useState(1)
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const { data } = await axios.post<{
-          items: User[]
-          total: number
-        }>(
-          `${import.meta.env.VITE_API_BASE_URL}/users/paged`,
-          {
-            pageNumber: currentPage,
-            pageSize,
-            orderByProperty: 'lastOnlineDate',
-            orderDirection: 'desc',
-          },
-          {
-            headers: { 'Content-Type': 'application/json' },
-          }
-        )
-        setUsers(data.items)
-        setTotal(data.total)
-      } catch (err) {
-        console.error('Failed to fetch users:', err)
-      }
-    }
+  const [loading, setLoading] = useState<boolean>(false)
 
-    fetchUsers()
-  }, [currentPage])
+  useEffect(() => {
+    setLoading(true)
+    fetchListedUsersPaginated(currentPage, pageSize, "lastOnlineDate", "desc")
+      .then(({ items, total }) => {
+        setUsers(items);
+        setTotal(total);
+      })
+      .catch(console.error)
+      .finally(() => { 
+        setLoading(false)
+      })
+  }, [currentPage]);
 
   const scrollToTop = () =>
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -50,9 +39,13 @@ const UserItemContainer = () => {
 
   return (
     <div className={styles.userItemContainer}>
-      {users.map(user => (
-        <UserItem key={user.userName} user={user} />
-      ))}
+      { loading 
+        ? <LoadingSpinner />
+        : users.map(user => (
+            <UserItem key={user.userName} user={user} />
+          ))
+      }
+      
 
       <Pagination
         count={Math.ceil(total / pageSize)}

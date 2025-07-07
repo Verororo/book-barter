@@ -1,9 +1,9 @@
+import type { ListedBook } from "../../api/view-models/listed-book"
 import BookItem from "../BookItem/BookItem"
-import type { Book } from '../BookItem/BookItem'
 import styles from './LookingFor.module.css'
 
 type LookingForSectionProps = {
-  lookingForBooks: Book[]
+  lookingForBooks: ListedBook[]
 }
 
 const LookingForSection = ({ lookingForBooks }: LookingForSectionProps) => {
@@ -15,7 +15,7 @@ const LookingForSection = ({ lookingForBooks }: LookingForSectionProps) => {
       <div className={styles.bookItemContainer}>
         {lookingForBooks.map(book => (
           <BookItem
-            key={book.bookTitle}
+            key={book.title}
             {...book}
           />
         ))}
