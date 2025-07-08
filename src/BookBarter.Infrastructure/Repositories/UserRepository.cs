@@ -49,7 +49,6 @@ public class UserRepository : IUserRepository
 
         if (request.CityId.HasValue)
         {
-            // StringComparison is set to compare strings culture-invariantly
             users = users.Where(u => u.CityId.Equals(request.CityId));
         }
 
@@ -101,8 +100,7 @@ public class UserRepository : IUserRepository
             users = users.Where(b => b.WantedBooks.Any(ob => ob.Book.PublisherId == request.WantedBookPublisherId));
         }
 
-        var paginatedResult = await PaginationExtensions.CreatePaginatedResultAsync<User, TDto>
-            (users, request, _mapper, cancellationToken);
+        var paginatedResult = await users.CreatePaginatedResultAsync<User, TDto>(request, _mapper, cancellationToken);
 
         return paginatedResult;
     }

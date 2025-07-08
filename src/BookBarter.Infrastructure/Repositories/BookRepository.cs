@@ -73,8 +73,7 @@ public class BookRepository : IBookRepository
             books = books.Where(b => b.PublisherId == request.PublisherId);
         }
 
-        var paginatedResult = await PaginationExtensions.CreatePaginatedResultAsync<Book, BookDto>
-            (books, request, _mapper, cancellationToken);
+        var paginatedResult = await books.CreatePaginatedResultAsync<Book, BookDto>(request, _mapper, cancellationToken);
 
         return paginatedResult;
     }

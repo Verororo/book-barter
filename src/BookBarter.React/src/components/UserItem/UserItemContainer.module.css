@@ -1,0 +1,65 @@
+/* UserItemContainer.module.css */
+
+.userItemContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.search {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+}
+
+.searchBarsContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 700px;
+}
+
+.searchBarRow {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.searchBarLabel {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #333333;
+  width: 150px;
+  text-align: right;
+}
+
+.searchBar {
+  background-color: #fff;
+  width: 80%;
+}
+
+.orderingSettings {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.controlButtons {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.advancedSettingsContainer {
+  width: 100%;
+  padding: 20px;
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  margin-top: 10px;
+  margin-bottom: 25px;
+}

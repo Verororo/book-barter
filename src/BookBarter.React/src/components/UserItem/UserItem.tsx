@@ -49,8 +49,8 @@ const UserItem = ({ user }: UserItemProps) => {
         </div>
 
         <div className={styles.userItemHeaderRight}>
-          <p className={styles.userItemLastUpdate}>
-            last update: {formatLastOnline(user.lastOnlineDate)}
+          <p className={styles.userItemLastOnline}>
+            last online: {formatLastOnline(user.lastOnlineDate)}
           </p>
 
           <div className={styles.userItemHeaderButtons}>

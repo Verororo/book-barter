@@ -14,10 +14,14 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
-        services.AddScoped(typeof(IGenericRepository), typeof(GenericRepository));
-        services.AddScoped(typeof(IBookRepository), typeof(BookRepository));
-        services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
-        services.AddScoped(typeof(IBookRelationshipRepository), typeof(BookRelationshipRepository));
+        services.AddScoped<IGenericRepository, GenericRepository>();
+        services.AddScoped<IBookRepository, BookRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IBookRelationshipRepository, BookRelationshipRepository>();
+        services.AddScoped<IAuthorRepository, AuthorRepository>();
+        services.AddScoped<ICityRepository, CityRepository>();
+        services.AddScoped<IGenreRepository, GenreRepository>();
+        services.AddScoped<IPublisherRepository, PublisherRepository>();
 
         services.AddIdentity<User, IdentityRole<int>>()
             .AddRoles<IdentityRole<int>>()

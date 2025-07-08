@@ -20,6 +20,7 @@ public class CitiesSeed
             .Select(r => new City
             {
                 Name = r.City,
+                NameAscii = r.CityAscii,
                 CountryName = r.Country
             })
             .ToList();
@@ -32,5 +33,6 @@ public class CitiesSeed
 public class CityCsvMap
 {
     [Name("city")] public string City { get; set; } = default!;
+    [Name("city_ascii")] public string CityAscii { get; set; } = default!;
     [Name("country")] public string Country { get; set; } = default!;
 }

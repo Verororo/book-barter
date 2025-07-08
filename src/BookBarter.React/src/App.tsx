@@ -10,7 +10,7 @@ import { ThemeProvider } from '@mui/material/styles'
 import { AuthProvider } from './contexts/Auth/AuthContext';
 import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner'
 
-const UserItemContainer = lazy(() => import('./pages/Home/UserItemContainer'))
+const Home = lazy(() => import('./pages/Home/Home'))
 const Auth = lazy(() => import('./pages/Auth/Auth'))
 
 function App() {
@@ -22,7 +22,7 @@ function App() {
           <Navigation />
           <Suspense fallback={<LoadingSpinner />}>
             <Routes>
-              <Route path='/' element={<UserItemContainer />} />
+              <Route path='/' element={<Home />} />
               <Route path='/auth' element={<Auth />} />
             </Routes>
           </Suspense>

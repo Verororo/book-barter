@@ -26,10 +26,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Cities\" />
-    <Folder Include="Genres\" />
-    <Folder Include="Authors\" />
-    <Folder Include="Publishers\" />
+    <Folder Include="Cities\Commands\" />
+    <Folder Include="Genres\Commands\" />
+    <Folder Include="Publishers\Commands\" />
   </ItemGroup>
 
 </Project>

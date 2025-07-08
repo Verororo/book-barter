@@ -18,7 +18,7 @@ public class UsersSeed
         {
             UserName = "Moderator",
             Email = "moderator@outlook.com",
-            City = context.Cities.First(c => c.Name == "Chisinau"),
+            City = context.Cities.First(c => c.NameAscii == "Chisinau"),
             RegistrationDate = DateTime.Parse("2025-01-01 00:00"),
             LastOnlineDate = DateTime.Parse("2025-07-03 15:00")
         };
@@ -32,7 +32,7 @@ public class UsersSeed
             {
                 UserName = "Alexei",
                 Email = "alexei@outlook.com",
-                City = context.Cities.First(c => c.Name == "Chisinau"),
+                City = context.Cities.First(c => c.NameAscii == "Chisinau"),
                 RegistrationDate = DateTime.Parse("2025-01-01 00:00"),
                 LastOnlineDate = DateTime.Parse("2025-07-03 00:00")
             },
@@ -44,7 +44,7 @@ public class UsersSeed
             {
                 UserName = "Alexandr",
                 Email = "alexandr@outlook.com",
-                City = context.Cities.First(c => c.Name == "Kyiv"),
+                City = context.Cities.First(c => c.NameAscii == "Kyiv"),
                 RegistrationDate = DateTime.Parse("2025-01-01 00:00"),
                 LastOnlineDate = DateTime.Parse("2025-07-02 00:00")
             },
@@ -56,7 +56,7 @@ public class UsersSeed
             {
                 UserName = "Anna",
                 Email = "anna@outlook.com",
-                City = context.Cities.First(c => c.Name == "Chisinau"),
+                City = context.Cities.First(c => c.NameAscii == "Chisinau"),
                 RegistrationDate = DateTime.Parse("2025-01-01 00:00"),
                 LastOnlineDate = DateTime.Parse("2025-07-01 15:00")
             },
@@ -68,7 +68,7 @@ public class UsersSeed
             {
                 UserName = "Maria",
                 Email = "maria@outlook.com",
-                City = context.Cities.First(c => c.Name == "Chisinau"),
+                City = context.Cities.First(c => c.NameAscii == "Chisinau"),
                 RegistrationDate = DateTime.Parse("2025-01-01 00:00"),
                 LastOnlineDate = DateTime.Parse("2025-07-01 00:00")
             },
@@ -80,7 +80,7 @@ public class UsersSeed
             {
                 UserName = "Oleg",
                 Email = "oleg@outlook.com",
-                City = context.Cities.First(c => c.Name == "Odesa"),
+                City = context.Cities.First(c => c.NameAscii == "Odesa"),
                 RegistrationDate = DateTime.Parse("2025-01-01 00:00"),
                 LastOnlineDate = DateTime.Parse("2025-07-01 00:00")
             },
@@ -92,7 +92,7 @@ public class UsersSeed
             {
                 UserName = "Nikolai",
                 Email = "nikolai@outlook.com",
-                City = context.Cities.First(c => c.Name == "Moscow"),
+                City = context.Cities.First(c => c.NameAscii == "Moscow"),
                 RegistrationDate = DateTime.Parse("2025-01-01 00:00"),
                 LastOnlineDate = DateTime.Parse("2025-06-30 00:00")
             },
@@ -104,7 +104,7 @@ public class UsersSeed
             {
                 UserName = "Vasily",
                 Email = "vasily@outlook.com",
-                City = context.Cities.First(c => c.Name == "Chisinau"),
+                City = context.Cities.First(c => c.NameAscii == "Chisinau"),
                 RegistrationDate = DateTime.Parse("2025-01-01 00:00"),
                 LastOnlineDate = DateTime.Parse("2025-06-29 00:00")
             },
@@ -116,7 +116,7 @@ public class UsersSeed
             {
                 UserName = "Arina",
                 Email = "arina@outlook.com",
-                City = context.Cities.First(c => c.Name == "Sofia"),
+                City = context.Cities.First(c => c.NameAscii == "Sofia"),
                 RegistrationDate = DateTime.Parse("2025-01-01 00:00"),
                 LastOnlineDate = DateTime.Parse("2025-06-28 00:00")
             },
@@ -128,7 +128,7 @@ public class UsersSeed
             {
                 UserName = "Sofia",
                 Email = "sofia@outlook.com",
-                City = context.Cities.First(c => c.Name == "Bucharest"),
+                City = context.Cities.First(c => c.NameAscii == "Bucharest"),
                 RegistrationDate = DateTime.Parse("2025-01-01 00:00"),
                 LastOnlineDate = DateTime.Parse("2025-06-27 00:00")
             },
@@ -140,7 +140,7 @@ public class UsersSeed
             {
                 UserName = "Mihai",
                 Email = "mihai@outlook.com",
-                City = context.Cities.First(c => c.Name == "Bucharest"),
+                City = context.Cities.First(c => c.NameAscii == "Bucharest"),
                 RegistrationDate = DateTime.Parse("2025-01-01 00:00"),
                 LastOnlineDate = DateTime.Parse("2025-06-26 00:00")
             },
@@ -152,7 +152,7 @@ public class UsersSeed
             {
                 UserName = "Jan",
                 Email = "jan@outlook.com",
-                City = context.Cities.First(c => c.Name == "Chisinau"),
+                City = context.Cities.First(c => c.NameAscii == "Chisinau"),
                 RegistrationDate = DateTime.Parse("2025-01-01 00:00"),
                 LastOnlineDate = DateTime.Parse("2025-06-25 00:00")
             },
@@ -164,7 +164,7 @@ public class UsersSeed
             {
                 UserName = "Denis",
                 Email = "denis@outlook.com",
-                City = context.Cities.First(c => c.Name == "Sofia"),
+                City = context.Cities.First(c => c.NameAscii == "Sofia"),
                 RegistrationDate = DateTime.Parse("2025-01-01 00:00"),
                 LastOnlineDate = DateTime.Parse("2025-06-24 00:00")
             },

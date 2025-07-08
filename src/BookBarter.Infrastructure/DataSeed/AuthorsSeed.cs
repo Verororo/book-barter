@@ -26,7 +26,8 @@ public class AuthorsSeed
             {
                 FirstName = r.FirstName,
                 MiddleName = r.MiddleName,
-                LastName = r.LastName
+                LastName = r.LastName,
+                Approved = true
             })
             .ToList();
 
