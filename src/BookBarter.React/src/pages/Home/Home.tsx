@@ -6,6 +6,9 @@ const Home = () => (
     <header className={styles.logo}>
       <img src="../../public/Logo.svg" alt="BookBarter logo" />
     </header>
+
+    
+
     <UserItemContainer />
   </>
 )

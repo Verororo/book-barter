@@ -43,7 +43,13 @@ export interface ListedUserDto {
      * @type {string}
      * @memberof ListedUserDto
      */
-    'cityName'?: string | null;
+    'cityNameWithCountry'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ListedUserDto
+     */
+    'registrationDate'?: string;
     /**
      * 
      * @type {string}

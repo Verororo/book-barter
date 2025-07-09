@@ -9,6 +9,7 @@ public class CityProfile : Profile
 {
     public CityProfile() 
     {
-        CreateMap<City, CityDto>();
+        CreateMap<City, CityDto>()
+            .ForMember(x => x.NameWithCountry, o => o.MapFrom(x => x.Name + ", " + x.CountryName));
     }
 }

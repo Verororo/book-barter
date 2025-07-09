@@ -16,8 +16,12 @@
   font-weight: 500;
 }
 
-.givingOut > p {
-  margin: 5px 0 5px 0;
+.givingOutHeader {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 
 .bookItemContainer {

@@ -11,8 +11,12 @@
   font-weight: 500;
 }
 
-.lookingFor > p {
-  margin: 5px 0 5px 0;
+.lookingForHeader {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 
 .bookItemContainer {

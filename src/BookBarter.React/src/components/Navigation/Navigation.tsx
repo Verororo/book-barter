@@ -8,30 +8,19 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/Auth/UseAuth';
 
 const Navigation = () => {
-  const { isAuthenticated, user, logout } = useAuth();
+  const { isAuthenticated, userAuthData, logout } = useAuth();
 
   return (
     <nav className={styles.nav}>
-      {isAuthenticated ? (
-        <Button
-          variant="text"
-          size="large"
-          startIcon={<AccountCircleIcon />}
-          onClick={logout}
-        >
-          {user?.userName} (Logout)
-        </Button>
-      ) : (
-        <Button
-          component={Link}
-          to="/auth"
-          variant="text"
-          size="large"
-          startIcon={<AccountCircleIcon />}
-        >
-          My Profile
-        </Button>
-      )}
+      <Button
+        component={Link}
+        to="/users/me"
+        variant="text"
+        size="large"
+        startIcon={<AccountCircleIcon />}
+      >
+        My Profile
+      </Button>
 
       {isAuthenticated && (
         <Button
@@ -43,7 +32,7 @@ const Navigation = () => {
         </Button>
       )}
 
-      {isAuthenticated && (user?.role === 'Moderator' || user?.role === 'Admin') && (
+      {isAuthenticated && (userAuthData?.role === 'Moderator') && (
         <Button
           variant="text"
           size="large"

@@ -9,9 +9,10 @@ type LookingForSectionProps = {
 const LookingForSection = ({ lookingForBooks }: LookingForSectionProps) => {
   return (
     <div className={styles.lookingFor}>
-      <p>
-        is looking for...
-      </p>
+      <span className={styles.lookingForHeader}>
+        <img src='../../public/BlueBookLookedFor.svg' />
+        <p>is looking for...</p>
+      </span>
       <div className={styles.bookItemContainer}>
         {lookingForBooks.map(book => (
           <BookItem

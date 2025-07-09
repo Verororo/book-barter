@@ -30,7 +30,7 @@ type FormErrors = {
 
 const Auth = () => {
   const [hasAccount, setHasAccount] = useState(true)
-  const { login, register, isAuthenticated, user } = useAuth()
+  const { login, register, isAuthenticated, userAuthData } = useAuth()
   const navigate = useNavigate()
 
   const validate = (values: FormValues): FormErrors => {
@@ -113,12 +113,12 @@ const Auth = () => {
     setHasAccount(JSON.parse(event.target.value))
   }
 
-  if (isAuthenticated && user) {
+  if (isAuthenticated && userAuthData) {
     return (
       <div className={styles.authBox}>
         <HomeButton />
         <div className={styles.authBoxBody}>
-          <h2 className={styles.title}>Welcome back, {user.userName}!</h2>
+          <h2 className={styles.title}>Welcome back, {userAuthData.userName}!</h2>
           <p className={styles.subtitle}>You are already signed in.</p>
         </div>
       </div>

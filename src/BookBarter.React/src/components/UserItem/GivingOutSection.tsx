@@ -9,9 +9,10 @@ type GivingOutSectionProps = {
 const GivingOutSection = ({ givingOutBooks }: GivingOutSectionProps) => {
   return (
     <div className={styles.givingOut}>
-      <p>
-        is giving out...
-      </p>
+      <span className={styles.givingOutHeader}>
+        <img src='../../public/OrangeBookGivenOut.svg' />
+        <p>is giving out...</p>
+      </span>
       <div className={styles.bookItemContainer}>
         {givingOutBooks.map(book => (
           <BookItem

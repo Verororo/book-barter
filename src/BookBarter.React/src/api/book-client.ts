@@ -1,6 +1,6 @@
 import { BooksApi } from "./generated/apis/books-api";
 import { Configuration } from "./generated/configuration";
-import { mapAutocompleteBookPaginatedDtoToView, type AutocompleteBookItem } from "./view-models/autocomplete-book-paginated-result";
+import { mapAutocompleteBookPaginatedDtoToView, type AutocompleteBookItem } from "./view-models/autocomplete-book";
 
 const cfg = new Configuration({ basePath: `${import.meta.env.VITE_API_BASE_URL}` })
 const booksApi = new BooksApi(cfg)
@@ -22,7 +22,7 @@ export const fetchAutocompleteBooksPaginated = async (title: string): Promise<Au
     return mapAutocompleteBookPaginatedDtoToView(response.data);
 
   } catch (error) {
-    console.error("Failed to fetch book suggestions:", error);
+    console.error(error);
     return [];
   }
 }

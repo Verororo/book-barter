@@ -15,6 +15,10 @@
 
 
 export * from './apis/auth-api';
+export * from './apis/authors-api';
 export * from './apis/books-api';
+export * from './apis/cities-api';
+export * from './apis/genres-api';
+export * from './apis/publishers-api';
 export * from './apis/users-api';
 

@@ -2,13 +2,13 @@ import { createContext, useState, useEffect, type ReactNode } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 
-import type { User } from './types/User';
+import type { UserAuthData } from './types/UserAuthData';
 import type { LoginRequest } from './types/LoginRequest';
 import type { RegisterRequest } from './types/RegisterRequest';
 import type { JwtPayload } from './types/JwtPayload';
 
 interface AuthContextType {
-  user: User | null;
+  userAuthData: UserAuthData | null;
   isAuthenticated: boolean;
   login: (data: LoginRequest) => Promise<void>;
   register: (data: RegisterRequest) => Promise<void>;
@@ -22,12 +22,11 @@ interface AuthProviderProps {
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<User | null>(null);
-  const isAuthenticated = user !== null;
+  const [userAuthData, setUserAuthData] = useState<UserAuthData | null>(null);
+  const isAuthenticated = userAuthData !== null;
 
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://localhost:5123/api';
   const api = axios.create({
-    baseURL: API_BASE_URL,
+    baseURL: `${import.meta.env.VITE_API_BASE_URL}/api`,
     headers: {
       'Content-Type': 'application/json',
     },
@@ -40,14 +39,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         const decoded = jwtDecode<JwtPayload>(token);
 
         if (decoded.exp && decoded.exp < Date.now()) {
-          const userData: User = {
+          const userAuthData: UserAuthData = {
+            id: decoded.id,
             userName: decoded.userName,
-            email: decoded.email,
-            city: decoded.city,
-            role: decoded.role as 'User' | 'Moderator' | 'Admin',
+            role: decoded.role as 'Moderator' | null,
           };
 
-          setUser(userData);
+          setUserAuthData(userAuthData);
           api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         }
         else {
@@ -66,16 +64,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const token = response.data;
 
       const decoded = jwtDecode<JwtPayload>(token);
-      const userData: User = {
+      const userAuthData: UserAuthData = {
+        id: decoded.id,
         userName: decoded.userName,
-        email: decoded.email,
-        city: decoded.city,
-        role: decoded.role as 'User' | 'Moderator' | 'Admin'
+        role: decoded.role as 'Moderator' | null,
       };
 
       localStorage.setItem('authToken', token);
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      setUser(userData);
+      setUserAuthData(userAuthData);
 
       alert('Login successful!');
     }
@@ -103,12 +100,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const logout = () => {
     localStorage.removeItem('authToken');
     delete api.defaults.headers.common['Authorization'];
-    setUser(null);
+    setUserAuthData(null);
     alert('You have logged out.');
   };
 
   const value: AuthContextType = {
-    user,
+    userAuthData,
     isAuthenticated,
     login,
     register,

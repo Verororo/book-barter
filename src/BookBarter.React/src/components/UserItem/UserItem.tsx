@@ -8,6 +8,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useAuth } from '../../contexts/Auth/UseAuth'
 import type { ListedUser } from '../../api/view-models/listed-user'
+import { Link } from 'react-router';
 
 const formatLastOnline = (isoDate: string) => {
   const date = new Date(isoDate)
@@ -44,7 +45,7 @@ const UserItem = ({ user }: UserItemProps) => {
 
           <p className={styles.userItemCity}>
             <LocationOnIcon fontSize='small' />
-            {user.cityName}
+            {user.cityNameWithCountry}
           </p>
         </div>
 
@@ -54,7 +55,11 @@ const UserItem = ({ user }: UserItemProps) => {
           </p>
 
           <div className={styles.userItemHeaderButtons}>
-            <Button variant='outlined'>
+            <Button 
+              variant='outlined'
+              component={Link}
+              to={`/users/${user.id}`}
+            >
               View Profile
             </Button>
 
@@ -64,7 +69,8 @@ const UserItem = ({ user }: UserItemProps) => {
                 variant='contained'
                 startIcon={
                   <ChatBubbleOutlineIcon fontSize="inherit" />
-                }>
+                }
+              >
                 Message
               </Button>
             )}

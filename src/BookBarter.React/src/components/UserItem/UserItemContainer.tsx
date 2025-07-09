@@ -19,9 +19,12 @@ import {
   debounce
 } from "@mui/material";
 import { fetchAutocompleteBooksPaginated } from "../../api/book-client";
-import type { AutocompleteBookItem } from "../../api/view-models/autocomplete-book-paginated-result";
+import type { AutocompleteBookItem } from "../../api/view-models/autocomplete-book";
+import { useAuth } from "../../contexts/Auth/UseAuth";
 
 const UserItemContainer = () => {
+  const { isAuthenticated, userAuthData } = useAuth()
+
   const pageSize = 10;
   const [users, setUsers] = useState<ListedUser[]>([]);
   const [total, setTotal] = useState(0);
@@ -53,9 +56,9 @@ const UserItemContainer = () => {
   // UseEffect for the wanted books searchbar
   useEffect(() => {
     if (lookingForAutocompleteInput.length < 3) {
-      setLookingForOptionsLoading(false);
-      setBookOptions([]);
-      return;
+      setLookingForOptionsLoading(false)
+      setBookOptions([])
+      return
     }
 
     setLookingForOptionsLoading(true);
@@ -64,12 +67,12 @@ const UserItemContainer = () => {
     const handler = debounce((input : string) => {
       fetchAutocompleteBooksPaginated(input)
         .then(formattedOptions => {
-          setBookOptions(formattedOptions);
+          setBookOptions(formattedOptions)
         })
         .finally(() => {
-          setLookingForOptionsLoading(false);
-        });
-    }, 500);
+          setLookingForOptionsLoading(false)
+        })
+    }, 500)
 
     handler(lookingForAutocompleteInput)
 
@@ -114,7 +117,8 @@ const UserItemContainer = () => {
       orderByProperty: searchParams.sortBy,
       orderDirection: searchParams.sortDirection,
       wantedBooksIds: booksGivenOut.length > 0 ? booksGivenOut.map(ob => ob.id) : undefined,
-      ownedBooksIds: booksLookedFor.length > 0 ? booksLookedFor.map(wb => wb.id) : undefined
+      ownedBooksIds: booksLookedFor.length > 0 ? booksLookedFor.map(wb => wb.id) : undefined,
+      userToSkipId: isAuthenticated ? userAuthData?.id : undefined
     })
       .then(({ items, total }) => {
         setUsers(items);
@@ -163,12 +167,12 @@ const UserItemContainer = () => {
               }}
               options={bookOptions}
               loading={isLookingForOptionsLoading}
-              filterOptions={(x) => x} // Disable client-side filtering
-              getOptionLabel={(option) => option.info}
-              renderInput={(params) => (
+              filterOptions={x => x} // Disable client-side filtering
+              getOptionLabel={option => option.info}
+              renderInput={params => (
                 <TextField
                   {...params}
-                  placeholder={booksLookedFor.length === 0 
+                  placeholder={booksLookedFor.length === 0
                     ? "Enter the title of a book you'd like to get..." 
                     : "Add more..."}
                   slotProps={{
@@ -177,7 +181,7 @@ const UserItemContainer = () => {
                       endAdornment: (
                         <>
                           {isLookingForOptionsLoading && (
-                            <CircularProgress color="inherit" size={20} />
+                            <CircularProgress size={20} />
                           )}
                           {params.InputProps.endAdornment}
                         </>
@@ -204,9 +208,9 @@ const UserItemContainer = () => {
               }}
               options={bookOptions}
               loading={isGivingOutOptionsLoading}
-              filterOptions={(x) => x} // Disable client-side filtering
-              getOptionLabel={(option) => option.info}
-              renderInput={(params) => (
+              filterOptions={x => x} // Disable client-side filtering
+              getOptionLabel={option => option.info}
+              renderInput={params => (
                 <TextField
                   {...params}
                   placeholder={booksGivenOut.length === 0

@@ -15,6 +15,9 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
+import type { CityDto } from './city-dto';
+// May contain unused imports in some cases
+// @ts-ignore
 import type { OwnedBookDto } from './owned-book-dto';
 // May contain unused imports in some cases
 // @ts-ignore
@@ -46,10 +49,10 @@ export interface UserDto {
     'about'?: string | null;
     /**
      * 
-     * @type {string}
+     * @type {CityDto}
      * @memberof UserDto
      */
-    'cityName'?: string | null;
+    'city'?: CityDto;
     /**
      * 
      * @type {string}

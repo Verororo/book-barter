@@ -42,6 +42,11 @@ public class UserRepository : IUserRepository
 
         // MAIN FILTERS
 
+        if (request.UserToSkipId.HasValue)
+        {
+            users = users.Where(u => u.Id != request.UserToSkipId);
+        }
+
         if (!string.IsNullOrWhiteSpace(request.UserName))
         {
             users = users.Where(u => u.UserName!.Contains(request.UserName));
