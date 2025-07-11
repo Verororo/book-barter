@@ -1,9 +1,8 @@
 import { CitiesApi, type CityDto } from "./generated";
-import { Configuration } from "./generated/configuration";
+import { requestConfig } from "./common"
 import { mapCityPaginatedResultDtoToView } from "./view-models/autocomplete-city";
 
-const cfg = new Configuration({ basePath: `${import.meta.env.VITE_API_BASE_URL}` })
-const citiesApi = new CitiesApi(cfg)
+const citiesApi = new CitiesApi(requestConfig)
 
 export const fetchPagedCities = async (query: string): Promise<CityDto[]> => {
   try {

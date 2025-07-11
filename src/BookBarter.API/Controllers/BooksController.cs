@@ -42,10 +42,11 @@ public class BooksController : ControllerBase
     [HttpPost]
     // [Authorize(Roles = "User")]
     [AllowAnonymous]
-    public async Task CreateBook([FromBody] CreateBookCommand command, 
+    public async Task<int?> CreateBook([FromBody] CreateBookCommand command, 
         CancellationToken cancellationToken)
     {
-        await _mediator.Send(command, cancellationToken);
+        var response = await _mediator.Send(command, cancellationToken);
+        return response;
     }
 
     [HttpPut]

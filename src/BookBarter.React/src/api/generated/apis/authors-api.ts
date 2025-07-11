@@ -135,7 +135,7 @@ export const AuthorsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiAuthorsPost(createAuthorCommand?: CreateAuthorCommand, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async apiAuthorsPost(createAuthorCommand?: CreateAuthorCommand, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiAuthorsPost(createAuthorCommand, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AuthorsApi.apiAuthorsPost']?.[localVarOperationServerIndex]?.url;
@@ -166,7 +166,7 @@ export const AuthorsApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiAuthorsPost(createAuthorCommand?: CreateAuthorCommand, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+        apiAuthorsPost(createAuthorCommand?: CreateAuthorCommand, options?: RawAxiosRequestConfig): AxiosPromise<number> {
             return localVarFp.apiAuthorsPost(createAuthorCommand, options).then((request) => request(axios, basePath));
         },
     };

@@ -291,7 +291,7 @@ export const BooksApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiBooksPost(createBookCommand?: CreateBookCommand, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async apiBooksPost(createBookCommand?: CreateBookCommand, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<number>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiBooksPost(createBookCommand, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['BooksApi.apiBooksPost']?.[localVarOperationServerIndex]?.url;
@@ -350,7 +350,7 @@ export const BooksApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiBooksPost(createBookCommand?: CreateBookCommand, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+        apiBooksPost(createBookCommand?: CreateBookCommand, options?: RawAxiosRequestConfig): AxiosPromise<number> {
             return localVarFp.apiBooksPost(createBookCommand, options).then((request) => request(axios, basePath));
         },
     };

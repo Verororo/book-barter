@@ -22,6 +22,12 @@
 export interface AuthorDto {
     /**
      * 
+     * @type {number}
+     * @memberof AuthorDto
+     */
+    'id'?: number;
+    /**
+     * 
      * @type {string}
      * @memberof AuthorDto
      */

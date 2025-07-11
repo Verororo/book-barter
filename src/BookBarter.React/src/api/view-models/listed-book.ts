@@ -1,6 +1,7 @@
 import type { OwnedBookDto, WantedBookDto } from "../generated/models"
 
 export type ListedBook = {
+  id: number
   authors: string
   title: string
   publicationYear: number
@@ -15,6 +16,7 @@ export const mapListedBookDtoToView = (dto: OwnedBookDto | WantedBookDto): Liste
     .join(", ")
 
   return {
+    id: book.id!,
     title: book.title!,
     authors,
     publicationYear: new Date(book.publicationDate!).getFullYear(),

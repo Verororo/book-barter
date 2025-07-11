@@ -25,6 +25,7 @@ docs/CityDto.md
 docs/CityDtoPaginatedResult.md
 docs/CreateAuthorCommand.md
 docs/CreateBookCommand.md
+docs/CreatePublisherCommand.md
 docs/DeleteOwnedBookCommand.md
 docs/DeleteWantedBookCommand.md
 docs/GenreDto.md
@@ -62,6 +63,7 @@ models/city-dto-paginated-result.ts
 models/city-dto.ts
 models/create-author-command.ts
 models/create-book-command.ts
+models/create-publisher-command.ts
 models/delete-owned-book-command.ts
 models/delete-wanted-book-command.ts
 models/genre-dto-paginated-result.ts

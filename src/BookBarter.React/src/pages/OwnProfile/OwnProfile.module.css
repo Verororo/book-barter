@@ -46,7 +46,7 @@
   margin: 0;
 }
 
-.profileCity {
+.profileCity, .singleSearchBarInput {
   display: flex;
   gap: 3px;
   align-items: center;
@@ -104,6 +104,6 @@
   margin-bottom: 5px;
 }
 
-.citySearchBar {
+.singleSearchBar {
   width: 250px;
 }

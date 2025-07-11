@@ -3,9 +3,6 @@ import GivingOutSection from '../../components/UserItem/GivingOutSection'
 import LookingForSection from '../../components/UserItem/LookingForSection'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
-import Autocomplete from '@mui/material/Autocomplete'
-import CircularProgress from '@mui/material/CircularProgress'
-import { debounce } from '@mui/material'
 
 import PersonIcon from '@mui/icons-material/Person'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
@@ -19,6 +16,7 @@ import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner'
 import HomeButton from '../../components/Navigation/HomeButton'
 import { fetchPagedCities } from '../../api/city-client'
 import type { CityDto } from '../../api/generated/models/city-dto'
+import SingleSearchBar from '../../components/SearchBars/SingleSearchBar'
 
 const OwnProfile = () => {
   const { isAuthenticated, userAuthData, logout } = useAuth()
@@ -34,9 +32,6 @@ const OwnProfile = () => {
   const [aboutDraft, setAboutDraft] = useState('')
   const isAboutTooLong = aboutDraft.length > 300
 
-  const [cityOptions, setCityOptions] = useState<CityDto[]>([])
-  const [cityLoading, setCityLoading] = useState(false)
-  const [cityInput, setCityInput] = useState('')
   const [cityOption, setCityOption] = useState<CityDto | null>(null)
 
   useEffect(() => {
@@ -49,31 +44,6 @@ const OwnProfile = () => {
       .catch(console.error)
       .finally(() => setLoading(false))
   }, [userAuthData.id])
-
-  useEffect(() => {
-    if (!editMode) return
-
-    if (cityInput.length < 2) {
-      setCityOptions([])
-      return
-    }
-
-    const handler = debounce((input: string) => {
-      setCityLoading(true)
-      fetchPagedCities(input)
-        .then((cities: CityDto[]) => {
-          setCityOptions(cities)
-        })
-        .catch(console.error)
-        .finally(() => setCityLoading(false))
-    }, 500)
-
-    handler(cityInput)
-
-    return () => {
-      handler.clear()
-    }
-  }, [cityInput, editMode])
 
   const enterEdit = () => {
     setEditMode(true)
@@ -135,35 +105,13 @@ const OwnProfile = () => {
               {!editMode ? (
                 <>{user.cityNameWithCountry}</>
               ) : (
-                <Autocomplete
-                  className={styles.citySearchBar}
+                <SingleSearchBar
                   value={cityOption}
-                  onChange={(_event, newValue) => setCityOption(newValue)}
-                  onInputChange={(_event, newInput) => setCityInput(newInput)}
-                  options={cityOptions}
-                  loading={cityLoading}
-                  filterOptions={x => x}
                   getOptionLabel={option => option.nameWithCountry!}
-                  renderInput={params => (
-                    <TextField
-                      {...params}
-                      variant="standard"
-                      slotProps={{
-                        input: {
-                          ...params.InputProps,
-                          classes: {
-                            input: styles.profileCity,
-                          },
-                          endAdornment: (
-                            <>
-                              {cityLoading && <CircularProgress size={20} />}
-                              {params.InputProps.endAdornment}
-                            </>
-                          )
-                        }
-                      }}
-                    />
-                  )}
+                  onChange={(_event, newValue) => setCityOption(newValue)}
+                  fetchMethod={fetchPagedCities}
+                  variant={'standard'}
+                  styles={styles}
                 />
               )}
             </div>
@@ -229,7 +177,7 @@ const OwnProfile = () => {
             )}
         </div>
 
-        <GivingOutSection givingOutBooks={user.ownedBooks} />
+        <GivingOutSection givingOutBooks={user.ownedBooks} customizable />
         <LookingForSection lookingForBooks={user.wantedBooks} />
       </div>
     </div>

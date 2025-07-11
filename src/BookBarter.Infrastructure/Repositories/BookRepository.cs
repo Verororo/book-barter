@@ -8,6 +8,8 @@ using BookBarter.Application.Common.Models;
 using BookBarter.Infrastructure.Extensions;
 using BookBarter.Application.Common.Responses;
 using BookBarter.Application.Books.Responses;
+using BookBarter.Application.Common.Interfaces;
+using System.Linq;
 
 namespace BookBarter.Infrastructure.Repositories;
 
@@ -15,11 +17,13 @@ public class BookRepository : IBookRepository
 {
     private readonly AppDbContext _context;
     private readonly DbSet<Book> _dbSet;
+    private readonly ICurrentUserProvider _currentUserProvider;
     private readonly IMapper _mapper;
-    public BookRepository(AppDbContext context, IMapper mapper)
+    public BookRepository(AppDbContext context, IMapper mapper, ICurrentUserProvider currentUserProvider)
     {
         _context = context;
         _dbSet = _context.Set<Book>();
+        _currentUserProvider = currentUserProvider;
         _mapper = mapper;
     }
 
@@ -35,6 +39,15 @@ public class BookRepository : IBookRepository
         CancellationToken cancellationToken)
     {
         IQueryable<Book> books = _dbSet;
+
+        if (request.SkipLoggedInUserBooks)
+        {
+            var userId = _currentUserProvider.UserId;
+            if (userId == null) { throw new Exception("SkipLoggedInUserBooks was specified, but program failed to get UserId"); }
+
+            books = books.Where(b => !b.WantedByUsers.Any(wb => wb.UserId == userId));
+            books = books.Where(b => !b.OwnedByUsers.Any(wb => wb.UserId == userId));
+        }
 
         if (!string.IsNullOrWhiteSpace(request.Title))
         {

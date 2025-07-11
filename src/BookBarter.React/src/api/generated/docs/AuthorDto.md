@@ -5,6 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**id** | **number** |  | [optional] [default to undefined]
 **firstName** | **string** |  | [optional] [default to undefined]
 **middleName** | **string** |  | [optional] [default to undefined]
 **lastName** | **string** |  | [optional] [default to undefined]
@@ -15,6 +16,7 @@ Name | Type | Description | Notes
 import { AuthorDto } from './api';
 
 const instance: AuthorDto = {
+    id,
     firstName,
     middleName,
     lastName,

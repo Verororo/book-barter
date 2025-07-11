@@ -46,12 +46,6 @@ export interface GetPagedUsersQuery {
     'orderDirection'?: string | null;
     /**
      * 
-     * @type {number}
-     * @memberof GetPagedUsersQuery
-     */
-    'userToSkipId'?: number | null;
-    /**
-     * 
      * @type {string}
      * @memberof GetPagedUsersQuery
      */

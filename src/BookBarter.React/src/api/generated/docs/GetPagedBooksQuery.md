@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **pageNumber** | **number** |  | [optional] [default to undefined]
 **orderByProperty** | **string** |  | [optional] [default to undefined]
 **orderDirection** | **string** |  | [optional] [default to undefined]
+**skipLoggedInUserBooks** | **boolean** |  | [optional] [default to undefined]
 **title** | **string** |  | [optional] [default to undefined]
 **authorName** | **string** |  | [optional] [default to undefined]
 **genreId** | **number** |  | [optional] [default to undefined]
@@ -24,6 +25,7 @@ const instance: GetPagedBooksQuery = {
     pageNumber,
     orderByProperty,
     orderDirection,
+    skipLoggedInUserBooks,
     title,
     authorName,
     genreId,

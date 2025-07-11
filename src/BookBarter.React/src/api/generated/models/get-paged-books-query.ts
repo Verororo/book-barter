@@ -46,6 +46,12 @@ export interface GetPagedBooksQuery {
     'orderDirection'?: string | null;
     /**
      * 
+     * @type {boolean}
+     * @memberof GetPagedBooksQuery
+     */
+    'skipLoggedInUserBooks'?: boolean;
+    /**
+     * 
      * @type {string}
      * @memberof GetPagedBooksQuery
      */

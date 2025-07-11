@@ -4,14 +4,14 @@ using MediatR;
 
 namespace BookBarter.Application.Authors.Commands;
 
-public class CreateAuthorCommand : IRequest
+public class CreateAuthorCommand : IRequest<int?>
 {
     public string? FirstName { get; set; }
     public string? MiddleName { get; set; }
     public string LastName { get; set; } = default!;
 }
 
-public class CreateAuthorCommandHandler : IRequest<CreateAuthorCommand>
+public class CreateAuthorCommandHandler : IRequestHandler<CreateAuthorCommand, int?>
 {
     private readonly IGenericRepository _repository;
     public CreateAuthorCommandHandler(IGenericRepository repository)
@@ -19,7 +19,7 @@ public class CreateAuthorCommandHandler : IRequest<CreateAuthorCommand>
         _repository = repository;
     }
 
-    public async Task Handle(CreateAuthorCommand command, CancellationToken cancellationToken)
+    public async Task<int?> Handle(CreateAuthorCommand command, CancellationToken cancellationToken)
     {
         var author = new Author
         {
@@ -30,5 +30,7 @@ public class CreateAuthorCommandHandler : IRequest<CreateAuthorCommand>
 
         _repository.Add<Author>(author);
         await _repository.SaveAsync(cancellationToken);
+
+        return author.Id;
     }
 }

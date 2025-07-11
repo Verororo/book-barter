@@ -8,7 +8,6 @@ namespace UserBarter.Application.Users.Queries;
 
 public class GetPagedUsersQuery : PagedQuery, IRequest<PaginatedResult<ListedUserDto>>
 {
-    public int? UserToSkipId { get; set; }
     public string? UserName { get; set; }
     public int? CityId { get; set; }
     public ICollection<int>? OwnedBooksIds { get; set; }

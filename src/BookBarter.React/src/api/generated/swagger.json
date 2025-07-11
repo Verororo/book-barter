@@ -141,7 +141,30 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32",
+                  "nullable": true
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32",
+                  "nullable": true
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32",
+                  "nullable": true
+                }
+              }
+            }
           }
         }
       }
@@ -321,7 +344,30 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32",
+                  "nullable": true
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32",
+                  "nullable": true
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32",
+                  "nullable": true
+                }
+              }
+            }
           }
         }
       }
@@ -463,6 +509,60 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PublisherDtoPaginatedResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Publishers": {
+      "post": {
+        "tags": [
+          "Publishers"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePublisherCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePublisherCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePublisherCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32",
+                  "nullable": true
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32",
+                  "nullable": true
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32",
+                  "nullable": true
                 }
               }
             }
@@ -803,6 +903,10 @@
       "AuthorDto": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
           "firstName": {
             "type": "string",
             "nullable": true
@@ -999,6 +1103,16 @@
         },
         "additionalProperties": false
       },
+      "CreatePublisherCommand": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "DeleteOwnedBookCommand": {
         "type": "object",
         "properties": {
@@ -1110,6 +1224,9 @@
           "orderDirection": {
             "type": "string",
             "nullable": true
+          },
+          "skipLoggedInUserBooks": {
+            "type": "boolean"
           },
           "title": {
             "type": "string",
@@ -1227,11 +1344,6 @@
           },
           "orderDirection": {
             "type": "string",
-            "nullable": true
-          },
-          "userToSkipId": {
-            "type": "integer",
-            "format": "int32",
             "nullable": true
           },
           "userName": {
@@ -1438,6 +1550,10 @@
       "PublisherDto": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
           "name": {
             "type": "string",
             "nullable": true

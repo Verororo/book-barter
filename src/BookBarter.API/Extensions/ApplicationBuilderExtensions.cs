@@ -16,7 +16,6 @@ public static class RequestTimingMiddlewareExtensions
     {
         return builder.UseMiddleware<RequestLoggingMiddleware>();
     }
-
     public static IApplicationBuilder UseExceptionHandling(this IApplicationBuilder builder)
     {
         return builder.UseMiddleware<ExceptionHandlingMiddleware>();

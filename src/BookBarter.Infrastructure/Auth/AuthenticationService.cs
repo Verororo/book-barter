@@ -60,10 +60,8 @@ public class AuthenticationService : IAuthenticationService
         var claims = new List<Claim>();
         var userNameClaim = new Claim("userName", user.UserName!);
         claims.Add(userNameClaim);
-
         var idClaim = new Claim("id", user.Id.ToString());
         claims.Add(idClaim);
-
         var roles = await _userManager.GetRolesAsync(user);
         foreach (var role in roles)
         {

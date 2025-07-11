@@ -5,6 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**id** | **number** |  | [optional] [default to undefined]
 **name** | **string** |  | [optional] [default to undefined]
 
 ## Example
@@ -13,6 +14,7 @@ Name | Type | Description | Notes
 import { PublisherDto } from './api';
 
 const instance: PublisherDto = {
+    id,
     name,
 };
 ```

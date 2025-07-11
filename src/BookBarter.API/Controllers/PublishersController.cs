@@ -1,4 +1,5 @@
 ﻿using BookBarter.Application.Common.Models;
+using BookBarter.Application.Publishers.Commands;
 using BookBarter.Application.Publishers.Queries;
 using BookBarter.Application.Publishers.Responses;
 using BookBarter.Application.Users.Commands;
@@ -41,15 +42,15 @@ public class PublishersController : ControllerBase
         var response = await _mediator.Send(getPagedPublishersQuery, cancellationToken);
         return response;
     }
-    /*
+    
     [HttpPost]
     [AllowAnonymous]
-    public async Task CreatePublisher(CreatePublisherCommand command, CancellationToken cancellationToken)
+    public async Task<int?> CreatePublisher(CreatePublisherCommand command, CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(command, cancellationToken);
         return response;
     }
-
+    /*
     [HttpDelete]
     [Route("{id}")]
     [AllowAnonymous]

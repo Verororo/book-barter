@@ -8,6 +8,7 @@ export * from './city-dto';
 export * from './city-dto-paginated-result';
 export * from './create-author-command';
 export * from './create-book-command';
+export * from './create-publisher-command';
 export * from './delete-owned-book-command';
 export * from './delete-wanted-book-command';
 export * from './genre-dto';

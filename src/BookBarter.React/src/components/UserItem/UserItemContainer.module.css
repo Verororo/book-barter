@@ -39,7 +39,7 @@
 }
 
 .searchBar {
-  background-color: #fff;
+  background-color: #ffffff;
   width: 80%;
 }
 
@@ -62,4 +62,39 @@
   border-radius: 8px;
   margin-top: 10px;
   margin-bottom: 25px;
+}
+
+.multipleSearch {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+}
+
+.multipleSearchBarsContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 700px;
+}
+
+.multipleSearchBarRow {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.multipleSearchBarLabel {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #333333;
+  width: 150px;
+  text-align: right;
+}
+
+.multipleSearchBar {
+  background-color: #fff;
+  width: 80%;
 }

@@ -22,6 +22,12 @@
 export interface PublisherDto {
     /**
      * 
+     * @type {number}
+     * @memberof PublisherDto
+     */
+    'id'?: number;
+    /**
+     * 
      * @type {string}
      * @memberof PublisherDto
      */

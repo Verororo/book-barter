@@ -216,7 +216,7 @@ const { status, data } = await apiInstance.apiBooksPagedPost(
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiBooksPost**
-> apiBooksPost()
+> number apiBooksPost()
 
 
 ### Example
@@ -247,7 +247,7 @@ const { status, data } = await apiInstance.apiBooksPost(
 
 ### Return type
 
-void (empty response body)
+**number**
 
 ### Authorization
 
@@ -256,7 +256,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, text/json, application/*+json
- - **Accept**: Not defined
+ - **Accept**: text/plain, application/json, text/json
 
 
 ### HTTP response details

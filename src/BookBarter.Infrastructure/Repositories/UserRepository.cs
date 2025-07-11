@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using BookBarter.Application.Common.Interfaces;
 using BookBarter.Application.Common.Interfaces.Repositories;
 using BookBarter.Application.Common.Models;
 using BookBarter.Domain.Entities;
@@ -13,11 +14,13 @@ public class UserRepository : IUserRepository
 {
     private readonly AppDbContext _context;
     private readonly DbSet<User> _dbSet;
+    private readonly ICurrentUserProvider _currentUserProvider;
     private readonly IMapper _mapper;
-    public UserRepository(AppDbContext context, IMapper mapper)
+    public UserRepository(AppDbContext context, IMapper mapper, ICurrentUserProvider currentUserProvider)
     {
         _context = context;
         _dbSet = _context.Set<User>();
+        _currentUserProvider = currentUserProvider;
         _mapper = mapper;
     }
 
@@ -41,10 +44,9 @@ public class UserRepository : IUserRepository
         users = users.Where(u => u.OwnedBooks.Any());
 
         // MAIN FILTERS
-
-        if (request.UserToSkipId.HasValue)
+        if (_currentUserProvider.UserId.HasValue)
         {
-            users = users.Where(u => u.Id != request.UserToSkipId);
+            users = users.Where(u => u.Id != _currentUserProvider.UserId);
         }
 
         if (!string.IsNullOrWhiteSpace(request.UserName))

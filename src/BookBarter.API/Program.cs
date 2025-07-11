@@ -30,6 +30,7 @@ app.UseAuthorization();
 
 app.UseTransaction();
 
-app.MapControllers();
+app.MapControllers()
+    .RequireAuthorization();
 
 app.Run();

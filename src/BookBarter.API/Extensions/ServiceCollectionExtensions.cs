@@ -1,5 +1,7 @@
-﻿using BookBarter.Application.Books;
+﻿using BookBarter.API.Common.Services;
+using BookBarter.Application.Books;
 using BookBarter.Application.Common;
+using BookBarter.Application.Common.Interfaces;
 using BookBarter.Application.Extensions;
 using BookBarter.Infrastructure;
 using BookBarter.Infrastructure.Extensions;
@@ -28,14 +30,17 @@ public static class ServiceCollectionExtensions
         builder.Services.AddAutoMapper(typeof(CommonProfile).Assembly);
         builder.Services.AddSwagger();
 
+        builder.Services.AddHttpContextAccessor();
+        builder.Services.AddScoped<ICurrentUserProvider, CurrentUserProvider>();
+
         builder.Services.AddCors(opts =>
             opts.AddPolicy("DevPolicy", builder =>
             builder.WithOrigins("http://localhost:5173")
            .AllowAnyMethod()
            .AllowAnyHeader()
            .AllowCredentials()
-  )
-);
+            )
+        );
     }
 
     public static IServiceCollection AddAuthentication(this IServiceCollection services, 

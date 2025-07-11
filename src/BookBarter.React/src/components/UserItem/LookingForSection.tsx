@@ -10,14 +10,14 @@ const LookingForSection = ({ lookingForBooks }: LookingForSectionProps) => {
   return (
     <div className={styles.lookingFor}>
       <span className={styles.lookingForHeader}>
-        <img src='../../public/BlueBookLookedFor.svg' />
+        <img src='/BlueBookLookedFor.svg' />
         <p>is looking for...</p>
       </span>
       <div className={styles.bookItemContainer}>
         {lookingForBooks.map(book => (
           <BookItem
             key={book.title}
-            {...book}
+            listedBook={book}
           />
         ))}
       </div>

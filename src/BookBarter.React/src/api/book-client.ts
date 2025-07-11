@@ -1,12 +1,24 @@
+import { requestConfig } from "./common";
+import type { CreateBookCommand, GetPagedBooksQuery, ListedBookDto } from "./generated";
 import { BooksApi } from "./generated/apis/books-api";
-import { Configuration } from "./generated/configuration";
-import { mapAutocompleteBookPaginatedDtoToView, type AutocompleteBookItem } from "./view-models/autocomplete-book";
+import { mapAutocompleteBookPaginatedDtoToView } from "./view-models/autocomplete-book";
 
-const cfg = new Configuration({ basePath: `${import.meta.env.VITE_API_BASE_URL}` })
-const booksApi = new BooksApi(cfg)
 
-export const fetchAutocompleteBooksPaginated = async (title: string): Promise<AutocompleteBookItem[]> => {
-  if (title.length < 3) {
+const booksApi = new BooksApi(requestConfig)
+
+export const createBookCommand = async (command: CreateBookCommand): Promise<number | undefined> => {
+  try {
+    const response = await booksApi.apiBooksPost(command)
+    return response.data
+  } 
+  catch (error) {
+    console.error(error)
+    return undefined
+  }
+}
+
+export const fetchAutocompleteBooksPaginated = async (query: string): Promise<ListedBookDto[]> => {
+  if (!query || query.length < 3) {
     return [];
   }
 
@@ -14,14 +26,40 @@ export const fetchAutocompleteBooksPaginated = async (title: string): Promise<Au
     const response = await booksApi.apiBooksPagedPost({
       pageSize: 10,
       pageNumber: 1,
-      title: title,
+      title: query,
       orderByProperty: "title",
-      orderDirection: "asc"
+      orderDirection: "asc",
+      skipLoggedInUserBooks: false
     })
 
     return mapAutocompleteBookPaginatedDtoToView(response.data);
 
-  } catch (error) {
+  } 
+  catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
+export const fetchAutocompleteBooksPaginatedSkipRelated = async (query: string): Promise<ListedBookDto[]> => {
+  if (!query || query.length < 3) {
+    return [];
+  }
+
+  try {
+    const response = await booksApi.apiBooksPagedPost({
+      pageSize: 10,
+      pageNumber: 1,
+      title: query,
+      orderByProperty: "title",
+      orderDirection: "asc",
+      skipLoggedInUserBooks: true
+    })
+
+    return mapAutocompleteBookPaginatedDtoToView(response.data);
+
+  } 
+  catch (error) {
     console.error(error);
     return [];
   }
