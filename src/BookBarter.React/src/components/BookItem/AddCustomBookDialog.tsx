@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'; // Added useEffect
+import { useState, useEffect, useMemo, useCallback, type FormEvent } from 'react'; // Added useEffect
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -7,14 +7,15 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useFormik } from 'formik';
 import { type PublisherDto, type AuthorDto, type GenreDto, type CreateBookCommand, type ListedBookDto } from '../../api/generated';
-import SingleSearchBar from '../SearchBars/SingleSearchBar';
 import styles from './AddCustomBookDialog.module.css';
 import { fetchPagedGenres } from '../../api/clients/genre-client';
-import { fetchPagedPublishers } from '../../api/clients/publisher-client';
+import { createPublisherCommand, fetchPagedPublishers } from '../../api/clients/publisher-client';
 import { createAuthorCommand, fetchPagedAuthors } from '../../api/clients/author-client';
-import { MenuItem, Select, FormControl, InputLabel } from '@mui/material';
+import { MenuItem, Select, FormControl, InputLabel, FormHelperText } from '@mui/material';
 import { createBookCommand } from '../../api/clients/book-client';
-import AuthorsSearchBar from '../SearchBars/AuthorsSearchBar';
+import { AddCustomAuthor } from './AddCustomAuthorDialog';
+import MultipleSearchBarWithCustom from '../SearchBars/MultipleSearchBarWithCustom';
+import SingleSearchBarWithCustom from '../SearchBars/SingleSearchBarWithCustom';
 
 type CustomBookValues = {
   isbn: string
@@ -41,6 +42,7 @@ interface AddCustomBookProps {
 }
 
 export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: AddCustomBookProps) => {
+  const [loading, setLoading] = useState(false);
   const [genres, setGenres] = useState<GenreDto[]>([]);
 
   useEffect(() => {
@@ -51,41 +53,49 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
       .catch(error => console.log(error));
   }, []);
 
-  const validate = (values: CustomBookValues) => {
+  const validate = useCallback((values: CustomBookValues) => {
     const errors: CustomBookErrors = {};
 
     if (!values.isbn) errors.isbn = 'ISBN is required.';
-    else if (!/^\d+$/.test(values.isbn)) errors.isbn = 'ISBN must contain only digits (0-9).';
-    else if (values.isbn.length != 13) errors.isbn = 'ISBN length should be 13.';
+    else if (!/^\d+$/.test(values.isbn)) errors.isbn = 'ISBN must contain only digits.';
+    else if (values.isbn.length !== 13) errors.isbn = 'ISBN length should be 13.';
 
     if (!values.title) errors.title = 'Title is required.';
-    else if (values.title.length > 100) errors.title = 'Title length cannot exceed 100 characters.';
+    else if (values.title.length > 100) errors.title = 'Title cannot exceed 100 characters.';
 
     if (!values.publicationDate) errors.publicationDate = 'Publication date is required.';
 
-    if (!values.authors) errors.genre = 'Author is required.';
+    if (values.authors.length === 0) errors.authors = 'At least one author is required.';
 
-    if (!values.genre || !values.genre.id) errors.genre = 'Genre is required.';
+    if (!values.genre?.id) errors.genre = 'Genre is required.';
 
-    if (!values.publisher || !values.publisher.id) errors.publisher = 'Publisher is required.';
+    if (!values.publisher) errors.publisher = 'Publisher is required.';
 
     return errors;
-  }
+  }, []);
 
   async function resolveAuthorsIds(authors: AuthorDto[]): Promise<AuthorDto[]> {
     return Promise.all(
       authors.map(async author => {
-        if (author.id) {
-          return author;
-        }
+        if (author.id) return author;
+
         const newId = await createAuthorCommand({
-          firstName: author.firstName || null,
-          middleName: author.middleName || null,
+          firstName: author.firstName,
+          middleName: author.middleName,
           lastName: author.lastName!,
         });
         return { ...author, id: newId };
       })
     );
+  }
+
+  async function resolvePublisherId(publisher: PublisherDto): Promise<PublisherDto> {
+    if (publisher.id) return publisher;
+
+    const newId = await createPublisherCommand({
+      name: publisher.name,
+    });
+    return { ...publisher, id: newId };
   }
 
   const formik = useFormik<CustomBookValues>({
@@ -98,43 +108,98 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
       publisher: null,
     },
     validate,
+    validateOnChange: false,
+    validateOnBlur: true,
     onSubmit: async (values) => {
-      const completeAuthors = await resolveAuthorsIds(values.authors);
+      setLoading(true);
 
-      const command: CreateBookCommand = {
-        isbn: values.isbn,
-        title: values.title,
-        publicationDate: values.publicationDate,
-        authorsIds: completeAuthors.map(a => a.id!),
-        genreId: values.genre?.id!,
-        publisherId: values.publisher?.id!
-      }
+      try {
+        const [completeAuthors, completePublisher] = await Promise.all([
+          resolveAuthorsIds(values.authors),
+          resolvePublisherId(values.publisher!)
+        ]);
 
-      createBookCommand(command)
-        .then(response => {
-          const newListedBook: ListedBookDto = {
-            id: response,
-            title: values.title,
-            publicationDate: values.publicationDate,
-            genreName: values.genre?.name!,
-            publisherName: values.publisher?.name!,
-            authors: completeAuthors
-          }
-
-          response ? onBookCreated(newListedBook) : alert("Failed to add new book.");
-          onClose();
-        })
-        .catch(error => {
-          console.error(error);
+        const command: CreateBookCommand = {
+          isbn: values.isbn,
+          title: values.title,
+          publicationDate: values.publicationDate,
+          authorsIds: completeAuthors.map(a => a.id!),
+          genreId: values.genre?.id!,
+          publisherId: completePublisher?.id!
         }
-        );
+
+        const newBookId = await createBookCommand(command);
+        const newListedBook: ListedBookDto = {
+          id: newBookId,
+          title: values.title,
+          publicationDate: values.publicationDate,
+          genreName: values.genre?.name!,
+          publisherName: completePublisher?.name!,
+          authors: completeAuthors
+        }
+
+        onBookCreated(newListedBook)
+        onClose()
+      }
+      catch (error) {
+        console.log(error)
+      }
+      finally {
+        setLoading(false)
+      }
     }
-  });
+  })
+
+  const onAuthorsChange = useCallback(
+    (_event: any, newValue: AuthorDto[]) => {
+      formik.setFieldValue("authors", newValue, /* shouldValidate = */ true);
+
+      formik.setFieldTouched("authors", true, /* shouldValidate = */ false);
+    },
+    [formik]
+  );
+
+  const onPublisherChange = useCallback(
+    (_event: any, newValue: any) => {
+      formik.setFieldValue("publisher", newValue, /* shouldValidate = */ true);
+
+      formik.setFieldTouched("publisher", true, /* shouldValidate = */ false);
+    },
+    [formik]
+  );
+
+  const genreOptions = useMemo(() =>
+    genres.map(g => (
+      <MenuItem key={g.id} value={g.id}>
+        {g.name}
+      </MenuItem>
+    )),
+    [genres]
+  );
+
+  const allFields: Array<keyof CustomBookValues> = [
+    'isbn', 'title', 'publicationDate', 'authors', 'genre', 'publisher'
+  ];
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    if (Object.keys(formik.touched).length === 0) {
+      allFields.forEach(field => {
+        formik.setFieldTouched(field, true, false);
+      });
+    }
+    formik.handleSubmit(e);
+  };
+
+  const displayedErrorFields = Object
+    .keys(formik.errors)
+    .filter(field => formik.touched[field as keyof CustomBookValues]);
+
+  const submitDisabled = displayedErrorFields.length > 0;
 
   return (
     <Dialog open onClose={onClose} fullWidth maxWidth="sm">
       <DialogTitle>Add New Book</DialogTitle>
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <DialogContent dividers>
           <div className={styles.dialogContents}>
             <TextField
@@ -171,7 +236,7 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
               helperText={formik.touched.publicationDate && formik.errors.publicationDate}
             />
 
-            <AuthorsSearchBar
+            <MultipleSearchBarWithCustom
               id="authors"
               label="Authors"
               value={formik.values.authors}
@@ -180,24 +245,29 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
                   .filter(Boolean)
                   .join(' ')
               }
-              onChange={(_event, newValue) =>
-                formik.setFieldValue("authors", newValue)
-              }
+              onChange={onAuthorsChange}
               fetchMethod={fetchPagedAuthors}
+              AddDialog={AddCustomAuthor}
               styles={styles}
+              error={formik.touched.authors && Boolean(formik.errors.authors)}
+              helperText={formik.touched.authors && formik.errors.authors}
+              onBlur={() => formik.setFieldTouched('authors', true)}
             />
 
-            <SingleSearchBar
+            <SingleSearchBarWithCustom
               id="publisher"
               label="Publisher"
               value={formik.values.publisher}
-              getOptionLabel={option => option.name}
-              onChange={(_event, newValue) => formik.setFieldValue("publisher", newValue)}
+              getOptionLabel={(option: { name: any; }) => option.name}
+              onChange={onPublisherChange}
               fetchMethod={fetchPagedPublishers}
               styles={styles}
+              error={formik.touched.publisher && Boolean(formik.errors.publisher)}
+              helperText={formik.touched.publisher && formik.errors.publisher}
+              onBlur={() => formik.setFieldTouched('publisher', true)}
             />
 
-            <FormControl>
+            <FormControl error={formik.touched.genre && Boolean(formik.errors.genre)}>
               <InputLabel id="genre-label">Genre</InputLabel>
               <Select
                 id="genre"
@@ -211,19 +281,30 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
                 }}
                 onBlur={formik.handleBlur}
               >
-                {genres.map(genre => (
-                  <MenuItem key={genre.id} value={genre.id}>
-                    {genre.name}
-                  </MenuItem>
-                ))}
+                {genreOptions}
               </Select>
+              {formik.touched.genre && formik.errors.genre && (
+                <FormHelperText>{formik.errors.genre}</FormHelperText>
+              )}
             </FormControl>
           </div>
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={onClose}>Cancel</Button>
-          <Button type="submit" variant="contained">Add Book</Button>
+          <Button
+            onClick={onClose}
+            disabled={loading}
+          >
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            variant="contained"
+            disabled={submitDisabled}
+            loading={loading}
+          >
+            Add Book
+          </Button>
         </DialogActions>
       </form>
     </Dialog>

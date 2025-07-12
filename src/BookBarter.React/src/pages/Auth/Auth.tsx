@@ -36,32 +36,21 @@ const Auth = () => {
   const validate = (values: FormValues): FormErrors => {
     const errors: FormErrors = {}
 
-    if (!values.email) {
-      errors.email = "Email is required."
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
-      errors.email = "Invalid email address."
-    }
+    if (!values.email) errors.email = "Email is required."
+    else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) errors.email = "Invalid email address."
 
-    if (!values.password) {
-      errors.password = "Password is required."
-    } else if (values.password.length < 6) {
-      errors.password = "Password must be at least 6 characters."
-    }
+
+    if (!values.password) errors.password = "Password is required."
+    else if (values.password.length < 6) errors.password = "Password must be at least 6 characters."
+
 
     if (!hasAccount) {
-      if (values.confirmPassword != values.password) {
-        errors.confirmPassword = "Passwords don't match."
-      }
+      if (values.confirmPassword != values.password) errors.confirmPassword = "Passwords don't match."
 
-      if (!values.userName) {
-        errors.userName = "User name is required."
-      } else if (values.userName.length >= 20) {
-        errors.userName = "User name length should not exceed 20 characters."
-      }
+      if (!values.userName) errors.userName = "User name is required."
+      else if (values.userName.length >= 20) errors.userName = "User name length should not exceed 20 characters."
 
-      if (!values.city) {
-        errors.city = "City is required."
-      }
+      if (!values.city) errors.city = "City is required."
     }
 
     return errors

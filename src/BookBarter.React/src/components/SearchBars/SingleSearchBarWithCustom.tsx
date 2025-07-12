@@ -1,15 +1,22 @@
 import { useState, useEffect } from 'react';
-import { Autocomplete, TextField, CircularProgress, debounce, createFilterOptions, Chip } from '@mui/material';
-import { AddCustomAuthor } from '../BookItem/AddCustomAuthorDialog';
+import { Autocomplete, TextField, CircularProgress, debounce, createFilterOptions } from '@mui/material';
 
-interface AuthorsSearchBarProps {
+interface SingleSearchBarWithCustomProps {
   id?: string;
   label?: string;
   value: any;
   getOptionLabel: (option: any) => string;
   onChange: (_event: any, newValue: any) => void;
   fetchMethod: (query: any) => Promise<any>;
+  AddDialog?: React.ComponentType<{
+    defaultName?: string;
+    onClose: () => void;
+    onEntityCreated: (entity: any) => void;
+  }>;
   placeholder?: string;
+  error?: boolean;
+  helperText?: any;
+  onBlur?: () => void;
   styles: CSSModuleClasses;
 }
 
@@ -17,16 +24,20 @@ type CustomOption = {
   inputValue?: string;
 }
 
-const AuthorsSearchBar = ({
+const SingleSearchBarWithCustom = ({
   id,
   label,
   value,
   getOptionLabel,
   onChange,
   fetchMethod,
+  AddDialog,
   placeholder,
+  error,
+  helperText,
+  onBlur,
   styles
-}: AuthorsSearchBarProps) => {
+}: SingleSearchBarWithCustomProps) => {
   const [options, setOptions] = useState<any>([]);
   const [loading, setLoading] = useState(false);
   const [inputValue, setInputValue] = useState('');
@@ -62,7 +73,6 @@ const AuthorsSearchBar = ({
   const handleAddEntityCreated = (newEntity: any) => {
     onChange(null, [...value, newEntity]);
 
-    setOptions((prev: any) => [...prev, newEntity]);
     setInputValue('');
   };
 
@@ -70,19 +80,23 @@ const AuthorsSearchBar = ({
     <>
       <Autocomplete
         id={id}
-        className={styles.multipleSearchBar}
-        multiple
+        className={styles.singleSearchBar}
         value={value}
+        onBlur={() => onBlur?.()}
         onChange={(event, newValue) => {
-          const lastSelection = newValue[newValue.length - 1];
-          const isCustomOption = lastSelection?.inputValue;
+          if (typeof newValue === "string") {
+            return
+          }
 
+          const isCustomOption = newValue?.inputValue;
           if (isCustomOption) {
-            setDialogDefaultName(lastSelection.inputValue)
-
-            setOpenAddDialog(true);
-
-            onChange(event, newValue.filter(item => !item.inputValue));
+            if (AddDialog) {
+              setDialogDefaultName(newValue.inputValue)
+              setOpenAddDialog(true);
+            }
+            else {
+              onChange(event, { id: undefined, name: newValue.inputValue })
+            }
           }
           else {
             onChange(event, newValue);
@@ -96,7 +110,7 @@ const AuthorsSearchBar = ({
           const filtered = filter(options, params);
           const { inputValue } = params;
 
-          if (inputValue.trim() !== '' && !loading) {
+          if (inputValue.length >= 3 && !loading) {
             filtered.push({ inputValue });
           }
 
@@ -108,20 +122,13 @@ const AuthorsSearchBar = ({
 
           return getOptionLabel(option);
         }}
-        renderValue={(value, getTagProps) =>
-          value.map((option, index) => (
-            <Chip
-              {...getTagProps({ index })}
-              key={option.id || index}
-              label={getOptionLabel(option)}
-            />
-          ))
-        }
         renderInput={(params) => (
           <TextField
             {...params}
             label={label}
-            placeholder={value.length === 0 ? placeholder : 'Add more...'}
+            placeholder={value?.length === 0 ? placeholder : 'Add more...'}
+            error={error}
+            helperText={helperText}
             slotProps={{
               input: {
                 ...params.InputProps,
@@ -136,14 +143,14 @@ const AuthorsSearchBar = ({
           />
         )}
       />
-      {openAddDialog && (
-        <AddCustomAuthor
+      {(AddDialog && openAddDialog) && (
+        <AddDialog
           defaultName={dialogDefaultName}
           onClose={() => {
             setDialogDefaultName(undefined)
             setOpenAddDialog(false)
           }}
-          onAuthorCreated={handleAddEntityCreated}
+          onEntityCreated={handleAddEntityCreated}
         />
       )
       }
@@ -151,4 +158,4 @@ const AuthorsSearchBar = ({
   );
 };
 
-export default AuthorsSearchBar;
+export default SingleSearchBarWithCustom;

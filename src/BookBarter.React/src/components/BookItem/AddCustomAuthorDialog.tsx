@@ -11,13 +11,13 @@ import styles from './AddCustomAuthorDialog.module.css'
 interface AddCustomAuthorProps {
   defaultName?: string;
   onClose: () => void;
-  onAuthorCreated: (author: AuthorDto) => void;
+  onEntityCreated: (author: AuthorDto) => void;
 }
 
 export const AddCustomAuthor = ({
   defaultName,
   onClose,
-  onAuthorCreated
+  onEntityCreated
 }: AddCustomAuthorProps) => {
   const formik = useFormik({
     initialValues: {
@@ -26,34 +26,13 @@ export const AddCustomAuthor = ({
       lastName: defaultName
     },
     onSubmit: (values) => {
-      /*
-      createAuthorCommand({
-        firstName: values.firstName || null,
-        middleName: values.middleName || null,
-        lastName: values.lastName,
-      })
-        .then(response => {
-          const newAuthor: AuthorDto = {
-            id: response,
-            firstName: values.firstName || null,
-            middleName: values.middleName || null,
-            lastName: values.lastName,
-          };
-          onAuthorCreated(newAuthor);
-          onClose();
-        })
-        .catch(error => {
-          console.error(error);
-        });
-      */
-
       const newAuthor: AuthorDto = {
         id: undefined,
-        firstName: values.firstName || null,
-        middleName: values.middleName || null,
+        firstName: values.firstName,
+        middleName: values.middleName,
         lastName: values.lastName
       }
-      onAuthorCreated(newAuthor)
+      onEntityCreated(newAuthor)
       onClose();
     }
   });
@@ -69,14 +48,18 @@ export const AddCustomAuthor = ({
       <form onSubmit={formik.handleSubmit}>
         <DialogContent dividers>
           <div className={styles.dialogContents}>
+            <ul>
+              <li>The first name can be omitted in case if the author is known only by a single name (e.g. Plato, Aristotle).</li>
+              <li>Specify the middle name only if it's commonly spoken out when referring to the author (e.g. John Ronald Reuel Tolkien).</li>
+            </ul>
             <TextField
-              label="First Name (Optional)"
+              label="First Name"
               name="firstName"
               value={formik.values.firstName}
               onChange={formik.handleChange}
             />
             <TextField
-              label="Middle Name (Optional)"
+              label="Middle Name"
               name="middleName"
               value={formik.values.middleName}
               onChange={formik.handleChange}
@@ -84,7 +67,6 @@ export const AddCustomAuthor = ({
             <TextField
               label="Last Name"
               name="lastName"
-              required
               value={formik.values.lastName}
               onChange={formik.handleChange}
               error={!formik.values.lastName}
