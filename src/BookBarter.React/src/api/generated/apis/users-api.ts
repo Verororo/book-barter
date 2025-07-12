@@ -119,47 +119,6 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
         },
         /**
          * 
-         * @param {number} id 
-         * @param {UpdateUserCommand} [updateUserCommand] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiUsersIdPut: async (id: number, updateUserCommand?: UpdateUserCommand, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('apiUsersIdPut', 'id', id)
-            const localVarPath = `/api/Users/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(updateUserCommand, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
          * @param {number} bookId 
          * @param {DeleteOwnedBookCommand} [deleteOwnedBookCommand] 
          * @param {*} [options] Override http request option.
@@ -230,6 +189,43 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(addOwnedBookCommand, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {UpdateUserCommand} [updateUserCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiUsersMePut: async (updateUserCommand?: UpdateUserCommand, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/Users/me`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateUserCommand, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -387,19 +383,6 @@ export const UsersApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {number} id 
-         * @param {UpdateUserCommand} [updateUserCommand] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiUsersIdPut(id: number, updateUserCommand?: UpdateUserCommand, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiUsersIdPut(id, updateUserCommand, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['UsersApi.apiUsersIdPut']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
          * @param {number} bookId 
          * @param {DeleteOwnedBookCommand} [deleteOwnedBookCommand] 
          * @param {*} [options] Override http request option.
@@ -421,6 +404,18 @@ export const UsersApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiUsersMeOwnedBooksPost(addOwnedBookCommand, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UsersApi.apiUsersMeOwnedBooksPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {UpdateUserCommand} [updateUserCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiUsersMePut(updateUserCommand?: UpdateUserCommand, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiUsersMePut(updateUserCommand, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UsersApi.apiUsersMePut']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -490,16 +485,6 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
         },
         /**
          * 
-         * @param {number} id 
-         * @param {UpdateUserCommand} [updateUserCommand] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiUsersIdPut(id: number, updateUserCommand?: UpdateUserCommand, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.apiUsersIdPut(id, updateUserCommand, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
          * @param {number} bookId 
          * @param {DeleteOwnedBookCommand} [deleteOwnedBookCommand] 
          * @param {*} [options] Override http request option.
@@ -516,6 +501,15 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
          */
         apiUsersMeOwnedBooksPost(addOwnedBookCommand?: AddOwnedBookCommand, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.apiUsersMeOwnedBooksPost(addOwnedBookCommand, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {UpdateUserCommand} [updateUserCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiUsersMePut(updateUserCommand?: UpdateUserCommand, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.apiUsersMePut(updateUserCommand, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -579,18 +573,6 @@ export class UsersApi extends BaseAPI {
 
     /**
      * 
-     * @param {number} id 
-     * @param {UpdateUserCommand} [updateUserCommand] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UsersApi
-     */
-    public apiUsersIdPut(id: number, updateUserCommand?: UpdateUserCommand, options?: RawAxiosRequestConfig) {
-        return UsersApiFp(this.configuration).apiUsersIdPut(id, updateUserCommand, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
      * @param {number} bookId 
      * @param {DeleteOwnedBookCommand} [deleteOwnedBookCommand] 
      * @param {*} [options] Override http request option.
@@ -610,6 +592,17 @@ export class UsersApi extends BaseAPI {
      */
     public apiUsersMeOwnedBooksPost(addOwnedBookCommand?: AddOwnedBookCommand, options?: RawAxiosRequestConfig) {
         return UsersApiFp(this.configuration).apiUsersMeOwnedBooksPost(addOwnedBookCommand, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {UpdateUserCommand} [updateUserCommand] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public apiUsersMePut(updateUserCommand?: UpdateUserCommand, options?: RawAxiosRequestConfig) {
+        return UsersApiFp(this.configuration).apiUsersMePut(updateUserCommand, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

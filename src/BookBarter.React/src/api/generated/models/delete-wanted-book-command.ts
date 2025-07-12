@@ -25,12 +25,6 @@ export interface DeleteWantedBookCommand {
      * @type {number}
      * @memberof DeleteWantedBookCommand
      */
-    'userId'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof DeleteWantedBookCommand
-     */
     'bookId'?: number;
 }
 

@@ -26,7 +26,7 @@ export const fetchUserById = async (
 export const updateUser = async (
   query: UpdateUserCommand
 ) => {
-  await usersApi.apiUsersIdPut(query.id!, query)
+  await usersApi.apiUsersMePut(query)
 }
 
 export const addBookToOwned = async (

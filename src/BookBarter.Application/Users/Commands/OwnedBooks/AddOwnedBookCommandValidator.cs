@@ -7,10 +7,6 @@ public class AddOwnedBookCommandValidator : AbstractValidator<AddOwnedBookComman
 {
     public AddOwnedBookCommandValidator()
     {
-        RuleFor(ob => ob.UserId)
-            .NotEmpty()
-            .GreaterThan(0);
-
         RuleFor(ob => ob.BookId)
             .NotEmpty()
             .GreaterThan(0);

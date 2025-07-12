@@ -25,12 +25,6 @@ export interface AddOwnedBookCommand {
      * @type {number}
      * @memberof AddOwnedBookCommand
      */
-    'userId'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof AddOwnedBookCommand
-     */
     'bookId'?: number;
     /**
      * 

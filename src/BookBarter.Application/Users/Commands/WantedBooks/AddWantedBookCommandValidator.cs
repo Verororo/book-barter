@@ -7,10 +7,6 @@ public class AddWantedBookCommandValidator : AbstractValidator<AddWantedBookComm
 {
     public AddWantedBookCommandValidator()
     {
-        RuleFor(wb => wb.UserId)
-            .NotEmpty()
-            .GreaterThan(0);
-
         RuleFor(wb => wb.BookId)
             .NotEmpty()
             .GreaterThan(0);

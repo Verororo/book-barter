@@ -5,7 +5,6 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**userId** | **number** |  | [optional] [default to undefined]
 **bookId** | **number** |  | [optional] [default to undefined]
 **bookStateId** | **number** |  | [optional] [default to undefined]
 
@@ -15,7 +14,6 @@ Name | Type | Description | Notes
 import { AddOwnedBookCommand } from './api';
 
 const instance: AddOwnedBookCommand = {
-    userId,
     bookId,
     bookStateId,
 };

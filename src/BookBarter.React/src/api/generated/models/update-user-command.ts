@@ -22,12 +22,6 @@
 export interface UpdateUserCommand {
     /**
      * 
-     * @type {number}
-     * @memberof UpdateUserCommand
-     */
-    'id'?: number;
-    /**
-     * 
      * @type {string}
      * @memberof UpdateUserCommand
      */

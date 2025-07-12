@@ -5,7 +5,6 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**userId** | **number** |  | [optional] [default to undefined]
 **bookId** | **number** |  | [optional] [default to undefined]
 
 ## Example
@@ -14,7 +13,6 @@ Name | Type | Description | Notes
 import { DeleteWantedBookCommand } from './api';
 
 const instance: DeleteWantedBookCommand = {
-    userId,
     bookId,
 };
 ```

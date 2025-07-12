@@ -84,7 +84,6 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
 
     await addBookToOwned(
       {
-        userId,
         bookId: book.id,
         bookStateId
       }

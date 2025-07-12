@@ -10,10 +10,6 @@ public class DeleteWantedBookCommandValidator : AbstractValidator<DeleteWantedBo
 {
     public DeleteWantedBookCommandValidator()
     {
-        RuleFor(wb => wb.UserId)
-            .NotEmpty()
-            .GreaterThan(0);
-
         RuleFor(wb => wb.BookId)
             .NotEmpty()
             .GreaterThan(0);

@@ -7,10 +7,6 @@ public class DeleteOwnedBookCommandValidator : AbstractValidator<DeleteOwnedBook
 {
     public DeleteOwnedBookCommandValidator()
     {
-        RuleFor(ob => ob.UserId)
-            .NotEmpty()
-            .GreaterThan(0);
-
         RuleFor(ob => ob.BookId)
             .NotEmpty()
             .GreaterThan(0);

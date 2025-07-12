@@ -6,9 +6,9 @@ All URIs are relative to *http://localhost*
 |------------- | ------------- | -------------|
 |[**apiUsersIdDelete**](#apiusersiddelete) | **DELETE** /api/Users/{id} | |
 |[**apiUsersIdGet**](#apiusersidget) | **GET** /api/Users/{id} | |
-|[**apiUsersIdPut**](#apiusersidput) | **PUT** /api/Users/{id} | |
 |[**apiUsersMeOwnedBooksBookIdDelete**](#apiusersmeownedbooksbookiddelete) | **DELETE** /api/Users/me/ownedBooks/{bookId} | |
 |[**apiUsersMeOwnedBooksPost**](#apiusersmeownedbookspost) | **POST** /api/Users/me/ownedBooks | |
+|[**apiUsersMePut**](#apiusersmeput) | **PUT** /api/Users/me | |
 |[**apiUsersMeWantedBooksBookIdDelete**](#apiusersmewantedbooksbookiddelete) | **DELETE** /api/Users/me/wantedBooks/{bookId} | |
 |[**apiUsersMeWantedBooksPost**](#apiusersmewantedbookspost) | **POST** /api/Users/me/wantedBooks | |
 |[**apiUsersPagedPost**](#apiuserspagedpost) | **POST** /api/Users/paged | |
@@ -113,60 +113,6 @@ const { status, data } = await apiInstance.apiUsersIdGet(
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **apiUsersIdPut**
-> apiUsersIdPut()
-
-
-### Example
-
-```typescript
-import {
-    UsersApi,
-    Configuration,
-    UpdateUserCommand
-} from './api';
-
-const configuration = new Configuration();
-const apiInstance = new UsersApi(configuration);
-
-let id: number; // (default to undefined)
-let updateUserCommand: UpdateUserCommand; // (optional)
-
-const { status, data } = await apiInstance.apiUsersIdPut(
-    id,
-    updateUserCommand
-);
-```
-
-### Parameters
-
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **updateUserCommand** | **UpdateUserCommand**|  | |
-| **id** | [**number**] |  | defaults to undefined|
-
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-[Bearer](../README.md#Bearer)
-
-### HTTP request headers
-
- - **Content-Type**: application/json, text/json, application/*+json
- - **Accept**: Not defined
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 # **apiUsersMeOwnedBooksBookIdDelete**
 > apiUsersMeOwnedBooksBookIdDelete()
 
@@ -249,6 +195,57 @@ const { status, data } = await apiInstance.apiUsersMeOwnedBooksPost(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **addOwnedBookCommand** | **AddOwnedBookCommand**|  | |
+
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json, text/json, application/*+json
+ - **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiUsersMePut**
+> apiUsersMePut()
+
+
+### Example
+
+```typescript
+import {
+    UsersApi,
+    Configuration,
+    UpdateUserCommand
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new UsersApi(configuration);
+
+let updateUserCommand: UpdateUserCommand; // (optional)
+
+const { status, data } = await apiInstance.apiUsersMePut(
+    updateUserCommand
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **updateUserCommand** | **UpdateUserCommand**|  | |
 
 
 ### Return type

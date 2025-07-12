@@ -13,9 +13,5 @@ public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
         RuleFor(u => u.CityId)
             .NotEmpty()
             .GreaterThan(0);
-
-        RuleFor(u => u.Id)
-            .NotEmpty()
-            .GreaterThan(0);
     }
 }

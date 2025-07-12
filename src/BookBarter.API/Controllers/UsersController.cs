@@ -42,12 +42,11 @@ public class UsersController : ControllerBase
     }
 
     [HttpPut]
-    [Route("{id}")]
+    [Route("me")]
     [AllowAnonymous]
-    public async Task UpdateUser(int id, [FromBody] UpdateUserCommand command,
+    public async Task UpdateUser([FromBody] UpdateUserCommand command,
         CancellationToken cancellationToken)
     {
-        command.Id = id;
         await _mediator.Send(command, cancellationToken);
     }
 
@@ -58,9 +57,6 @@ public class UsersController : ControllerBase
     {
         await _mediator.Send(new DeleteUserCommand { Id = id }, cancellationToken);
     }
-
-    // in prod, remove [AllowAnonymous] ...
-    // ... and get UserId from provided JWT token
 
     [HttpPost]
     [Route("me/ownedBooks")]

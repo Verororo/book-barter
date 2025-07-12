@@ -56,7 +56,6 @@ const OwnProfile = () => {
   const handleSave = async () => {
     setSaving(true)
     updateUser({
-      id: userAuthData.id,
       about: aboutDraft,
       cityId: cityOption?.id ?? user!.cityId
     })

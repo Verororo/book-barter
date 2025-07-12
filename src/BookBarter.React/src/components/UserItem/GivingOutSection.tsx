@@ -41,8 +41,7 @@ const GivingOutSection = ({ givingOutBooks, customizable = false }: GivingOutSec
 
   const handleDelete = async (deletedBookId: number) => {
     deleteBookFromOwned({
-      bookId: deletedBookId,
-      userId: userAuthData!.id
+      bookId: deletedBookId
     })
       .then(() => {
         setLocalBooks(current => current.filter(b => b.id !== deletedBookId))
