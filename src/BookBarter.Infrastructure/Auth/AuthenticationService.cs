@@ -1,6 +1,7 @@
 ﻿
 using System.Data;
 using System.Security.Claims;
+using BookBarter.Application.Auth.Constants;
 using BookBarter.Application.Auth.Interfaces;
 using BookBarter.Application.Auth.Responses;
 using BookBarter.Domain.Entities;
@@ -58,14 +59,14 @@ public class AuthenticationService : IAuthenticationService
             return new LoginDto { Succeeded = false };
 
         var claims = new List<Claim>();
-        var userNameClaim = new Claim("userName", user.UserName!);
+        var userNameClaim = new Claim(ClaimsNames.UserName, user.UserName!);
         claims.Add(userNameClaim);
-        var idClaim = new Claim("id", user.Id.ToString());
+        var idClaim = new Claim(ClaimsNames.Id, user.Id.ToString());
         claims.Add(idClaim);
         var roles = await _userManager.GetRolesAsync(user);
         foreach (var role in roles)
         {
-            var roleClaim = new Claim("role", role); // or "ClaimTypes.Role"?
+            var roleClaim = new Claim(ClaimsNames.Role, role);
             claims.Add(roleClaim);
         }
 

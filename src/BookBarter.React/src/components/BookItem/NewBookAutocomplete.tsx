@@ -4,11 +4,10 @@ import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import styles from "./NewBookAutocomplete.module.css";
-import { fetchAutocompleteBooksPaginatedSkipRelated } from "../../api/book-client";
+import { fetchAutocompleteBooksPaginatedSkipRelated } from "../../api/clients/book-client";
 import debounce from "@mui/utils/debounce";
 import { CircularProgress, MenuItem, Menu } from "@mui/material";
-import { useAuth } from "../../contexts/Auth/UseAuth";
-import { addBookToOwned } from "../../api/user-client";
+import { addBookToOwned } from "../../api/clients/user-client";
 import type { ListedBookDto } from "../../api/generated";
 import { AddCustomBook } from "./AddCustomBookDialog";
 
@@ -22,9 +21,6 @@ type NewBookAutocompleteProps = {
 }
 
 const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutocompleteProps) => {
-  const { userAuthData } = useAuth();
-  const userId = userAuthData!.id;
-
   const [openAutocomplete, setOpenAutocomplete] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
 

@@ -4,8 +4,7 @@ import BookItem from "../BookItem/BookItem"
 import NewBookAutocomplete from "../BookItem/NewBookAutocomplete"
 import styles from './GivingOut.module.css'
 import type { ListedBookDto } from "../../api/generated"
-import { deleteBookFromOwned } from "../../api/user-client"
-import { useAuth } from "../../contexts/Auth/UseAuth"
+import { deleteBookFromOwned } from "../../api/clients/user-client"
 
 type GivingOutSectionProps = {
   givingOutBooks: ListedBook[]
@@ -13,7 +12,6 @@ type GivingOutSectionProps = {
 }
 
 const GivingOutSection = ({ givingOutBooks, customizable = false }: GivingOutSectionProps) => {
-  const { userAuthData } = useAuth()
   const [localBooks, setLocalBooks] = useState<ListedBook[]>(givingOutBooks);
   const [autocompleteKey, setAutocompleteKey] = useState(0);
 

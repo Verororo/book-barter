@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useFormik } from 'formik';
 import { type AuthorDto } from '../../api/generated';
-import { createAuthorCommand } from '../../api/author-client';
+import { createAuthorCommand } from '../../api/clients/author-client';
 import styles from './AddCustomAuthorDialog.module.css'
 
 interface AddCustomAuthorProps {

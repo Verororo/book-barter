@@ -1,5 +1,5 @@
 import { requestConfig } from "./common";
-import { AuthorsApi, type AuthorDto, type CreateAuthorCommand } from "./generated";
+import { AuthorsApi, type AuthorDto, type CreateAuthorCommand } from "../generated";
 
 const authorsApi = new AuthorsApi(requestConfig)
 

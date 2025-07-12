@@ -1,7 +1,7 @@
 import { requestConfig } from "./common";
-import type { CreateBookCommand, GetPagedBooksQuery, ListedBookDto } from "./generated";
-import { BooksApi } from "./generated/apis/books-api";
-import { mapAutocompleteBookPaginatedDtoToView } from "./view-models/autocomplete-book";
+import type { CreateBookCommand, ListedBookDto } from "../generated";
+import { BooksApi } from "../generated/apis/books-api";
+import { mapAutocompleteBookPaginatedDtoToView } from "../view-models/autocomplete-book";
 
 
 const booksApi = new BooksApi(requestConfig)

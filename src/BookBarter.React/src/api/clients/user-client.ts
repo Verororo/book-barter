@@ -1,9 +1,9 @@
 import { requestConfig } from "./common"
-import type { AddOwnedBookCommand, DeleteOwnedBookCommand, UpdateUserCommand } from "./generated"
-import { UsersApi } from "./generated/apis/users-api"
-import type { GetPagedUsersQuery } from "./generated/models/get-paged-users-query"
-import { mapListedUserPaginatedResultDtoToView, type ListedUserPaginated } from "./view-models/listed-user-paginated-result"
-import { mapUserDtoToView, type User } from "./view-models/user"
+import type { AddOwnedBookCommand, DeleteOwnedBookCommand, UpdateUserCommand } from "../generated"
+import { UsersApi } from "../generated/apis/users-api"
+import type { GetPagedUsersQuery } from "../generated/models/get-paged-users-query"
+import { mapListedUserPaginatedResultDtoToView, type ListedUserPaginated } from "../view-models/listed-user-paginated-result"
+import { mapUserDtoToView, type User } from "../view-models/user"
 
 const usersApi = new UsersApi(requestConfig)
 

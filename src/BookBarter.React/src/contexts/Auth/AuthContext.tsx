@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
         if (decoded.exp && decoded.exp < Date.now()) {
           const userAuthData: UserAuthData = {
-            id: decoded.id,
+            id: decoded.identifier,
             userName: decoded.userName,
             role: decoded.role as 'Moderator' | null,
           };
@@ -65,7 +65,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
       const decoded = jwtDecode<JwtPayload>(token);
       const userAuthData: UserAuthData = {
-        id: decoded.id,
+        id: decoded.identifier,
         userName: decoded.userName,
         role: decoded.role as 'Moderator' | null,
       };

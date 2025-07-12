@@ -9,11 +9,11 @@ import { useFormik } from 'formik';
 import { type PublisherDto, type AuthorDto, type GenreDto, type CreateBookCommand, type ListedBookDto } from '../../api/generated';
 import SingleSearchBar from '../SearchBars/SingleSearchBar';
 import styles from './AddCustomBookDialog.module.css';
-import { fetchPagedGenres } from '../../api/genre-client';
-import { fetchPagedPublishers } from '../../api/publisher-client';
-import { fetchPagedAuthors } from '../../api/author-client';
+import { fetchPagedGenres } from '../../api/clients/genre-client';
+import { fetchPagedPublishers } from '../../api/clients/publisher-client';
+import { fetchPagedAuthors } from '../../api/clients/author-client';
 import { MenuItem, Select, FormControl, InputLabel } from '@mui/material'; // Added FormControl components
-import { createBookCommand } from '../../api/book-client';
+import { createBookCommand } from '../../api/clients/book-client';
 import MultipleSearchBarWithAdd from '../SearchBars/AuthorsSearchBar';
 import AuthorsSearchBar from '../SearchBars/AuthorsSearchBar';
 

@@ -1,6 +1,6 @@
-import { CitiesApi, type CityDto } from "./generated";
+import { CitiesApi, type CityDto } from "../generated";
 import { requestConfig } from "./common"
-import { mapCityPaginatedResultDtoToView } from "./view-models/autocomplete-city";
+import { mapCityPaginatedResultDtoToView } from "../view-models/autocomplete-city";
 
 const citiesApi = new CitiesApi(requestConfig)
 

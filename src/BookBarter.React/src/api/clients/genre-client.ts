@@ -1,5 +1,5 @@
 import { requestConfig } from "./common"
-import { GenresApi, type GenreDto } from "./generated"
+import { GenresApi, type GenreDto } from "../generated"
 
 const genresApi = new GenresApi(requestConfig)
 

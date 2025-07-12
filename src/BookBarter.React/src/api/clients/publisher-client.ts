@@ -1,5 +1,5 @@
 import { requestConfig } from "./common";
-import { PublishersApi, type CreatePublisherCommand, type PublisherDto } from "./generated";
+import { PublishersApi, type CreatePublisherCommand, type PublisherDto } from "../generated";
 
 const publishersApi = new PublishersApi(requestConfig)
 

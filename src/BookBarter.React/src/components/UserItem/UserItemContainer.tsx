@@ -3,7 +3,7 @@ import UserItem from "../UserItem/UserItem";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import styles from './UserItemContainer.module.css';
 
-import { fetchListedUsersPaginated } from "../../api/user-client";
+import { fetchListedUsersPaginated } from "../../api/clients/user-client";
 import type { ListedUser } from "../../api/view-models/listed-user";
 
 import {
@@ -17,7 +17,7 @@ import {
 import { useAuth } from "../../contexts/Auth/UseAuth";
 import type { ListedBookDto } from '../../api/generated';
 import MultipleSearchBar from '../SearchBars/MultipleSearchBar';
-import { fetchAutocompleteBooksPaginated } from '../../api/book-client';
+import { fetchAutocompleteBooksPaginated } from '../../api/clients/book-client';
 
 const UserItemContainer = () => {
   const { isAuthenticated } = useAuth();
