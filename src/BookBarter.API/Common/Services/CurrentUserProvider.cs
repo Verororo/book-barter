@@ -1,4 +1,5 @@
-﻿using BookBarter.Application.Common.Interfaces;
+﻿using BookBarter.Application.Auth.Constants;
+using BookBarter.Application.Common.Interfaces;
 using BookBarter.Domain.Exceptions;
 using Microsoft.AspNetCore.SignalR;
 using System.Security.Claims;
@@ -22,7 +23,7 @@ public class CurrentUserProvider : ICurrentUserProvider
             if (user?.Identity?.IsAuthenticated != true)
                 return null;
 
-            var idString = user.FindFirstValue("id");
+            var idString = user.FindFirstValue(ClaimsNames.Id);
             if (idString == null)
                 return null;
 

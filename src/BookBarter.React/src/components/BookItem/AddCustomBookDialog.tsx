@@ -11,10 +11,9 @@ import SingleSearchBar from '../SearchBars/SingleSearchBar';
 import styles from './AddCustomBookDialog.module.css';
 import { fetchPagedGenres } from '../../api/clients/genre-client';
 import { fetchPagedPublishers } from '../../api/clients/publisher-client';
-import { fetchPagedAuthors } from '../../api/clients/author-client';
-import { MenuItem, Select, FormControl, InputLabel } from '@mui/material'; // Added FormControl components
+import { createAuthorCommand, fetchPagedAuthors } from '../../api/clients/author-client';
+import { MenuItem, Select, FormControl, InputLabel } from '@mui/material';
 import { createBookCommand } from '../../api/clients/book-client';
-import MultipleSearchBarWithAdd from '../SearchBars/AuthorsSearchBar';
 import AuthorsSearchBar from '../SearchBars/AuthorsSearchBar';
 
 type CustomBookValues = {
@@ -73,6 +72,22 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
     return errors;
   }
 
+  async function resolveAuthorsIds(authors: AuthorDto[]): Promise<AuthorDto[]> {
+    return Promise.all(
+      authors.map(async author => {
+        if (author.id) {
+          return author;
+        }
+        const newId = await createAuthorCommand({
+          firstName: author.firstName || null,
+          middleName: author.middleName || null,
+          lastName: author.lastName!,
+        });
+        return { ...author, id: newId };
+      })
+    );
+  }
+
   const formik = useFormik<CustomBookValues>({
     initialValues: {
       isbn: '',
@@ -83,26 +98,27 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
       publisher: null,
     },
     validate,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
+      const completeAuthors = await resolveAuthorsIds(values.authors);
+
       const command: CreateBookCommand = {
         isbn: values.isbn,
         title: values.title,
         publicationDate: values.publicationDate,
-        authorsIds: values.authors.map(author => author.id!),
+        authorsIds: completeAuthors.map(a => a.id!),
         genreId: values.genre?.id!,
         publisherId: values.publisher?.id!
       }
 
       createBookCommand(command)
         .then(response => {
-
-          const newListedBook : ListedBookDto = {
+          const newListedBook: ListedBookDto = {
             id: response,
             title: values.title,
             publicationDate: values.publicationDate,
             genreName: values.genre?.name!,
             publisherName: values.publisher?.name!,
-            authors: values.authors
+            authors: completeAuthors
           }
 
           response ? onBookCreated(newListedBook) : alert("Failed to add new book.");
@@ -110,7 +126,8 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
         })
         .catch(error => {
           console.error(error);
-        });
+        }
+        );
     }
   });
 

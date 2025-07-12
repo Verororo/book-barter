@@ -42,7 +42,7 @@ public class AuthorsController : ControllerBase
 
     [HttpPost]
     [AllowAnonymous]
-    public async Task<int?> CreateAuthor(CreateAuthorCommand command, CancellationToken cancellationToken)
+    public async Task<int> CreateAuthor(CreateAuthorCommand command, CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(command, cancellationToken);
         return response;

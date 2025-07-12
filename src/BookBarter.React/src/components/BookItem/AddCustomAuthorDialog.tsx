@@ -6,7 +6,6 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useFormik } from 'formik';
 import { type AuthorDto } from '../../api/generated';
-import { createAuthorCommand } from '../../api/clients/author-client';
 import styles from './AddCustomAuthorDialog.module.css'
 
 interface AddCustomAuthorProps {
@@ -24,9 +23,10 @@ export const AddCustomAuthor = ({
     initialValues: {
       firstName: '',
       middleName: '',
-      lastName: defaultName ? defaultName.split(' ').pop() || '' : '',
+      lastName: defaultName
     },
     onSubmit: (values) => {
+      /*
       createAuthorCommand({
         firstName: values.firstName || null,
         middleName: values.middleName || null,
@@ -45,6 +45,16 @@ export const AddCustomAuthor = ({
         .catch(error => {
           console.error(error);
         });
+      */
+
+      const newAuthor: AuthorDto = {
+        id: undefined,
+        firstName: values.firstName || null,
+        middleName: values.middleName || null,
+        lastName: values.lastName
+      }
+      onAuthorCreated(newAuthor)
+      onClose();
     }
   });
 
