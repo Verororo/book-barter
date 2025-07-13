@@ -50,7 +50,7 @@ const GivingOutSection = ({ givingOutBooks, customizable = false }: GivingOutSec
         <p>is giving out...</p>
       </span>
       <div className={styles.bookItemContainer}>
-        <AnimatePresence>
+        <AnimatePresence initial={false}>
           {localBooks.map(book => (
             <BookItem
               key={book.id}

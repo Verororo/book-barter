@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { deleteBookFromOwned, deleteBookFromWanted } from "../../api/clients/user-client"
+import { deleteBookFromWanted } from "../../api/clients/user-client"
 import type { ListedBookDto } from "../../api/generated"
 import type { ListedBook } from "../../api/view-models/listed-book"
 import BookItem from "../BookItem/BookItem"
@@ -49,7 +49,7 @@ const LookingForSection = ({ lookingForBooks, customizable = false }: LookingFor
         <p>is looking for...</p>
       </span>
       <div className={styles.bookItemContainer}>
-        <AnimatePresence>
+        <AnimatePresence initial={false}>
           {localBooks.map(book => (
             <BookItem
               key={book.id}
