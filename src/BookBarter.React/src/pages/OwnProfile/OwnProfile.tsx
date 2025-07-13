@@ -177,7 +177,7 @@ const OwnProfile = () => {
         </div>
 
         <GivingOutSection givingOutBooks={user.ownedBooks} customizable />
-        <LookingForSection lookingForBooks={user.wantedBooks} />
+        <LookingForSection lookingForBooks={user.wantedBooks} customizable />
       </div>
     </div>
   )

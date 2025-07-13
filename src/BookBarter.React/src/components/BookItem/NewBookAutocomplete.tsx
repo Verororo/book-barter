@@ -7,7 +7,7 @@ import styles from "./NewBookAutocomplete.module.css";
 import { fetchAutocompleteBooksPaginatedSkipRelated } from "../../api/clients/book-client";
 import debounce from "@mui/utils/debounce";
 import { CircularProgress, MenuItem, Menu } from "@mui/material";
-import { addBookToOwned } from "../../api/clients/user-client";
+import { addBookToOwned, addBookToWanted } from "../../api/clients/user-client";
 import type { ListedBookDto } from "../../api/generated";
 import { AddCustomBook } from "./AddCustomBookDialog";
 
@@ -17,7 +17,7 @@ type ListedBookDtoOptions = ListedBookDto & {
 
 type NewBookAutocompleteProps = {
   isGivingOut?: boolean;
-  onBookAdded?: (book: ListedBookDto, bookStateName: string) => void;
+  onBookAdded?: (book: ListedBookDto, bookStateName?: string) => void;
 }
 
 const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutocompleteProps) => {
@@ -30,7 +30,6 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
   const [inputValue, setInputValue] = useState('');
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-  const [selectedBook, setSelectedBook] = useState<ListedBookDtoOptions | null>(null);
 
   const [openAddDialog, setOpenAddDialog] = useState(false);
   const [dialogDefaultTitle, setDialogDefaultTitle] = useState<string>();
@@ -72,37 +71,55 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
     return () => { handler.clear(); }
   }, [inputValue]);
 
-  const handleDialog = (bookStateId = 0) => {
-    setCustomBookStateId(bookStateId)
-    setAnchorEl(null);
+  const handleDialog = (bookStateId?: number) => {
+    if (bookStateId) {
+      setCustomBookStateId(bookStateId)
+    }
+    setAnchorEl(null)
     setOpenAddDialog(true)
   }
 
-  const addBookRelationship = async (book: ListedBookDto, bookStateId: number) => {
+  const addBookRelationship = async (book: ListedBookDto, bookStateId: number = 0) => {
     if (!book)
       return
 
-    await addBookToOwned(
-      {
-        bookId: book.id,
-        bookStateId
-      }
-    );
+    if (isGivingOut) {
+      await addBookToOwned(
+        {
+          bookId: book.id,
+          bookStateId
+        }
+      );
+    }
+    else {
+      await addBookToWanted(
+        {
+          bookId: book.id
+        }
+      );
+    }
 
     setAnchorEl(null);
     setValue(null);
     setInputValue('');
     setOptions([]);
 
-    const bookStateName = bookStates.find(bs => bs.id === bookStateId)!.label
-    onBookAdded?.(book, bookStateName);
-    setSelectedBook(null);
+    if (isGivingOut) {
+      const bookStateName = bookStates.find(bs => bs.id === bookStateId)!.label
+      onBookAdded?.(book, bookStateName);
+    }
+    else {
+      onBookAdded?.(book);
+    }
   }
 
   const handleCustomBookCreated = (listedBook: ListedBookDto) => {
     if (customBookStateId !== null) {
       addBookRelationship(listedBook, customBookStateId);
       setCustomBookStateId(null);
+    }
+    else {
+      addBookRelationship(listedBook);
     }
   }
 
@@ -128,12 +145,18 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
                     if (isGivingOut) {
                       setAnchorEl(inputRef.current as HTMLElement)
                     }
+                    else {
+                      handleDialog()
+                    }
                   }
+
                   else if (newValue) {
                     setValue(newValue);
-                    setSelectedBook(newValue);
                     if (isGivingOut) {
                       setAnchorEl(inputRef.current as HTMLElement)
+                    }
+                    else {
+                      addBookRelationship(newValue)
                     }
                   }
                 }}
@@ -196,8 +219,8 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
                     if (dialogDefaultTitle) {
                       handleDialog(state.id)
                     }
-                    else if (selectedBook) {
-                      addBookRelationship(selectedBook, state.id)
+                    else if (value) {
+                      addBookRelationship(value, state.id)
                     }
                   }}>
                     {state.label}

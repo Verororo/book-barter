@@ -20,7 +20,7 @@ const GivingOutSection = ({ givingOutBooks, customizable = false }: GivingOutSec
     setLocalBooks(givingOutBooks);
   }, [givingOutBooks]);
 
-  const handleAdd = (listedBookDto: ListedBookDto, bookStateName: string) => {
+  const handleAdd = (listedBookDto: ListedBookDto, bookStateName?: string) => {
     const authorsView = (listedBookDto.authors ?? [])
       .map(author => author.lastName)
       .join(", ")
@@ -53,7 +53,7 @@ const GivingOutSection = ({ givingOutBooks, customizable = false }: GivingOutSec
         <AnimatePresence>
           {localBooks.map(book => (
             <BookItem
-              key={book.id} // Use a stable key like book.id
+              key={book.id}
               listedBook={book}
               {...(customizable && { onBookDeleted: handleDelete })}
             />
