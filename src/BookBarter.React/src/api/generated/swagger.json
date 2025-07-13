@@ -62,7 +62,24 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }
@@ -146,22 +163,19 @@
               "text/plain": {
                 "schema": {
                   "type": "integer",
-                  "format": "int32",
-                  "nullable": true
+                  "format": "int32"
                 }
               },
               "application/json": {
                 "schema": {
                   "type": "integer",
-                  "format": "int32",
-                  "nullable": true
+                  "format": "int32"
                 }
               },
               "text/json": {
                 "schema": {
                   "type": "integer",
-                  "format": "int32",
-                  "nullable": true
+                  "format": "int32"
                 }
               }
             }
@@ -349,22 +363,19 @@
               "text/plain": {
                 "schema": {
                   "type": "integer",
-                  "format": "int32",
-                  "nullable": true
+                  "format": "int32"
                 }
               },
               "application/json": {
                 "schema": {
                   "type": "integer",
-                  "format": "int32",
-                  "nullable": true
+                  "format": "int32"
                 }
               },
               "text/json": {
                 "schema": {
                   "type": "integer",
-                  "format": "int32",
-                  "nullable": true
+                  "format": "int32"
                 }
               }
             }

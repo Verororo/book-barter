@@ -8,7 +8,7 @@ All URIs are relative to *http://localhost*
 |[**apiAuthRegisterPost**](#apiauthregisterpost) | **POST** /api/Auth/register | |
 
 # **apiAuthLoginPost**
-> apiAuthLoginPost()
+> string apiAuthLoginPost()
 
 
 ### Example
@@ -39,7 +39,7 @@ const { status, data } = await apiInstance.apiAuthLoginPost(
 
 ### Return type
 
-void (empty response body)
+**string**
 
 ### Authorization
 
@@ -48,7 +48,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, text/json, application/*+json
- - **Accept**: Not defined
+ - **Accept**: text/plain, application/json, text/json
 
 
 ### HTTP response details

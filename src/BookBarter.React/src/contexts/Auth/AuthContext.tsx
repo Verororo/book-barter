@@ -1,11 +1,12 @@
 import { createContext, useState, useEffect, type ReactNode } from 'react';
 import { jwtDecode } from 'jwt-decode';
-import axios from 'axios';
 
 import type { UserAuthData } from './types/UserAuthData';
 import type { LoginRequest } from './types/LoginRequest';
 import type { RegisterRequest } from './types/RegisterRequest';
 import type { JwtPayload } from './types/JwtPayload';
+import type { LoginCommand, RegisterCommand } from '../../api/generated';
+import { sendLoginCommand, sendRegisterCommand } from '../../api/clients/auth-client';
 
 interface AuthContextType {
   userAuthData: UserAuthData | null;
@@ -25,20 +26,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [userAuthData, setUserAuthData] = useState<UserAuthData | null>(null);
   const isAuthenticated = userAuthData !== null;
 
-  const api = axios.create({
-    baseURL: `${import.meta.env.VITE_API_BASE_URL}/api`,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-
   useEffect(() => {
     const token = localStorage.getItem('authToken');
     if (token) {
       try {
         const decoded = jwtDecode<JwtPayload>(token);
 
-        if (decoded.exp && decoded.exp < Date.now()) {
+        const expiresAt = decoded.exp ? decoded.exp * 1000 : 0;
+
+        if (expiresAt > Date.now()) {
           const userAuthData: UserAuthData = {
             id: decoded.identifier,
             userName: decoded.userName,
@@ -46,7 +42,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           };
 
           setUserAuthData(userAuthData);
-          api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         }
         else {
           localStorage.removeItem('authToken');
@@ -58,10 +53,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   }, []);
 
-  const login = async (data: LoginRequest): Promise<void> => {
+  const login = async (data: LoginCommand): Promise<void> => {
     try {
-      const response = await api.post('/auth/login', data);
-      const token = response.data;
+      const token = await sendLoginCommand(data)
+      // If the credentials are wrong, sendLoginCommand will throw an exception
 
       const decoded = jwtDecode<JwtPayload>(token);
       const userAuthData: UserAuthData = {
@@ -71,20 +66,19 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       };
 
       localStorage.setItem('authToken', token);
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       setUserAuthData(userAuthData);
 
       alert('Login successful!');
     }
     catch (error) {
       alert('Login failed.');
-      throw error;
+      throw error
     }
   };
 
-  const register = async (data: RegisterRequest): Promise<void> => {
+  const register = async (data: RegisterCommand): Promise<void> => {
     try {
-      await api.post('/auth/register', data);
+      await sendRegisterCommand(data)
       alert('Registration successful! You can now sign in.');
     }
     catch (error: any) {
@@ -99,7 +93,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const logout = () => {
     localStorage.removeItem('authToken');
-    delete api.defaults.headers.common['Authorization'];
     setUserAuthData(null);
     alert('You have logged out.');
   };
