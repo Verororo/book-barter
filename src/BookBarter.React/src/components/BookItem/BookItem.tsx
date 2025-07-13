@@ -23,7 +23,7 @@ const BookItem = ({ listedBook, onBookDeleted }: BookItemProps) => {
       className={styles.bookItem}
       initial={{ scale: 0 }}
       animate={{ scale: 1 }}
-      exit={{ scale: 0 }}
+      exit={{ opacity: 0, scale: 0 }}
     >
       {onBookDeleted && (
         <button
