@@ -16,7 +16,7 @@ const LookingForSection = ({ lookingForBooks }: LookingForSectionProps) => {
       <div className={styles.bookItemContainer}>
         {lookingForBooks.map(book => (
           <BookItem
-            key={book.title}
+            key={book.id}
             listedBook={book}
           />
         ))}

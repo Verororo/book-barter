@@ -50,6 +50,10 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
   }, [openAutocomplete]);
 
   useEffect(() => {
+    setOpenAutocomplete(false)
+  }, [openAddDialog])
+
+  useEffect(() => {
     if (inputValue.length < 3) {
       setLoading(false);
       setOptions([]);

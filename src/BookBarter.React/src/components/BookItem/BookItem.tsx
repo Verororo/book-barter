@@ -1,5 +1,7 @@
+import { motion } from 'framer-motion';
 import type { ListedBook } from '../../api/view-models/listed-book';
 import styles from './BookItem.module.css';
+import CloseIcon from '@mui/icons-material/Close';
 
 export type BookItemProps = {
   listedBook: ListedBook;
@@ -17,14 +19,19 @@ const BookItem = ({ listedBook, onBookDeleted }: BookItemProps) => {
   };
 
   return (
-    <div className={styles.bookItem}>
+    <motion.div
+      className={styles.bookItem}
+      initial={{ scale: 0 }}
+      animate={{ scale: 1 }}
+      exit={{ scale: 0 }}
+    >
       {onBookDeleted && (
         <button
           className={styles.deleteButton}
           onClick={handleDelete}
           aria-label="Remove book"
         >
-          <span>✕</span>
+          <CloseIcon sx={{ fontSize: '16px' }} />
         </button>
       )}
 
@@ -38,7 +45,7 @@ const BookItem = ({ listedBook, onBookDeleted }: BookItemProps) => {
           {bookStateName && `. State: ${bookStateName}`}
         </p>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

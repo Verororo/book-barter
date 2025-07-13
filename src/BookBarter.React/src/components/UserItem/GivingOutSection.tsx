@@ -5,6 +5,7 @@ import NewBookAutocomplete from "../BookItem/NewBookAutocomplete"
 import styles from './GivingOut.module.css'
 import type { ListedBookDto } from "../../api/generated"
 import { deleteBookFromOwned } from "../../api/clients/user-client"
+import { AnimatePresence } from "framer-motion"
 
 type GivingOutSectionProps = {
   givingOutBooks: ListedBook[]
@@ -38,12 +39,8 @@ const GivingOutSection = ({ givingOutBooks, customizable = false }: GivingOutSec
   }
 
   const handleDelete = async (deletedBookId: number) => {
-    deleteBookFromOwned({
-      bookId: deletedBookId
-    })
-      .then(() => {
-        setLocalBooks(current => current.filter(b => b.id !== deletedBookId))
-      })
+    await deleteBookFromOwned({ bookId: deletedBookId })
+    setLocalBooks(current => current.filter(b => b.id !== deletedBookId))
   };
 
   return (
@@ -53,13 +50,15 @@ const GivingOutSection = ({ givingOutBooks, customizable = false }: GivingOutSec
         <p>is giving out...</p>
       </span>
       <div className={styles.bookItemContainer}>
-        {localBooks.map(book => (
-          <BookItem
-            key={book.title}
-            listedBook={book}
-            {...(customizable && { onBookDeleted: handleDelete })}
-          />
-        ))}
+        <AnimatePresence>
+          {localBooks.map(book => (
+            <BookItem
+              key={book.id} // Use a stable key like book.id
+              listedBook={book}
+              {...(customizable && { onBookDeleted: handleDelete })}
+            />
+          ))}
+        </AnimatePresence>
 
         {customizable && (
           <NewBookAutocomplete
