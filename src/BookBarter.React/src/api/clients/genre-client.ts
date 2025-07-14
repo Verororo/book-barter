@@ -3,7 +3,9 @@ import { GenresApi, type GenreDto } from "../generated"
 
 const genresApi = new GenresApi(requestConfig)
 
-export const fetchPagedGenres = async (query: string): Promise<GenreDto[]> => {
+export const fetchPagedGenres = async (
+  query: string
+): Promise<GenreDto[]> => {
   try {
     const response = await genresApi.apiGenresPagedPost({
       pageSize: 10,

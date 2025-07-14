@@ -40,4 +40,16 @@ public class PublisherRepository : IPublisherRepository
 
         return paginatedResult;
     }
+
+    public async Task<PaginatedResult<PublisherForModerationDto>> GetDtoForModerationPagedAsync(GetPagedPublishersForModerationQuery request,
+        CancellationToken cancellationToken)
+    {
+        IQueryable<Publisher> publishers = _dbSet;
+
+        publishers = publishers.Where(p => p.Approved == request.Approved);
+
+        var paginatedResult = await publishers.CreatePaginatedResultAsync<Publisher, PublisherForModerationDto>(request, _mapper, cancellationToken);
+
+        return paginatedResult;
+    }
 }

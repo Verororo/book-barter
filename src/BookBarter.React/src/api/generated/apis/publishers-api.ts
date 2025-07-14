@@ -24,15 +24,173 @@ import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError
 // @ts-ignore
 import type { CreatePublisherCommand } from '../models';
 // @ts-ignore
+import type { GetPagedPublishersForModerationQuery } from '../models';
+// @ts-ignore
 import type { GetPagedPublishersQuery } from '../models';
 // @ts-ignore
 import type { PublisherDtoPaginatedResult } from '../models';
+// @ts-ignore
+import type { PublisherForModerationDtoPaginatedResult } from '../models';
+// @ts-ignore
+import type { UpdatePublisherCommand } from '../models';
 /**
  * PublishersApi - axios parameter creator
  * @export
  */
 export const PublishersApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiPublishersIdApprovePut: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiPublishersIdApprovePut', 'id', id)
+            const localVarPath = `/api/Publishers/{id}/approve`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiPublishersIdDelete: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiPublishersIdDelete', 'id', id)
+            const localVarPath = `/api/Publishers/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {UpdatePublisherCommand} [updatePublisherCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiPublishersIdPut: async (id: number, updatePublisherCommand?: UpdatePublisherCommand, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiPublishersIdPut', 'id', id)
+            const localVarPath = `/api/Publishers/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updatePublisherCommand, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {GetPagedPublishersForModerationQuery} [getPagedPublishersForModerationQuery] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiPublishersPagedModeratedPost: async (getPagedPublishersForModerationQuery?: GetPagedPublishersForModerationQuery, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/Publishers/paged/moderated`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(getPagedPublishersForModerationQuery, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         /**
          * 
          * @param {GetPagedPublishersQuery} [getPagedPublishersQuery] 
@@ -119,6 +277,55 @@ export const PublishersApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiPublishersIdApprovePut(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiPublishersIdApprovePut(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PublishersApi.apiPublishersIdApprovePut']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiPublishersIdDelete(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiPublishersIdDelete(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PublishersApi.apiPublishersIdDelete']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {UpdatePublisherCommand} [updatePublisherCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiPublishersIdPut(id: number, updatePublisherCommand?: UpdatePublisherCommand, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiPublishersIdPut(id, updatePublisherCommand, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PublishersApi.apiPublishersIdPut']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {GetPagedPublishersForModerationQuery} [getPagedPublishersForModerationQuery] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiPublishersPagedModeratedPost(getPagedPublishersForModerationQuery?: GetPagedPublishersForModerationQuery, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PublisherForModerationDtoPaginatedResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiPublishersPagedModeratedPost(getPagedPublishersForModerationQuery, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PublishersApi.apiPublishersPagedModeratedPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @param {GetPagedPublishersQuery} [getPagedPublishersQuery] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -153,6 +360,43 @@ export const PublishersApiFactory = function (configuration?: Configuration, bas
     return {
         /**
          * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiPublishersIdApprovePut(id: number, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.apiPublishersIdApprovePut(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiPublishersIdDelete(id: number, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.apiPublishersIdDelete(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {UpdatePublisherCommand} [updatePublisherCommand] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiPublishersIdPut(id: number, updatePublisherCommand?: UpdatePublisherCommand, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.apiPublishersIdPut(id, updatePublisherCommand, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {GetPagedPublishersForModerationQuery} [getPagedPublishersForModerationQuery] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiPublishersPagedModeratedPost(getPagedPublishersForModerationQuery?: GetPagedPublishersForModerationQuery, options?: RawAxiosRequestConfig): AxiosPromise<PublisherForModerationDtoPaginatedResult> {
+            return localVarFp.apiPublishersPagedModeratedPost(getPagedPublishersForModerationQuery, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {GetPagedPublishersQuery} [getPagedPublishersQuery] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -179,6 +423,51 @@ export const PublishersApiFactory = function (configuration?: Configuration, bas
  * @extends {BaseAPI}
  */
 export class PublishersApi extends BaseAPI {
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PublishersApi
+     */
+    public apiPublishersIdApprovePut(id: number, options?: RawAxiosRequestConfig) {
+        return PublishersApiFp(this.configuration).apiPublishersIdApprovePut(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PublishersApi
+     */
+    public apiPublishersIdDelete(id: number, options?: RawAxiosRequestConfig) {
+        return PublishersApiFp(this.configuration).apiPublishersIdDelete(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {UpdatePublisherCommand} [updatePublisherCommand] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PublishersApi
+     */
+    public apiPublishersIdPut(id: number, updatePublisherCommand?: UpdatePublisherCommand, options?: RawAxiosRequestConfig) {
+        return PublishersApiFp(this.configuration).apiPublishersIdPut(id, updatePublisherCommand, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {GetPagedPublishersForModerationQuery} [getPagedPublishersForModerationQuery] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PublishersApi
+     */
+    public apiPublishersPagedModeratedPost(getPagedPublishersForModerationQuery?: GetPagedPublishersForModerationQuery, options?: RawAxiosRequestConfig) {
+        return PublishersApiFp(this.configuration).apiPublishersPagedModeratedPost(getPagedPublishersForModerationQuery, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @param {GetPagedPublishersQuery} [getPagedPublishersQuery] 

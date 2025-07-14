@@ -1,12 +1,14 @@
 import { requestConfig } from "./common";
-import type { CreateBookCommand, ListedBookDto } from "../generated";
+import type { BookForModerationDtoPaginatedResult, CreateBookCommand, GetPagedBooksForModerationQuery, ListedBookDto, UpdateBookCommand } from "../generated";
 import { BooksApi } from "../generated/apis/books-api";
-import { mapAutocompleteBookPaginatedDtoToView } from "../view-models/autocomplete-book";
+import { mapAutocompleteBookPaginatedResultDtoToView } from "../view-models/autocomplete-book";
 
 
 const booksApi = new BooksApi(requestConfig)
 
-export const createBookCommand = async (command: CreateBookCommand): Promise<number | undefined> => {
+export const createBookCommand = async (
+  command: CreateBookCommand
+): Promise<number | undefined> => {
   try {
     const response = await booksApi.apiBooksPost(command)
     return response.data
@@ -17,31 +19,36 @@ export const createBookCommand = async (command: CreateBookCommand): Promise<num
   }
 }
 
-export const fetchAutocompleteBooksPaginated = async (query: string): Promise<ListedBookDto[]> => {
-  if (!query || query.length < 3) {
-    return [];
-  }
-
-  try {
-    const response = await booksApi.apiBooksPagedPost({
-      pageSize: 10,
-      pageNumber: 1,
-      title: query,
-      orderByProperty: "title",
-      orderDirection: "asc",
-      skipLoggedInUserBooks: false
-    })
-
-    return mapAutocompleteBookPaginatedDtoToView(response.data);
-
-  } 
-  catch (error) {
-    console.error(error);
-    return [];
-  }
+export const approveBook = async (
+  id: number
+) => {
+  await booksApi.apiBooksIdApprovePut(id)
 }
 
-export const fetchAutocompleteBooksPaginatedSkipRelated = async (query: string): Promise<ListedBookDto[]> => {
+export const updateBook = async (
+  query: UpdateBookCommand
+) => {
+  await booksApi.apiBooksIdPut(query.id!, query)
+}
+
+export const deleteBook = async (
+  id: number
+) => {
+  await booksApi.apiBooksIdDelete(id)
+}
+
+export const fetchBooksForModeration = async (
+  query: GetPagedBooksForModerationQuery
+): Promise<BookForModerationDtoPaginatedResult> => {
+  const response = await booksApi.apiBooksPagedModeratedPost(query);
+
+  return response.data;
+}
+
+export const fetchAutocompleteBooks = async (
+  query: string, 
+  skipRelated: boolean = false
+): Promise<ListedBookDto[]> => {
   if (!query || query.length < 3) {
     return [];
   }
@@ -53,10 +60,10 @@ export const fetchAutocompleteBooksPaginatedSkipRelated = async (query: string):
       title: query,
       orderByProperty: "title",
       orderDirection: "asc",
-      skipLoggedInUserBooks: true
+      skipLoggedInUserBooks: skipRelated
     })
 
-    return mapAutocompleteBookPaginatedDtoToView(response.data);
+    return mapAutocompleteBookPaginatedResultDtoToView(response.data);
 
   } 
   catch (error) {

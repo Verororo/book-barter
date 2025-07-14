@@ -4,7 +4,9 @@ import { mapCityPaginatedResultDtoToView } from "../view-models/autocomplete-cit
 
 const citiesApi = new CitiesApi(requestConfig)
 
-export const fetchPagedCities = async (query: string): Promise<CityDto[]> => {
+export const fetchPagedCities = async (
+  query: string
+): Promise<CityDto[]> => {
   try {
     const response = await citiesApi.apiCitiesPagedPost({
       pageSize: 10,

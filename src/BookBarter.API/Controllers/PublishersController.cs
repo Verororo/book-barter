@@ -1,4 +1,7 @@
-﻿using BookBarter.Application.Common.Models;
+﻿using BookBarter.Application.Authors.Commands;
+using BookBarter.Application.Books.Queries;
+using BookBarter.Application.Books.Responses;
+using BookBarter.Application.Common.Models;
 using BookBarter.Application.Publishers.Commands;
 using BookBarter.Application.Publishers.Queries;
 using BookBarter.Application.Publishers.Responses;
@@ -42,7 +45,17 @@ public class PublishersController : ControllerBase
         var response = await _mediator.Send(getPagedPublishersQuery, cancellationToken);
         return response;
     }
-    
+
+    [HttpPost]
+    [Route("paged/moderated")]
+    [AllowAnonymous]
+    public async Task<PaginatedResult<PublisherForModerationDto>> GetPagedPublishersForModeration([FromBody] GetPagedPublishersForModerationQuery query,
+        CancellationToken cancellationToken)
+    {
+        var response = await _mediator.Send(query, cancellationToken);
+        return response;
+    }
+
     [HttpPost]
     [AllowAnonymous]
     public async Task<int?> CreatePublisher(CreatePublisherCommand command, CancellationToken cancellationToken)
@@ -50,7 +63,25 @@ public class PublishersController : ControllerBase
         var response = await _mediator.Send(command, cancellationToken);
         return response;
     }
-    /*
+
+    [HttpPut]
+    [Route("{id}")]
+    [AllowAnonymous]
+    public async Task UpdatePublisher(int id, [FromBody] UpdatePublisherCommand command,
+        CancellationToken cancellationToken)
+    {
+        command.Id = id;
+        await _mediator.Send(command, cancellationToken);
+    }
+
+    [HttpPut]
+    [Route("{id}/approve")]
+    [AllowAnonymous]
+    public async Task ApprovePublisher(int id, CancellationToken cancellationToken)
+    {
+        await _mediator.Send(new ApprovePublisherCommand { Id = id }, cancellationToken);
+    }
+
     [HttpDelete]
     [Route("{id}")]
     [AllowAnonymous]
@@ -58,5 +89,4 @@ public class PublishersController : ControllerBase
     {
         await _mediator.Send(new DeletePublisherCommand { Id = id }, cancellationToken);
     }
-    */
 }

@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/Auth/UseAuth';
 
 const Navigation = () => {
-  const { isAuthenticated, userAuthData, logout } = useAuth();
+  const { isAuthenticated, userAuthData } = useAuth();
 
   return (
     <nav className={styles.nav}>
@@ -34,6 +34,8 @@ const Navigation = () => {
 
       {isAuthenticated && (userAuthData?.role === 'Moderator') && (
         <Button
+          component={Link}
+          to="/moderator"
           variant="text"
           size="large"
           startIcon={<BuildIcon />}

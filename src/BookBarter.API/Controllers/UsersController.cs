@@ -52,7 +52,7 @@ public class UsersController : ControllerBase
 
     [HttpDelete]
     [Route("{id}")]
-    [AllowAnonymous]
+    [Authorize(Roles = "Moderator")]
     public async Task DeleteUser(int id, CancellationToken cancellationToken)
     {
         await _mediator.Send(new DeleteUserCommand { Id = id }, cancellationToken);

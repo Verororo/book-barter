@@ -11,4 +11,6 @@ public interface IPublisherRepository
 {
     public Task<PaginatedResult<PublisherDto>> GetDtoPagedAsync(GetPagedPublishersQuery request,
         CancellationToken cancellationToken);
+    public Task<PaginatedResult<PublisherForModerationDto>> GetDtoForModerationPagedAsync(GetPagedPublishersForModerationQuery request,
+        CancellationToken cancellationToken);
 }

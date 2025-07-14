@@ -3,7 +3,7 @@ import UserItem from "../UserItem/UserItem";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import styles from './UserItemContainer.module.css';
 
-import { fetchListedUsersPaginated } from "../../api/clients/user-client";
+import { fetchListedUsersPaginatedResult } from "../../api/clients/user-client";
 import type { ListedUser } from "../../api/view-models/listed-user";
 
 import {
@@ -17,7 +17,7 @@ import {
 import { useAuth } from "../../contexts/Auth/UseAuth";
 import type { ListedBookDto } from '../../api/generated';
 import MultipleSearchBar from '../SearchBars/MultipleSearchBar';
-import { fetchAutocompleteBooksPaginated } from '../../api/clients/book-client';
+import { fetchAutocompleteBooks } from '../../api/clients/book-client';
 
 const UserItemContainer = () => {
   const { isAuthenticated } = useAuth();
@@ -44,7 +44,7 @@ const UserItemContainer = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetchListedUsersPaginated({
+    fetchListedUsersPaginatedResult({
       pageNumber: currentPage,
       pageSize,
       orderByProperty: searchParams.sortBy,
@@ -82,7 +82,7 @@ const UserItemContainer = () => {
             <MultipleSearchBar
               value={booksLookedFor}
               onChange={(_event, v) => setBooksLookedFor(v)}
-              fetchMethod={fetchAutocompleteBooksPaginated}
+              fetchMethod={fetchAutocompleteBooks}
               placeholder="Enter the title of a book you'd like to get..."
               styles={styles}
               getOptionLabel={book => {
@@ -99,7 +99,7 @@ const UserItemContainer = () => {
             <MultipleSearchBar
               value={booksGivenOut}
               onChange={(_event, v) => setBooksGivenOut(v)}
-              fetchMethod={fetchAutocompleteBooksPaginated}
+              fetchMethod={fetchAutocompleteBooks}
               placeholder="Enter the title of a book you're ready to swap out..."
               styles={styles}
               getOptionLabel={book => {

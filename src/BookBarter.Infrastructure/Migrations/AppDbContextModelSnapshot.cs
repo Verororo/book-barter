@@ -556,7 +556,7 @@ namespace BookBarter.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("BookBarter.Domain.Entities.Publisher", "Publisher")
-                        .WithMany()
+                        .WithMany("Books")
                         .HasForeignKey("PublisherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -701,6 +701,11 @@ namespace BookBarter.Infrastructure.Migrations
             modelBuilder.Entity("BookBarter.Domain.Entities.City", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("BookBarter.Domain.Entities.Publisher", b =>
+                {
+                    b.Navigation("Books");
                 });
 
             modelBuilder.Entity("BookBarter.Domain.Entities.User", b =>

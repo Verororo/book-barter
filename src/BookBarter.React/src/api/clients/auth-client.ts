@@ -3,7 +3,9 @@ import { requestConfig } from "./common";
 
 const authApi = new AuthApi(requestConfig)
 
-export const sendLoginCommand = async (command: LoginCommand): Promise<string> => {
+export const sendLoginCommand = async (
+  command: LoginCommand
+): Promise<string> => {
   try {
     const response = await authApi.apiAuthLoginPost(command)
     return response.data
@@ -14,7 +16,9 @@ export const sendLoginCommand = async (command: LoginCommand): Promise<string> =
   }
 }
 
-export const sendRegisterCommand = async (command: RegisterCommand): Promise<void> => {
+export const sendRegisterCommand = async (
+  command: RegisterCommand
+): Promise<void> => {
   try {
     await authApi.apiAuthRegisterPost(command)
   }

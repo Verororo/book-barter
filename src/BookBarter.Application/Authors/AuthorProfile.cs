@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using BookBarter.Application.Authors.Responses;
 using BookBarter.Application.Common.Responses;
 using BookBarter.Domain.Entities;
 
@@ -14,5 +15,7 @@ public class AuthorProfile : Profile
     public AuthorProfile() 
     {
         CreateMap<Author, AuthorDto>();
+
+        CreateMap<Author, AuthorForModerationDto>();
     }
 }

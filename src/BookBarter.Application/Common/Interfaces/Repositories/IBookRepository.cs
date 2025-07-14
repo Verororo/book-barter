@@ -10,4 +10,6 @@ public interface IBookRepository
 {
     Task<BookDto?> GetDtoByIdAsync(int id, CancellationToken cancellationToken);
     Task<PaginatedResult<BookDto>> GetDtoPagedAsync(GetPagedBooksQuery query, CancellationToken cancellationToken);
+    Task<PaginatedResult<BookForModerationDto>> GetDtoForModerationPagedAsync(GetPagedBooksForModerationQuery query, CancellationToken cancellationToken);
+
 }

@@ -2,14 +2,22 @@ import { requestConfig } from "./common"
 import type { AddOwnedBookCommand, AddWantedBookCommand, DeleteOwnedBookCommand, DeleteWantedBookCommand, UpdateUserCommand } from "../generated"
 import { UsersApi } from "../generated/apis/users-api"
 import type { GetPagedUsersQuery } from "../generated/models/get-paged-users-query"
-import { mapListedUserPaginatedResultDtoToView, type ListedUserPaginated } from "../view-models/listed-user-paginated-result"
+import { mapListedUserPaginatedResultDtoToView, type ListedUserPaginatedResult } from "../view-models/listed-user-paginated-result"
 import { mapUserDtoToView, type User } from "../view-models/user"
 
 const usersApi = new UsersApi(requestConfig)
 
-export const fetchListedUsersPaginated = async (
+export const fetchListedUsersPaginatedResult = async (
   query: GetPagedUsersQuery
-): Promise<ListedUserPaginated> => {
+): Promise<ListedUserPaginatedResult> => {
+  const response = await usersApi.apiUsersPagedPost(query)
+
+  return mapListedUserPaginatedResultDtoToView(response.data)
+};
+
+export const fetchPublishersForModeration = async (
+  query: GetPagedUsersQuery
+): Promise<ListedUserPaginatedResult> => {
   const response = await usersApi.apiUsersPagedPost(query)
 
   return mapListedUserPaginatedResultDtoToView(response.data)
@@ -27,6 +35,12 @@ export const updateUser = async (
   query: UpdateUserCommand
 ) => {
   await usersApi.apiUsersMePut(query)
+}
+
+export const deleteUser = async (
+  id: number
+) => {
+  await usersApi.apiUsersIdDelete(id)
 }
 
 export const addBookToOwned = async (

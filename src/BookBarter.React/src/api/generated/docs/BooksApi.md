@@ -4,11 +4,63 @@ All URIs are relative to *http://localhost*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
+|[**apiBooksIdApprovePut**](#apibooksidapproveput) | **PUT** /api/Books/{id}/approve | |
 |[**apiBooksIdDelete**](#apibooksiddelete) | **DELETE** /api/Books/{id} | |
 |[**apiBooksIdGet**](#apibooksidget) | **GET** /api/Books/{id} | |
 |[**apiBooksIdPut**](#apibooksidput) | **PUT** /api/Books/{id} | |
+|[**apiBooksPagedModeratedPost**](#apibookspagedmoderatedpost) | **POST** /api/Books/paged/moderated | |
 |[**apiBooksPagedPost**](#apibookspagedpost) | **POST** /api/Books/paged | |
 |[**apiBooksPost**](#apibookspost) | **POST** /api/Books | |
+
+# **apiBooksIdApprovePut**
+> apiBooksIdApprovePut()
+
+
+### Example
+
+```typescript
+import {
+    BooksApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new BooksApi(configuration);
+
+let id: number; // (default to undefined)
+
+const { status, data } = await apiInstance.apiBooksIdApprovePut(
+    id
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **id** | [**number**] |  | defaults to undefined|
+
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiBooksIdDelete**
 > apiBooksIdDelete()
@@ -155,6 +207,57 @@ void (empty response body)
 
  - **Content-Type**: application/json, text/json, application/*+json
  - **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiBooksPagedModeratedPost**
+> BookForModerationDtoPaginatedResult apiBooksPagedModeratedPost()
+
+
+### Example
+
+```typescript
+import {
+    BooksApi,
+    Configuration,
+    GetPagedBooksForModerationQuery
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new BooksApi(configuration);
+
+let getPagedBooksForModerationQuery: GetPagedBooksForModerationQuery; // (optional)
+
+const { status, data } = await apiInstance.apiBooksPagedModeratedPost(
+    getPagedBooksForModerationQuery
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **getPagedBooksForModerationQuery** | **GetPagedBooksForModerationQuery**|  | |
+
+
+### Return type
+
+**BookForModerationDtoPaginatedResult**
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json, text/json, application/*+json
+ - **Accept**: text/plain, application/json, text/json
 
 
 ### HTTP response details

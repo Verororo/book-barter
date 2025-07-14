@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { ThemeProvider } from '@mui/material/styles'
 import { AuthProvider } from './contexts/Auth/AuthContext';
 import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner'
+import ModeratorPanel from './pages/ModeratorPanel/ModeratorPanel'
 
 const Home = lazy(() => import('./pages/Home/Home'))
 const Auth = lazy(() => import('./pages/Auth/Auth'))
@@ -28,6 +29,7 @@ function App() {
               <Route path='/auth' element={<Auth />} />
               <Route path='/users/:userId' element={<UserProfile />} />
               <Route path='/users/me' element={<OwnProfile />} />
+              <Route path='/moderator' element={<ModeratorPanel />} />
             </Routes>
           </Suspense>
         </Router>

@@ -90,4 +90,16 @@ public class BookRepository : IBookRepository
 
         return paginatedResult;
     }
+
+    public async Task<PaginatedResult<BookForModerationDto>> GetDtoForModerationPagedAsync(GetPagedBooksForModerationQuery request,
+        CancellationToken cancellationToken)
+    {
+        IQueryable<Book> books = _dbSet;
+
+        books = books.Where(b => b.Approved == request.Approved);
+
+        var paginatedResult = await books.CreatePaginatedResultAsync<Book, BookForModerationDto>(request, _mapper, cancellationToken);
+
+        return paginatedResult;
+    }
 }

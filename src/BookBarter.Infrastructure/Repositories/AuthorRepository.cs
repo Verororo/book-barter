@@ -1,6 +1,7 @@
 ﻿
 using AutoMapper;
 using BookBarter.Application.Authors.Queries;
+using BookBarter.Application.Authors.Responses;
 using BookBarter.Application.Common.Interfaces.Repositories;
 using BookBarter.Application.Common.Models;
 using BookBarter.Application.Common.Responses;
@@ -36,6 +37,18 @@ public class AuthorRepository : IAuthorRepository
         }
 
         var paginatedResult = await authors.CreatePaginatedResultAsync<Author, AuthorDto>(request, _mapper, cancellationToken);
+
+        return paginatedResult;
+    }
+
+    public async Task<PaginatedResult<AuthorForModerationDto>> GetDtoForModerationPagedAsync(GetPagedAuthorsForModerationQuery request,
+        CancellationToken cancellationToken)
+    {
+        IQueryable<Author> authors = _dbSet;
+
+        authors = authors.Where(a => a.Approved == request.Approved);
+
+        var paginatedResult = await authors.CreatePaginatedResultAsync<Author, AuthorForModerationDto>(request, _mapper, cancellationToken);
 
         return paginatedResult;
     }

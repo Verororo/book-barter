@@ -12,5 +12,6 @@ public class BookDto
     public bool Approved { get; set; }
     public string GenreName { get; set; } = default!;
     public string PublisherName { get; set; } = default!;
+
     public List<AuthorDto> Authors { get; set; } = [];
 }
