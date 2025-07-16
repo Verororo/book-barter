@@ -2,50 +2,55 @@ import { motion } from 'framer-motion';
 import type { ListedBook } from '../../api/view-models/listed-book';
 import styles from './BookItem.module.css';
 import CloseIcon from '@mui/icons-material/Close';
+import { Tooltip } from '@mui/material';
 
 export type BookItemProps = {
-  listedBook: ListedBook;
+  book: ListedBook;
   onBookDeleted?: (id: number) => void;
 };
 
-const BookItem = ({ listedBook, onBookDeleted }: BookItemProps) => {
-  const { id, authors, title, publicationYear, publisherName, bookStateName } =
-    listedBook;
-
+const BookItem = ({ book, onBookDeleted }: BookItemProps) => {
   const handleDelete = () => {
     if (onBookDeleted) {
-      onBookDeleted(id);
+      onBookDeleted(book.id);
     }
   };
 
   return (
-    <motion.div
-      className={styles.bookItem}
-      initial={{ scale: 0 }}
-      animate={{ scale: 1 }}
-      exit={{ opacity: 0, scale: 0 }}
+    <Tooltip title={
+      book.approved
+        ? ""
+        : "This book is currently being reviewed by the moderator. It will appear in your profile after it's validated."
+    } arrow
     >
-      {onBookDeleted && (
-        <button
-          className={styles.deleteButton}
-          onClick={handleDelete}
-          aria-label="Remove book"
-        >
-          <CloseIcon sx={{ fontSize: '16px' }} />
-        </button>
-      )}
+      <motion.div
+        className={book.approved ? styles.bookItem : styles.unapprovedBookItem}
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        exit={{ opacity: 0, scale: 0 }}
+      >
+        {onBookDeleted && (
+          <button
+            className={styles.deleteButton}
+            onClick={handleDelete}
+            aria-label="Remove book"
+          >
+            <CloseIcon sx={{ fontSize: '16px' }} />
+          </button>
+        )}
 
-      <div className={styles.bookItemHeader}>
-        <p className={styles.bookItemAuthor}>{authors}.</p>
-        <p className={styles.bookItemTitle}>{title}</p>
-      </div>
-      <div className={styles.bookItemDescription}>
-        <p className={styles.bookItemPublishedAndState}>
-          {publicationYear}, {publisherName}
-          {bookStateName && `. State: ${bookStateName}`}
-        </p>
-      </div>
-    </motion.div>
+        <div className={styles.bookItemHeader}>
+          <p className={styles.bookItemAuthor}>{book.authors}.</p>
+          <p className={styles.bookItemTitle}>{book.title}</p>
+        </div>
+        <div className={styles.bookItemDescription}>
+          <p className={styles.bookItemPublishedAndState}>
+            {book.publicationYear}, {book.publisherName}
+            {book.bookStateName && `. State: ${book.bookStateName}`}
+          </p>
+        </div>
+      </motion.div>
+    </Tooltip>
   );
 };
 

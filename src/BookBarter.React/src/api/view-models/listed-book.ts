@@ -4,6 +4,7 @@ export type ListedBook = {
   id: number
   authors: string
   title: string
+  approved: boolean
   publicationYear: number
   publisherName: string
   bookStateName?: string
@@ -19,6 +20,7 @@ export const mapListedBookDtoToView = (dto: OwnedBookDto | WantedBookDto): Liste
     id: book.id!,
     title: book.title!,
     authors,
+    approved: book.approved!,
     publicationYear: new Date(book.publicationDate!).getFullYear(),
     publisherName: book.publisherName ?? "",
     bookStateName: "bookStateName" in dto ? dto.bookStateName! : undefined,

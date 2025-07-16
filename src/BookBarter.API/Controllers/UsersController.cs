@@ -25,9 +25,12 @@ public class UsersController : ControllerBase
     [HttpGet]
     [Route("{id}")]
     [AllowAnonymous]
-    public async Task<UserDto> GetByIdUser(int id, CancellationToken cancellationToken)
+    public async Task<UserDto> GetByIdUser(int id, [FromQuery] bool excludeUnapprovedBooks, CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(new GetByIdUserQuery { Id = id }, cancellationToken);
+        var response = await _mediator.Send(new GetByIdUserQuery { 
+            Id = id,
+            ExcludeUnapprovedBooks = excludeUnapprovedBooks
+        }, cancellationToken);
         return response;
     }
 

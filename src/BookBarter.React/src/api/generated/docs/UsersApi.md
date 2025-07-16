@@ -79,9 +79,11 @@ const configuration = new Configuration();
 const apiInstance = new UsersApi(configuration);
 
 let id: number; // (default to undefined)
+let excludeUnapprovedBooks: boolean; // (optional) (default to undefined)
 
 const { status, data } = await apiInstance.apiUsersIdGet(
-    id
+    id,
+    excludeUnapprovedBooks
 );
 ```
 
@@ -90,6 +92,7 @@ const { status, data } = await apiInstance.apiUsersIdGet(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **id** | [**number**] |  | defaults to undefined|
+| **excludeUnapprovedBooks** | [**boolean**] |  | (optional) defaults to undefined|
 
 
 ### Return type

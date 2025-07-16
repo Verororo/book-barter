@@ -83,10 +83,11 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
         /**
          * 
          * @param {number} id 
+         * @param {boolean} [excludeUnapprovedBooks] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiUsersIdGet: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiUsersIdGet: async (id: number, excludeUnapprovedBooks?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('apiUsersIdGet', 'id', id)
             const localVarPath = `/api/Users/{id}`
@@ -105,6 +106,10 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
             // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (excludeUnapprovedBooks !== undefined) {
+                localVarQueryParameter['excludeUnapprovedBooks'] = excludeUnapprovedBooks;
+            }
 
 
     
@@ -372,11 +377,12 @@ export const UsersApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {number} id 
+         * @param {boolean} [excludeUnapprovedBooks] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiUsersIdGet(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiUsersIdGet(id, options);
+        async apiUsersIdGet(id: number, excludeUnapprovedBooks?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiUsersIdGet(id, excludeUnapprovedBooks, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UsersApi.apiUsersIdGet']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -477,11 +483,12 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
         /**
          * 
          * @param {number} id 
+         * @param {boolean} [excludeUnapprovedBooks] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiUsersIdGet(id: number, options?: RawAxiosRequestConfig): AxiosPromise<UserDto> {
-            return localVarFp.apiUsersIdGet(id, options).then((request) => request(axios, basePath));
+        apiUsersIdGet(id: number, excludeUnapprovedBooks?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<UserDto> {
+            return localVarFp.apiUsersIdGet(id, excludeUnapprovedBooks, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -563,12 +570,13 @@ export class UsersApi extends BaseAPI {
     /**
      * 
      * @param {number} id 
+     * @param {boolean} [excludeUnapprovedBooks] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public apiUsersIdGet(id: number, options?: RawAxiosRequestConfig) {
-        return UsersApiFp(this.configuration).apiUsersIdGet(id, options).then((request) => request(this.axios, this.basePath));
+    public apiUsersIdGet(id: number, excludeUnapprovedBooks?: boolean, options?: RawAxiosRequestConfig) {
+        return UsersApiFp(this.configuration).apiUsersIdGet(id, excludeUnapprovedBooks, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

@@ -36,7 +36,7 @@ const OwnProfile = () => {
 
   useEffect(() => {
     setLoading(true)
-    fetchUserById(userAuthData.id)
+    fetchUserById(userAuthData.id, /* excludeUnapprovedBooks = */ false)
       .then(user => {
         setUser(user)
         setAboutDraft(user.about)

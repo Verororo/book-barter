@@ -934,6 +934,13 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "excludeUnapprovedBooks",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "responses": {

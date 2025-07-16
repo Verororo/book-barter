@@ -16,9 +16,10 @@ export const fetchListedUsersPaginatedResult = async (
 };
 
 export const fetchUserById = async (
-  id: number
+  id: number,
+  excludeUnapprovedBooks: boolean
 ): Promise<User> => {
-  const response = await usersApi.apiUsersIdGet(id)
+  const response = await usersApi.apiUsersIdGet(id, excludeUnapprovedBooks)
 
   return mapUserDtoToView(response.data)
 }

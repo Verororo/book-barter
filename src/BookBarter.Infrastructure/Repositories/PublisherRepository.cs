@@ -32,6 +32,8 @@ public class PublisherRepository : IPublisherRepository
     {
         IQueryable<Publisher> publishers = _dbSet;
 
+        publishers = publishers.Where(p => p.Approved == true);
+
         if (!string.IsNullOrWhiteSpace(request.Query))
         {
             publishers = publishers.Where(g => g.Name.Contains(request.Query));

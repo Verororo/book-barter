@@ -29,6 +29,7 @@ const LookingForSection = ({ lookingForBooks, customizable = false }: LookingFor
       id: listedBookDto.id!,
       title: listedBookDto.title!,
       authors: authorsView,
+      approved: false,
       publicationYear: new Date(listedBookDto.publicationDate!).getFullYear(),
       publisherName: listedBookDto.publisherName ?? ""
     }
@@ -53,7 +54,7 @@ const LookingForSection = ({ lookingForBooks, customizable = false }: LookingFor
           {localBooks.map(book => (
             <BookItem
               key={book.id}
-              listedBook={book}
+              book={book}
               {...(customizable && { onBookDeleted: handleDelete })}
             />
           ))}

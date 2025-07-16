@@ -28,7 +28,7 @@ public class AuthorRepository : IAuthorRepository
     {
         IQueryable<Author> authors = _dbSet;
 
-        //authors = authors.Where(a => a.Approved == true);
+        authors = authors.Where(a => a.Approved == true);
 
         if (!string.IsNullOrWhiteSpace(request.Query))
         {

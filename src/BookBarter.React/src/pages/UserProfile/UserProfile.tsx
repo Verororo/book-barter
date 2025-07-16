@@ -41,7 +41,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     setLoading(true)
-    fetchUserById(userId)
+    fetchUserById(userId, /* excludeUnapprovedBooks = */ true)
       .then(user => setUser(user))
       .catch(console.error)
       .finally(() => setLoading(false))

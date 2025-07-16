@@ -24,12 +24,14 @@ public class UserRepository : IUserRepository
         _mapper = mapper;
     }
 
-    public Task<TDto?> GetDtoByIdAsync<TDto>(int id, CancellationToken cancellationToken)
+    public Task<TDto?> GetDtoByIdAsync<TDto>(int id, bool excludeUnapprovedBooks, CancellationToken cancellationToken)
         where TDto : class
     {
+        var parameters = new { excludeUnapprovedBooks };
+
         return _dbSet
             .Where(u => u.Id == id)
-            .ProjectTo<TDto>(_mapper.ConfigurationProvider)
+            .ProjectTo<TDto>(_mapper.ConfigurationProvider, parameters)
             .FirstOrDefaultAsync(cancellationToken);
     }
 
@@ -40,8 +42,8 @@ public class UserRepository : IUserRepository
         IQueryable<User> users = _dbSet;
 
         // Don't return users with no lists specified
-        users = users.Where(u => u.WantedBooks.Any());
-        users = users.Where(u => u.OwnedBooks.Any());
+        users = users.Where(u => u.WantedBooks.Any(wb => wb.Book.Approved)
+                              && u.OwnedBooks.Any(ob => ob.Book.Approved));
 
         // MAIN FILTERS
         if (_currentUserProvider.UserId.HasValue)

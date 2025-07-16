@@ -29,6 +29,7 @@ const GivingOutSection = ({ givingOutBooks, customizable = false }: GivingOutSec
       id: listedBookDto.id!,
       title: listedBookDto.title!,
       authors: authorsView,
+      approved: false,
       publicationYear: new Date(listedBookDto.publicationDate!).getFullYear(),
       publisherName: listedBookDto.publisherName ?? "",
       bookStateName: bookStateName
@@ -54,7 +55,7 @@ const GivingOutSection = ({ givingOutBooks, customizable = false }: GivingOutSec
           {localBooks.map(book => (
             <BookItem
               key={book.id}
-              listedBook={book}
+              book={book}
               {...(customizable && { onBookDeleted: handleDelete })}
             />
           ))}

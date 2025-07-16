@@ -8,6 +8,17 @@
   gap: 1px;
 }
 
+.unapprovedBookItem {
+  position: relative;
+  background-color: white;
+  border-radius: 5px;
+  border: 1px dashed;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
 .bookItemHeader {
   display: flex;
   gap: 4px;
@@ -53,6 +64,7 @@
 }
 
 .bookItem:hover .deleteButton,
+.unapprovedBookItem:hover .deleteButton,
 .deleteButton:focus {
   opacity: 1;
   transform: scale(1);
