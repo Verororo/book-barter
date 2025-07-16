@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/Auth/UseAuth';
 import { Tab, ToggleButton, ToggleButtonGroup, TextField, Button, Collapse } from '@mui/material';
@@ -78,9 +78,46 @@ const ModeratorPanel = () => {
     setCurrentPage(1);
   }, [mainTab, showApproved]);
 
-  useEffect(() => {
-    fetchData();
-  }, [mainTab, showApproved, currentPage, searchParams]);
+  const fetchBooks = useCallback(async () => {
+    const data = await fetchBooksForModeration({
+      pageNumber: currentPage,
+      pageSize: ITEMS_PER_PAGE,
+      orderByProperty: "addedDate",
+      orderDirection: "desc",
+      approved: showApproved,
+      title: searchParams.bookName || undefined,
+      authorId: searchParams.authorId || undefined,
+      publisherId: searchParams.publisherId || undefined,
+    });
+    setBooks(data.items || []);
+    setTotalBooks(data.total || 0);
+  }, [currentPage, showApproved, searchParams.bookName, searchParams.authorId, searchParams.publisherId]);
+
+  const fetchAuthors = useCallback(async () => {
+    const data = await fetchAuthorsForModeration({
+      pageNumber: currentPage,
+      pageSize: ITEMS_PER_PAGE,
+      orderByProperty: "addedDate",
+      orderDirection: "asc",
+      approved: showApproved,
+      query: searchParams.authorName || undefined,
+    });
+    setAuthors(data.items || []);
+    setTotalAuthors(data.total || 0);
+  }, [currentPage, showApproved, searchParams.authorName]);
+
+  const fetchPublishers = useCallback(async () => {
+    const data = await fetchPublishersForModeration({
+      pageNumber: currentPage,
+      pageSize: ITEMS_PER_PAGE,
+      orderByProperty: "addedDate",
+      orderDirection: "asc",
+      approved: showApproved,
+      query: searchParams.publisherName || undefined,
+    });
+    setPublishers(data.items || []);
+    setTotalPublishers(data.total || 0);
+  }, [currentPage, showApproved, searchParams.publisherName]);
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -101,50 +138,13 @@ const ModeratorPanel = () => {
     } finally {
       setLoading(false);
     }
-  }, [mainTab, showApproved, currentPage, searchParams]);
+  }, [mainTab, fetchBooks, fetchAuthors, fetchPublishers]);
 
-  const fetchBooks = async () => {
-    const data = await fetchBooksForModeration({
-      pageNumber: currentPage,
-      pageSize: ITEMS_PER_PAGE,
-      orderByProperty: "addedDate",
-      orderDirection: "desc",
-      approved: showApproved,
-      title: searchParams.bookName || undefined,
-      authorId: searchParams.authorId || undefined,
-      publisherId: searchParams.publisherId || undefined,
-    });
-    setBooks(data.items || []);
-    setTotalBooks(data.total || 0);
-  };
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
-  const fetchAuthors = async () => {
-    const data = await fetchAuthorsForModeration({
-      pageNumber: currentPage,
-      pageSize: ITEMS_PER_PAGE,
-      orderByProperty: "addedDate",
-      orderDirection: "asc",
-      approved: showApproved,
-      query: searchParams.authorName || undefined,
-    });
-    setAuthors(data.items || []);
-    setTotalAuthors(data.total || 0);
-  };
-
-  const fetchPublishers = async () => {
-    const data = await fetchPublishersForModeration({
-      pageNumber: currentPage,
-      pageSize: ITEMS_PER_PAGE,
-      orderByProperty: "addedDate",
-      orderDirection: "asc",
-      approved: showApproved,
-      query: searchParams.publisherName || undefined,
-    });
-    setPublishers(data.items || []);
-    setTotalPublishers(data.total || 0);
-  };
-
-  const handleSearch = () => {
+  const handleSearch = useCallback(() => {
     setCurrentPage(1);
     setSearchParams({
       bookName: bookNameSearch,
@@ -153,9 +153,9 @@ const ModeratorPanel = () => {
       authorId: selectedAuthor?.id || null,
       publisherId: selectedPublisher?.id || null,
     });
-  };
+  }, [bookNameSearch, authorSearch, publisherSearch, selectedAuthor, selectedPublisher]);
 
-  const clearSearch = () => {
+  const clearSearch = useCallback(() => {
     setBookNameSearch('');
     setAuthorSearch('');
     setPublisherSearch('');
@@ -168,24 +168,40 @@ const ModeratorPanel = () => {
       authorId: null,
       publisherId: null,
     });
-  };
+  }, []);
 
-  const scrollToTop = () =>
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const scrollToTop = useCallback(() =>
+    window.scrollTo({ top: 0, behavior: 'smooth' }), []);
 
-  const handlePageChange = (page: number) => {
+  const handlePageChange = useCallback((page: number) => {
     setCurrentPage(page);
     setTimeout(scrollToTop, 50);
-  };
+  }, [scrollToTop]);
 
-  const getCurrentTotal = () => {
+  const getCurrentTotal = useMemo(() => {
     switch (mainTab) {
       case "1": return totalBooks;
       case "2": return totalAuthors;
       case "3": return totalPublishers;
       default: return 0;
     }
-  };
+  }, [mainTab, totalBooks, totalAuthors, totalPublishers]);
+
+  const handleBookNameChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setBookNameSearch(e.target.value);
+  }, []);
+
+  const handleAuthorChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setAuthorSearch(e.target.value);
+  }, []);
+
+  const handlePublisherChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setPublisherSearch(e.target.value);
+  }, []);
+
+  const handleToggleAdvanced = useCallback(() => {
+    setShowAdvanced(prev => !prev);
+  }, []);
 
   return (
     <div className={styles.moderatorBox}>
@@ -222,11 +238,11 @@ const ModeratorPanel = () => {
                   className={styles.input}
                   label="Search by book name..."
                   value={bookNameSearch}
-                  onChange={(e) => setBookNameSearch(e.target.value)}
+                  onChange={handleBookNameChange}
                   variant="outlined"
                   fullWidth
                 />
-                <Button variant="text" onClick={() => setShowAdvanced(!showAdvanced)}>
+                <Button variant="text" onClick={handleToggleAdvanced}>
                   Advanced
                 </Button>
               </>
@@ -236,7 +252,7 @@ const ModeratorPanel = () => {
                 className={styles.input}
                 label="Search by author name..."
                 value={authorSearch}
-                onChange={(e) => setAuthorSearch(e.target.value)}
+                onChange={handleAuthorChange}
                 variant="outlined"
                 fullWidth
               />
@@ -246,7 +262,7 @@ const ModeratorPanel = () => {
                 className={styles.input}
                 label="Search by publisher name..."
                 value={publisherSearch}
-                onChange={(e) => setPublisherSearch(e.target.value)}
+                onChange={handlePublisherChange}
                 variant="outlined"
                 fullWidth
               />
@@ -325,7 +341,7 @@ const ModeratorPanel = () => {
         <Pagination
           pageNumber={currentPage}
           pageSize={ITEMS_PER_PAGE}
-          total={getCurrentTotal()}
+          total={getCurrentTotal}
           onPageChange={handlePageChange}
         />
       </TabContext>
