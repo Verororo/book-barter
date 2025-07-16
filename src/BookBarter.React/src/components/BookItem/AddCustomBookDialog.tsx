@@ -234,7 +234,7 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
               helperText={formik.touched.publicationDate && formik.errors.publicationDate}
             />
 
-            <MultipleSearchBarWithCustom
+            <MultipleSearchBarWithCustom<AuthorDto>
               id="authors"
               label="Authors"
               value={formik.values.authors}
@@ -256,7 +256,7 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
               id="publisher"
               label="Publisher"
               value={formik.values.publisher}
-              getOptionLabel={(option: { name: any; }) => option.name}
+              getOptionLabel={(option) => option.name!}
               onChange={onPublisherChange}
               fetchMethod={fetchPagedPublishers}
               styles={styles}

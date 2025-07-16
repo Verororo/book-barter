@@ -1,17 +1,27 @@
-import { useState, useEffect } from 'react';
-import { Autocomplete, TextField, CircularProgress, debounce, createFilterOptions } from '@mui/material';
+import { useState, useEffect, useCallback, useMemo } from 'react';
+import {
+  Autocomplete,
+  TextField,
+  CircularProgress,
+  debounce,
+  createFilterOptions
+} from '@mui/material';
 
-interface MultipleSearchBarWithCustomProps {
+type BaseEntity = {
+  id?: number;
+}
+
+interface MultipleSearchBarWithCustomProps<T extends BaseEntity> {
   id?: string;
   label?: string;
-  value: any;
-  getOptionLabel: (option: any) => string;
-  onChange: (_event: any, newValue: any) => void;
-  fetchMethod: (query: any) => Promise<any>;
+  value: T[];
+  getOptionLabel: (option: T) => string;
+  onChange: (event: React.SyntheticEvent, newValue: T[]) => void;
+  fetchMethod: (query: string, idsToSkip?: number[]) => Promise<T[]>;
   AddDialog: React.ComponentType<{
     defaultName?: string;
     onClose: () => void;
-    onEntityCreated: (entity: any) => void;
+    onEntityCreated: (entity: T) => void;
   }>;
   placeholder?: string;
   error?: boolean;
@@ -21,10 +31,13 @@ interface MultipleSearchBarWithCustomProps {
 }
 
 type CustomOption = {
-  inputValue?: string;
+  inputValue: string;
 }
 
-const MultipleSearchBarWithCustom = ({
+const MINIMUM_SEARCH_LENGTH = 3;
+const DEBOUNCE_DELAY = 500;
+
+function MultipleSearchBarWithCustom<T extends BaseEntity>({
   id,
   label,
   value,
@@ -37,44 +50,128 @@ const MultipleSearchBarWithCustom = ({
   helperText,
   onBlur,
   styles
-}: MultipleSearchBarWithCustomProps) => {
-  const [options, setOptions] = useState<any>([]);
+}: MultipleSearchBarWithCustomProps<T>) {
+  const [options, setOptions] = useState<T[]>([]);
   const [loading, setLoading] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const [openAddDialog, setOpenAddDialog] = useState(false);
+  const [dialogDefaultName, setDialogDefaultName] = useState<string | undefined>();
 
-  const [openAddDialog, setOpenAddDialog] = useState(false)
+  const filter = useMemo(
+    () => createFilterOptions<T | CustomOption>(),
+    []
+  );
 
-  const [dialogDefaultName, setDialogDefaultName] = useState<string>()
+  const currentIds = useMemo(
+    () => value.map(item => item.id!),
+    [value]
+  );
 
-  const filter = createFilterOptions<any & CustomOption>()
+  const debouncedFetch = useMemo(
+    () => debounce((query: string, idsToSkip: number[]) => {
+      fetchMethod(query, idsToSkip)
+        .then(setOptions)
+        .catch(error => {
+          console.error('Error fetching options:', error);
+          setOptions([]);
+        })
+        .finally(() => setLoading(false));
+    }, DEBOUNCE_DELAY),
+    [fetchMethod]
+  );
 
   useEffect(() => {
-    if (inputValue.length < 3) {
+    if (inputValue.length < MINIMUM_SEARCH_LENGTH) {
       setLoading(false);
       setOptions([]);
       return;
     }
 
     setLoading(true);
-
-    const handler = debounce((query: string) => {
-      fetchMethod(query)
-        .then(options => setOptions(options))
-        .finally(() => setLoading(false));
-    }, 500);
-
-    handler(inputValue);
+    debouncedFetch(inputValue, currentIds);
 
     return () => {
-      handler.clear();
+      debouncedFetch.clear();
     };
-  }, [inputValue]);
+  }, [inputValue, debouncedFetch, currentIds]);
 
-  const handleAddEntityCreated = (newEntity: any) => {
-    onChange(null, [...value, newEntity]);
-
+  const handleAddEntityCreated = useCallback((newEntity: T) => {
+    onChange(null as any, [...value, newEntity]);
     setInputValue('');
-  };
+  }, [onChange, value]);
+
+  const handleChange = useCallback(
+    (event: React.SyntheticEvent, newValue: (T | CustomOption)[]) => {
+      const lastSelection = newValue[newValue.length - 1];
+
+      if (lastSelection && 'inputValue' in lastSelection) {
+        setDialogDefaultName(lastSelection.inputValue);
+        setOpenAddDialog(true);
+        // Filter out the custom option
+        const filteredValue = newValue.filter(
+          (item): item is T => !('inputValue' in item)
+        );
+        onChange(event, filteredValue);
+      } else {
+        onChange(event, newValue as T[]);
+      }
+    },
+    [onChange]
+  );
+
+  const handleInputChange = useCallback(
+    (_event: React.SyntheticEvent, newInput: string) => {
+      setInputValue(newInput);
+    },
+    []
+  );
+
+  const handleCloseDialog = useCallback(() => {
+    setDialogDefaultName(undefined);
+    setOpenAddDialog(false);
+  }, []);
+
+  const filterOptions = useCallback(
+    (options: (T | CustomOption)[], params: any) => {
+      const filtered = filter(options, params);
+      const { inputValue } = params;
+
+      if (
+        inputValue.length >= MINIMUM_SEARCH_LENGTH &&
+        !loading &&
+        filtered.length === 0
+      ) {
+        filtered.push({ inputValue } as CustomOption);
+      }
+
+      return filtered;
+    },
+    [filter, loading]
+  );
+
+  const getOptionLabelWrapper = useCallback(
+    (option: T | CustomOption | string): string => {
+      if (typeof option === 'string') return option;
+      if ('inputValue' in option) {
+        return `Add "${option.inputValue}" to our database...`;
+      }
+      return getOptionLabel(option);
+    },
+    [getOptionLabel]
+  );
+
+  const isOptionEqualToValue = useCallback(
+    (option: T | CustomOption, value: T | CustomOption) => {
+      if ('inputValue' in option && 'inputValue' in value) {
+        return option.inputValue === value.inputValue;
+      }
+      if ('id' in option && 'id' in value) {
+        return option.id === value.id;
+      }
+      return false;
+    },
+    []
+  );
 
   return (
     <>
@@ -83,40 +180,15 @@ const MultipleSearchBarWithCustom = ({
         className={styles.multipleSearchBar}
         multiple
         value={value}
-        onBlur={() => onBlur?.()}
-        onChange={(event, newValue) => {
-          const lastSelection = newValue[newValue.length - 1];
-
-          const isCustomOption = lastSelection?.inputValue;
-          if (isCustomOption) {
-            setDialogDefaultName(lastSelection.inputValue)
-            setOpenAddDialog(true);
-            onChange(event, newValue.filter(item => !item.inputValue));
-          }
-          else {
-            onChange(event, newValue);
-          }
-        }}
+        onBlur={onBlur}
+        onChange={handleChange}
         inputValue={inputValue}
-        onInputChange={(_event, newInput) => setInputValue(newInput)}
+        onInputChange={handleInputChange}
         options={options}
         loading={loading}
-        filterOptions={(options, params) => {
-          const filtered = filter(options, params);
-          const { inputValue } = params;
-
-          if (inputValue.length >= 3 && !loading) {
-            filtered.push({ inputValue });
-          }
-
-          return filtered;
-        }}
-        getOptionLabel={option => {
-          if (typeof option === 'string') return option;
-          if (option.inputValue) return `Add "${inputValue}" to our database...`;
-
-          return getOptionLabel(option);
-        }}
+        filterOptions={filterOptions}
+        getOptionLabel={getOptionLabelWrapper}
+        isOptionEqualToValue={isOptionEqualToValue}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -145,16 +217,12 @@ const MultipleSearchBarWithCustom = ({
       {openAddDialog && (
         <AddDialog
           defaultName={dialogDefaultName}
-          onClose={() => {
-            setDialogDefaultName(undefined)
-            setOpenAddDialog(false)
-          }}
+          onClose={handleCloseDialog}
           onEntityCreated={handleAddEntityCreated}
         />
-      )
-      }
+      )}
     </>
   );
-};
+}
 
 export default MultipleSearchBarWithCustom;

@@ -52,6 +52,12 @@ export interface GetPagedBooksQuery {
     'skipLoggedInUserBooks'?: boolean;
     /**
      * 
+     * @type {Array<number>}
+     * @memberof GetPagedBooksQuery
+     */
+    'idsToSkip'?: Array<number> | null;
+    /**
+     * 
      * @type {string}
      * @memberof GetPagedBooksQuery
      */

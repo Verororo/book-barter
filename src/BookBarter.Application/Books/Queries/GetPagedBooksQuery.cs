@@ -9,6 +9,7 @@ namespace BookBarter.Application.Books.Queries;
 public class GetPagedBooksQuery : PagedQuery, IRequest<PaginatedResult<BookDto>>
 {
     public bool SkipLoggedInUserBooks { get; set; }
+    public List<int>? IdsToSkip { get; set; }
     public string? Title { get; set; }
     public int? AuthorId { get; set; }
     public int? GenreId { get; set; }

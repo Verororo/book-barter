@@ -272,7 +272,7 @@ const BookForm = ({ book, onSave, onCancel }: BookFormProps) => {
             id="publisher"
             label="Publisher"
             value={formik.values.publisher}
-            getOptionLabel={(option) => option.name}
+            getOptionLabel={(option) => option.name!}
             onChange={onPublisherChange}
             fetchMethod={fetchPagedPublishers}
             styles={styles}

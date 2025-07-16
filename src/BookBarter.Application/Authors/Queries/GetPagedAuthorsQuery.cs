@@ -9,6 +9,7 @@ namespace BookBarter.Application.Authors.Queries;
 public class GetPagedAuthorsQuery : PagedQuery, IRequest<PaginatedResult<AuthorDto>>
 {
     public string? Query { get; set; } = default!;
+    public List<int>? IdsToSkip { get; set; }
 }
 
 public class GetPagedAuthorsQueryHandler : IRequestHandler<GetPagedAuthorsQuery, PaginatedResult<AuthorDto>>

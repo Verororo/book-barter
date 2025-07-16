@@ -4,7 +4,7 @@ import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import styles from "./NewBookAutocomplete.module.css";
-import { fetchAutocompleteBooks } from "../../api/clients/book-client";
+import { fetchAutocompleteBooksSkipLoggedInIds } from "../../api/clients/book-client";
 import debounce from "@mui/utils/debounce";
 import { CircularProgress, MenuItem, Menu } from "@mui/material";
 import { addBookToOwned, addBookToWanted } from "../../api/clients/user-client";
@@ -61,7 +61,7 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
 
     setLoading(true);
     const handler = debounce(title => {
-      fetchAutocompleteBooks(title, true)
+      fetchAutocompleteBooksSkipLoggedInIds(title)
         .then(options => setOptions(options))
         .finally(() => setLoading(false));
     }, 500);

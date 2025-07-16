@@ -45,9 +45,8 @@ export const fetchBooksForModeration = async (
   return response.data;
 }
 
-export const fetchAutocompleteBooks = async (
-  query: string, 
-  skipRelated: boolean = false
+export const fetchAutocompleteBooksSkipLoggedInIds = async (
+  query: string
 ): Promise<ListedBookDto[]> => {
   if (!query || query.length < 3) {
     return [];
@@ -60,12 +59,39 @@ export const fetchAutocompleteBooks = async (
       title: query,
       orderByProperty: "title",
       orderDirection: "asc",
-      skipLoggedInUserBooks: skipRelated
+      skipLoggedInUserBooks: true
     })
 
     return mapAutocompleteBookPaginatedResultDtoToView(response.data);
 
   } 
+  catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
+export const fetchAutocompleteBooksSkipCustomIds = async (
+  query: string,
+  idsToSkip?: number[]
+): Promise<ListedBookDto[]> => {
+  if (!query || query.length < 3) {
+    return [];
+  }
+
+  try {
+    const response = await booksApi.apiBooksPagedPost({
+      pageSize: 10,
+      pageNumber: 1,
+      title: query,
+      orderByProperty: "title",
+      orderDirection: "asc",
+      idsToSkip
+    })
+
+    return mapAutocompleteBookPaginatedResultDtoToView(response.data);
+
+  }
   catch (error) {
     console.error(error);
     return [];

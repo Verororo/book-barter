@@ -50,5 +50,11 @@ export interface GetPagedAuthorsQuery {
      * @memberof GetPagedAuthorsQuery
      */
     'query'?: string | null;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof GetPagedAuthorsQuery
+     */
+    'idsToSkip'?: Array<number> | null;
 }
 

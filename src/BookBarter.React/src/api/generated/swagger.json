@@ -1736,6 +1736,14 @@
           "query": {
             "type": "string",
             "nullable": true
+          },
+          "idsToSkip": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1805,6 +1813,14 @@
           },
           "skipLoggedInUserBooks": {
             "type": "boolean"
+          },
+          "idsToSkip": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
           },
           "title": {
             "type": "string",

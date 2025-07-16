@@ -16,6 +16,7 @@ public class PublisherConfiguration : IEntityTypeConfiguration<Publisher>
 
         builder
             .HasIndex(e => e.Name)
+            .HasFilter("[Approved] = 1")
             .IsUnique();
     }
 }

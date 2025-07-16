@@ -1,20 +1,29 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Autocomplete, TextField, CircularProgress, debounce } from '@mui/material';
 
-interface SingleSearchBarProps {
+type BaseEntity = {
+  id?: number;
+}
+
+interface SingleSearchBarProps<T extends BaseEntity> {
   id?: string;
   label?: string;
-  value: any;
-  getOptionLabel: (option: any) => string;
-  onChange: (_event: any, newValue: any) => void;
-  fetchMethod: (query: any) => Promise<any>;
+  value: T | null;
+  getOptionLabel: (option: T) => string;
+  onChange: (event: React.SyntheticEvent, newValue: T | null) => void;
+  fetchMethod: (query: string) => Promise<T[]>;
   placeholder?: string;
   variant?: 'standard' | 'outlined' | 'filled';
   error?: boolean;
+  helperText?: React.ReactNode;
+  onBlur?: () => void;
   styles: CSSModuleClasses;
 }
 
-const SingleSearchBar = ({ 
+const MINIMUM_SEARCH_LENGTH = 3;
+const DEBOUNCE_DELAY = 500;
+
+function SingleSearchBar<T extends BaseEntity>({
   id,
   label,
   value,
@@ -22,35 +31,55 @@ const SingleSearchBar = ({
   onChange,
   fetchMethod,
   placeholder,
-  variant,
-  styles,
-  error
-}: SingleSearchBarProps) => {
-  const [options, setOptions] = useState<any>();
+  variant = 'outlined',
+  error,
+  helperText,
+  onBlur,
+  styles
+}: SingleSearchBarProps<T>) {
+  const [options, setOptions] = useState<T[]>([]);
   const [loading, setLoading] = useState(false);
   const [inputValue, setInputValue] = useState('');
 
+  const debouncedFetch = useMemo(
+    () => debounce((query: string) => {
+      fetchMethod(query)
+        .then(setOptions)
+        .catch(error => {
+          console.error('Error fetching options:', error);
+          setOptions([]);
+        })
+        .finally(() => setLoading(false));
+    }, DEBOUNCE_DELAY),
+    [fetchMethod]
+  );
+
   useEffect(() => {
-    if (inputValue.length < 3) {
+    if (inputValue.length < MINIMUM_SEARCH_LENGTH) {
       setLoading(false);
       setOptions([]);
       return;
     }
 
     setLoading(true);
-
-    const handler = debounce((query : string) => {
-      fetchMethod(query)
-        .then(options => setOptions(options))
-        .finally(() => setLoading(false));
-    }, 500);
-
-    handler(inputValue);
+    debouncedFetch(inputValue);
 
     return () => {
-      handler.clear();
+      debouncedFetch.clear();
     };
-  }, [inputValue]);
+  }, [inputValue, debouncedFetch]);
+
+  const handleInputChange = useCallback(
+    (_event: React.SyntheticEvent, newInput: string) => {
+      setInputValue(newInput);
+    },
+    []
+  );
+
+  const isOptionEqualToValue = useCallback(
+    (option: T, value: T) => option.id === value.id,
+    []
+  );
 
   return (
     <Autocomplete
@@ -58,11 +87,14 @@ const SingleSearchBar = ({
       className={styles.singleSearchBar}
       value={value}
       onChange={onChange}
-      onInputChange={(_event, newInput) => setInputValue(newInput)}
+      onBlur={onBlur}
+      inputValue={inputValue}
+      onInputChange={handleInputChange}
       options={options}
       loading={loading}
-      filterOptions={x => x} // Disable client-side filtering
+      filterOptions={(x) => x} // Disable client-side filtering
       getOptionLabel={getOptionLabel}
+      isOptionEqualToValue={isOptionEqualToValue}
       renderInput={(params) => (
         <TextField
           {...params}
@@ -71,6 +103,7 @@ const SingleSearchBar = ({
           placeholder={placeholder}
           variant={variant}
           error={error}
+          helperText={helperText}
           slotProps={{
             input: {
               ...params.InputProps,
@@ -89,6 +122,6 @@ const SingleSearchBar = ({
       )}
     />
   );
-};
+}
 
 export default SingleSearchBar;

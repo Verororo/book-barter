@@ -15,9 +15,9 @@ import {
   Collapse,
 } from "@mui/material";
 import { useAuth } from "../../contexts/Auth/UseAuth";
-import type { ListedBookDto } from '../../api/generated';
+import type { AuthorDto, ListedBookDto } from '../../api/generated';
 import MultipleSearchBar from '../SearchBars/MultipleSearchBar';
-import { fetchAutocompleteBooks } from '../../api/clients/book-client';
+import { fetchAutocompleteBooksSkipCustomIds } from '../../api/clients/book-client';
 
 const UserItemContainer = () => {
   const { isAuthenticated } = useAuth();
@@ -79,16 +79,16 @@ const UserItemContainer = () => {
         <div className={styles.searchBarsContainer}>
           <div className={styles.multipleSearchBarRow}>
             <span className={styles.multipleSearchBarLabel}>I'm looking for</span>
-            <MultipleSearchBar
+            <MultipleSearchBar<ListedBookDto>
               value={booksLookedFor}
               onChange={(_event, v) => setBooksLookedFor(v)}
-              fetchMethod={fetchAutocompleteBooks}
+              fetchMethod={fetchAutocompleteBooksSkipCustomIds}
               placeholder="Enter the title of a book you'd like to get..."
               styles={styles}
               getOptionLabel={book => {
                 const authorName = book.authors!.length == 1
                   ? `${book.authors![0].firstName} ${book.authors![0].lastName}`.trim()
-                  : book.authors?.map((a: { lastName: any; }) => a.lastName).join(", ")
+                  : book.authors?.map(((a: AuthorDto) => a.lastName)).join(", ")
                 return `${authorName}. ${book.title}`;
               }}
             />
@@ -99,13 +99,13 @@ const UserItemContainer = () => {
             <MultipleSearchBar
               value={booksGivenOut}
               onChange={(_event, v) => setBooksGivenOut(v)}
-              fetchMethod={fetchAutocompleteBooks}
+              fetchMethod={fetchAutocompleteBooksSkipCustomIds}
               placeholder="Enter the title of a book you're ready to swap out..."
               styles={styles}
               getOptionLabel={book => {
                 const authorName = book.authors!.length == 1
                   ? `${book.authors![0].firstName} ${book.authors![0].lastName}`.trim()
-                  : book.authors?.map((a: { lastName: any; }) => a.lastName).join(", ")
+                  : book.authors?.map(((a: AuthorDto) => a.lastName)).join(", ")
                 return `${authorName}. ${book.title}`;
               }}
             />

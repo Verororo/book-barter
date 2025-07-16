@@ -20,7 +20,7 @@ const BookItem = ({ book, onBookDeleted }: BookItemProps) => {
     <Tooltip title={
       book.approved
         ? ""
-        : "This book is currently being reviewed by the moderator. It will appear in your profile after it's validated."
+        : "This book is currently being reviewed by the moderator. It's visible only to you and will appear publicly in your profile after it's validated."
     } arrow
     >
       <motion.div

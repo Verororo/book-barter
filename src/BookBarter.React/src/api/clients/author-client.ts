@@ -43,7 +43,8 @@ export const fetchAuthorsForModeration = async (
 }
 
 export const fetchPagedAuthors = async (
-  query: string
+  query: string,
+  idsToSkip?: number[]
 ): Promise<AuthorDto[]> => {
   try {
     const response = await authorsApi.apiAuthorsPagedPost({
@@ -51,7 +52,8 @@ export const fetchPagedAuthors = async (
       pageNumber: 1,
       orderByProperty: "lastName",
       orderDirection: "asc",
-      query: query,
+      query,
+      idsToSkip
     })
 
     return response.data.items ?? [];

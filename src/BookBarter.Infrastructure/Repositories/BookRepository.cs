@@ -45,8 +45,13 @@ public class BookRepository : IBookRepository
             var userId = _currentUserProvider.UserId;
             if (userId == null) { throw new Exception("SkipLoggedInUserBooks was specified, but program failed to get UserId."); }
 
-            books = books.Where(b => !b.WantedByUsers.Any(wb => wb.UserId == userId));
-            books = books.Where(b => !b.OwnedByUsers.Any(wb => wb.UserId == userId));
+            books = books.Where(b => !b.WantedByUsers.Any(wb => wb.UserId == userId)
+                                  && !b.OwnedByUsers.Any(wb => wb.UserId == userId));
+        }
+
+        if (request.IdsToSkip != null && request.IdsToSkip.Any())
+        {
+            books = books.Where(b => !request.IdsToSkip.Contains(b.Id));
         }
 
         books = books.Where(b => b.Approved == true);

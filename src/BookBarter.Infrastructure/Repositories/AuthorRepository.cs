@@ -30,6 +30,11 @@ public class AuthorRepository : IAuthorRepository
 
         authors = authors.Where(a => a.Approved == true);
 
+        if (request.IdsToSkip != null && request.IdsToSkip.Any())
+        {
+            authors = authors.Where(a => !request.IdsToSkip.Contains(a.Id));
+        }
+
         if (!string.IsNullOrWhiteSpace(request.Query))
         {
             authors = authors.Where(a => (a.FirstName + " " + a.LastName)

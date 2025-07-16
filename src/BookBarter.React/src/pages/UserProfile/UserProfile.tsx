@@ -93,7 +93,7 @@ const UserProfile = () => {
           <b>About</b>
           {user.about 
             ? <p className={styles.aboutParagraph}>{user.about}</p>
-            : <p className={styles.aboutParagraph}>This user hasn't wrote about himself yet...</p>}
+            : <p className={styles.aboutParagraph}>This user hasn't written about himself yet...</p>}
         </div>
 
         <GivingOutSection givingOutBooks={user.ownedBooks} />

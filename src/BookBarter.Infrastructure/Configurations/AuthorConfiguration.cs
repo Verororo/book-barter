@@ -13,5 +13,10 @@ public class AuthorConfiguration : IEntityTypeConfiguration<Author>
             .Property(e => e.LastName)
             .HasMaxLength(20)
             .IsRequired();
+
+        builder
+            .HasIndex(a => new { a.FirstName, a.MiddleName, a.LastName })
+            .HasFilter("[Approved] = 1")
+            .IsUnique();
     }
 }
