@@ -50,5 +50,11 @@ export interface GetPagedPublishersForModerationQuery {
      * @memberof GetPagedPublishersForModerationQuery
      */
     'approved'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPagedPublishersForModerationQuery
+     */
+    'query'?: string | null;
 }
 

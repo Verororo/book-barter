@@ -22,12 +22,15 @@ public class DeleteAuthorCommandHandler : IRequestHandler<DeleteAuthorCommand>
         var author = await _repository.GetByIdAsync<Author>(request.Id, cancellationToken, a => a.Books);
         if (author == null) throw new EntityNotFoundException(typeof(Author).Name, request.Id);
 
-        foreach (var book in author.Books)
+        if (author.Books != null && author.Books.Any())
         {
-            _repository.Delete<Book>(book);
+            var bookIds = string.Join(", ", author.Books.Select(b => b.Id));
+
+            var message = $"Attempted to delete Author {author.Id} referred by existing Books: {bookIds}.";
+            throw new BusinessLogicException(message);
         }
 
-        _repository.Delete<Author>(author);
+        _repository.Delete(author);
         await _repository.SaveAsync(cancellationToken);
     }
 }

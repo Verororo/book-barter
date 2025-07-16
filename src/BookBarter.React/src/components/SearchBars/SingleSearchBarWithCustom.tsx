@@ -125,6 +125,7 @@ const SingleSearchBarWithCustom = ({
         renderInput={(params) => (
           <TextField
             {...params}
+            className={styles.autocompleteRoot}
             label={label}
             placeholder={value?.length === 0 ? placeholder : 'Add more...'}
             error={error}
@@ -132,6 +133,9 @@ const SingleSearchBarWithCustom = ({
             slotProps={{
               input: {
                 ...params.InputProps,
+                classes: {
+                  input: styles.input,
+                },
                 endAdornment: (
                   <>
                     {loading && <CircularProgress size={20} />}

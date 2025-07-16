@@ -53,7 +53,7 @@ public class BookRepository : IBookRepository
         {
             books = books.Where(b => b.Title.Contains(request.Title));
         }
-
+        /*
         if (!string.IsNullOrWhiteSpace(request.AuthorName))
         {
             // split the query into multiple strings
@@ -74,6 +74,11 @@ public class BookRepository : IBookRepository
                     )
                 );
             }
+        }
+        */
+        if (request.AuthorId.HasValue)
+        {
+            books = books.Where(b => b.Authors.Any(a => a.Id == request.AuthorId));
         }
 
         if (request.GenreId.HasValue)
@@ -97,6 +102,21 @@ public class BookRepository : IBookRepository
         IQueryable<Book> books = _dbSet;
 
         books = books.Where(b => b.Approved == request.Approved);
+
+        if (request.AuthorId.HasValue)
+        {
+            books = books.Where(b => b.Authors.Any(a => a.Id == request.AuthorId));
+        }
+
+        if (request.GenreId.HasValue)
+        {
+            books = books.Where(b => b.GenreId == request.GenreId);
+        }
+
+        if (request.PublisherId.HasValue)
+        {
+            books = books.Where(b => b.PublisherId == request.PublisherId);
+        }
 
         var paginatedResult = await books.CreatePaginatedResultAsync<Book, BookForModerationDto>(request, _mapper, cancellationToken);
 

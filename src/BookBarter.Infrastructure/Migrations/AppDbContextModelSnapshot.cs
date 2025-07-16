@@ -45,6 +45,9 @@ namespace BookBarter.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("AddedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("Approved")
                         .HasColumnType("bit");
 
@@ -72,7 +75,7 @@ namespace BookBarter.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("AddedToDatabaseDate")
+                    b.Property<DateTime>("AddedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("Approved")
@@ -268,6 +271,9 @@ namespace BookBarter.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("AddedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("Approved")
                         .HasColumnType("bit");

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using BookBarter.Domain.Entities;
 using CsvHelper;
 using CsvHelper.Configuration.Attributes;
@@ -24,9 +20,10 @@ public class AuthorsSeed
         var records = csv.GetRecords<AuthorCsvMap>()
             .Select(r => new Author
             {
-                FirstName = r.FirstName,
-                MiddleName = r.MiddleName,
+                FirstName = !string.IsNullOrEmpty(r.FirstName) ? r.FirstName : null,
+                MiddleName = !string.IsNullOrEmpty(r.MiddleName) ? r.MiddleName : null,
                 LastName = r.LastName,
+                AddedDate = DateTime.UtcNow,
                 Approved = true
             })
             .ToList();

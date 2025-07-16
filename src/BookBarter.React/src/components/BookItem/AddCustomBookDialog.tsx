@@ -153,7 +153,6 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
   const onAuthorsChange = useCallback(
     (_event: any, newValue: AuthorDto[]) => {
       formik.setFieldValue("authors", newValue, /* shouldValidate = */ true);
-
       formik.setFieldTouched("authors", true, /* shouldValidate = */ false);
     },
     [formik]
@@ -162,16 +161,15 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
   const onPublisherChange = useCallback(
     (_event: any, newValue: any) => {
       formik.setFieldValue("publisher", newValue, /* shouldValidate = */ true);
-
       formik.setFieldTouched("publisher", true, /* shouldValidate = */ false);
     },
     [formik]
   );
 
   const genreOptions = useMemo(() =>
-    genres.map(g => (
-      <MenuItem key={g.id} value={g.id}>
-        {g.name}
+    genres.map(genre => (
+      <MenuItem key={genre.id} value={genre.id}>
+        {genre.name}
       </MenuItem>
     )),
     [genres]

@@ -1,7 +1,7 @@
 ﻿
 using BookBarter.Application.Common.Interfaces.Repositories;
 using BookBarter.Application.Common.Models;
-using BookBarter.Application.Publishers.Responses;
+using BookBarter.Application.Common.Responses;
 using BookBarter.Domain.Entities;
 using MediatR;
 

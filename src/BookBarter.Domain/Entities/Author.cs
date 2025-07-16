@@ -9,6 +9,7 @@ public class Author : Entity
     public string? MiddleName { get; set; }
     public string LastName { get; set; } = default!;
     public bool Approved { get; set; }
+    public required DateTime AddedDate { get; set; }
 
     public ICollection<Book> Books { get; set; } = [];
 }

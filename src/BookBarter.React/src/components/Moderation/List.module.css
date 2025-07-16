@@ -1,0 +1,66 @@
+.accordionItem {
+  border-top: 1px solid #c2c2c2;
+}
+
+.accordionItemLastWithPagination {
+  border-top: 1px solid #c2c2c2;
+}
+
+.accordionItemLastWithPagination:last-child {
+  border-bottom: 1px solid #c2c2c2;
+}
+
+.accordionTitle {
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.accordionSubtitle {
+  font-size: 14px;
+  color: #6b6b6b;
+  margin: 4px 0 0 0;
+}
+
+.accordionDetails {
+  background-color: #f7f7f7;
+  border-top: 1px solid #cacaca;
+}
+
+.detailsInfo {
+  padding: 0 15px;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.bookInfoGrid {
+  grid-template-columns: 1fr 1fr !important;
+}
+
+.authorInfoGrid {
+  grid-template-columns: 1fr 1fr 1fr !important;
+}
+
+.publisherInfoGrid {
+  grid-template-columns: 1fr !important;
+}
+
+.infoRow {
+  margin-bottom: 12px;
+}
+
+.authorsInfoRow {
+  margin-top: -6px;
+  margin-bottom: 25px;
+}
+
+.infoLabel {
+  font-weight: 600;
+  margin-right: 8px;
+}

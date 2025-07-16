@@ -1302,6 +1302,10 @@
           "approved": {
             "type": "boolean"
           },
+          "addedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
           "books": {
             "type": "array",
             "items": {
@@ -1404,7 +1408,7 @@
       },
       "BookForModerationDto": {
         "required": [
-          "addedToDatabaseDate",
+          "addedDate",
           "publicationDate"
         ],
         "type": "object",
@@ -1425,7 +1429,7 @@
             "type": "string",
             "format": "date"
           },
-          "addedToDatabaseDate": {
+          "addedDate": {
             "type": "string",
             "format": "date-time"
           },
@@ -1695,6 +1699,10 @@
           },
           "approved": {
             "type": "boolean"
+          },
+          "query": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1746,6 +1754,25 @@
           },
           "approved": {
             "type": "boolean"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "authorId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "genreId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "publisherId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1776,8 +1803,9 @@
             "type": "string",
             "nullable": true
           },
-          "authorName": {
-            "type": "string",
+          "authorId": {
+            "type": "integer",
+            "format": "int32",
             "nullable": true
           },
           "genreId": {
@@ -1866,6 +1894,10 @@
           },
           "approved": {
             "type": "boolean"
+          },
+          "query": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2168,6 +2200,10 @@
           },
           "approved": {
             "type": "boolean"
+          },
+          "addedDate": {
+            "type": "string",
+            "format": "date-time"
           },
           "books": {
             "type": "array",

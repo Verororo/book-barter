@@ -15,14 +15,6 @@ export const fetchListedUsersPaginatedResult = async (
   return mapListedUserPaginatedResultDtoToView(response.data)
 };
 
-export const fetchPublishersForModeration = async (
-  query: GetPagedUsersQuery
-): Promise<ListedUserPaginatedResult> => {
-  const response = await usersApi.apiUsersPagedPost(query)
-
-  return mapListedUserPaginatedResultDtoToView(response.data)
-};
-
 export const fetchUserById = async (
   id: number
 ): Promise<User> => {

@@ -1,6 +1,6 @@
 ﻿
 using AutoMapper;
-using BookBarter.Application.Genres.Responses;
+using BookBarter.Application.Common.Responses;
 using BookBarter.Domain.Entities;
 
 namespace BookBarter.Application.Genres;

@@ -50,5 +50,29 @@ export interface GetPagedBooksForModerationQuery {
      * @memberof GetPagedBooksForModerationQuery
      */
     'approved'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof GetPagedBooksForModerationQuery
+     */
+    'title'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetPagedBooksForModerationQuery
+     */
+    'authorId'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetPagedBooksForModerationQuery
+     */
+    'genreId'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetPagedBooksForModerationQuery
+     */
+    'publisherId'?: number | null;
 }
 

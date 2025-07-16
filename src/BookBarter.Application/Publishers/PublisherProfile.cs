@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BookBarter.Application.Common.Responses;
 using BookBarter.Application.Publishers.Responses;
 using BookBarter.Domain.Entities;
 

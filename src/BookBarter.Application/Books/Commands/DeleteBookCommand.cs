@@ -21,23 +21,20 @@ public class DeleteBookCommandHandler : IRequestHandler<DeleteBookCommand>
         var book = await _repository.GetByIdAsync<Book>(request.Id, cancellationToken, b => b.Publisher, b => b.Authors);
         if (book == null) throw new EntityNotFoundException(typeof(Book).Name, request.Id);
 
-        if (!book.Approved)
+        if (!book.Publisher.Approved)
         {
-            if (!book.Publisher.Approved)
-            {
-                _repository.Delete<Publisher>(book.Publisher);
-            }
+            _repository.Delete(book.Publisher);
+        }
 
-            foreach (var author in book.Authors)
+        foreach (var author in book.Authors)
+        {
+            if (!author.Approved)
             {
-                if (!author.Approved)
-                {
-                    _repository.Delete<Author>(author);
-                }
+                _repository.Delete(author);
             }
         }
 
-        _repository.Delete<Book>(book);
+        _repository.Delete(book);
         await _repository.SaveAsync(cancellationToken);
     }
 }

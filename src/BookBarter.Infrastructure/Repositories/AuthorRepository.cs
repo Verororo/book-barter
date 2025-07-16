@@ -48,6 +48,12 @@ public class AuthorRepository : IAuthorRepository
 
         authors = authors.Where(a => a.Approved == request.Approved);
 
+        if (!string.IsNullOrWhiteSpace(request.Query))
+        {
+            authors = authors.Where(a => (a.FirstName + " " + a.LastName)
+                .Contains(request.Query));
+        }
+
         var paginatedResult = await authors.CreatePaginatedResultAsync<Author, AuthorForModerationDto>(request, _mapper, cancellationToken);
 
         return paginatedResult;

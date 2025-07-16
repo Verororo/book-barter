@@ -28,8 +28,8 @@ export const AddCustomAuthor = ({
     onSubmit: (values) => {
       const newAuthor: AuthorDto = {
         id: undefined,
-        firstName: values.firstName,
-        middleName: values.middleName,
+        firstName: values.firstName || null,
+        middleName: values.middleName || null,
         lastName: values.lastName
       }
       onEntityCreated(newAuthor)
@@ -65,6 +65,7 @@ export const AddCustomAuthor = ({
               onChange={formik.handleChange}
             />
             <TextField
+              required
               label="Last Name"
               name="lastName"
               value={formik.values.lastName}

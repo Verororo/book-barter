@@ -9,6 +9,7 @@ namespace BookBarter.Application.Publishers.Queries;
 public class GetPagedPublishersForModerationQuery : PagedQuery, IRequest<PaginatedResult<PublisherForModerationDto>>
 {
     public bool Approved { get; set; }
+    public string? Query { get; set; } = default!;
 }
 
 public class GetPagedPublishersForModerationQueryHandler : IRequestHandler<GetPagedPublishersForModerationQuery, PaginatedResult<PublisherForModerationDto>>

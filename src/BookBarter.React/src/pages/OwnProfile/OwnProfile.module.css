@@ -46,7 +46,7 @@
   margin: 0;
 }
 
-.profileCity, .singleSearchBarInput {
+.profileCity, .input {
   display: flex;
   gap: 3px;
   align-items: center;

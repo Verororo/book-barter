@@ -1,0 +1,7 @@
+.editActionButtons {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: right;
+  margin-top: 20px;
+}

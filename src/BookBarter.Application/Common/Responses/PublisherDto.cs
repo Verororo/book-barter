@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookBarter.Application.Publishers.Responses;
+namespace BookBarter.Application.Common.Responses;
 
 public class PublisherDto
 {

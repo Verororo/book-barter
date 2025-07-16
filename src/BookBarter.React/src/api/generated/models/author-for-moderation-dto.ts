@@ -55,6 +55,12 @@ export interface AuthorForModerationDto {
     'approved'?: boolean;
     /**
      * 
+     * @type {string}
+     * @memberof AuthorForModerationDto
+     */
+    'addedDate'?: string;
+    /**
+     * 
      * @type {Array<BookDto>}
      * @memberof AuthorForModerationDto
      */

@@ -66,6 +66,7 @@ const SingleSearchBar = ({
       renderInput={(params) => (
         <TextField
           {...params}
+          className={styles.autocompleteRoot}
           label={label}
           placeholder={placeholder}
           variant={variant}
@@ -74,7 +75,7 @@ const SingleSearchBar = ({
             input: {
               ...params.InputProps,
               classes: {
-                input: styles.singleSearchBarInput,
+                input: styles.input,
               },
               endAdornment: (
                 <>

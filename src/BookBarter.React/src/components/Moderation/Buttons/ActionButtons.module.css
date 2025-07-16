@@ -1,0 +1,6 @@
+.actionButtons {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: right;
+}

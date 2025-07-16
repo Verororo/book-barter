@@ -1,6 +1,6 @@
 ﻿using BookBarter.Application.Common.Models;
+using BookBarter.Application.Common.Responses;
 using BookBarter.Application.Genres.Queries;
-using BookBarter.Application.Genres.Responses;
 using BookBarter.Application.Users.Responses;
 using BookBarter.Domain.Entities;
 using MediatR;

@@ -23,7 +23,8 @@ public class CreatePublisherCommandHandler : IRequestHandler<CreatePublisherComm
     {
         var publisher = new Publisher
         {
-            Name = command.Name
+            Name = command.Name,
+            AddedDate = DateTime.UtcNow
         };
 
         _repository.Add<Publisher>(publisher);

@@ -1,13 +1,7 @@
-﻿using BookBarter.Application.BookBooks.Commands;
-using BookBarter.Application.Common.Interfaces.Repositories;
+﻿using BookBarter.Application.Common.Interfaces.Repositories;
 using BookBarter.Domain.Entities;
 using BookBarter.Domain.Exceptions;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BookBarter.Application.Publishers.Commands;
 
@@ -25,10 +19,18 @@ public class DeletePublisherCommandHandler : IRequestHandler<DeletePublisherComm
     }
     public async Task Handle(DeletePublisherCommand request, CancellationToken cancellationToken)
     {
-        var publisher = await _repository.GetByIdAsync<Publisher>(request.Id, cancellationToken);
+        var publisher = await _repository.GetByIdAsync<Publisher>(request.Id, cancellationToken, p => p.Books);
         if (publisher == null) throw new EntityNotFoundException(typeof(Publisher).Name, request.Id);
 
-        _repository.Delete<Publisher>(publisher);
+        if (publisher.Books != null && publisher.Books.Any())
+        {
+            var bookIds = string.Join(", ", publisher.Books.Select(b => b.Id));
+
+            var message = $"Attempted to delete Publisher {publisher.Id} referred by existing Books: {bookIds}.";
+            throw new BusinessLogicException(message);
+        }
+
+        _repository.Delete(publisher);
         await _repository.SaveAsync(cancellationToken);
     }
 }

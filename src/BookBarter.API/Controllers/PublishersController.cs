@@ -2,6 +2,7 @@
 using BookBarter.Application.Books.Queries;
 using BookBarter.Application.Books.Responses;
 using BookBarter.Application.Common.Models;
+using BookBarter.Application.Common.Responses;
 using BookBarter.Application.Publishers.Commands;
 using BookBarter.Application.Publishers.Queries;
 using BookBarter.Application.Publishers.Responses;

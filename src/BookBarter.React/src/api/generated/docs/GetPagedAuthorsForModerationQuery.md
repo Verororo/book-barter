@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **orderByProperty** | **string** |  | [optional] [default to undefined]
 **orderDirection** | **string** |  | [optional] [default to undefined]
 **approved** | **boolean** |  | [optional] [default to undefined]
+**query** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -22,6 +23,7 @@ const instance: GetPagedAuthorsForModerationQuery = {
     orderByProperty,
     orderDirection,
     approved,
+    query,
 };
 ```
 

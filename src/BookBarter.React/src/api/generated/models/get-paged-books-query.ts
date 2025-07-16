@@ -58,10 +58,10 @@ export interface GetPagedBooksQuery {
     'title'?: string | null;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof GetPagedBooksQuery
      */
-    'authorName'?: string | null;
+    'authorId'?: number | null;
     /**
      * 
      * @type {number}

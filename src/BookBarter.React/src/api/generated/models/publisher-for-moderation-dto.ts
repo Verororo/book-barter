@@ -43,6 +43,12 @@ export interface PublisherForModerationDto {
     'approved'?: boolean;
     /**
      * 
+     * @type {string}
+     * @memberof PublisherForModerationDto
+     */
+    'addedDate'?: string;
+    /**
+     * 
      * @type {Array<BookDto>}
      * @memberof PublisherForModerationDto
      */

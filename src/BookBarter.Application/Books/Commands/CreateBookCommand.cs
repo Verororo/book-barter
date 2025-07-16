@@ -40,7 +40,7 @@ public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, int>
             Isbn = request.Isbn,
             Title = request.Title,
             PublicationDate = request.PublicationDate,
-            AddedToDatabaseDate = DateTime.UtcNow,
+            AddedDate = DateTime.UtcNow,
             GenreId = request.GenreId,
             PublisherId = request.PublisherId,
             Authors = existingAuthors

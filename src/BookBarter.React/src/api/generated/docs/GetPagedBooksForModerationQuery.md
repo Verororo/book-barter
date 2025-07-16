@@ -10,6 +10,10 @@ Name | Type | Description | Notes
 **orderByProperty** | **string** |  | [optional] [default to undefined]
 **orderDirection** | **string** |  | [optional] [default to undefined]
 **approved** | **boolean** |  | [optional] [default to undefined]
+**title** | **string** |  | [optional] [default to undefined]
+**authorId** | **number** |  | [optional] [default to undefined]
+**genreId** | **number** |  | [optional] [default to undefined]
+**publisherId** | **number** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -22,6 +26,10 @@ const instance: GetPagedBooksForModerationQuery = {
     orderByProperty,
     orderDirection,
     approved,
+    title,
+    authorId,
+    genreId,
+    publisherId,
 };
 ```
 

@@ -61,7 +61,7 @@ export interface BookForModerationDto {
      * @type {string}
      * @memberof BookForModerationDto
      */
-    'addedToDatabaseDate': string;
+    'addedDate': string;
     /**
      * 
      * @type {boolean}

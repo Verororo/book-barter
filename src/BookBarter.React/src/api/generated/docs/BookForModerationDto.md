@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **isbn** | **string** |  | [optional] [default to undefined]
 **title** | **string** |  | [optional] [default to undefined]
 **publicationDate** | **string** |  | [default to undefined]
-**addedToDatabaseDate** | **string** |  | [default to undefined]
+**addedDate** | **string** |  | [default to undefined]
 **approved** | **boolean** |  | [optional] [default to undefined]
 **genre** | [**GenreDto**](GenreDto.md) |  | [optional] [default to undefined]
 **publisher** | [**PublisherDto**](PublisherDto.md) |  | [optional] [default to undefined]
@@ -27,7 +27,7 @@ const instance: BookForModerationDto = {
     isbn,
     title,
     publicationDate,
-    addedToDatabaseDate,
+    addedDate,
     approved,
     genre,
     publisher,

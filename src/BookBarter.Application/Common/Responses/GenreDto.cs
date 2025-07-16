@@ -1,4 +1,4 @@
-﻿namespace BookBarter.Application.Genres.Responses;
+﻿namespace BookBarter.Application.Common.Responses;
 
 public class GenreDto
 {

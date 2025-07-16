@@ -22,7 +22,7 @@ import { fetchAutocompleteBooks } from '../../api/clients/book-client';
 const UserItemContainer = () => {
   const { isAuthenticated } = useAuth();
 
-  const pageSize = 10;
+  const ITEMS_PER_PAGE = 10;
   const [users, setUsers] = useState<ListedUser[]>([]);
   const [total, setTotal] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -46,7 +46,7 @@ const UserItemContainer = () => {
     setLoading(true);
     fetchListedUsersPaginatedResult({
       pageNumber: currentPage,
-      pageSize,
+      pageSize: ITEMS_PER_PAGE,
       orderByProperty: searchParams.sortBy,
       orderDirection: searchParams.sortDirection,
       wantedBooksIds: searchParams.booksGivenOut.map(b => b.id!) || undefined,
@@ -149,7 +149,7 @@ const UserItemContainer = () => {
       )}
 
       <Pagination
-        count={Math.ceil(total / pageSize)}
+        count={Math.ceil(total / ITEMS_PER_PAGE)}
         page={currentPage}
         onChange={handlePageChange}
         color="primary"

@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **middleName** | **string** |  | [optional] [default to undefined]
 **lastName** | **string** |  | [optional] [default to undefined]
 **approved** | **boolean** |  | [optional] [default to undefined]
+**addedDate** | **string** |  | [optional] [default to undefined]
 **books** | [**Array&lt;BookDto&gt;**](BookDto.md) |  | [optional] [default to undefined]
 
 ## Example
@@ -23,6 +24,7 @@ const instance: AuthorForModerationDto = {
     middleName,
     lastName,
     approved,
+    addedDate,
     books,
 };
 ```

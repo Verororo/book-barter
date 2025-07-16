@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BookBarter.Application.Common.Interfaces.Repositories;
 using BookBarter.Application.Common.Models;
+using BookBarter.Application.Common.Responses;
 using BookBarter.Application.Publishers.Queries;
 using BookBarter.Application.Publishers.Responses;
 using BookBarter.Domain.Entities;
@@ -47,6 +48,11 @@ public class PublisherRepository : IPublisherRepository
         IQueryable<Publisher> publishers = _dbSet;
 
         publishers = publishers.Where(p => p.Approved == request.Approved);
+
+        if (!string.IsNullOrWhiteSpace(request.Query))
+        {
+            publishers = publishers.Where(g => g.Name.Contains(request.Query));
+        }
 
         var paginatedResult = await publishers.CreatePaginatedResultAsync<Publisher, PublisherForModerationDto>(request, _mapper, cancellationToken);
 

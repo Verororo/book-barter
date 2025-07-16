@@ -26,6 +26,7 @@ public class CreateAuthorCommandHandler : IRequestHandler<CreateAuthorCommand, i
             FirstName = command.FirstName,
             MiddleName = command.MiddleName,
             LastName = command.LastName,
+            AddedDate = DateTime.UtcNow
         };
 
         _repository.Add<Author>(author);

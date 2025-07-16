@@ -25,6 +25,8 @@ public class PublisherSeed
             .Select(r => new Publisher
             {
                 Name = r.Name,
+                AddedDate = DateTime.UtcNow,
+                Approved = true
             })
             .ToList();
 

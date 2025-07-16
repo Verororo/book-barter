@@ -1,0 +1,9 @@
+.autocompleteRoot, .input {
+  background-color: #ffffff;
+}
+
+form {
+  padding: 0 16px;
+  margin-top: 10px;
+  margin-bottom: 16px;
+}
