@@ -55,29 +55,7 @@ public class BookRepository : IBookRepository
         {
             books = books.Where(b => b.Title.Contains(request.Title));
         }
-        /*
-        if (!string.IsNullOrWhiteSpace(request.AuthorName))
-        {
-            // split the query into multiple strings
-            var tokens = request.AuthorName
-                .Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(t => t.Trim())
-                .Where(t => !string.IsNullOrEmpty(t))
-                .ToList();
-
-            var loweredTokens = tokens.Select(t => t.ToLower()).ToList();
-
-            foreach (var token in loweredTokens)
-            {
-                books = books.Where(b =>
-                    b.Authors.Any(a =>
-                        // concatenate first+space+last, ToLower() for case-insensitive
-                        (a.FirstName + " " + a.LastName).ToLower().Contains(token)
-                    )
-                );
-            }
-        }
-        */
+        
         if (request.AuthorId.HasValue)
         {
             books = books.Where(b => b.Authors.Any(a => a.Id == request.AuthorId));
@@ -104,6 +82,11 @@ public class BookRepository : IBookRepository
         IQueryable<Book> books = _dbSet;
 
         books = books.Where(b => b.Approved == request.Approved);
+
+        if (!string.IsNullOrWhiteSpace(request.Title))
+        {
+            books = books.Where(b => b.Title.Contains(request.Title));
+        }
 
         if (request.AuthorId.HasValue)
         {
