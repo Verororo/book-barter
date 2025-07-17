@@ -73,8 +73,7 @@ const Auth = () => {
             password: values.password
           })
           navigate('/')
-        }
-        else {
+        } else {
           await register({
             email: values.email,
             password: values.password,

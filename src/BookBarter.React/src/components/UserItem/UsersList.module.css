@@ -1,5 +1,5 @@
 
-.userItem {
+.usersList {
   background-color: white;
   border: 1px solid gray;
   border-radius: 20px;
@@ -8,7 +8,7 @@
   box-sizing: border-box;
 }
 
-.userItemHeader {
+.usersListHeader {
   display: flex;
   justify-content: space-between;
   gap: 10px;
@@ -18,21 +18,21 @@
   margin-bottom: 10px;
 }
 
-.userItemHeaderLeft,
-.userItemHeaderRight {
+.usersListHeaderLeft,
+.usersListHeaderRight {
   display: flex;
   align-items: center;
 }
 
-.userItemHeaderRight {
+.usersListHeaderRight {
   gap: 10px;
 }
 
-.userItemHeaderLeft {
+.usersListHeaderLeft {
   gap: 20px;
 }
 
-.userItemName {
+.usersListName {
   display: flex;
   gap: 9px;
   align-items: center;
@@ -40,20 +40,20 @@
   margin: 0;
 }
 
-.userItemCity {
+.usersListCity {
   display: flex;
   gap: 3px;
   align-items: center;
   font-size: 0.9em;
 }
 
-.userItemLastOnline {
+.usersListLastOnline {
   margin: 0;
   color: gray;
   font-size: 0.85em;
 }
 
-.userItemHeaderButtons {
+.usersListHeaderButtons {
   display: flex;
   gap: 8px;
 }

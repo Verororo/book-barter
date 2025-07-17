@@ -52,7 +52,6 @@ const ModeratorPanel = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Search states
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [bookNameSearch, setBookNameSearch] = useState('');
   const [authorSearch, setAuthorSearch] = useState('');
