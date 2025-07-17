@@ -43,8 +43,6 @@ public class AuthenticationService : IAuthenticationService
             return new RegisterDto { Succeeded = false, Messages = errors };
         }
 
-        await _userManager.AddToRoleAsync(user, "User");
-
         return new RegisterDto { Succeeded = true, Messages = [] };
     }
 

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import styles from './Auth.module.css'
 import TextField from '@mui/material/TextField'
 import Radio from '@mui/material/Radio'
@@ -11,13 +11,16 @@ import { useFormik } from 'formik'
 import HomeButton from '../../components/Navigation/HomeButton'
 import { useAuth } from '../../contexts/Auth/UseAuth'
 import { useNavigate } from 'react-router-dom'
+import type { CityDto } from '../../api/generated/models/city-dto'
+import { fetchPagedCities } from '../../api/clients/city-client'
+import SingleSearchBar from '../../components/SearchBars/SingleSearchBar'
 
 type FormValues = {
   email: string,
   password: string,
   confirmPassword: string,
   userName: string,
-  city: string
+  city: CityDto | null
 }
 
 type FormErrors = {
@@ -30,6 +33,7 @@ type FormErrors = {
 
 const Auth = () => {
   const [hasAccount, setHasAccount] = useState(true)
+  const [loading, setLoading] = useState(false)
   const { login, register, isAuthenticated, userAuthData } = useAuth()
   const navigate = useNavigate()
 
@@ -39,12 +43,15 @@ const Auth = () => {
     if (!values.email) errors.email = "Email is required."
     else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) errors.email = "Invalid email address."
 
-
     if (!values.password) errors.password = "Password is required."
-    else if (values.password.length < 6) errors.password = "Password must be at least 6 characters."
-
 
     if (!hasAccount) {
+      if (values.password.length < 6) errors.password = "Password must be at least 6 characters."
+      else if (!/[A-Z]/.test(values.password)) errors.password = "Password must contain at least one uppercase character."
+      else if (!/[a-z]/.test(values.password)) errors.password = "Password must contain at least one lowercase character."
+      else if (!/[\d]/.test(values.password)) errors.password = "Password must contain at least one digit."
+      else if (!/[^A-Za-z0-9]/.test(values.password)) errors.password = "Password must contain at least one non-alphanumeric character."
+
       if (values.confirmPassword != values.password) errors.confirmPassword = "Passwords don't match."
 
       if (!values.userName) errors.userName = "User name is required."
@@ -62,11 +69,14 @@ const Auth = () => {
       password: '',
       confirmPassword: '',
       userName: '',
-      city: ''
+      city: null
     },
     validate,
+    validateOnChange: false,
+    validateOnBlur: true,
     onSubmit: async (values) => {
       try {
+        setLoading(true)
         if (hasAccount) {
           await login({
             email: values.email,
@@ -77,9 +87,8 @@ const Auth = () => {
           await register({
             email: values.email,
             password: values.password,
-            confirmPassword: values.confirmPassword,
             userName: values.userName,
-            city: values.city
+            cityId: values.city?.id
           })
 
           setHasAccount(true)
@@ -88,11 +97,14 @@ const Auth = () => {
             password: '',
             confirmPassword: '',
             userName: '',
-            city: ''
+            city: null
           })
+          formik.setFieldTouched("password", false, /* shouldValidate = */ false);
         }
       } catch (error) {
         console.log(error)
+      } finally {
+        setLoading(false)
       }
     }
   })
@@ -100,6 +112,14 @@ const Auth = () => {
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setHasAccount(JSON.parse(event.target.value))
   }
+
+  const onCityChange = useCallback(
+      (_event: any, newValue: any) => {
+        formik.setFieldValue("city", newValue, /* shouldValidate = */ true);
+        formik.setFieldTouched("city", true, /* shouldValidate = */ false);
+      },
+      [formik]
+    );
 
   if (isAuthenticated && userAuthData) {
     return (
@@ -196,17 +216,18 @@ const Auth = () => {
                 helperText={formik.touched.userName && formik.errors.userName}
               />
 
-              <TextField
+              <SingleSearchBar
                 id="city"
-                name="city"
                 label="City"
-                variant="standard"
-                fullWidth
                 value={formik.values.city}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                getOptionLabel={(option) => option.nameWithCountry!}
+                onChange={onCityChange}
+                fetchMethod={fetchPagedCities}
+                styles={styles}
                 error={formik.touched.city && Boolean(formik.errors.city)}
                 helperText={formik.touched.city && formik.errors.city}
+                onBlur={() => formik.setFieldTouched('city', true)}
+                variant={'standard'}
               />
             </div>
           )}
@@ -216,6 +237,7 @@ const Auth = () => {
             type="submit"
             className={styles.submitButton}
             size="large"
+            loading={loading}
           >
             {hasAccount ? 'Sign in' : 'Sign up'}
           </Button>

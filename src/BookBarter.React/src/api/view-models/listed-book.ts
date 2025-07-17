@@ -8,6 +8,7 @@ export type ListedBook = {
   publicationYear: number
   publisherName: string
   bookStateName?: string
+  color?: string
 }
 
 export const mapListedBookDtoToView = (dto: OwnedBookDto | WantedBookDto): ListedBook => {

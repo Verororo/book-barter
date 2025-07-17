@@ -9,8 +9,8 @@ public class BookProfile : Profile
     public BookProfile()
     {
         CreateMap<Book, BookDto>()
-            .ForMember(x => x.GenreName, o => o.MapFrom(x => x.Genre.Name))
-            .ForMember(x => x.PublisherName, o => o.MapFrom(x => x.Publisher.Name));
+            .ForMember(dest => dest.GenreName, opt => opt.MapFrom(src => src.Genre.Name))
+            .ForMember(dest => dest.PublisherName, opt => opt.MapFrom(src => src.Publisher.Name));
 
         CreateMap<Book, BookForModerationDto>();
 

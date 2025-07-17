@@ -19,6 +19,14 @@
   gap: 1px;
 }
 
+.bookItemOrange {
+  background-color: #ffca97 !important;
+}
+
+.bookItemBlue {
+  background-color: #c3e6ff !important;
+}
+
 .bookItemHeader {
   display: flex;
   gap: 4px;

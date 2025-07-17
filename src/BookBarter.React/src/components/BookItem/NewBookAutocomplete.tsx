@@ -79,7 +79,11 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
     setOpenAddDialog(true)
   }
 
-  const addBookRelationship = async (book: ListedBookDto, bookStateId: number = 0) => {
+  const addBookRelationship = async (
+    book: ListedBookDto,
+    isApproved: boolean,
+    bookStateId: number = 0
+  ) => {
     if (!book)
       return
 
@@ -103,6 +107,7 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
     setInputValue('');
     setOptions([]);
 
+    book.approved = isApproved;
     if (isGivingOut) {
       const bookStateName = bookStates.find(bs => bs.id === bookStateId)!.label
       onBookAdded?.(book, bookStateName);
@@ -112,12 +117,12 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
     }
   }
 
-  const handleCustomBookCreated = (listedBook: ListedBookDto) => {
+  const handleCustomBookCreated = (book: ListedBookDto) => {
     if (customBookStateId !== null) {
-      addBookRelationship(listedBook, customBookStateId);
+      addBookRelationship(book, /* isApproved = */ false, customBookStateId);
       setCustomBookStateId(null);
     } else {
-      addBookRelationship(listedBook);
+      addBookRelationship(book, /* isApproved = */ false);
     }
   }
 
@@ -152,7 +157,7 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
                     if (isGivingOut) {
                       setAnchorEl(inputRef.current as HTMLElement)
                     } else {
-                      addBookRelationship(newValue)
+                      addBookRelationship(newValue, /* isApproved = */ true)
                     }
                   }
                 }}
@@ -217,7 +222,7 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
                     if (dialogDefaultTitle) {
                       handleDialog(state.id)
                     } else if (value) {
-                      addBookRelationship(value, state.id)
+                      addBookRelationship(value, /* isApproved = */ true, state.id)
                     }
                   }}>
                     {state.label}

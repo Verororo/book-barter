@@ -2,8 +2,6 @@ import { createContext, useState, useEffect, type ReactNode } from 'react';
 import { jwtDecode } from 'jwt-decode';
 
 import type { UserAuthData } from './types/UserAuthData';
-import type { LoginRequest } from './types/LoginRequest';
-import type { RegisterRequest } from './types/RegisterRequest';
 import type { JwtPayload } from './types/JwtPayload';
 import type { LoginCommand, RegisterCommand } from '../../api/generated';
 import { sendLoginCommand, sendRegisterCommand } from '../../api/clients/auth-client';
@@ -11,8 +9,8 @@ import { sendLoginCommand, sendRegisterCommand } from '../../api/clients/auth-cl
 interface AuthContextType {
   userAuthData: UserAuthData | null;
   isAuthenticated: boolean;
-  login: (data: LoginRequest) => Promise<void>;
-  register: (data: RegisterRequest) => Promise<void>;
+  login: (data: LoginCommand) => Promise<void>;
+  register: (data: RegisterCommand) => Promise<void>;
   logout: () => void;
 }
 

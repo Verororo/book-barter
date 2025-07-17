@@ -29,7 +29,7 @@ const LookingForSection = ({ lookingForBooks, customizable = false }: LookingFor
       id: listedBookDto.id!,
       title: listedBookDto.title!,
       authors: authorsView,
-      approved: false,
+      approved: listedBookDto.approved!,
       publicationYear: new Date(listedBookDto.publicationDate!).getFullYear(),
       publisherName: listedBookDto.publisherName ?? ""
     }

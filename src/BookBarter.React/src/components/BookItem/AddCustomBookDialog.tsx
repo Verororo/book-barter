@@ -84,7 +84,7 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
           middleName: author.middleName,
           lastName: author.lastName!,
         });
-        
+
         return { ...author, id: newId };
       })
     );

@@ -16,6 +16,12 @@ const BookItem = ({ book, onBookDeleted }: BookItemProps) => {
     }
   };
 
+  const getBackgroundStyle = () => {
+    if (book.color === 'orange') return styles.bookItemOrange;
+    if (book.color === 'blue') return styles.bookItemBlue;
+    return '';
+  };
+
   return (
     <Tooltip title={
       book.approved
@@ -24,7 +30,7 @@ const BookItem = ({ book, onBookDeleted }: BookItemProps) => {
     } arrow
     >
       <motion.div
-        className={book.approved ? styles.bookItem : styles.unapprovedBookItem}
+        className={`${book.approved ? styles.bookItem : styles.unapprovedBookItem} ${getBackgroundStyle()}`}
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         exit={{ opacity: 0, scale: 0 }}

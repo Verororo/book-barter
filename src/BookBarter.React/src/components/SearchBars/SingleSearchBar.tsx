@@ -13,11 +13,11 @@ interface SingleSearchBarProps<T extends BaseEntity> {
   onChange: (event: React.SyntheticEvent, newValue: T | null) => void;
   fetchMethod: (query: string) => Promise<T[]>;
   placeholder?: string;
-  variant?: 'standard' | 'outlined' | 'filled';
   error?: boolean;
   helperText?: React.ReactNode;
   onBlur?: () => void;
   styles: CSSModuleClasses;
+  variant?: 'standard' | 'outlined' | 'filled';
 }
 
 const MINIMUM_SEARCH_LENGTH = 3;

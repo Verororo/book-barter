@@ -55,6 +55,18 @@ const Home = () => {
           wantedBooksIds: searchParams.booksGivenOut.map(b => b.id!) || undefined,
           ownedBooksIds: searchParams.booksLookedFor.map(b => b.id!) || undefined,
         });
+        // Color the found books looked for in the search blue
+        items.map(user => user.ownedBooks.map(b =>
+          booksLookedFor.map(blf => blf.id).includes(b.id)
+            ? b.color = "blue"
+            : b.color = undefined))
+
+        // Color the found books given out in the search orange
+        items.map(user => user.wantedBooks.map(book =>
+          booksGivenOut.map(blf => blf.id).includes(book.id)
+            ? book.color = "orange"
+            : book.color = undefined))
+
         setUsers(items);
         setTotal(total);
       } catch (error) {

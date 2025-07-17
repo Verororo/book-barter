@@ -29,7 +29,7 @@ const GivingOutSection = ({ givingOutBooks, customizable = false }: GivingOutSec
       id: listedBookDto.id!,
       title: listedBookDto.title!,
       authors: authorsView,
-      approved: false,
+      approved: listedBookDto.approved!,
       publicationYear: new Date(listedBookDto.publicationDate!).getFullYear(),
       publisherName: listedBookDto.publisherName ?? "",
       bookStateName: bookStateName
