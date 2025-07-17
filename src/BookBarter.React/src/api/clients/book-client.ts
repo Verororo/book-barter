@@ -12,8 +12,7 @@ export const createBookCommand = async (
   try {
     const response = await booksApi.apiBooksPost(command)
     return response.data
-  } 
-  catch (error) {
+  } catch (error) {
     console.error(error)
     return undefined
   }
@@ -64,8 +63,7 @@ export const fetchAutocompleteBooksSkipLoggedInIds = async (
 
     return mapAutocompleteBookPaginatedResultDtoToView(response.data);
 
-  } 
-  catch (error) {
+  } catch (error) {
     console.error(error);
     return [];
   }
@@ -91,8 +89,7 @@ export const fetchAutocompleteBooksSkipCustomIds = async (
 
     return mapAutocompleteBookPaginatedResultDtoToView(response.data);
 
-  }
-  catch (error) {
+  } catch (error) {
     console.error(error);
     return [];
   }

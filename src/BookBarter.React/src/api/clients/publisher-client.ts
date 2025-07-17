@@ -9,8 +9,7 @@ export const createPublisherCommand = async (
   try {
     const response = await publishersApi.apiPublishersPost(command)
     return response.data
-  }
-  catch (error) {
+  } catch (error) {
     console.error(error)
     return undefined
   }

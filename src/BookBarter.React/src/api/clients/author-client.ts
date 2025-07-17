@@ -9,8 +9,7 @@ export const createAuthorCommand = async (
   try {
     const response = await authorsApi.apiAuthorsPost(command)
     return response.data
-  }
-  catch (error) {
+  } catch (error) {
     console.error(error)
     return undefined
   }

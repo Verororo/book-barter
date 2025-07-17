@@ -64,7 +64,6 @@ function SingleSearchBarWithCustom<T extends BaseEntity>({
     []
   );
 
-  // Memoize debounced fetch function
   const debouncedFetch = useMemo(
     () => debounce((query: string) => {
       fetchMethod(query)

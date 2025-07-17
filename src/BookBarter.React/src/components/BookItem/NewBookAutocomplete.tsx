@@ -90,8 +90,7 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
           bookStateId
         }
       );
-    }
-    else {
+    } else {
       await addBookToWanted(
         {
           bookId: book.id
@@ -117,8 +116,7 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
     if (customBookStateId !== null) {
       addBookRelationship(listedBook, customBookStateId);
       setCustomBookStateId(null);
-    }
-    else {
+    } else {
       addBookRelationship(listedBook);
     }
   }
@@ -144,8 +142,7 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
                     setDialogDefaultTitle(newValue.inputValue);
                     if (isGivingOut) {
                       setAnchorEl(inputRef.current as HTMLElement)
-                    }
-                    else {
+                    } else {
                       handleDialog()
                     }
                   }
@@ -154,8 +151,7 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
                     setValue(newValue);
                     if (isGivingOut) {
                       setAnchorEl(inputRef.current as HTMLElement)
-                    }
-                    else {
+                    } else {
                       addBookRelationship(newValue)
                     }
                   }
@@ -169,6 +165,7 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
                   if (inputValue.length >= 3 && !loading) {
                     filtered.push({ inputValue });
                   }
+
                   return filtered;
                 }}
                 options={options}
@@ -179,6 +176,7 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
                   const authors = option.authors!.length === 1
                     ? `${option.authors![0].firstName} ${option.authors![0].lastName}`.trim()
                     : option.authors?.map(a => a.lastName).join(', ');
+
                   return `${authors}. ${option.title}`;
                 }}
                 renderInput={params => (
@@ -218,8 +216,7 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
                   <MenuItem key={state.id} onClick={() => {
                     if (dialogDefaultTitle) {
                       handleDialog(state.id)
-                    }
-                    else if (value) {
+                    } else if (value) {
                       addBookRelationship(value, state.id)
                     }
                   }}>

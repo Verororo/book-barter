@@ -9,8 +9,7 @@ export const sendLoginCommand = async (
   try {
     const response = await authApi.apiAuthLoginPost(command)
     return response.data
-  }
-  catch (error) {
+  } catch (error) {
     console.error(error)
     throw error
   }
@@ -21,8 +20,7 @@ export const sendRegisterCommand = async (
 ): Promise<void> => {
   try {
     await authApi.apiAuthRegisterPost(command)
-  }
-  catch (error) {
+  } catch (error) {
     console.error(error)
     throw error
   }

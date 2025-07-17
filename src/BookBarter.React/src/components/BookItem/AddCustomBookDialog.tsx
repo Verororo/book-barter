@@ -84,6 +84,7 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
           middleName: author.middleName,
           lastName: author.lastName!,
         });
+        
         return { ...author, id: newId };
       })
     );
@@ -95,6 +96,7 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
     const newId = await createPublisherCommand({
       name: publisher.name,
     });
+
     return { ...publisher, id: newId };
   }
 
@@ -140,11 +142,9 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
 
         onBookCreated(newListedBook)
         onClose()
-      }
-      catch (error) {
+      } catch (error) {
         console.log(error)
-      }
-      finally {
+      } finally {
         setLoading(false)
       }
     }

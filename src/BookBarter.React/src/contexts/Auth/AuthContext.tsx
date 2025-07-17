@@ -42,12 +42,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           };
 
           setUserAuthData(userAuthData);
-        }
-        else {
+        } else {
           localStorage.removeItem('authToken');
         }
-      }
-      catch (error) {
+      } catch (error) {
         localStorage.removeItem('authToken');
       }
     }
@@ -69,8 +67,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setUserAuthData(userAuthData);
 
       alert('Login successful!');
-    }
-    catch (error) {
+    } catch (error) {
       alert('Login failed.');
       throw error
     }
@@ -80,8 +77,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try {
       await sendRegisterCommand(data)
       alert('Registration successful! You can now sign in.');
-    }
-    catch (error: any) {
+    } catch (error: any) {
       if (error.response?.data?.messages) {
         alert('Registration failed: ' + error.response.data.messages.join(', '));
       } else {
