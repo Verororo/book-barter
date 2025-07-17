@@ -10,6 +10,7 @@ import { ThemeProvider } from '@mui/material/styles'
 import { AuthProvider } from './contexts/Auth/AuthContext';
 import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner'
 import ModeratorPanel from './pages/ModeratorPanel/ModeratorPanel'
+import { NotificationProvider } from './contexts/Notification/NotificationContext'
 
 const Home = lazy(() => import('./pages/Home/Home'))
 const Auth = lazy(() => import('./pages/Auth/Auth'))
@@ -18,23 +19,25 @@ const OwnProfile = lazy(() => import('./pages/OwnProfile/OwnProfile'))
 
 function App() {
   return (
-    <AuthProvider>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Router>
-          <Navigation />
-          <Suspense fallback={<LoadingSpinner />}>
-            <Routes>
-              <Route path='/' element={<Home />} />
-              <Route path='/auth' element={<Auth />} />
-              <Route path='/users/:userId' element={<UserProfile />} />
-              <Route path='/users/me' element={<OwnProfile />} />
-              <Route path='/moderator' element={<ModeratorPanel />} />
-            </Routes>
-          </Suspense>
-        </Router>
-      </ThemeProvider>
-    </AuthProvider>
+    <NotificationProvider>
+      <AuthProvider>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Router>
+            <Navigation />
+            <Suspense fallback={<LoadingSpinner />}>
+              <Routes>
+                <Route path='/' element={<Home />} />
+                <Route path='/auth' element={<Auth />} />
+                <Route path='/users/:userId' element={<UserProfile />} />
+                <Route path='/users/me' element={<OwnProfile />} />
+                <Route path='/moderator' element={<ModeratorPanel />} />
+              </Routes>
+            </Suspense>
+          </Router>
+        </ThemeProvider>
+      </AuthProvider>
+    </NotificationProvider>
   )
 }
 

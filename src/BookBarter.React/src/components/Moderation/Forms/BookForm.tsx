@@ -17,6 +17,7 @@ import MultipleSearchBarWithCustom from '../../SearchBars/MultipleSearchBarWithC
 import SingleSearchBarWithCustom from '../../SearchBars/SingleSearchBarWithCustom';
 import EditActionButtons from '../Buttons/EditActionButtons';
 import styles from './Form.module.css'
+import { useNotification } from '../../../contexts/Notification/UseNotification';
 
 interface BookFormProps {
   book: BookForModerationDto;
@@ -46,12 +47,16 @@ const BookForm = ({ book, onSave, onCancel }: BookFormProps) => {
   const [loading, setLoading] = useState(false);
   const [genres, setGenres] = useState<GenreDto[]>([]);
 
+  const { showNotification } = useNotification();
+
   useEffect(() => {
     fetchPagedGenres('')
       .then((response) => {
         setGenres(response);
       })
-      .catch(error => console.log(error));
+      .catch(_error => {
+        showNotification("Failed to fetch genres from the server. Try again later.", "error");
+      });
   }, []);
 
   const validate = useCallback((values: UpdateBookValues) => {
@@ -80,12 +85,17 @@ const BookForm = ({ book, onSave, onCancel }: BookFormProps) => {
       authors.map(async author => {
         if (author.id) return author;
 
-        const newId = await createAuthorCommand({
-          firstName: author.firstName,
-          middleName: author.middleName,
-          lastName: author.lastName!,
-        });
-        return { ...author, id: newId };
+        try {
+          const newId = await createAuthorCommand({
+            firstName: author.firstName,
+            middleName: author.middleName,
+            lastName: author.lastName!,
+          });
+          return { ...author, id: newId };
+        } catch (error) {
+          showNotification("Failed to add the new author. Try again later.", "error");
+          throw error;
+        }
       })
     );
   }
@@ -93,10 +103,15 @@ const BookForm = ({ book, onSave, onCancel }: BookFormProps) => {
   async function resolvePublisherId(publisher: PublisherDto): Promise<PublisherDto> {
     if (publisher.id) return publisher;
 
-    const newId = await createPublisherCommand({
-      name: publisher.name,
-    });
-    return { ...publisher, id: newId };
+    try {
+      const newId = await createPublisherCommand({
+        name: publisher.name,
+      });
+      return { ...publisher, id: newId };
+    } catch (error) {
+      showNotification("Failed to add the new publisher. Try again later.", "error");
+      throw error;
+    }
   }
 
   const formik = useFormik<UpdateBookValues>({
@@ -131,10 +146,12 @@ const BookForm = ({ book, onSave, onCancel }: BookFormProps) => {
         };
 
         await updateBook(command);
+        showNotification("The book has been succesfully updated.", "success");
         onSave();
       }
       catch (error) {
-        console.log(error);
+        console.error(error);
+        showNotification("Failed to update the book. Try again later.", "error");
       }
       finally {
         setLoading(false);

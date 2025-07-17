@@ -4,6 +4,7 @@ import { updateAuthor } from '../../../api/clients/author-client';
 import type { AuthorForModerationDto, UpdateAuthorCommand } from '../../../api/generated';
 import EditActionButtons from '../Buttons/EditActionButtons';
 import styles from './Form.module.css'
+import { useNotification } from '../../../contexts/Notification/UseNotification';
 
 interface AuthorFormProps {
   author: AuthorForModerationDto;
@@ -12,6 +13,8 @@ interface AuthorFormProps {
 }
 
 const AuthorForm = ({ author, onSave, onCancel }: AuthorFormProps) => {
+  const { showNotification } = useNotification();
+
   const formik = useFormik({
     initialValues: {
       firstName: author.firstName,
@@ -29,7 +32,7 @@ const AuthorForm = ({ author, onSave, onCancel }: AuthorFormProps) => {
         await updateAuthor(command);
         onSave();
       } catch (error) {
-        console.log(error);
+        showNotification("Failed to update the author. Try again later.", "error")
       }
     }
   });

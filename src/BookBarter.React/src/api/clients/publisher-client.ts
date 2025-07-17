@@ -10,35 +10,54 @@ export const createPublisherCommand = async (
     const response = await publishersApi.apiPublishersPost(command)
     return response.data
   } catch (error) {
-    console.error(error)
-    return undefined
+    console.log(error)
+    throw error
   }
 }
 
 export const approvePublisher = async (
   id: number
 ) => {
-  await publishersApi.apiPublishersIdApprovePut(id)
+  try {
+    await publishersApi.apiPublishersIdApprovePut(id)
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
 }
 
 export const updatePublisher = async (
   query: UpdatePublisherCommand
 ) => {
-  await publishersApi.apiPublishersIdPut(query.id!, query)
+  try {
+    await publishersApi.apiPublishersIdPut(query.id!, query)
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
 }
 
 export const deletePublisher = async (
   id: number
 ) => {
-  await publishersApi.apiPublishersIdDelete(id)
+  try {
+    await publishersApi.apiPublishersIdDelete(id)
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
 }
 
 export const fetchPublishersForModeration = async (
   query: GetPagedPublishersForModerationQuery
 ): Promise<PublisherForModerationDtoPaginatedResult> => {
-  const response = await publishersApi.apiPublishersPagedModeratedPost(query);
-
-  return response.data;
+  try {
+    const response = await publishersApi.apiPublishersPagedModeratedPost(query);
+    return response.data;
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
 }
 
 
@@ -55,9 +74,8 @@ export const fetchPagedPublishers = async (
     })
 
     return response.data.items ?? [];
-
   } catch (error) {
     console.error(error);
-    return [];
+    throw error;
   }
 }

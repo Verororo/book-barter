@@ -5,6 +5,7 @@ import type { UserAuthData } from './types/UserAuthData';
 import type { JwtPayload } from './types/JwtPayload';
 import type { LoginCommand, RegisterCommand } from '../../api/generated';
 import { sendLoginCommand, sendRegisterCommand } from '../../api/clients/auth-client';
+import { useNotification } from '../Notification/UseNotification';
 
 interface AuthContextType {
   userAuthData: UserAuthData | null;
@@ -14,7 +15,7 @@ interface AuthContextType {
   logout: () => void;
 }
 
-interface AuthProviderProps {
+type AuthProviderProps = {
   children: ReactNode;
 }
 
@@ -22,6 +23,7 @@ export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [userAuthData, setUserAuthData] = useState<UserAuthData | null>(null);
+  const { showNotification } = useNotification();
   const isAuthenticated = userAuthData !== null;
 
   useEffect(() => {
@@ -64,9 +66,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       localStorage.setItem('authToken', token);
       setUserAuthData(userAuthData);
 
-      alert('Login successful!');
+      showNotification('Login successful!', 'success');
     } catch (error) {
-      alert('Login failed.');
+      showNotification('Login failed.', 'error');
       throw error
     }
   };
@@ -74,12 +76,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const register = async (data: RegisterCommand): Promise<void> => {
     try {
       await sendRegisterCommand(data)
-      alert('Registration successful! You can now sign in.');
+      showNotification('Registration successful! You can now sign in.', 'success');
     } catch (error: any) {
       if (error.response?.data?.messages) {
-        alert('Registration failed: ' + error.response.data.messages.join(', '));
+        showNotification('Registration failed: ' + error.response.data.messages.join(', '), 'error');
       } else {
-        alert('Registration failed. Please try again later.');
+        showNotification('Registration failed. Please try again later.', 'error');
       }
       throw error;
     }
@@ -88,7 +90,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const logout = () => {
     localStorage.removeItem('authToken');
     setUserAuthData(null);
-    alert('You have logged out.');
+    showNotification('You have logged out.', 'info');
   };
 
   const value: AuthContextType = {

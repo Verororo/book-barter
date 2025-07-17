@@ -16,6 +16,7 @@ import { createBookCommand } from '../../api/clients/book-client';
 import { AddCustomAuthor } from './AddCustomAuthorDialog';
 import MultipleSearchBarWithCustom from '../SearchBars/MultipleSearchBarWithCustom';
 import SingleSearchBarWithCustom from '../SearchBars/SingleSearchBarWithCustom';
+import { useNotification } from '../../contexts/Notification/UseNotification';
 
 type CustomBookValues = {
   isbn: string
@@ -44,13 +45,16 @@ interface AddCustomBookProps {
 export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: AddCustomBookProps) => {
   const [loading, setLoading] = useState(false);
   const [genres, setGenres] = useState<GenreDto[]>([]);
+  const { showNotification } = useNotification();
 
   useEffect(() => {
     fetchPagedGenres('')
       .then((response) => {
         setGenres(response);
       })
-      .catch(error => console.log(error));
+      .catch(_error => {
+        showNotification("Failed to fetch genres from the server. Try again later.", "error");
+      });
   }, []);
 
   const validate = useCallback((values: CustomBookValues) => {
@@ -142,8 +146,9 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
 
         onBookCreated(newListedBook)
         onClose()
+        showNotification("The new book has succesfully been added.", "success");
       } catch (error) {
-        console.log(error)
+        showNotification("Failed to create the new book. Try again later.", "error");
       } finally {
         setLoading(false)
       }

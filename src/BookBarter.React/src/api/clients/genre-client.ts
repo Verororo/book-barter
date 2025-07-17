@@ -19,6 +19,6 @@ export const fetchPagedGenres = async (
 
   } catch (error) {
     console.error(error);
-    return [];
+    throw error;
   }
 }

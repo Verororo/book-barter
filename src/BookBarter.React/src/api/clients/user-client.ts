@@ -10,52 +10,91 @@ const usersApi = new UsersApi(requestConfig)
 export const fetchListedUsersPaginatedResult = async (
   query: GetPagedUsersQuery
 ): Promise<ListedUserPaginatedResult> => {
-  const response = await usersApi.apiUsersPagedPost(query)
-
-  return mapListedUserPaginatedResultDtoToView(response.data)
+  try {
+    const response = await usersApi.apiUsersPagedPost(query)
+    return mapListedUserPaginatedResultDtoToView(response.data)
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
 };
 
 export const fetchUserById = async (
   id: number,
   excludeUnapprovedBooks: boolean
 ): Promise<User> => {
-  const response = await usersApi.apiUsersIdGet(id, excludeUnapprovedBooks)
+  try {
+    const response = await usersApi.apiUsersIdGet(id, excludeUnapprovedBooks)
+    return mapUserDtoToView(response.data)
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
 
-  return mapUserDtoToView(response.data)
 }
 
 export const updateUser = async (
   query: UpdateUserCommand
 ) => {
-  await usersApi.apiUsersMePut(query)
+  try {
+    await usersApi.apiUsersMePut(query)
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
 }
 
 export const deleteUser = async (
   id: number
 ) => {
-  await usersApi.apiUsersIdDelete(id)
+  try {
+    await usersApi.apiUsersIdDelete(id)
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
 }
 
 export const addBookToOwned = async (
   query: AddOwnedBookCommand
 ) => {
-  await usersApi.apiUsersMeOwnedBooksPost(query)
+  try {
+    await usersApi.apiUsersMeOwnedBooksPost(query)
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
 }
 
 export const deleteBookFromOwned = async (
   query: DeleteOwnedBookCommand
 ) => {
-  await usersApi.apiUsersMeOwnedBooksBookIdDelete(query.bookId!, query);
+  try {
+    await usersApi.apiUsersMeOwnedBooksBookIdDelete(query.bookId!, query);
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
 }
 
 export const addBookToWanted = async (
   query: AddWantedBookCommand
 ) => {
-  await usersApi.apiUsersMeWantedBooksPost(query)
+  try {
+    await usersApi.apiUsersMeWantedBooksPost(query)
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
 }
 
 export const deleteBookFromWanted = async (
   query: DeleteWantedBookCommand
 ) => {
-  await usersApi.apiUsersMeWantedBooksBookIdDelete(query.bookId!, query)
+  try {
+    await usersApi.apiUsersMeWantedBooksBookIdDelete(query.bookId!, query)
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
 }

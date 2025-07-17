@@ -18,27 +18,46 @@ export const createAuthorCommand = async (
 export const approveAuthor = async (
   id: number
 ) => {
-  await authorsApi.apiAuthorsIdApprovePut(id)
+  try {
+    await authorsApi.apiAuthorsIdApprovePut(id)
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
 }
 
 export const updateAuthor = async (
   query: UpdateAuthorCommand
 ) => {
-  await authorsApi.apiAuthorsIdPut(query.id!, query)
+  try {
+    await authorsApi.apiAuthorsIdPut(query.id!, query)
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
 }
 
 export const deleteAuthor = async (
   id: number
 ) => {
-  await authorsApi.apiAuthorsIdDelete(id)
+  try {
+    await authorsApi.apiAuthorsIdDelete(id)
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
 }
 
 export const fetchAuthorsForModeration = async (
   query: GetPagedAuthorsForModerationQuery
 ): Promise<AuthorForModerationDtoPaginatedResult> => {
-  const response = await authorsApi.apiAuthorsPagedModeratedPost(query);
-
-  return response.data;
+  try {
+    const response = await authorsApi.apiAuthorsPagedModeratedPost(query);
+    return response.data;
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
 }
 
 export const fetchPagedAuthors = async (
@@ -59,6 +78,6 @@ export const fetchPagedAuthors = async (
 
   } catch (error) {
     console.error(error);
-    return [];
+    throw error;
   }
 }

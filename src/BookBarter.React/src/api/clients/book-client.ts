@@ -21,27 +21,46 @@ export const createBookCommand = async (
 export const approveBook = async (
   id: number
 ) => {
-  await booksApi.apiBooksIdApprovePut(id)
+  try {
+    await booksApi.apiBooksIdApprovePut(id)
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
 }
 
 export const updateBook = async (
   query: UpdateBookCommand
 ) => {
-  await booksApi.apiBooksIdPut(query.id!, query)
+  try {
+    await booksApi.apiBooksIdPut(query.id!, query)
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
 }
 
 export const deleteBook = async (
   id: number
 ) => {
-  await booksApi.apiBooksIdDelete(id)
+  try {
+    booksApi.apiBooksIdDelete(id)
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
 }
 
 export const fetchBooksForModeration = async (
   query: GetPagedBooksForModerationQuery
 ): Promise<BookForModerationDtoPaginatedResult> => {
-  const response = await booksApi.apiBooksPagedModeratedPost(query);
-
-  return response.data;
+  try {
+    const response = await booksApi.apiBooksPagedModeratedPost(query);
+    return response.data;
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
 }
 
 export const fetchAutocompleteBooksSkipLoggedInIds = async (
@@ -65,7 +84,7 @@ export const fetchAutocompleteBooksSkipLoggedInIds = async (
 
   } catch (error) {
     console.error(error);
-    return [];
+    throw error;
   }
 }
 
@@ -91,6 +110,6 @@ export const fetchAutocompleteBooksSkipCustomIds = async (
 
   } catch (error) {
     console.error(error);
-    return [];
+    throw error;
   }
 }

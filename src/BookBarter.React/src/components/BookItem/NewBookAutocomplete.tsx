@@ -10,6 +10,7 @@ import { CircularProgress, MenuItem, Menu } from "@mui/material";
 import { addBookToOwned, addBookToWanted } from "../../api/clients/user-client";
 import type { ListedBookDto } from "../../api/generated";
 import { AddCustomBook } from "./AddCustomBookDialog";
+import { useNotification } from "../../contexts/Notification/UseNotification";
 
 type ListedBookDtoOptions = ListedBookDto & {
   inputValue?: string;
@@ -35,6 +36,8 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
   const [dialogDefaultTitle, setDialogDefaultTitle] = useState<string>();
 
   const [customBookStateId, setCustomBookStateId] = useState<number | null>(null);
+
+  const { showNotification } = useNotification();
 
   const bookStates = [
     { id: 1, label: 'Old' },
@@ -63,6 +66,9 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
     const handler = debounce(title => {
       fetchAutocompleteBooksSkipLoggedInIds(title)
         .then(options => setOptions(options))
+        .catch(_error => {
+          showNotification("Failed to fetch books from the server. Try again later.", "error");
+        })
         .finally(() => setLoading(false));
     }, 500);
 
@@ -88,18 +94,28 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
       return
 
     if (isGivingOut) {
-      await addBookToOwned(
-        {
-          bookId: book.id,
-          bookStateId
-        }
-      );
+      try {
+        await addBookToOwned(
+          {
+            bookId: book.id,
+            bookStateId
+          }
+        );
+        showNotification("The book has succesfully been added to the owned list.", "success");
+      } catch (error) {
+        showNotification("Failed to add the book to the owned list. Try again later.", "error");
+      }
     } else {
-      await addBookToWanted(
-        {
-          bookId: book.id
-        }
-      );
+      try {
+        await addBookToWanted(
+          {
+            bookId: book.id
+          }
+        );
+        showNotification("The book has succesfully been added to the owned list.", "success");
+      } catch (error) {
+        showNotification("Failed to add the book to the wanted list. Try again later.", "error");
+      }
     }
 
     setAnchorEl(null);

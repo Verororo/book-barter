@@ -4,6 +4,7 @@ import { updatePublisher } from '../../../api/clients/publisher-client';
 import type { PublisherForModerationDto, UpdatePublisherCommand } from '../../../api/generated';
 import EditActionButtons from '../Buttons/EditActionButtons';
 import styles from './Form.module.css'
+import { useNotification } from '../../../contexts/Notification/UseNotification';
 
 interface PublisherFormProps {
   publisher: PublisherForModerationDto;
@@ -12,6 +13,8 @@ interface PublisherFormProps {
 }
 
 const PublisherForm = ({ publisher, onSave, onCancel }: PublisherFormProps) => {
+  const { showNotification } = useNotification();
+
   const formik = useFormik({
     initialValues: { name: publisher.name },
     onSubmit: async (values: any) => {
@@ -23,7 +26,7 @@ const PublisherForm = ({ publisher, onSave, onCancel }: PublisherFormProps) => {
         await updatePublisher(command);
         onSave();
       } catch (error) {
-        console.log(error);
+        showNotification("Failed to update the publisher. Try again later.", "error");
       }
     }
   });
