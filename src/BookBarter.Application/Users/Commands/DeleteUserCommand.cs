@@ -21,13 +21,13 @@ public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand>
     public async Task Handle(DeleteUserCommand request, CancellationToken cancellationToken)
     {
         var user = await _userManager.FindByIdAsync(request.Id.ToString());
-        if (user == null) { throw new EntityNotFoundException(typeof(User).Name, request.Id); }
+        if (user == null) { throw new EntityNotFoundException(typeof(User).Name, request.Id); }  // FIX: use entity validator
 
         var result = await _userManager.DeleteAsync(user);
         if (!result.Succeeded)
         {
             var errors = string.Join("; ", result.Errors.Select(e => e.Description));
-            throw new Exception($"Failed to delete user: {errors}");
+            throw new Exception($"Failed to delete user: {errors}"); // FIX: consider using a custom exception type BusinessLogicException
         }
     }
 }

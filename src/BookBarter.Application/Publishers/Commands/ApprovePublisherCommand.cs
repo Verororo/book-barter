@@ -23,7 +23,7 @@ public class ApprovePublisherCommandHandler : IRequestHandler<ApprovePublisherCo
     public async Task Handle(ApprovePublisherCommand request, CancellationToken cancellationToken)
     {
         var publisher = await _repository.GetByIdAsync<Publisher>(request.Id, cancellationToken);
-        await _entityExistenceValidator.ValidateAsync<Publisher>(request.Id, cancellationToken);
+        await _entityExistenceValidator.ValidateAsync<Publisher>(request.Id, cancellationToken);  // FIX: use entity validator .Validate()
 
         if (publisher!.Approved)
         {

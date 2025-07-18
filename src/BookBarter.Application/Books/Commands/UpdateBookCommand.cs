@@ -32,7 +32,7 @@ public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand>
         await _validator.ValidateAsync<Genre>(request.GenreId, cancellationToken);
 
         var publisher = await _repository.GetByIdAsync<Publisher>(request.PublisherId, cancellationToken);
-        if (publisher == null) throw new EntityNotFoundException(typeof(Publisher).Name, request.Id);
+        if (publisher == null) throw new EntityNotFoundException(typeof(Publisher).Name, request.Id);  // FIX: use validator
         publisher.Approved = true;
 
         await _validator.ValidateAsync<Author>(request.AuthorsIds, cancellationToken);
@@ -44,7 +44,7 @@ public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand>
         }
 
         var book = await _repository.GetByIdAsync<Book>(request.Id, cancellationToken, b => b.Authors);
-        if (book == null) throw new EntityNotFoundException(typeof(Book).Name, request.Id);
+        if (book == null) throw new EntityNotFoundException(typeof(Book).Name, request.Id);  // FIX: use validator
 
         book.Isbn = request.Isbn;
         book.Title = request.Title;

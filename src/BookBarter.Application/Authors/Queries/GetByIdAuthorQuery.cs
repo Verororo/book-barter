@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace BookBarter.Application.Authors.Queries;
 
-public class GetByIdAuthorQuery
+public class GetByIdAuthorQuery  // FIX: remove
 {
 }

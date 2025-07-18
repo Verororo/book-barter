@@ -20,7 +20,7 @@ public class DeleteAuthorCommandHandler : IRequestHandler<DeleteAuthorCommand>
     public async Task Handle(DeleteAuthorCommand request, CancellationToken cancellationToken)
     {
         var author = await _repository.GetByIdAsync<Author>(request.Id, cancellationToken, a => a.Books);
-        if (author == null) throw new EntityNotFoundException(typeof(Author).Name, request.Id);
+        if (author == null) throw new EntityNotFoundException(typeof(Author).Name, request.Id);  // FIX: Use entity validator .Validate
 
         if (author.Books != null && author.Books.Any())
         {

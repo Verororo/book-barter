@@ -24,7 +24,7 @@ public class GetByIdBookQueryHandler : IRequestHandler<GetByIdBookQuery, BookDto
     public async Task<BookDto> Handle(GetByIdBookQuery request, CancellationToken cancellationToken)
     {
         var bookDto = await _bookRepository.GetDtoByIdAsync(request.Id, cancellationToken);
-        if (bookDto == null) throw new EntityNotFoundException(typeof(Book).Name, request.Id);
+        if (bookDto == null) throw new EntityNotFoundException(typeof(Book).Name, request.Id);  // FIX: use validator
 
         return bookDto;
     }

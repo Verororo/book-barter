@@ -24,11 +24,11 @@ public class DeleteWantedBookCommandHandler : IRequestHandler<DeleteWantedBookCo
 
     public async Task Handle(DeleteWantedBookCommand request, CancellationToken cancellationToken)
     {
-        var userId = (int)_currentUserProvider.UserId!;
+        var userId = (int)_currentUserProvider.UserId!;  // FIX: ensure UserId is not null
 
         var wantedBooks = await _repository.GetByPredicateAsync<WantedBook>
             (ob => ob.UserId == userId && ob.BookId == request.BookId, cancellationToken);
-        if (!wantedBooks.Any()) { throw new EntityNotFoundException($"User {userId} doesn't want the book {request.BookId}."); }
+        if (!wantedBooks.Any()) { throw new EntityNotFoundException($"User {userId} doesn't want the book {request.BookId}."); }  // FIX: use .Count
 
         _repository.Delete(wantedBooks);
 

@@ -24,7 +24,7 @@ public class GetByIdUserQueryHandler : IRequestHandler<GetByIdUserQuery, UserDto
     public async Task<UserDto> Handle(GetByIdUserQuery request, CancellationToken cancellationToken)
     {
         var userDto = await _userRepository.GetDtoByIdAsync<UserDto>(request.Id, request.ExcludeUnapprovedBooks, cancellationToken);
-        if (userDto == null) throw new EntityNotFoundException(typeof(User).Name, request.Id);
+        if (userDto == null) throw new EntityNotFoundException(typeof(User).Name, request.Id); // FIX
 
         return userDto;
     }

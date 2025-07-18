@@ -24,11 +24,11 @@ public class DeleteOwnedBookCommandHandler : IRequestHandler<DeleteOwnedBookComm
 
     public async Task Handle(DeleteOwnedBookCommand request, CancellationToken cancellationToken)
     {
-        var userId = (int)_currentUserProvider.UserId!;
+        var userId = (int)_currentUserProvider.UserId!; // FIX: add null check, someone in future can call this command without being authenticated
 
         var ownedBooks = await _repository.GetByPredicateAsync<OwnedBook>
             (ob => ob.UserId == userId && ob.BookId == request.BookId, cancellationToken);
-        if (!ownedBooks.Any()) { throw new EntityNotFoundException($"User {userId} doesn't own the book {request.BookId}."); }
+        if (!ownedBooks.Any()) { throw new EntityNotFoundException($"User {userId} doesn't own the book {request.BookId}."); }  // FIX: use .Count
 
         _repository.Delete(ownedBooks);
 

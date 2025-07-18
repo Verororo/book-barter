@@ -30,7 +30,7 @@ public class AddWantedBookCommandHandler : IRequestHandler<AddWantedBookCommand>
     }
     public async Task Handle(AddWantedBookCommand request, CancellationToken cancellationToken)
     {
-        var userId = (int)_currentUserProvider.UserId!;
+        var userId = (int)_currentUserProvider.UserId!;  // FIX: add null check
 
         await _existenceValidator.ValidateAsync<User>(userId, cancellationToken);
         await _existenceValidator.ValidateAsync<Book>(request.BookId, cancellationToken);

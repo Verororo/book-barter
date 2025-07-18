@@ -1,7 +1,7 @@
 ﻿using BookBarter.Application.Cities.Queries;
 using BookBarter.Application.Cities.Responses;
 using BookBarter.Application.Common.Models;
-using BookBarter.Application.Users.Responses;
+using BookBarter.Application.Users.Responses;  // FIX: remove unused usings
 using BookBarter.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

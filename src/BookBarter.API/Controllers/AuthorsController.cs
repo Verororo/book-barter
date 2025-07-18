@@ -37,11 +37,11 @@ public class AuthorsController : ControllerBase
     [HttpPost]
     [Route("paged")]
     [AllowAnonymous]
-    public async Task<PaginatedResult<AuthorDto>> GetPagedAuthors([FromBody] GetPagedAuthorsQuery query,
+    public Task<PaginatedResult<AuthorDto>> GetPagedAuthors([FromBody] GetPagedAuthorsQuery query,
         CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(query, cancellationToken);
-        return response;
+        // FIX: Return without async/await is better for performance in this case
+        return _mediator.Send(query, cancellationToken);
     }
 
     [HttpPost]
@@ -83,8 +83,8 @@ public class AuthorsController : ControllerBase
     [HttpDelete]
     [Route("{id}")]
     [AllowAnonymous]
-    public async Task DeleteAuthor(int id, CancellationToken cancellationToken)
+    public Task DeleteAuthor(int id, CancellationToken cancellationToken)
     {
-        await _mediator.Send(new DeleteAuthorCommand { Id = id }, cancellationToken);
+        return _mediator.Send(new DeleteAuthorCommand { Id = id }, cancellationToken);
     }
 }

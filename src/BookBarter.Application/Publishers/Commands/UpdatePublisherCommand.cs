@@ -23,7 +23,7 @@ public class UpdatePublisherCommandHandler : IRequestHandler<UpdatePublisherComm
     public async Task Handle(UpdatePublisherCommand request, CancellationToken cancellationToken)
     {
         var publisher = await _repository.GetByIdAsync<Publisher>(request.Id, cancellationToken);
-        if (publisher == null) throw new EntityNotFoundException(typeof(Publisher).Name, request.Id);
+        if (publisher == null) throw new EntityNotFoundException(typeof(Publisher).Name, request.Id);  // FIX: use entity validator
 
         publisher.Name = request.Name;
 

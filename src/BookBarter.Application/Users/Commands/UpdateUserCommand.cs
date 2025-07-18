@@ -28,11 +28,11 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand>
     }
     public async Task Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
-        var id = (int)_currentUserProvider.UserId!;
+        var id = (int)_currentUserProvider.UserId!; // COMMENT
 
         var user = await _repository.GetByIdAsync<User>(id, cancellationToken);
-        if (user == null) { throw new EntityNotFoundException(typeof(User).Name, id); }
-        
+        if (user == null) { throw new EntityNotFoundException(typeof(User).Name, id); } // COMMENT
+
         await _existenceValidator.ValidateAsync<City>(request.CityId, cancellationToken);
 
         user.About = request.About;

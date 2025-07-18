@@ -19,10 +19,12 @@ public class GetPagedAuthorsForModerationQueryHandler : IRequestHandler<GetPaged
         _authorRepository = authorRepository;
     }
 
-    public async Task<PaginatedResult<AuthorForModerationDto>> Handle(GetPagedAuthorsForModerationQuery request, CancellationToken cancellationToken)
+    public Task<PaginatedResult<AuthorForModerationDto>> Handle(GetPagedAuthorsForModerationQuery request, CancellationToken cancellationToken)
     {
-        var result = await _authorRepository.GetDtoForModerationPagedAsync(request, cancellationToken);
+        //var result = await _authorRepository.GetDtoForModerationPagedAsync(request, cancellationToken); // return without async/await for performance
 
-        return result;
+        //return result;
+
+        return _authorRepository.GetDtoForModerationPagedAsync(request, cancellationToken);
     }
 }

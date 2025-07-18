@@ -31,7 +31,8 @@ public class AddOwnedBookCommandHandler : IRequestHandler<AddOwnedBookCommand>
     public async Task Handle(AddOwnedBookCommand request, CancellationToken cancellationToken)
     {
         // guaranteed to not be null because the command requires authorization
-        var userId = (int)_currentUserProvider.UserId!;
+        var userId = (int)_currentUserProvider.UserId; // FIX: add null check, someone in future can call this command without being authenticated
+                                                        // FIX: use _currentUserProvider.UserId.Value instead of casting to int
 
         await _existenceValidator.ValidateAsync<User>(userId, cancellationToken);
         await _existenceValidator.ValidateAsync<Book>(request.BookId, cancellationToken);

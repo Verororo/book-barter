@@ -56,17 +56,22 @@ public class AuthenticationService : IAuthenticationService
         if (!checkingPasswordResult.Succeeded)
             return new LoginDto { Succeeded = false };
 
+        // COMMENT move to separate private method
         var claims = new List<Claim>();
+
         var userNameClaim = new Claim(ClaimsNames.UserName, user.UserName!);
         claims.Add(userNameClaim);
+
         var idClaim = new Claim(ClaimsNames.Id, user.Id.ToString());
         claims.Add(idClaim);
+
         var roles = await _userManager.GetRolesAsync(user);
         foreach (var role in roles)
         {
             var roleClaim = new Claim(ClaimsNames.Role, role);
             claims.Add(roleClaim);
         }
+        // END COMMENT
 
         var accessToken = _tokenService.GenerateAccessToken(claims);
         

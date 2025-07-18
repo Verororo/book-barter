@@ -24,7 +24,7 @@ public class UpdateAuthorCommandHandler : IRequestHandler<UpdateAuthorCommand>
     public async Task Handle(UpdateAuthorCommand request, CancellationToken cancellationToken)
     {
         var author = await _repository.GetByIdAsync<Author>(request.Id, cancellationToken);
-        if (author == null) throw new EntityNotFoundException(typeof(Author).Name, request.Id);
+        if (author == null) throw new EntityNotFoundException(typeof(Author).Name, request.Id);  // FIX: use validator
 
         author.FirstName = request.FirstName;
         author.MiddleName = request.MiddleName;

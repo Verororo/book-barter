@@ -22,7 +22,7 @@ public class GetPagedAuthorsQueryHandler : IRequestHandler<GetPagedAuthorsQuery,
 
     public async Task<PaginatedResult<AuthorDto>> Handle(GetPagedAuthorsQuery request, CancellationToken cancellationToken)
     {
-        var result = await _authorRepository.GetDtoPagedAsync(request, cancellationToken);
+        var result = await _authorRepository.GetDtoPagedAsync(request, cancellationToken);  // FIX: return without async/await
 
         return result;
     }
