@@ -22,7 +22,7 @@ public class CityRepository : ICityRepository
         _mapper = mapper;
     }
 
-    public async Task<PaginatedResult<CityDto>> GetDtoPagedAsync(GetPagedCitiesQuery request,
+    public Task<PaginatedResult<CityDto>> GetDtoPagedAsync(GetPagedCitiesQuery request,
         CancellationToken cancellationToken)
     {
         IQueryable<City> cities = _dbSet;
@@ -32,8 +32,6 @@ public class CityRepository : ICityRepository
             cities = cities.Where(c => c.Name.Contains(request.Query) || c.NameAscii.Contains(request.Query));
         }
         
-        var paginatedResult = await cities.CreatePaginatedResultAsync<City, CityDto>(request, _mapper, cancellationToken);
-
-        return paginatedResult;
+        return cities.CreatePaginatedResultAsync<City, CityDto>(request, _mapper, cancellationToken);
     }
 }

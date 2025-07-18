@@ -1,6 +1,5 @@
 ﻿
 using AutoMapper;
-using BookBarter.Application.Cities.Queries;
 using BookBarter.Application.Common.Interfaces.Repositories;
 using BookBarter.Application.Common.Models;
 using BookBarter.Application.Common.Responses;
@@ -23,7 +22,7 @@ public class GenreRepository : IGenreRepository
         _mapper = mapper;
     }
 
-    public async Task<PaginatedResult<GenreDto>> GetDtoPagedAsync(GetPagedGenresQuery request,
+    public Task<PaginatedResult<GenreDto>> GetDtoPagedAsync(GetPagedGenresQuery request,
         CancellationToken cancellationToken)
     {
         IQueryable<Genre> genres = _dbSet;
@@ -33,8 +32,6 @@ public class GenreRepository : IGenreRepository
             genres = genres.Where(g => g.Name.Contains(request.Query));
         }
 
-        var paginatedResult = await genres.CreatePaginatedResultAsync<Genre, GenreDto>(request, _mapper, cancellationToken);
-
-        return paginatedResult;
+        return genres.CreatePaginatedResultAsync<Genre, GenreDto>(request, _mapper, cancellationToken);
     }
 }

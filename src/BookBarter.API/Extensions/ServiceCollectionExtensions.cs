@@ -1,5 +1,4 @@
 ﻿using BookBarter.API.Common.Services;
-using BookBarter.Application.Books;
 using BookBarter.Application.Common;
 using BookBarter.Application.Common.Interfaces;
 using BookBarter.Application.Extensions;

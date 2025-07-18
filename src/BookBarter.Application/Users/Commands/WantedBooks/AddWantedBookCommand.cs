@@ -30,7 +30,11 @@ public class AddWantedBookCommandHandler : IRequestHandler<AddWantedBookCommand>
     }
     public async Task Handle(AddWantedBookCommand request, CancellationToken cancellationToken)
     {
-        var userId = (int)_currentUserProvider.UserId!;
+        if (!_currentUserProvider.UserId.HasValue)
+        {
+            throw new BusinessLogicException($"Failed to get user id from the current user provider. The method may have been called without authentication.");
+        }
+        var userId = _currentUserProvider.UserId.Value;
 
         await _existenceValidator.ValidateAsync<User>(userId, cancellationToken);
         await _existenceValidator.ValidateAsync<Book>(request.BookId, cancellationToken);
@@ -52,7 +56,7 @@ public class AddWantedBookCommandHandler : IRequestHandler<AddWantedBookCommand>
             AddedDate = DateTime.UtcNow
         };
 
-        _repository.Add<WantedBook>(newWantedBook);
+        _repository.Add(newWantedBook);
 
         await _repository.SaveAsync(cancellationToken);
     }

@@ -50,7 +50,7 @@ namespace OnlineBookShop.API.Middlewares
             {
                 Messages = ex switch
                     {
-                        ValidationException valEx => valEx.Errors.Select(e => e.ErrorMessage).ToArray(),
+                        ValidationException valEx => valEx.Errors.Select(e => e.ErrorMessage).ToList(),
                         _ => [ex.Message]
                     },
             }.ToString());

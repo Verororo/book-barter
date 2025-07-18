@@ -28,7 +28,7 @@ public class AuthController : ControllerBase
         }
         else
         {
-            return BadRequest(new ErrorDetails{ Messages = result.Messages.ToArray() });
+            return BadRequest(new ErrorDetails{ Messages = result.Messages });
         }
     }
 

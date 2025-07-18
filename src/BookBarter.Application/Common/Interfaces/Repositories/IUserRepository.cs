@@ -1,6 +1,5 @@
 ﻿
 using BookBarter.Application.Common.Models;
-using BookBarter.Application.Users.Responses;
 using UserBarter.Application.Users.Queries;
 
 namespace BookBarter.Application.Common.Interfaces.Repositories;

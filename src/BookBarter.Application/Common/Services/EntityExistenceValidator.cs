@@ -3,39 +3,40 @@ using BookBarter.Application.Common.Interfaces;
 using BookBarter.Application.Common.Interfaces.Repositories;
 using BookBarter.Domain.Entities.Abstractions;
 using BookBarter.Domain.Exceptions;
-using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BookBarter.Application.Common.Services;
 
 public class EntityExistenceValidator : IEntityExistenceValidator
 {
-    private readonly IServiceProvider _serviceProvider;
-    public EntityExistenceValidator(IServiceProvider serviceProvider)
+    private readonly IGenericRepository _repository;
+    public EntityExistenceValidator(IGenericRepository repository)
     {
-        _serviceProvider = serviceProvider;
+        _repository = repository;
     }
 
     public async Task ValidateAsync<T>(int id, CancellationToken cancellationToken)
         where T : class, IEntity
     {
-        var repository = _serviceProvider.GetRequiredService<IGenericRepository>();
-
-        bool exists = await repository.ExistsByIdAsync<T>(id, cancellationToken);
+        bool exists = await _repository.ExistsByIdAsync<T>(id, cancellationToken);
         if (!exists) throw new EntityNotFoundException(typeof(T).Name, id);
     }
     public async Task ValidateAsync<T>(List<int> ids, CancellationToken cancellationToken)
         where T : class, IEntity
     {
-        var repository = _serviceProvider.GetRequiredService<IGenericRepository>();
-
-        var existingIds = await repository.GetExistingIds<T>(ids, cancellationToken);
+        var existingIds = await _repository.GetExistingIds<T>(ids, cancellationToken);
         var nonExistingIds = ids.Except(existingIds).ToList();
 
-        if (!nonExistingIds.Any())
+        if (nonExistingIds.Count == 0)
         {
             return;
         }
 
         throw new EntityNotFoundException(typeof(T).Name, nonExistingIds);
+    }
+    public void ValidateAsync<T>([NotNull] T? entity, int id)
+        where T : class
+    {
+        if (entity == null) throw new EntityNotFoundException(typeof(T).Name, id);
     }
 }

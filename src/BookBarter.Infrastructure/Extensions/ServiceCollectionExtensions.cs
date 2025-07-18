@@ -5,7 +5,6 @@ using BookBarter.Domain.Entities;
 using BookBarter.Infrastructure.Auth;
 using BookBarter.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BookBarter.Infrastructure.Extensions;

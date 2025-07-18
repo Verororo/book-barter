@@ -38,7 +38,7 @@ public class GetPagedUsersQueryHandler : IRequestHandler<GetPagedUsersQuery, Pag
 
         foreach (var item in result.Items)
         {
-            if (request.OwnedBooksIds != null && request.OwnedBooksIds.Any())
+            if (request.OwnedBooksIds != null && request.OwnedBooksIds.Count != 0)
             {
                 item.OwnedBooks = item.OwnedBooks
                     .OrderByDescending(ob => request.OwnedBooksIds.Contains(ob.Book.Id))
@@ -46,7 +46,7 @@ public class GetPagedUsersQueryHandler : IRequestHandler<GetPagedUsersQuery, Pag
                     .ToList();
             }
 
-            if (request.WantedBooksIds != null && request.WantedBooksIds.Any())
+            if (request.WantedBooksIds != null && request.WantedBooksIds.Count != 0)
             {
                 item.WantedBooks = item.WantedBooks
                     .OrderByDescending(wb => request.WantedBooksIds.Contains(wb.Book.Id))

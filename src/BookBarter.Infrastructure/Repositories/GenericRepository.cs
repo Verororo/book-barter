@@ -1,11 +1,8 @@
 ﻿
 using System.Linq.Expressions;
 using BookBarter.Application.Common.Interfaces.Repositories;
-using BookBarter.Application.Common.Models;
-using BookBarter.Domain.Entities;
 using BookBarter.Domain.Entities.Abstractions;
 using Microsoft.EntityFrameworkCore;
-using UserBarter.Application.Users.Queries;
 
 namespace BookBarter.Infrastructure.Repositories;
 
@@ -66,13 +63,13 @@ public class GenericRepository : IGenericRepository
 
     public Task<bool> ExistsByIdAsync<T>(int id, CancellationToken cancellationToken) where T : class, IEntity
     {
-        return _context.Set<T>().AnyAsync(x => x.Id == id, cancellationToken: cancellationToken);
+        return _context.Set<T>().AnyAsync(x => x.Id == id, cancellationToken);
     }
 
     public Task<List<int>> GetExistingIds<T>(List<int> ids, CancellationToken cancellationToken) 
         where T : class, IEntity
     {
-        if (ids == null || !ids.Any())
+        if (ids == null || ids.Count == 0)
             return Task.FromResult(new List<int>());
 
         return _context.Set<T>()

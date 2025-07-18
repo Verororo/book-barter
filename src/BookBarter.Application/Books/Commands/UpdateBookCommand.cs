@@ -1,8 +1,9 @@
-﻿using BookBarter.Domain.Entities;
-using MediatR;
-using BookBarter.Domain.Exceptions;
+﻿using BookBarter.Application.Common.Interfaces;
 using BookBarter.Application.Common.Interfaces.Repositories;
-using BookBarter.Application.Common.Interfaces;
+using BookBarter.Application.Common.Services;
+using BookBarter.Domain.Entities;
+using BookBarter.Domain.Exceptions;
+using MediatR;
 
 namespace BookBarter.Application.Books.Commands;
 public class UpdateBookCommand : IRequest
@@ -18,24 +19,21 @@ public class UpdateBookCommand : IRequest
 public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand>
 {
     private readonly IGenericRepository _repository;
-    private readonly IEntityExistenceValidator _validator;
-    public UpdateBookCommandHandler(
-        IGenericRepository repository,
-        IEntityExistenceValidator validator
-        )
+    private readonly IEntityExistenceValidator _entityExistenceValidator;
+    public UpdateBookCommandHandler(IGenericRepository repository, IEntityExistenceValidator entityExistenceValidator)
     {
         _repository = repository;
-        _validator = validator;
+        _entityExistenceValidator = entityExistenceValidator;
     }
     public async Task Handle(UpdateBookCommand request, CancellationToken cancellationToken)
     {
-        await _validator.ValidateAsync<Genre>(request.GenreId, cancellationToken);
+        await _entityExistenceValidator.ValidateAsync<Genre>(request.GenreId, cancellationToken);
 
         var publisher = await _repository.GetByIdAsync<Publisher>(request.PublisherId, cancellationToken);
-        if (publisher == null) throw new EntityNotFoundException(typeof(Publisher).Name, request.Id);
+        _entityExistenceValidator.ValidateAsync(publisher, request.Id);
         publisher.Approved = true;
 
-        await _validator.ValidateAsync<Author>(request.AuthorsIds, cancellationToken);
+        await _entityExistenceValidator.ValidateAsync<Author>(request.AuthorsIds, cancellationToken);
         var authors = await _repository.GetByPredicateAsync<Author>
             (a => request.AuthorsIds.Contains(a.Id), cancellationToken);
         foreach (var author in authors)
@@ -43,8 +41,9 @@ public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand>
             author.Approved = true;
         }
 
-        var book = await _repository.GetByIdAsync<Book>(request.Id, cancellationToken, b => b.Authors);
-        if (book == null) throw new EntityNotFoundException(typeof(Book).Name, request.Id);
+        // b => b.Authors has been removed from there. Test it
+        var book = await _repository.GetByIdAsync<Book>(request.Id, cancellationToken);
+        _entityExistenceValidator.ValidateAsync(book, request.Id);
 
         book.Isbn = request.Isbn;
         book.Title = request.Title;

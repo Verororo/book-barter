@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using BookBarter.Application.Authors.Responses;
 using BookBarter.Application.Common.Responses;
 using BookBarter.Domain.Entities;

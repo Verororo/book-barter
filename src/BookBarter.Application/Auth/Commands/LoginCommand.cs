@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using BookBarter.Application.Auth.Interfaces;
 using BookBarter.Application.Auth.Responses;
-using Azure.Core;
 
 namespace BookBarter.Application.Auth.Commands;
 

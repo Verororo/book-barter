@@ -1,15 +1,14 @@
-﻿using BookBarter.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
-using AutoMapper;
+﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using BookBarter.Application.Common.Interfaces.Repositories;
 using BookBarter.Application.Books.Queries;
-using BookBarter.Application.Common.Models;
-using BookBarter.Infrastructure.Extensions;
-using BookBarter.Application.Common.Responses;
 using BookBarter.Application.Books.Responses;
 using BookBarter.Application.Common.Interfaces;
-using System.Linq;
+using BookBarter.Application.Common.Interfaces.Repositories;
+using BookBarter.Application.Common.Models;
+using BookBarter.Domain.Entities;
+using BookBarter.Domain.Exceptions;
+using BookBarter.Infrastructure.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookBarter.Infrastructure.Repositories;
 
@@ -35,21 +34,24 @@ public class BookRepository : IBookRepository
             .FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<PaginatedResult<BookDto>> GetDtoPagedAsync(GetPagedBooksQuery request, 
-        CancellationToken cancellationToken)
+    public Task<PaginatedResult<BookDto>> GetDtoPagedAsync(GetPagedBooksQuery request, CancellationToken cancellationToken)
     {
         IQueryable<Book> books = _dbSet;
 
         if (request.SkipLoggedInUserBooks)
         {
-            var userId = _currentUserProvider.UserId;
-            if (userId == null) { throw new Exception("SkipLoggedInUserBooks was specified, but program failed to get UserId."); }
+            if (!_currentUserProvider.UserId.HasValue)
+            {
+                throw new BusinessLogicException($"Failed to get user id from the current user provider. The method may have been called without authentication.");
+            }
+
+            var userId = _currentUserProvider.UserId.Value;
 
             books = books.Where(b => !b.WantedByUsers.Any(wb => wb.UserId == userId)
                                   && !b.OwnedByUsers.Any(wb => wb.UserId == userId));
         }
 
-        if (request.IdsToSkip != null && request.IdsToSkip.Any())
+        if (request.IdsToSkip != null && request.IdsToSkip.Count != 0)
         {
             books = books.Where(b => !request.IdsToSkip.Contains(b.Id));
         }
@@ -76,12 +78,10 @@ public class BookRepository : IBookRepository
             books = books.Where(b => b.PublisherId == request.PublisherId);
         }
 
-        var paginatedResult = await books.CreatePaginatedResultAsync<Book, BookDto>(request, _mapper, cancellationToken);
-
-        return paginatedResult;
+        return books.CreatePaginatedResultAsync<Book, BookDto>(request, _mapper, cancellationToken);
     }
 
-    public async Task<PaginatedResult<BookForModerationDto>> GetDtoForModerationPagedAsync(GetPagedBooksForModerationQuery request,
+    public Task<PaginatedResult<BookForModerationDto>> GetDtoForModerationPagedAsync(GetPagedBooksForModerationQuery request,
         CancellationToken cancellationToken)
     {
         IQueryable<Book> books = _dbSet;
@@ -108,8 +108,6 @@ public class BookRepository : IBookRepository
             books = books.Where(b => b.PublisherId == request.PublisherId);
         }
 
-        var paginatedResult = await books.CreatePaginatedResultAsync<Book, BookForModerationDto>(request, _mapper, cancellationToken);
-
-        return paginatedResult;
+        return books.CreatePaginatedResultAsync<Book, BookForModerationDto>(request, _mapper, cancellationToken);
     }
 }

@@ -20,10 +20,8 @@ public class GetPagedPublishersForModerationQueryHandler : IRequestHandler<GetPa
         _publisherRepository = publisherRepository;
     }
 
-    public async Task<PaginatedResult<PublisherForModerationDto>> Handle(GetPagedPublishersForModerationQuery request, CancellationToken cancellationToken)
+    public Task<PaginatedResult<PublisherForModerationDto>> Handle(GetPagedPublishersForModerationQuery request, CancellationToken cancellationToken)
     {
-        var result = await _publisherRepository.GetDtoForModerationPagedAsync(request, cancellationToken);
-
-        return result;
+        return _publisherRepository.GetDtoForModerationPagedAsync(request, cancellationToken);
     }
 }

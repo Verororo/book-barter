@@ -1,6 +1,5 @@
 ﻿
 using BookBarter.Application.Cities.Responses;
-using BookBarter.Application.Common.Responses;
 
 namespace BookBarter.Application.Users.Responses;
 

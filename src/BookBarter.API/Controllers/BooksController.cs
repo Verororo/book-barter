@@ -1,11 +1,8 @@
-
-using BookBarter.Application.Authors.Commands;
 using BookBarter.Application.BookBooks.Commands;
 using BookBarter.Application.Books.Commands;
 using BookBarter.Application.Books.Queries;
 using BookBarter.Application.Books.Responses;
 using BookBarter.Application.Common.Models;
-using BookBarter.Application.Common.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,39 +22,35 @@ public class BooksController : ControllerBase
     [HttpGet]
     [Route("{id}")]
     [AllowAnonymous]
-    public async Task<BookDto> GetByIdBook(int id, CancellationToken cancellationToken)
+    public Task<BookDto> GetByIdBook(int id, CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(new GetByIdBookQuery { Id = id }, cancellationToken);
-        return response;
+        return _mediator.Send(new GetByIdBookQuery { Id = id }, cancellationToken);
     }
 
     [HttpPost]
     [Route("paged")]
     [AllowAnonymous]
-    public async Task<PaginatedResult<BookDto>> GetPagedBooks([FromBody] GetPagedBooksQuery query,
+    public Task<PaginatedResult<BookDto>> GetPagedBooks([FromBody] GetPagedBooksQuery query,
         CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(query, cancellationToken);
-        return response;
+        return _mediator.Send(query, cancellationToken);
     }
 
     [HttpPost]
     [Route("paged/moderated")]
-    [AllowAnonymous]
-    public async Task<PaginatedResult<BookForModerationDto>> GetPagedBooksForModeration([FromBody] GetPagedBooksForModerationQuery query,
+    [Authorize(Roles = "Moderator")]
+    public Task<PaginatedResult<BookForModerationDto>> GetPagedBooksForModeration([FromBody] GetPagedBooksForModerationQuery query,
         CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(query, cancellationToken);
-        return response;
+        return _mediator.Send(query, cancellationToken);
     }
 
     [HttpPost]
     [AllowAnonymous]
-    public async Task<int> CreateBook([FromBody] CreateBookCommand command, 
+    public Task<int> CreateBook([FromBody] CreateBookCommand command, 
         CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(command, cancellationToken);
-        return response;
+        return _mediator.Send(command, cancellationToken);
     }
 
     [HttpPut]
@@ -72,7 +65,7 @@ public class BooksController : ControllerBase
 
     [HttpPut]
     [Route("{id}/approve")]
-    [AllowAnonymous]
+    [Authorize(Roles = "Moderator")]
     public async Task ApproveBook(int id, CancellationToken cancellationToken)
     {
         await _mediator.Send(new ApproveBookCommand { Id = id }, cancellationToken);
@@ -80,8 +73,7 @@ public class BooksController : ControllerBase
 
     [HttpDelete]
     [Route("{id}")]
-    [AllowAnonymous]
-    //[Authorize(Roles = "Moderator")]
+    [Authorize(Roles = "Moderator")]
     public async Task DeleteBook(int id, CancellationToken cancellationToken)
     {
         await _mediator.Send(new DeleteBookCommand { Id = id }, cancellationToken);

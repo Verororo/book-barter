@@ -1,6 +1,4 @@
-﻿using BookBarter.Domain.Entities;
-using BookBarter.Infrastructure.Extensions;
-using Microsoft.AspNetCore.Identity;
+﻿using BookBarter.Infrastructure.Extensions;
 
 namespace BookBarter.API.Extensions;
 

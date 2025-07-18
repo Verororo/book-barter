@@ -2,11 +2,9 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using BookBarter.Application.Common.Models;
-using BookBarter.Application.Users.Responses;
 using BookBarter.Domain.Entities.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
-using UserBarter.Application.Users.Queries;
 
 namespace BookBarter.Infrastructure.Extensions;
 

@@ -1,4 +1,5 @@
-﻿using BookBarter.Application.Common.Interfaces.Repositories;
+﻿using BookBarter.Application.Common.Interfaces;
+using BookBarter.Application.Common.Interfaces.Repositories;
 using BookBarter.Domain.Entities;
 using BookBarter.Domain.Exceptions;
 using MediatR;
@@ -13,16 +14,18 @@ public class DeletePublisherCommand : IRequest
 public class DeletePublisherCommandHandler : IRequestHandler<DeletePublisherCommand>
 {
     private readonly IGenericRepository _repository;
-    public DeletePublisherCommandHandler(IGenericRepository repository)
+    private readonly IEntityExistenceValidator _entityExistenceValidator;
+    public DeletePublisherCommandHandler(IGenericRepository repository, IEntityExistenceValidator entityExistenceValidator)
     {
         _repository = repository;
+        _entityExistenceValidator = entityExistenceValidator;
     }
     public async Task Handle(DeletePublisherCommand request, CancellationToken cancellationToken)
     {
         var publisher = await _repository.GetByIdAsync<Publisher>(request.Id, cancellationToken, p => p.Books);
-        if (publisher == null) throw new EntityNotFoundException(typeof(Publisher).Name, request.Id);
+        _entityExistenceValidator.ValidateAsync(publisher, request.Id);
 
-        if (publisher.Books != null && publisher.Books.Any())
+        if (publisher.Books != null && publisher.Books.Count != 0)
         {
             var bookIds = string.Join(", ", publisher.Books.Select(b => b.Id));
 

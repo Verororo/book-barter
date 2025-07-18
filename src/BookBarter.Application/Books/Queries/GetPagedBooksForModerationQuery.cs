@@ -24,11 +24,9 @@ public class GetPagedBooksQueryForModerationHandler : IRequestHandler<GetPagedBo
         _bookRepository = bookRepository;
     }
 
-    public async Task<PaginatedResult<BookForModerationDto>> Handle(GetPagedBooksForModerationQuery request,
+    public Task<PaginatedResult<BookForModerationDto>> Handle(GetPagedBooksForModerationQuery request,
         CancellationToken cancellationToken)
     {
-        var result = await _bookRepository.GetDtoForModerationPagedAsync(request, cancellationToken);
-
-        return result;
+        return _bookRepository.GetDtoForModerationPagedAsync(request, cancellationToken);
     }
 }

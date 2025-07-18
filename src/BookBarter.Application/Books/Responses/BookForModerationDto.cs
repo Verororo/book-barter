@@ -1,7 +1,5 @@
 ﻿
 using BookBarter.Application.Common.Responses;
-using BookBarter.Application.Users.Responses;
-using BookBarter.Domain.Entities;
 
 namespace BookBarter.Application.Books.Responses;
 

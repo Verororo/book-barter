@@ -4,7 +4,7 @@ namespace BookBarter.API.Common.Models
 {
     public class ErrorDetails
     {
-        public string[] Messages { get; set; } = default!;
+        public List<string> Messages { get; set; } = default!;
 
         public override string ToString()
         {

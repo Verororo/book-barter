@@ -1,7 +1,4 @@
-﻿
-using BookBarter.Application.Common.Responses;
-
-namespace BookBarter.Application.Users.Responses;
+﻿namespace BookBarter.Application.Users.Responses;
 
 public class ListedUserDto
 {

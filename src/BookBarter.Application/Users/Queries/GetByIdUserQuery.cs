@@ -1,8 +1,7 @@
 ﻿
+using BookBarter.Application.Common.Interfaces;
 using BookBarter.Application.Common.Interfaces.Repositories;
 using BookBarter.Application.Users.Responses;
-using BookBarter.Domain.Entities;
-using BookBarter.Domain.Exceptions;
 using MediatR;
 
 namespace BookBarter.Application.Users.Queries;
@@ -16,15 +15,17 @@ public class GetByIdUserQuery : IRequest<UserDto>
 public class GetByIdUserQueryHandler : IRequestHandler<GetByIdUserQuery, UserDto>
 {
     private readonly IUserRepository _userRepository;
-    public GetByIdUserQueryHandler(IUserRepository userRepository)
+    private readonly IEntityExistenceValidator _entityExistenceValidator;
+    public GetByIdUserQueryHandler(IUserRepository userRepository, IEntityExistenceValidator entityExistenceValidator)
     {
         _userRepository = userRepository;
+        _entityExistenceValidator = entityExistenceValidator;
     }
 
     public async Task<UserDto> Handle(GetByIdUserQuery request, CancellationToken cancellationToken)
     {
         var userDto = await _userRepository.GetDtoByIdAsync<UserDto>(request.Id, request.ExcludeUnapprovedBooks, cancellationToken);
-        if (userDto == null) throw new EntityNotFoundException(typeof(User).Name, request.Id);
+        _entityExistenceValidator.ValidateAsync(userDto, request.Id);
 
         return userDto;
     }

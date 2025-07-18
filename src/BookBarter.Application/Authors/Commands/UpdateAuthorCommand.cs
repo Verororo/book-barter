@@ -1,6 +1,6 @@
-﻿using BookBarter.Application.Common.Interfaces.Repositories;
+﻿using BookBarter.Application.Common.Interfaces;
+using BookBarter.Application.Common.Interfaces.Repositories;
 using BookBarter.Domain.Entities;
-using BookBarter.Domain.Exceptions;
 using MediatR;
 
 namespace BookBarter.Application.Authors.Commands;
@@ -15,16 +15,16 @@ public class UpdateAuthorCommand : IRequest
 public class UpdateAuthorCommandHandler : IRequestHandler<UpdateAuthorCommand>
 {
     private readonly IGenericRepository _repository;
-    public UpdateAuthorCommandHandler(
-        IGenericRepository repository
-        )
+    private readonly IEntityExistenceValidator _entityExistenceValidator;
+    public UpdateAuthorCommandHandler(IGenericRepository repository, IEntityExistenceValidator entityExistenceValidator)
     {
         _repository = repository;
+        _entityExistenceValidator = entityExistenceValidator;
     }
     public async Task Handle(UpdateAuthorCommand request, CancellationToken cancellationToken)
     {
         var author = await _repository.GetByIdAsync<Author>(request.Id, cancellationToken);
-        if (author == null) throw new EntityNotFoundException(typeof(Author).Name, request.Id);
+        _entityExistenceValidator.ValidateAsync(author, request.Id);
 
         author.FirstName = request.FirstName;
         author.MiddleName = request.MiddleName;

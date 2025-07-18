@@ -1,7 +1,4 @@
-﻿
-using BookBarter.Application.Common.Responses;
-
-namespace BookBarter.Application.Books.Responses;
+﻿namespace BookBarter.Application.Books.Responses;
 
 public class BookRelationshipWithUserDto
 {

@@ -1,7 +1,6 @@
 ﻿using BookBarter.Application.Common.Interfaces.Repositories;
 using BookBarter.Application.Common.Models;
 using BookBarter.Application.Common.Responses;
-using BookBarter.Domain.Entities;
 using MediatR;
 
 namespace BookBarter.Application.Genres.Queries;
@@ -19,10 +18,8 @@ public class GetPagedGenresQueryHandler : IRequestHandler<GetPagedGenresQuery, P
         _genreRepository = genreRepository;
     }
 
-    public async Task<PaginatedResult<GenreDto>> Handle(GetPagedGenresQuery request, CancellationToken cancellationToken)
+    public Task<PaginatedResult<GenreDto>> Handle(GetPagedGenresQuery request, CancellationToken cancellationToken)
     {
-        var result = await _genreRepository.GetDtoPagedAsync(request, cancellationToken);
-
-        return result;
+        return _genreRepository.GetDtoPagedAsync(request, cancellationToken);
     }
 }

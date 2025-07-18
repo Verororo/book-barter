@@ -1,13 +1,8 @@
 ﻿using BookBarter.Application.Authors.Commands;
 using BookBarter.Application.Authors.Queries;
 using BookBarter.Application.Authors.Responses;
-using BookBarter.Application.Books.Commands;
-using BookBarter.Application.Books.Queries;
-using BookBarter.Application.Books.Responses;
 using BookBarter.Application.Common.Models;
 using BookBarter.Application.Common.Responses;
-using BookBarter.Application.Users.Responses;
-using BookBarter.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,47 +19,34 @@ public class AuthorsController : ControllerBase
     {
         _mediator = mediator;
     }
-    /*
-    [HttpGet]
-    [Route("{id}")]
-    [AllowAnonymous]
-    public async Task<UserDto> GetByIdAuthor(int id, CancellationToken cancellationToken)
-    {
-        var response = await _mediator.Send(new GetByIdAuthorQuery { Id = id }, cancellationToken);
-        return response;
-    }
-    */
+
     [HttpPost]
     [Route("paged")]
     [AllowAnonymous]
-    public async Task<PaginatedResult<AuthorDto>> GetPagedAuthors([FromBody] GetPagedAuthorsQuery query,
+    public Task<PaginatedResult<AuthorDto>> GetPagedAuthors([FromBody] GetPagedAuthorsQuery query,
         CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(query, cancellationToken);
-        return response;
+        return _mediator.Send(query, cancellationToken);
     }
 
     [HttpPost]
     [Route("paged/moderated")]
-    [AllowAnonymous]
-    public async Task<PaginatedResult<AuthorForModerationDto>> GetPagedAuthorsForModeration([FromBody] GetPagedAuthorsForModerationQuery query,
+    [Authorize(Roles = "Moderator")]
+    public Task<PaginatedResult<AuthorForModerationDto>> GetPagedAuthorsForModeration([FromBody] GetPagedAuthorsForModerationQuery query,
         CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(query, cancellationToken);
-        return response;
+        return _mediator.Send(query, cancellationToken);
     }
 
     [HttpPost]
-    [AllowAnonymous]
-    public async Task<int> CreateAuthor(CreateAuthorCommand command, CancellationToken cancellationToken)
+    public Task<int> CreateAuthor(CreateAuthorCommand command, CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(command, cancellationToken);
-        return response;
+        return _mediator.Send(command, cancellationToken);
     }
 
     [HttpPut]
     [Route("{id}")]
-    [AllowAnonymous]
+    [Authorize(Roles = "Moderator")]
     public async Task UpdateAuthor(int id, [FromBody] UpdateAuthorCommand command,
         CancellationToken cancellationToken)
     {
@@ -74,7 +56,7 @@ public class AuthorsController : ControllerBase
 
     [HttpPut]
     [Route("{id}/approve")]
-    [AllowAnonymous]
+    [Authorize(Roles = "Moderator")]
     public async Task ApproveAuthor(int id, CancellationToken cancellationToken)
     {
         await _mediator.Send(new ApproveAuthorCommand { Id = id }, cancellationToken);
@@ -82,7 +64,7 @@ public class AuthorsController : ControllerBase
 
     [HttpDelete]
     [Route("{id}")]
-    [AllowAnonymous]
+    [Authorize(Roles = "Moderator")]
     public async Task DeleteAuthor(int id, CancellationToken cancellationToken)
     {
         await _mediator.Send(new DeleteAuthorCommand { Id = id }, cancellationToken);

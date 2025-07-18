@@ -2,7 +2,6 @@
 using BookBarter.Application.Common.Responses;
 using BookBarter.Application.Users.Responses;
 using BookBarter.Domain.Entities;
-using UserBarter.Application.Users.Queries;
 
 namespace BookBarter.Application.Users;
 

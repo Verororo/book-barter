@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BookBarter.Application.Common.Models;
+﻿namespace BookBarter.Application.Common.Models;
 
 public class PaginatedResult<T> where T : class
 {

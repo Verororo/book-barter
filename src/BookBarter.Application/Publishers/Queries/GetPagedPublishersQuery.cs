@@ -2,7 +2,6 @@
 using BookBarter.Application.Common.Interfaces.Repositories;
 using BookBarter.Application.Common.Models;
 using BookBarter.Application.Common.Responses;
-using BookBarter.Domain.Entities;
 using MediatR;
 
 namespace BookBarter.Application.Publishers.Queries;
@@ -20,10 +19,8 @@ public class GetPagedPublishersQueryHandler : IRequestHandler<GetPagedPublishers
         _publisherRepository = publisherRepository;
     }
 
-    public async Task<PaginatedResult<PublisherDto>> Handle(GetPagedPublishersQuery request, CancellationToken cancellationToken)
+    public Task<PaginatedResult<PublisherDto>> Handle(GetPagedPublishersQuery request, CancellationToken cancellationToken)
     {
-        var result = await _publisherRepository.GetDtoPagedAsync(request, cancellationToken);
-
-        return result;
+        return _publisherRepository.GetDtoPagedAsync(request, cancellationToken);
     }
 }

@@ -1,7 +1,5 @@
 ﻿using BookBarter.API.Middleware;
 using BookBarter.API.Middlewares;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
 using OnlineBookShop.API.Middlewares;
 
 namespace BookBarter.API.Extensions;

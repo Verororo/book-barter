@@ -1,7 +1,5 @@
 ﻿using BookBarter.Application.Auth.Constants;
 using BookBarter.Application.Common.Interfaces;
-using BookBarter.Domain.Exceptions;
-using Microsoft.AspNetCore.SignalR;
 using System.Security.Claims;
 
 namespace BookBarter.API.Common.Services;

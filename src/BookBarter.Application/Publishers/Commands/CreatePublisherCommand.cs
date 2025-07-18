@@ -1,6 +1,4 @@
-﻿
-using BookBarter.Application.Authors.Commands;
-using BookBarter.Application.Common.Interfaces.Repositories;
+﻿using BookBarter.Application.Common.Interfaces.Repositories;
 using BookBarter.Domain.Entities;
 using MediatR;
 

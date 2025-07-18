@@ -24,11 +24,15 @@ public class DeleteOwnedBookCommandHandler : IRequestHandler<DeleteOwnedBookComm
 
     public async Task Handle(DeleteOwnedBookCommand request, CancellationToken cancellationToken)
     {
-        var userId = (int)_currentUserProvider.UserId!;
+        if (!_currentUserProvider.UserId.HasValue)
+        {
+            throw new BusinessLogicException($"Failed to get user id from the current user provider. The method may have been called without authentication.");
+        }
+        var userId = _currentUserProvider.UserId.Value;
 
         var ownedBooks = await _repository.GetByPredicateAsync<OwnedBook>
             (ob => ob.UserId == userId && ob.BookId == request.BookId, cancellationToken);
-        if (!ownedBooks.Any()) { throw new EntityNotFoundException($"User {userId} doesn't own the book {request.BookId}."); }
+        if (ownedBooks.Count == 0) { throw new EntityNotFoundException($"User {userId} doesn't own the book {request.BookId}."); }
 
         _repository.Delete(ownedBooks);
 

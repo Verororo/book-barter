@@ -1,4 +1,5 @@
 ﻿
+using BookBarter.Application.Common.Interfaces;
 using BookBarter.Application.Common.Interfaces.Repositories;
 using BookBarter.Domain.Entities;
 using BookBarter.Domain.Exceptions;
@@ -14,16 +15,16 @@ public class UpdatePublisherCommand : IRequest
 public class UpdatePublisherCommandHandler : IRequestHandler<UpdatePublisherCommand>
 {
     private readonly IGenericRepository _repository;
-    public UpdatePublisherCommandHandler(
-        IGenericRepository repository
-        )
+    private readonly IEntityExistenceValidator _entityExistenceValidator;
+    public UpdatePublisherCommandHandler(IGenericRepository repository, IEntityExistenceValidator entityExistenceValidator)
     {
         _repository = repository;
+        _entityExistenceValidator = entityExistenceValidator;
     }
     public async Task Handle(UpdatePublisherCommand request, CancellationToken cancellationToken)
     {
         var publisher = await _repository.GetByIdAsync<Publisher>(request.Id, cancellationToken);
-        if (publisher == null) throw new EntityNotFoundException(typeof(Publisher).Name, request.Id);
+        _entityExistenceValidator.ValidateAsync(publisher, request.Id);
 
         publisher.Name = request.Name;
 

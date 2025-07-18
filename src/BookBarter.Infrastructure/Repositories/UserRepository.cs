@@ -35,7 +35,7 @@ public class UserRepository : IUserRepository
             .FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<PaginatedResult<TDto>> GetDtoPagedAsync<TDto>(GetPagedUsersQuery request,
+    public Task<PaginatedResult<TDto>> GetDtoPagedAsync<TDto>(GetPagedUsersQuery request,
         CancellationToken cancellationToken)
         where TDto : class
     {
@@ -63,13 +63,13 @@ public class UserRepository : IUserRepository
 
         // OWNED BOOKS FILTERS
 
-        if (request.OwnedBooksIds?.Any() == true)
+        if (request.OwnedBooksIds != null && request.OwnedBooksIds.Count != 0)
         {
             users = users.Where(u => request.OwnedBooksIds
                 .All(bookId => u.OwnedBooks.Any(ob => ob.BookId == bookId)));
         }
 
-        if (request.OwnedBookAuthorsIds?.Any() == true)
+        if (request.OwnedBookAuthorsIds != null && request.OwnedBookAuthorsIds.Count != 0)
         {
             users = users.Where(u => request.OwnedBookAuthorsIds
                 .All(authorId => u.OwnedBooks.Any(ob => ob.Book.Authors.Any(a => a.Id == authorId))));
@@ -87,13 +87,13 @@ public class UserRepository : IUserRepository
 
         // WANTED BOOKS FILTERS
 
-        if (request.WantedBooksIds?.Any() == true)
+        if (request.WantedBooksIds != null && request.WantedBooksIds.Count != 0)
         {
             users = users.Where(u => request.WantedBooksIds
                 .All(bookId => u.WantedBooks.Any(ob => ob.BookId == bookId)));
         }
 
-        if (request.WantedBookAuthorsIds?.Any() == true)
+        if (request.WantedBookAuthorsIds != null && request.WantedBookAuthorsIds.Count != 0)
         {
             users = users.Where(u => request.WantedBookAuthorsIds
                 .All(authorId => u.WantedBooks.Any(ob => ob.Book.Authors.Any(a => a.Id == authorId))));
@@ -109,8 +109,6 @@ public class UserRepository : IUserRepository
             users = users.Where(b => b.WantedBooks.Any(ob => ob.Book.PublisherId == request.WantedBookPublisherId));
         }
 
-        var paginatedResult = await users.CreatePaginatedResultAsync<User, TDto>(request, _mapper, cancellationToken);
-
-        return paginatedResult;
+        return users.CreatePaginatedResultAsync<User, TDto>(request, _mapper, cancellationToken);
     }
 }

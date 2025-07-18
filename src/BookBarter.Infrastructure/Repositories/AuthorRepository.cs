@@ -23,14 +23,14 @@ public class AuthorRepository : IAuthorRepository
         _mapper = mapper;
     }
 
-    public async Task<PaginatedResult<AuthorDto>> GetDtoPagedAsync(GetPagedAuthorsQuery request,
+    public Task<PaginatedResult<AuthorDto>> GetDtoPagedAsync(GetPagedAuthorsQuery request,
         CancellationToken cancellationToken)
     {
         IQueryable<Author> authors = _dbSet;
 
         authors = authors.Where(a => a.Approved == true);
 
-        if (request.IdsToSkip != null && request.IdsToSkip.Any())
+        if (request.IdsToSkip != null && request.IdsToSkip.Count != 0)
         {
             authors = authors.Where(a => !request.IdsToSkip.Contains(a.Id));
         }
@@ -41,12 +41,10 @@ public class AuthorRepository : IAuthorRepository
                 .Contains(request.Query));
         }
 
-        var paginatedResult = await authors.CreatePaginatedResultAsync<Author, AuthorDto>(request, _mapper, cancellationToken);
-
-        return paginatedResult;
+        return authors.CreatePaginatedResultAsync<Author, AuthorDto>(request, _mapper, cancellationToken);
     }
 
-    public async Task<PaginatedResult<AuthorForModerationDto>> GetDtoForModerationPagedAsync(GetPagedAuthorsForModerationQuery request,
+    public Task<PaginatedResult<AuthorForModerationDto>> GetDtoForModerationPagedAsync(GetPagedAuthorsForModerationQuery request,
         CancellationToken cancellationToken)
     {
         IQueryable<Author> authors = _dbSet;
@@ -59,8 +57,6 @@ public class AuthorRepository : IAuthorRepository
                 .Contains(request.Query));
         }
 
-        var paginatedResult = await authors.CreatePaginatedResultAsync<Author, AuthorForModerationDto>(request, _mapper, cancellationToken);
-
-        return paginatedResult;
+        return authors.CreatePaginatedResultAsync<Author, AuthorForModerationDto>(request, _mapper, cancellationToken);
     }
 }

@@ -1,6 +1,4 @@
-﻿
-using BookBarter.Application.Authors.Queries;
-using BookBarter.Application.Common.Models;
+﻿using BookBarter.Application.Common.Models;
 using BookBarter.Application.Common.Responses;
 using BookBarter.Application.Publishers.Queries;
 using BookBarter.Application.Publishers.Responses;

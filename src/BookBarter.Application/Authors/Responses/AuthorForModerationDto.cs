@@ -1,5 +1,4 @@
 ﻿using BookBarter.Application.Books.Responses;
-using BookBarter.Domain.Entities;
 
 namespace BookBarter.Application.Authors.Responses;
 

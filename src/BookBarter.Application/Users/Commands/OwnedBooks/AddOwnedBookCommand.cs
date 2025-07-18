@@ -30,8 +30,11 @@ public class AddOwnedBookCommandHandler : IRequestHandler<AddOwnedBookCommand>
     }
     public async Task Handle(AddOwnedBookCommand request, CancellationToken cancellationToken)
     {
-        // guaranteed to not be null because the command requires authorization
-        var userId = (int)_currentUserProvider.UserId!;
+        if (!_currentUserProvider.UserId.HasValue)
+        {
+            throw new BusinessLogicException($"Failed to get user id from the current user provider. The method may have been called without authentication.");
+        }
+        var userId = _currentUserProvider.UserId.Value;
 
         await _existenceValidator.ValidateAsync<User>(userId, cancellationToken);
         await _existenceValidator.ValidateAsync<Book>(request.BookId, cancellationToken);
@@ -55,7 +58,7 @@ public class AddOwnedBookCommandHandler : IRequestHandler<AddOwnedBookCommand>
             AddedDate = DateTime.UtcNow
         };
 
-        _repository.Add<OwnedBook>(newOwnedBook);
+        _repository.Add(newOwnedBook);
 
         await _repository.SaveAsync(cancellationToken);
     }

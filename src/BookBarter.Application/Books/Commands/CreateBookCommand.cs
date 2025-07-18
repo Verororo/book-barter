@@ -32,7 +32,7 @@ public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, int>
         await _existenceValidator.ValidateAsync<Publisher>(request.PublisherId, cancellationToken);
         await _existenceValidator.ValidateAsync<Author>(request.AuthorsIds, cancellationToken);
 
-        var existingAuthors = await _repository.GetByPredicateAsync<Author>
+        var authors = await _repository.GetByPredicateAsync<Author>
             (a => request.AuthorsIds.Contains(a.Id), cancellationToken);
 
         var book = new Book
@@ -43,10 +43,10 @@ public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, int>
             AddedDate = DateTime.UtcNow,
             GenreId = request.GenreId,
             PublisherId = request.PublisherId,
-            Authors = existingAuthors
+            Authors = authors
         };
 
-        _repository.Add<Book>(book);
+        _repository.Add(book);
         await _repository.SaveAsync(cancellationToken);
 
         return book.Id;

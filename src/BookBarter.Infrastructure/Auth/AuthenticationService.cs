@@ -56,11 +56,23 @@ public class AuthenticationService : IAuthenticationService
         if (!checkingPasswordResult.Succeeded)
             return new LoginDto { Succeeded = false };
 
+        var claims = await GetClaims(user);
+
+        var accessToken = _tokenService.GenerateAccessToken(claims);
+        
+        return new LoginDto { AccessToken = accessToken, Succeeded = true };
+    }
+
+    private async Task<List<Claim>> GetClaims(User user)
+    {
         var claims = new List<Claim>();
+
         var userNameClaim = new Claim(ClaimsNames.UserName, user.UserName!);
         claims.Add(userNameClaim);
+
         var idClaim = new Claim(ClaimsNames.Id, user.Id.ToString());
         claims.Add(idClaim);
+
         var roles = await _userManager.GetRolesAsync(user);
         foreach (var role in roles)
         {
@@ -68,8 +80,6 @@ public class AuthenticationService : IAuthenticationService
             claims.Add(roleClaim);
         }
 
-        var accessToken = _tokenService.GenerateAccessToken(claims);
-        
-        return new LoginDto { AccessToken = accessToken, Succeeded = true };
+        return claims;
     }
 }

@@ -1,7 +1,6 @@
 ﻿using BookBarter.Application.Cities.Responses;
 using BookBarter.Application.Common.Interfaces.Repositories;
 using BookBarter.Application.Common.Models;
-using BookBarter.Domain.Entities;
 using MediatR;
 
 namespace BookBarter.Application.Cities.Queries;
@@ -19,10 +18,8 @@ public class GetPagedCitiesQueryHandler : IRequestHandler<GetPagedCitiesQuery, P
         _cityRepository = cityRepository;
     }
 
-    public async Task<PaginatedResult<CityDto>> Handle(GetPagedCitiesQuery request, CancellationToken cancellationToken)
+    public Task<PaginatedResult<CityDto>> Handle(GetPagedCitiesQuery request, CancellationToken cancellationToken)
     {
-        var result = await _cityRepository.GetDtoPagedAsync(request, cancellationToken);
-
-        return result;
+        return _cityRepository.GetDtoPagedAsync(request, cancellationToken);
     }
 }

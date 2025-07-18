@@ -1,5 +1,4 @@
-﻿using BookBarter.Application.Books.Commands;
-using BookBarter.Application.Common.Models;
+﻿using BookBarter.Application.Common.Models;
 using BookBarter.Application.Users.Commands;
 using BookBarter.Application.Users.Commands.OwnedBooks;
 using BookBarter.Application.Users.Commands.WantedBooks;
@@ -25,30 +24,26 @@ public class UsersController : ControllerBase
     [HttpGet]
     [Route("{id}")]
     [AllowAnonymous]
-    public async Task<UserDto> GetByIdUser(int id, [FromQuery] bool excludeUnapprovedBooks, CancellationToken cancellationToken)
+    public Task<UserDto> GetByIdUser(int id, [FromQuery] bool excludeUnapprovedBooks, CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(new GetByIdUserQuery { 
+        return _mediator.Send(new GetByIdUserQuery { 
             Id = id,
             ExcludeUnapprovedBooks = excludeUnapprovedBooks
         }, cancellationToken);
-        return response;
     }
 
     [HttpPost]
     [Route("paged")]
     [AllowAnonymous]
-    public async Task<PaginatedResult<ListedUserDto>> GetPagedUsers([FromBody] GetPagedUsersQuery getPagedUsersQuery,
+    public Task<PaginatedResult<ListedUserDto>> GetPagedUsers([FromBody] GetPagedUsersQuery getPagedUsersQuery,
         CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(getPagedUsersQuery, cancellationToken);
-        return response;
+        return _mediator.Send(getPagedUsersQuery, cancellationToken);
     }
 
     [HttpPut]
     [Route("me")]
-    [AllowAnonymous]
-    public async Task UpdateUser([FromBody] UpdateUserCommand command,
-        CancellationToken cancellationToken)
+    public async Task UpdateUser([FromBody] UpdateUserCommand command, CancellationToken cancellationToken)
     {
         await _mediator.Send(command, cancellationToken);
     }
@@ -63,7 +58,6 @@ public class UsersController : ControllerBase
 
     [HttpPost]
     [Route("me/ownedBooks")]
-    [AllowAnonymous]
     public async Task AddOwnedBook([FromBody] AddOwnedBookCommand command, CancellationToken cancellationToken)
     {
         await _mediator.Send(command, cancellationToken);
@@ -71,7 +65,6 @@ public class UsersController : ControllerBase
 
     [HttpPost]
     [Route("me/wantedBooks")]
-    [AllowAnonymous]
     public async Task AddWantedBook([FromBody] AddWantedBookCommand command, CancellationToken cancellationToken)
     {
         await _mediator.Send(command, cancellationToken);
@@ -79,7 +72,6 @@ public class UsersController : ControllerBase
 
     [HttpDelete]
     [Route("me/ownedBooks/{bookId}")]
-    [AllowAnonymous]
     public async Task DeleteOwnedBook(int bookId, [FromBody] DeleteOwnedBookCommand command, 
         CancellationToken cancellationToken)
     {
@@ -89,7 +81,6 @@ public class UsersController : ControllerBase
 
     [HttpDelete]
     [Route("me/wantedBooks/{bookId}")]
-    [AllowAnonymous]
     public async Task DeleteWantedBook(int bookId, [FromBody] DeleteWantedBookCommand command, 
         CancellationToken cancellationToken)
     {

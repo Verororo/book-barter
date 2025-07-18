@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using BookBarter.Application.Common.Interfaces.Repositories;
 using BookBarter.Application.Common.Models;
 using BookBarter.Application.Common.Responses;
@@ -27,7 +22,7 @@ public class PublisherRepository : IPublisherRepository
         _mapper = mapper;
     }
 
-    public async Task<PaginatedResult<PublisherDto>> GetDtoPagedAsync(GetPagedPublishersQuery request,
+    public Task<PaginatedResult<PublisherDto>> GetDtoPagedAsync(GetPagedPublishersQuery request,
         CancellationToken cancellationToken)
     {
         IQueryable<Publisher> publishers = _dbSet;
@@ -39,12 +34,10 @@ public class PublisherRepository : IPublisherRepository
             publishers = publishers.Where(g => g.Name.Contains(request.Query));
         }
 
-        var paginatedResult = await publishers.CreatePaginatedResultAsync<Publisher, PublisherDto>(request, _mapper, cancellationToken);
-
-        return paginatedResult;
+        return publishers.CreatePaginatedResultAsync<Publisher, PublisherDto>(request, _mapper, cancellationToken);
     }
 
-    public async Task<PaginatedResult<PublisherForModerationDto>> GetDtoForModerationPagedAsync(GetPagedPublishersForModerationQuery request,
+    public Task<PaginatedResult<PublisherForModerationDto>> GetDtoForModerationPagedAsync(GetPagedPublishersForModerationQuery request,
         CancellationToken cancellationToken)
     {
         IQueryable<Publisher> publishers = _dbSet;
@@ -56,8 +49,6 @@ public class PublisherRepository : IPublisherRepository
             publishers = publishers.Where(g => g.Name.Contains(request.Query));
         }
 
-        var paginatedResult = await publishers.CreatePaginatedResultAsync<Publisher, PublisherForModerationDto>(request, _mapper, cancellationToken);
-
-        return paginatedResult;
+        return publishers.CreatePaginatedResultAsync<Publisher, PublisherForModerationDto>(request, _mapper, cancellationToken);
     }
 }
