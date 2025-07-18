@@ -66,12 +66,41 @@
 }
 
 .advancedSettingsContainer {
-  width: 100%;
-  padding: 20px;
+  width: 750px;
+  padding: 0 20px 20px 20px;
   border: 1px dashed #ccc;
   border-radius: 8px;
   margin-top: 10px;
   margin-bottom: 25px;
+}
+
+.advancedSearchRow {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.genreSelect {
+  min-width: 200px;
+  flex: 1;
+}
+
+.advancedControlButtons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.orderingSettingsContainer {
+  margin-top: 20px;
+}
+
+.autocompleteRoot,
+.input {
+  background-color: #ffffff;
 }
 
 .multipleSearch {
@@ -105,6 +134,9 @@
 }
 
 .multipleSearchBar {
-  background-color: #fff;
+  background-color: #ffffff;
+}
+
+.topSearchBar {
   width: 80%;
 }
