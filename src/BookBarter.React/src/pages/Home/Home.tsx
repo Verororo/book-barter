@@ -19,6 +19,7 @@ import MultipleSearchBar from '../../components/SearchBars/MultipleSearchBar';
 import { fetchAutocompleteBooksSkipCustomIds } from '../../api/clients/book-client';
 
 import styles from './Home.module.css'
+import { useNotification } from '../../contexts/Notification/UseNotification';
 
 const Home = () => {
   const { isAuthenticated } = useAuth();
@@ -42,6 +43,8 @@ const Home = () => {
     sortBy,
     sortDirection,
   });
+
+  const { showNotification } = useNotification();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -70,7 +73,7 @@ const Home = () => {
         setUsers(items);
         setTotal(total);
       } catch (error) {
-        console.error(error);
+        showNotification("Failed to fetch users. Try again later.", "error")
       } finally {
         setLoading(false);
       }

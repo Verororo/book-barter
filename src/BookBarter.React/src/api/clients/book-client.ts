@@ -44,7 +44,7 @@ export const deleteBook = async (
   id: number
 ) => {
   try {
-    booksApi.apiBooksIdDelete(id)
+    await booksApi.apiBooksIdDelete(id)
   } catch (error) {
     console.error(error)
     throw error

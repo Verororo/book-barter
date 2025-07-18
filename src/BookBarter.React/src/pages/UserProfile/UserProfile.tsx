@@ -13,6 +13,7 @@ import { useParams } from 'react-router'
 import type { User } from '../../api/view-models/user'
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner'
 import HomeButton from '../../components/Navigation/HomeButton'
+import { useNotification } from '../../contexts/Notification/UseNotification'
 
 const formatLastOnline = (isoDate: string) => {
   const date = new Date(isoDate)
@@ -39,11 +40,15 @@ const UserProfile = () => {
   const [user, setUser] = useState<User>()
   const [loading, setLoading] = useState(false)
 
+  const { showNotification } = useNotification();
+
   useEffect(() => {
     setLoading(true)
     fetchUserById(userId, /* excludeUnapprovedBooks = */ true)
       .then(user => setUser(user))
-      .catch(console.error)
+      .catch(_error => {
+        showNotification("Failed to fetch user data. Try again later.", "error")
+      })
       .finally(() => setLoading(false))
   }, [userId])
 

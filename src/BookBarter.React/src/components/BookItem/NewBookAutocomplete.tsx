@@ -101,9 +101,9 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
             bookStateId
           }
         );
-        showNotification("The book has succesfully been added to the owned list.", "success");
+        showNotification("The book has succesfully been added to the giving out section.", "success");
       } catch (error) {
-        showNotification("Failed to add the book to the owned list. Try again later.", "error");
+        showNotification("Failed to add the book to the giving out section. Try again later.", "error");
       }
     } else {
       try {
@@ -112,9 +112,9 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
             bookId: book.id
           }
         );
-        showNotification("The book has succesfully been added to the owned list.", "success");
+        showNotification("The book has succesfully been added to the looking for section.", "success");
       } catch (error) {
-        showNotification("Failed to add the book to the wanted list. Try again later.", "error");
+        showNotification("Failed to add the book to the looking for section. Try again later.", "error");
       }
     }
 

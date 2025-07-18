@@ -24,12 +24,23 @@ const PublisherForm = ({ publisher, onSave, onCancel }: PublisherFormProps) => {
           name: values.name
         };
         await updatePublisher(command);
+        showNotification("Succesfully updated the publisher.", "success")
         onSave();
       } catch (error) {
         showNotification("Failed to update the publisher. Try again later.", "error");
       }
     }
   });
+
+  const getPublisherError = () => {
+    if (!formik.values.name) {
+      return 'Name is required.'
+    } else if (formik.values.name.length > 20) {
+      return 'Name length cannot exceed 20 characters.'
+    } else {
+      return ''
+    }
+  }
 
   return (
     <form
@@ -44,12 +55,12 @@ const PublisherForm = ({ publisher, onSave, onCancel }: PublisherFormProps) => {
         onChange={formik.handleChange}
         variant="outlined"
         className={styles.input}
-        error={!formik.values.name}
-        helperText={!formik.values.name ? 'Name is required' : ''}
+        error={!formik.values.name || formik.values.name.length > 20}
+        helperText={getPublisherError()}
       />
       <EditActionButtons
         onCancel={onCancel}
-        disabled={!formik.values.name}
+        disabled={!formik.values.name || formik.values.name.length > 20}
       />
     </form>
   )

@@ -12,6 +12,7 @@ import type { AuthorForModerationDto } from '../../api/generated';
 import ActionButtons from './Buttons/ActionButtons';
 import AuthorForm from './Forms/AuthorForm';
 import styles from './List.module.css'
+import { useNotification } from '../../contexts/Notification/UseNotification';
 
 interface AuthorsListProps {
   authors: AuthorForModerationDto[];
@@ -23,6 +24,8 @@ const AuthorsList = ({ authors, onRefresh, hasPagination }: AuthorsListProps) =>
   const [editingAuthorId, setEditingAuthorId] = useState<number | null>(null);
   const [expandedId, setExpandedId] = useState<number | false>(false);
 
+  const { showNotification } = useNotification();
+
   const handleAccordionChange = (authorId: number) => (_: any, isExpanded: boolean) => {
     setExpandedId(isExpanded ? authorId : false);
   };
@@ -30,18 +33,20 @@ const AuthorsList = ({ authors, onRefresh, hasPagination }: AuthorsListProps) =>
   const handleAuthorApprove = async (authorId: number) => {
     try {
       await approveAuthor(authorId);
+      showNotification("Succesfully approved the author.", "success");
       await onRefresh();
     } catch (error) {
-      console.log(error);
+      showNotification("Failed to approve the author. Try again later.", "error");
     }
   };
 
   const handleAuthorDelete = async (authorId: number) => {
     try {
       await deleteAuthor(authorId);
+      showNotification("Succesfully deleted the author.", "success");
       await onRefresh();
     } catch (error) {
-      console.log(error);
+      showNotification("Failed to delete the author. Try again later.", "error");
     }
   };
 

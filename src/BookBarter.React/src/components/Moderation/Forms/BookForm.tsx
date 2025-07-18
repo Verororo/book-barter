@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback, type FormEvent } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Grid, TextField, MenuItem, Select, FormControl, InputLabel, FormHelperText } from '@mui/material';
 import { useFormik } from 'formik';
 import { createAuthorCommand, fetchPagedAuthors } from '../../../api/clients/author-client';
@@ -76,6 +76,7 @@ const BookForm = ({ book, onSave, onCancel }: BookFormProps) => {
     if (!values.genre?.id) errors.genre = 'Genre is required.';
 
     if (!values.publisher) errors.publisher = 'Publisher is required.';
+    else if (values.publisher.name!.length > 30) errors.publisher = 'Publisher name cannot exceed 30 characters.'
 
     return errors;
   }, []);
@@ -93,7 +94,7 @@ const BookForm = ({ book, onSave, onCancel }: BookFormProps) => {
           });
           return { ...author, id: newId };
         } catch (error) {
-          showNotification("Failed to add the new author. Try again later.", "error");
+          console.log(error)
           throw error;
         }
       })
@@ -109,7 +110,7 @@ const BookForm = ({ book, onSave, onCancel }: BookFormProps) => {
       });
       return { ...publisher, id: newId };
     } catch (error) {
-      showNotification("Failed to add the new publisher. Try again later.", "error");
+      console.log(error)
       throw error;
     }
   }
@@ -146,7 +147,7 @@ const BookForm = ({ book, onSave, onCancel }: BookFormProps) => {
         };
 
         await updateBook(command);
-        showNotification("The book has been succesfully updated.", "success");
+        showNotification("Succesfully updated the book.", "success");
         onSave();
       }
       catch (error) {
@@ -184,27 +185,14 @@ const BookForm = ({ book, onSave, onCancel }: BookFormProps) => {
     [genres]
   );
 
-  const allFields: Array<keyof UpdateBookValues> = [
-    'isbn', 'title', 'publicationDate', 'authors', 'genre', 'publisher'
-  ];
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    if (Object.keys(formik.touched).length === 0) {
-      allFields.forEach(field => {
-        formik.setFieldTouched(field, true, false);
-      });
-    }
-    formik.handleSubmit(e);
-  };
-
   const displayedErrorFields = Object
     .keys(formik.errors)
     .filter(field => formik.touched[field as keyof UpdateBookValues]);
 
-  const submitDisabled = displayedErrorFields.length > 0 || loading;
+  const submitDisabled = displayedErrorFields.length > 0;
 
   return (
-    <form onSubmit={handleSubmit} className={styles.container}>
+    <form onSubmit={formik.handleSubmit} className={styles.container}>
       <Grid container spacing={2}>
         <Grid size={{ xs: 12, sm: 6 }}>
           <TextField
@@ -215,10 +203,14 @@ const BookForm = ({ book, onSave, onCancel }: BookFormProps) => {
             value={formik.values.title}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.title && Boolean(formik.errors.title)}
-            helperText={formik.touched.title && formik.errors.title}
+            error={Boolean(formik.errors.title)}
+            helperText={formik.errors.title}
             variant="outlined"
-            className={styles.input}
+            slotProps={{
+              input: {
+                className: styles.input
+              }
+            }}
           />
         </Grid>
 
@@ -231,10 +223,14 @@ const BookForm = ({ book, onSave, onCancel }: BookFormProps) => {
             value={formik.values.isbn}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.isbn && Boolean(formik.errors.isbn)}
-            helperText={formik.touched.isbn && formik.errors.isbn}
+            error={Boolean(formik.errors.isbn)}
+            helperText={formik.errors.isbn}
             variant="outlined"
-            className={styles.input}
+            slotProps={{
+              input: {
+                className: styles.input
+              }
+            }}
           />
         </Grid>
 
@@ -248,10 +244,14 @@ const BookForm = ({ book, onSave, onCancel }: BookFormProps) => {
             value={formik.values.publicationDate}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.publicationDate && Boolean(formik.errors.publicationDate)}
-            helperText={formik.touched.publicationDate && formik.errors.publicationDate}
+            error={Boolean(formik.errors.publicationDate)}
+            helperText={formik.errors.publicationDate}
             variant="outlined"
-            className={styles.input}
+            slotProps={{
+              input: {
+                className: styles.input
+              }
+            }}
           />
         </Grid>
 
@@ -259,7 +259,7 @@ const BookForm = ({ book, onSave, onCancel }: BookFormProps) => {
           <FormControl
             fullWidth
             variant="outlined"
-            error={formik.touched.genre && Boolean(formik.errors.genre)}
+            error={Boolean(formik.errors.genre)}
           >
             <InputLabel id="genre-label">Genre</InputLabel>
             <Select
@@ -278,7 +278,7 @@ const BookForm = ({ book, onSave, onCancel }: BookFormProps) => {
             >
               {genreOptions}
             </Select>
-            {formik.touched.genre && formik.errors.genre && (
+            {formik.errors.genre && (
               <FormHelperText>{formik.errors.genre}</FormHelperText>
             )}
           </FormControl>
@@ -292,9 +292,10 @@ const BookForm = ({ book, onSave, onCancel }: BookFormProps) => {
             getOptionLabel={(option) => option.name!}
             onChange={onPublisherChange}
             fetchMethod={fetchPagedPublishers}
+            createEntityFromName={(name) => ({ id: undefined, name: name })}
             styles={styles}
-            error={formik.touched.publisher && Boolean(formik.errors.publisher)}
-            helperText={formik.touched.publisher && formik.errors.publisher}
+            error={Boolean(formik.errors.publisher)}
+            helperText={formik.errors.publisher}
             onBlur={() => formik.setFieldTouched('publisher', true)}
           />
         </Grid>
@@ -313,8 +314,8 @@ const BookForm = ({ book, onSave, onCancel }: BookFormProps) => {
             fetchMethod={fetchPagedAuthors}
             AddDialog={AddCustomAuthor}
             styles={styles}
-            error={formik.touched.authors && Boolean(formik.errors.authors)}
-            helperText={formik.touched.authors && formik.errors.authors}
+            error={Boolean(formik.errors.authors)}
+            helperText={formik.errors.authors}
             onBlur={() => formik.setFieldTouched('authors', true)}
           />
         </Grid>

@@ -29,7 +29,7 @@ public class CreateAuthorCommandHandler : IRequestHandler<CreateAuthorCommand, i
             AddedDate = DateTime.UtcNow
         };
 
-        _repository.Add<Author>(author);
+        _repository.Add(author);
         await _repository.SaveAsync(cancellationToken);
 
         return author.Id;

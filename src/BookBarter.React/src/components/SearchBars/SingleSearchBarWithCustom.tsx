@@ -6,6 +6,7 @@ import {
   debounce,
   createFilterOptions
 } from '@mui/material';
+import { useNotification } from '../../contexts/Notification/UseNotification';
 
 type BaseEntity = {
   id?: number;
@@ -59,6 +60,8 @@ function SingleSearchBarWithCustom<T extends BaseEntity>({
   const [openAddDialog, setOpenAddDialog] = useState(false);
   const [dialogDefaultName, setDialogDefaultName] = useState<string | undefined>();
 
+  const { showNotification } = useNotification();
+
   const filter = useMemo(
     () => createFilterOptions<T | CustomOption>(),
     []
@@ -68,8 +71,8 @@ function SingleSearchBarWithCustom<T extends BaseEntity>({
     () => debounce((query: string) => {
       fetchMethod(query)
         .then(setOptions)
-        .catch(error => {
-          console.error('Error fetching options:', error);
+        .catch(_error => {
+          showNotification("Failed to fetch autocomplete options. Try again later.", "error")
           setOptions([]);
         })
         .finally(() => setLoading(false));
@@ -191,7 +194,6 @@ function SingleSearchBarWithCustom<T extends BaseEntity>({
         renderInput={(params) => (
           <TextField
             {...params}
-            className={styles.autocompleteRoot}
             label={label}
             placeholder={placeholder}
             error={error}
@@ -199,9 +201,7 @@ function SingleSearchBarWithCustom<T extends BaseEntity>({
             slotProps={{
               input: {
                 ...params.InputProps,
-                classes: {
-                  input: styles.input,
-                },
+                className: styles.input,
                 endAdornment: (
                   <>
                     {loading && <CircularProgress size={20} />}

@@ -12,6 +12,7 @@ import type { BookForModerationDto } from '../../api/generated';
 import ActionButtons from './Buttons/ActionButtons';
 import BookForm from './Forms/BookForm';
 import styles from './List.module.css'
+import { useNotification } from '../../contexts/Notification/UseNotification';
 
 interface BooksListProps {
   books: BookForModerationDto[];
@@ -23,6 +24,8 @@ const BooksList = ({ books, onRefresh, hasPagination }: BooksListProps) => {
   const [editingBookId, setEditingBookId] = useState<number | null>(null);
   const [expandedId, setExpandedId] = useState<number | false>(false);
 
+  const { showNotification } = useNotification();
+
   const handleAccordionChange = (bookId: number) => (_: any, isExpanded: boolean) => {
     setExpandedId(isExpanded ? bookId : false);
   };
@@ -31,8 +34,9 @@ const BooksList = ({ books, onRefresh, hasPagination }: BooksListProps) => {
     try {
       await approveBook(bookId);
       await onRefresh();
+      showNotification("Succesfully approved the book.", "success");
     } catch (error) {
-      console.log(error);
+      showNotification("Failed to approve the book. Try again later.", "error");
     }
   };
 
@@ -40,8 +44,9 @@ const BooksList = ({ books, onRefresh, hasPagination }: BooksListProps) => {
     try {
       await deleteBook(bookId);
       await onRefresh();
+      showNotification("Succesfully deleted the book.", "success");
     } catch (error) {
-      console.log(error);
+      showNotification("Failed to delete the book. Try again later.", "error");
     }
   };
 

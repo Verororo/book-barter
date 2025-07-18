@@ -15,7 +15,7 @@ import type { CityDto } from '../../api/generated/models/city-dto'
 import { fetchPagedCities } from '../../api/clients/city-client'
 import SingleSearchBar from '../../components/SearchBars/SingleSearchBar'
 
-type FormValues = {
+type AuthValues = {
   email: string,
   password: string,
   confirmPassword: string,
@@ -23,7 +23,7 @@ type FormValues = {
   city: CityDto | null
 }
 
-type FormErrors = {
+type AuthErrors = {
   email?: string,
   password?: string,
   confirmPassword?: string,
@@ -37,8 +37,8 @@ const Auth = () => {
   const { login, register, isAuthenticated, userAuthData } = useAuth()
   const navigate = useNavigate()
 
-  const validate = (values: FormValues): FormErrors => {
-    const errors: FormErrors = {}
+  const validate = (values: AuthValues): AuthErrors => {
+    const errors: AuthErrors = {}
 
     if (!values.email) errors.email = "Email is required."
     else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) errors.email = "Invalid email address."
@@ -63,7 +63,7 @@ const Auth = () => {
     return errors
   }
 
-  const formik = useFormik<FormValues>({
+  const formik = useFormik<AuthValues>({
     initialValues: {
       email: '',
       password: '',
@@ -102,7 +102,8 @@ const Auth = () => {
           formik.setFieldTouched("password", false, /* shouldValidate = */ false);
         }
       } catch (error) {
-        console.log(error)
+        // Notifications are already shown in AuthContext.tsx
+        console.error(error)
       } finally {
         setLoading(false)
       }
@@ -120,6 +121,12 @@ const Auth = () => {
       },
       [formik]
     );
+
+  const displayedErrorFields = Object
+    .keys(formik.errors)
+    .filter(field => formik.touched[field as keyof AuthValues]);
+
+  const submitDisabled = displayedErrorFields.length > 0;
 
   if (isAuthenticated && userAuthData) {
     return (
@@ -237,6 +244,7 @@ const Auth = () => {
             type="submit"
             className={styles.submitButton}
             size="large"
+            disabled={submitDisabled}
             loading={loading}
           >
             {hasAccount ? 'Sign in' : 'Sign up'}

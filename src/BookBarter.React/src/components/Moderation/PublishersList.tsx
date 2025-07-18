@@ -12,6 +12,7 @@ import { approvePublisher, deletePublisher } from '../../api/clients/publisher-c
 import type { PublisherForModerationDto } from '../../api/generated';
 import ActionButtons from './Buttons/ActionButtons';
 import styles from './List.module.css'
+import { useNotification } from '../../contexts/Notification/UseNotification';
 
 interface PublishersListProps {
   publishers: PublisherForModerationDto[];
@@ -23,6 +24,8 @@ const PublishersList = ({ publishers, onRefresh, hasPagination }: PublishersList
   const [editingPublisherId, setEditingPublisherId] = useState<number | null>(null);
   const [expandedId, setExpandedId] = useState<number | false>(false);
 
+  const { showNotification } = useNotification();
+
   const handleAccordionChange = (publisherId: number) => (_: any, isExpanded: boolean) => {
     setExpandedId(isExpanded ? publisherId : false);
   };
@@ -30,18 +33,20 @@ const PublishersList = ({ publishers, onRefresh, hasPagination }: PublishersList
   const handlePublisherApprove = async (publisherId: number) => {
     try {
       await approvePublisher(publisherId);
+      showNotification("Succesfully approved the publisher.", "success");
       await onRefresh();
     } catch (error) {
-      console.log(error);
+      showNotification("Failed to approve the publisher. Try again later.", "error");
     }
   };
 
   const handlePublisherDelete = async (publisherId: number) => {
     try {
       await deletePublisher(publisherId);
+      showNotification("Succesfully deleted the publisher.", "success");
       await onRefresh();
     } catch (error) {
-      console.log(error);
+      showNotification("Failed to delete the publisher. Try again later.", "error");
     }
   };
 

@@ -10,6 +10,14 @@ public class AuthorConfiguration : IEntityTypeConfiguration<Author>
     public void Configure(EntityTypeBuilder<Author> builder)
     {
         builder
+            .Property(e => e.FirstName)
+            .HasMaxLength(20);
+
+        builder
+            .Property(e => e.MiddleName)
+            .HasMaxLength(20);
+
+        builder
             .Property(e => e.LastName)
             .HasMaxLength(20)
             .IsRequired();

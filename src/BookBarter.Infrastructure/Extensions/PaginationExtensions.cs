@@ -19,34 +19,12 @@ public static class PaginationExtensions
     {
         var total = await query.CountAsync(cancellationToken);
 
-        var resultQuery = query.ProjectTo<TDto>(mapper.ConfigurationProvider, new { query = request })
+        var resultQuery = query.ProjectTo<TDto>(mapper.ConfigurationProvider)
             .Order(request)
             .Paginate(request);
 
         var result = await resultQuery.ToListAsync(cancellationToken);
-        /*
-        if (request is GetPagedUsersQuery usersQuery && typeof(TDto) == typeof(ListedUserDto))
-        {
-            foreach (var item in result.OfType<ListedUserDto>())
-            {
-                if (usersQuery.OwnedBooksIds?.Any() == true)
-                {
-                    item.OwnedBooks = item.OwnedBooks
-                        .OrderByDescending(ob => usersQuery.OwnedBooksIds.Contains(ob.Book.Id))
-                        .ThenBy(ob => ob.AddedDate)
-                        .ToList();
-                }
-
-                if (usersQuery.WantedBooksIds?.Any() == true)
-                {
-                    item.WantedBooks = item.WantedBooks
-                        .OrderByDescending(wb => usersQuery.WantedBooksIds.Contains(wb.Book.Id))
-                        .ThenBy(wb => wb.AddedDate)
-                        .ToList();
-                }
-            }
-        }
-        */
+        
         return new PaginatedResult<TDto>()
         {
             Items = result,

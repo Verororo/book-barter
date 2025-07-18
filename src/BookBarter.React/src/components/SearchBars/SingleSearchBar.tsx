@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Autocomplete, TextField, CircularProgress, debounce } from '@mui/material';
+import { useNotification } from '../../contexts/Notification/UseNotification';
 
 type BaseEntity = {
   id?: number;
@@ -41,12 +42,14 @@ function SingleSearchBar<T extends BaseEntity>({
   const [loading, setLoading] = useState(false);
   const [inputValue, setInputValue] = useState('');
 
+  const { showNotification } = useNotification();
+
   const debouncedFetch = useMemo(
     () => debounce((query: string) => {
       fetchMethod(query)
         .then(setOptions)
-        .catch(error => {
-          console.error('Error fetching options:', error);
+        .catch(_error => {
+          showNotification("Failed to fetch autocomplete options. Try again later.", "error")
           setOptions([]);
         })
         .finally(() => setLoading(false));
@@ -98,7 +101,6 @@ function SingleSearchBar<T extends BaseEntity>({
       renderInput={(params) => (
         <TextField
           {...params}
-          className={styles.autocompleteRoot}
           label={label}
           placeholder={placeholder}
           variant={variant}
@@ -107,9 +109,7 @@ function SingleSearchBar<T extends BaseEntity>({
           slotProps={{
             input: {
               ...params.InputProps,
-              classes: {
-                input: styles.input,
-              },
+              className: styles.input,
               endAdornment: (
                 <>
                   {loading && <CircularProgress size={20} />}

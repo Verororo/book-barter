@@ -31,6 +31,7 @@ import {
   fetchPagedPublishers,
   fetchPublishersForModeration
 } from '../../api/clients/publisher-client';
+import { useNotification } from '../../contexts/Notification/UseNotification';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -59,6 +60,8 @@ const ModeratorPanel = () => {
   const [selectedAuthor, setSelectedAuthor] = useState<AuthorDto | null>(null);
   const [selectedPublisher, setSelectedPublisher] = useState<PublisherDto | null>(null);
 
+  const { showNotification } = useNotification();
+
   const [searchParams, setSearchParams] = useState({
     bookName: '',
     authorName: '',
@@ -78,44 +81,56 @@ const ModeratorPanel = () => {
   }, [mainTab, showApproved]);
 
   const fetchBooks = useCallback(async () => {
-    const data = await fetchBooksForModeration({
-      pageNumber: currentPage,
-      pageSize: ITEMS_PER_PAGE,
-      orderByProperty: "addedDate",
-      orderDirection: "desc",
-      approved: showApproved,
-      title: searchParams.bookName || undefined,
-      authorId: searchParams.authorId || undefined,
-      publisherId: searchParams.publisherId || undefined,
-    });
-    setBooks(data.items || []);
-    setTotalBooks(data.total || 0);
+    try {
+      const data = await fetchBooksForModeration({
+        pageNumber: currentPage,
+        pageSize: ITEMS_PER_PAGE,
+        orderByProperty: "addedDate",
+        orderDirection: "desc",
+        approved: showApproved,
+        title: searchParams.bookName || undefined,
+        authorId: searchParams.authorId || undefined,
+        publisherId: searchParams.publisherId || undefined,
+      });
+      setBooks(data.items || []);
+      setTotalBooks(data.total || 0);
+    } catch (error) {
+      showNotification("Failed to fetch books. Try again later.", "error")
+    }
   }, [currentPage, showApproved, searchParams.bookName, searchParams.authorId, searchParams.publisherId]);
 
   const fetchAuthors = useCallback(async () => {
-    const data = await fetchAuthorsForModeration({
-      pageNumber: currentPage,
-      pageSize: ITEMS_PER_PAGE,
-      orderByProperty: "addedDate",
-      orderDirection: "asc",
-      approved: showApproved,
-      query: searchParams.authorName || undefined,
-    });
-    setAuthors(data.items || []);
-    setTotalAuthors(data.total || 0);
+    try {
+      const data = await fetchAuthorsForModeration({
+        pageNumber: currentPage,
+        pageSize: ITEMS_PER_PAGE,
+        orderByProperty: "addedDate",
+        orderDirection: "desc",
+        approved: showApproved,
+        query: searchParams.authorName || undefined,
+      });
+      setAuthors(data.items || []);
+      setTotalAuthors(data.total || 0);
+    } catch (error) {
+      showNotification("Failed to fetch books. Try again later.", "error")
+    }
   }, [currentPage, showApproved, searchParams.authorName]);
 
   const fetchPublishers = useCallback(async () => {
-    const data = await fetchPublishersForModeration({
-      pageNumber: currentPage,
-      pageSize: ITEMS_PER_PAGE,
-      orderByProperty: "addedDate",
-      orderDirection: "asc",
-      approved: showApproved,
-      query: searchParams.publisherName || undefined,
-    });
-    setPublishers(data.items || []);
-    setTotalPublishers(data.total || 0);
+    try {
+      const data = await fetchPublishersForModeration({
+        pageNumber: currentPage,
+        pageSize: ITEMS_PER_PAGE,
+        orderByProperty: "addedDate",
+        orderDirection: "desc",
+        approved: showApproved,
+        query: searchParams.publisherName || undefined,
+      });
+      setPublishers(data.items || []);
+      setTotalPublishers(data.total || 0);
+    } catch (error) {
+      showNotification("Failed to fetch books. Try again later.", "error")
+    }
   }, [currentPage, showApproved, searchParams.publisherName]);
 
   const fetchData = useCallback(async () => {
@@ -133,7 +148,7 @@ const ModeratorPanel = () => {
           break;
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -272,11 +287,10 @@ const ModeratorPanel = () => {
             <Collapse in={showAdvanced}>
               <div className={styles.advancedSearchContainer}>
                 <SingleSearchBar
-                  label="Search by Author..."
+                  label="Search by author..."
                   value={selectedAuthor}
                   onChange={(_event, newValue) => setSelectedAuthor(newValue)}
                   fetchMethod={fetchPagedAuthors}
-                  placeholder="Type author name..."
                   variant="outlined"
                   styles={styles}
                   getOptionLabel={(option) =>
@@ -284,11 +298,10 @@ const ModeratorPanel = () => {
                   }
                 />
                 <SingleSearchBar
-                  label="Search by Publisher..."
+                  label="Search by publisher..."
                   value={selectedPublisher}
                   onChange={(_event, newValue) => setSelectedPublisher(newValue)}
                   fetchMethod={fetchPagedPublishers}
-                  placeholder="Type publisher name..."
                   variant="outlined"
                   styles={styles}
                   getOptionLabel={(option) => option?.name || ''}

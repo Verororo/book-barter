@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback, type FormEvent } from 'react'; // Added useEffect
+import { useState, useEffect, useMemo, useCallback } from 'react'; // Added useEffect
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -74,6 +74,7 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
     if (!values.genre?.id) errors.genre = 'Genre is required.';
 
     if (!values.publisher) errors.publisher = 'Publisher is required.';
+    else if (values.publisher.name!.length > 30) errors.publisher = 'Publisher name cannot exceed 30 characters.'
 
     return errors;
   }, []);
@@ -83,13 +84,17 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
       authors.map(async author => {
         if (author.id) return author;
 
-        const newId = await createAuthorCommand({
-          firstName: author.firstName,
-          middleName: author.middleName,
-          lastName: author.lastName!,
-        });
-
-        return { ...author, id: newId };
+        try {
+          const newId = await createAuthorCommand({
+            firstName: author.firstName,
+            middleName: author.middleName,
+            lastName: author.lastName!,
+          });
+          return { ...author, id: newId };
+        } catch (error) {
+          console.log(error)
+          throw error;
+        }
       })
     );
   }
@@ -97,11 +102,15 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
   async function resolvePublisherId(publisher: PublisherDto): Promise<PublisherDto> {
     if (publisher.id) return publisher;
 
-    const newId = await createPublisherCommand({
-      name: publisher.name,
-    });
-
-    return { ...publisher, id: newId };
+    try {
+      const newId = await createPublisherCommand({
+        name: publisher.name,
+      });
+      return { ...publisher, id: newId };
+    } catch (error) {
+      console.log(error)
+      throw error;
+    }
   }
 
   const formik = useFormik<CustomBookValues>({
@@ -180,19 +189,6 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
     [genres]
   );
 
-  const allFields: Array<keyof CustomBookValues> = [
-    'isbn', 'title', 'publicationDate', 'authors', 'genre', 'publisher'
-  ];
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    if (Object.keys(formik.touched).length === 0) {
-      allFields.forEach(field => {
-        formik.setFieldTouched(field, true, false);
-      });
-    }
-    formik.handleSubmit(e);
-  };
-
   const displayedErrorFields = Object
     .keys(formik.errors)
     .filter(field => formik.touched[field as keyof CustomBookValues]);
@@ -202,7 +198,7 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
   return (
     <Dialog open onClose={onClose} fullWidth maxWidth="sm">
       <DialogTitle>Add New Book</DialogTitle>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={formik.handleSubmit}>
         <DialogContent dividers>
           <div className={styles.dialogContents}>
             <TextField
@@ -264,6 +260,7 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
               getOptionLabel={(option) => option.name!}
               onChange={onPublisherChange}
               fetchMethod={fetchPagedPublishers}
+              createEntityFromName={(name) => ({id: undefined, name: name})}
               styles={styles}
               error={formik.touched.publisher && Boolean(formik.errors.publisher)}
               helperText={formik.touched.publisher && formik.errors.publisher}

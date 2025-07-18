@@ -17,6 +17,7 @@ import HomeButton from '../../components/Navigation/HomeButton'
 import { fetchPagedCities } from '../../api/clients/city-client'
 import type { CityDto } from '../../api/generated/models/city-dto'
 import SingleSearchBar from '../../components/SearchBars/SingleSearchBar'
+import { useNotification } from '../../contexts/Notification/UseNotification'
 
 const OwnProfile = () => {
   const { isAuthenticated, userAuthData, logout } = useAuth()
@@ -34,6 +35,8 @@ const OwnProfile = () => {
 
   const [cityOption, setCityOption] = useState<CityDto | null>(null)
 
+  const { showNotification } = useNotification();
+
   useEffect(() => {
     setLoading(true)
     fetchUserById(userAuthData.id, /* excludeUnapprovedBooks = */ false)
@@ -41,7 +44,9 @@ const OwnProfile = () => {
         setUser(user)
         setAboutDraft(user.about)
       })
-      .catch(console.error)
+      .catch(_error => {
+        showNotification("Failed to fetch user data. Try again later.", "error")
+      })
       .finally(() => setLoading(false))
   }, [userAuthData.id])
 

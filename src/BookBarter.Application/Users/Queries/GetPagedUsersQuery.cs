@@ -32,9 +32,28 @@ public class GetPagedUsersQueryHandler : IRequestHandler<GetPagedUsersQuery, Pag
     }
 
     public async Task<PaginatedResult<ListedUserDto>> Handle(GetPagedUsersQuery request,
-        CancellationToken cancellationToken)
+    CancellationToken cancellationToken)
     {
         var result = await _userRepository.GetDtoPagedAsync<ListedUserDto>(request, cancellationToken);
+
+        foreach (var item in result.Items)
+        {
+            if (request.OwnedBooksIds != null && request.OwnedBooksIds.Any())
+            {
+                item.OwnedBooks = item.OwnedBooks
+                    .OrderByDescending(ob => request.OwnedBooksIds.Contains(ob.Book.Id))
+                    .ThenBy(ob => ob.AddedDate)
+                    .ToList();
+            }
+
+            if (request.WantedBooksIds != null && request.WantedBooksIds.Any())
+            {
+                item.WantedBooks = item.WantedBooks
+                    .OrderByDescending(wb => request.WantedBooksIds.Contains(wb.Book.Id))
+                    .ThenBy(wb => wb.AddedDate)
+                    .ToList();
+            }
+        }
 
         return result;
     }

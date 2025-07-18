@@ -21,9 +21,6 @@ public class CreatePublisherCommandHandler : IRequestHandler<CreatePublisherComm
 
     public async Task<int?> Handle(CreatePublisherCommand command, CancellationToken cancellationToken)
     {
-        List<Publisher> duplicate = await _repository.GetByPredicateAsync<Publisher>(p => 
-            string.Equals(p.Name, command.Name, StringComparison.OrdinalIgnoreCase), cancellationToken);
-
         var publisher = new Publisher
         {
             Name = command.Name,

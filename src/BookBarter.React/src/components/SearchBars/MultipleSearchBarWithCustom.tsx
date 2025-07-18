@@ -6,6 +6,7 @@ import {
   debounce,
   createFilterOptions
 } from '@mui/material';
+import { useNotification } from '../../contexts/Notification/UseNotification';
 
 type BaseEntity = {
   id?: number;
@@ -57,6 +58,8 @@ function MultipleSearchBarWithCustom<T extends BaseEntity>({
   const [openAddDialog, setOpenAddDialog] = useState(false);
   const [dialogDefaultName, setDialogDefaultName] = useState<string | undefined>();
 
+  const { showNotification } = useNotification();
+
   const filter = useMemo(
     () => createFilterOptions<T | CustomOption>(),
     []
@@ -71,8 +74,8 @@ function MultipleSearchBarWithCustom<T extends BaseEntity>({
     () => debounce((query: string, idsToSkip: number[]) => {
       fetchMethod(query, idsToSkip)
         .then(setOptions)
-        .catch(error => {
-          console.error('Error fetching options:', error);
+        .catch(_error => {
+          showNotification("Failed to fetch autocomplete options. Try again later.", "error")
           setOptions([]);
         })
         .finally(() => setLoading(false));
@@ -192,7 +195,6 @@ function MultipleSearchBarWithCustom<T extends BaseEntity>({
         renderInput={(params) => (
           <TextField
             {...params}
-            className={styles.autocompleteRoot}
             label={label}
             placeholder={value.length === 0 ? placeholder : 'Add more...'}
             error={error}
@@ -200,9 +202,7 @@ function MultipleSearchBarWithCustom<T extends BaseEntity>({
             slotProps={{
               input: {
                 ...params.InputProps,
-                classes: {
-                  input: styles.input,
-                },
+                className: styles.input,
                 endAdornment: (
                   <>
                     {loading && <CircularProgress size={20} />}

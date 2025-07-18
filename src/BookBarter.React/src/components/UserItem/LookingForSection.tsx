@@ -6,6 +6,7 @@ import BookItem from "../BookItem/BookItem"
 import styles from './LookingFor.module.css'
 import { AnimatePresence } from "framer-motion"
 import NewBookAutocomplete from "../BookItem/NewBookAutocomplete"
+import { useNotification } from "../../contexts/Notification/UseNotification"
 
 type LookingForSectionProps = {
   lookingForBooks: ListedBook[]
@@ -15,6 +16,8 @@ type LookingForSectionProps = {
 const LookingForSection = ({ lookingForBooks, customizable = false }: LookingForSectionProps) => {
   const [localBooks, setLocalBooks] = useState<ListedBook[]>(lookingForBooks);
   const [autocompleteKey, setAutocompleteKey] = useState(0);
+
+  const { showNotification } = useNotification();
 
   useEffect(() => {
     setLocalBooks(lookingForBooks);
@@ -39,9 +42,14 @@ const LookingForSection = ({ lookingForBooks, customizable = false }: LookingFor
   }
 
   const handleDelete = async (deletedBookId: number) => {
-    await deleteBookFromWanted({ bookId: deletedBookId })
-    setLocalBooks(current => current.filter(b => b.id !== deletedBookId))
-  };
+      try {
+        await deleteBookFromWanted({ bookId: deletedBookId })
+        showNotification("Succesfully deleted the book from the looking for section.", "success");
+        setLocalBooks(current => current.filter(b => b.id !== deletedBookId))
+      } catch (error) {
+        showNotification("Failed to delete the book from the looking for section. Try again later.", "error")
+      }
+    };
 
   return (
     <div className={styles.lookingFor}>
