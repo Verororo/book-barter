@@ -155,7 +155,7 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
                 freeSolo
                 value={value}
                 onChange={(_event, newValue) => {
-                  if (typeof newValue === 'string') {
+                  if (typeof newValue === 'string') { // FIX: Create method
                     return
                   }
 

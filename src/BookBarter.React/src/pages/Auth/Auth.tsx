@@ -101,9 +101,6 @@ const Auth = () => {
           })
           formik.setFieldTouched("password", false, /* shouldValidate = */ false);
         }
-      } catch (error) {
-        // Notifications are already shown in AuthContext.tsx
-        console.error(error)
       } finally {
         setLoading(false)
       }

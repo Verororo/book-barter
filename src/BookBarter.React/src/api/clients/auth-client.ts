@@ -6,13 +6,12 @@ const authApi = new AuthApi(requestConfig)
 export const sendLoginCommand = async (
   command: LoginCommand
 ): Promise<string> => {
-  try {
+
+  // FIX: remove unnecessary try-catch block
+  // SUGGESTION: Handle errors in the calling function or globally using interceptors.
+
     const response = await authApi.apiAuthLoginPost(command)
     return response.data
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
 }
 
 export const sendRegisterCommand = async (

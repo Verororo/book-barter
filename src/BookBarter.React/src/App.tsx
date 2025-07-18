@@ -31,7 +31,7 @@ function App() {
                 <Route path='/auth' element={<Auth />} />
                 <Route path='/users/:userId' element={<UserProfile />} />
                 <Route path='/users/me' element={<OwnProfile />} />
-                <Route path='/moderator' element={<ModeratorPanel />} />
+                <Route path='/moderator' element={<ModeratorPanel />} /> { /* FIX: use lazy loading */ }
               </Routes>
             </Suspense>
           </Router>

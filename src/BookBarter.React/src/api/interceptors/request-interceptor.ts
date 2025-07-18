@@ -10,3 +10,5 @@ axios.interceptors.request.use(config => {
 }, error => {
   return Promise.reject(error);
 });
+
+// SUGGESTION: If you want to handle errors globally, you can add an interceptor for responses as well.
