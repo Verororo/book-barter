@@ -6,76 +6,46 @@ const publishersApi = new PublishersApi(requestConfig)
 export const createPublisherCommand = async (
   command: CreatePublisherCommand
 ): Promise<number | undefined> => {
-  try {
-    const response = await publishersApi.apiPublishersPost(command)
-    return response.data
-  } catch (error) {
-    console.log(error)
-    throw error
-  }
+  const response = await publishersApi.apiPublishersPost(command)
+  return response.data
 }
 
 export const approvePublisher = async (
   id: number
 ) => {
-  try {
-    await publishersApi.apiPublishersIdApprovePut(id)
-  } catch (error) {
-    console.log(error)
-    throw error
-  }
+  await publishersApi.apiPublishersIdApprovePut(id)
 }
 
 export const updatePublisher = async (
   query: UpdatePublisherCommand
 ) => {
-  try {
-    await publishersApi.apiPublishersIdPut(query.id!, query)
-  } catch (error) {
-    console.log(error)
-    throw error
-  }
+  await publishersApi.apiPublishersIdPut(query.id!, query)
 }
 
 export const deletePublisher = async (
   id: number
 ) => {
-  try {
-    await publishersApi.apiPublishersIdDelete(id)
-  } catch (error) {
-    console.log(error)
-    throw error
-  }
+  await publishersApi.apiPublishersIdDelete(id)
 }
 
 export const fetchPublishersForModeration = async (
   query: GetPagedPublishersForModerationQuery
 ): Promise<PublisherForModerationDtoPaginatedResult> => {
-  try {
-    const response = await publishersApi.apiPublishersPagedModeratedPost(query);
-    return response.data;
-  } catch (error) {
-    console.log(error)
-    throw error
-  }
+  const response = await publishersApi.apiPublishersPagedModeratedPost(query);
+  return response.data;
 }
 
 
 export const fetchPagedPublishers = async (
   query: string
 ): Promise<PublisherDto[]> => {
-  try {
-      const response = await publishersApi.apiPublishersPagedPost({
-      pageSize: 10,
-      pageNumber: 1,
-      orderByProperty: "name",
-      orderDirection: "asc",
-      query: query,
-    })
+  const response = await publishersApi.apiPublishersPagedPost({
+    pageSize: 10,
+    pageNumber: 1,
+    orderByProperty: "name",
+    orderDirection: "asc",
+    query: query,
+  })
 
-    return response.data.items ?? [];
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+  return response.data.items ?? [];
 }

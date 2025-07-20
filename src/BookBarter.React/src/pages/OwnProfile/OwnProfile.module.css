@@ -46,11 +46,15 @@
   margin: 0;
 }
 
-.profileCity, .input {
+.profileCity {
   display: flex;
   gap: 3px;
   align-items: center;
   font-size: 0.9em;
+}
+
+.input {
+  font-size: 1em;
 }
 
 .profileLastOnline {

@@ -9,58 +9,33 @@ const booksApi = new BooksApi(requestConfig)
 export const createBookCommand = async (
   command: CreateBookCommand
 ): Promise<number | undefined> => {
-  try {
-    const response = await booksApi.apiBooksPost(command)
-    return response.data
-  } catch (error) {
-    console.error(error)
-    return undefined
-  }
+  const response = await booksApi.apiBooksPost(command)
+  return response.data
 }
 
 export const approveBook = async (
   id: number
 ) => {
-  try {
-    await booksApi.apiBooksIdApprovePut(id)
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
+  await booksApi.apiBooksIdApprovePut(id)
 }
 
 export const updateBook = async (
   query: UpdateBookCommand
 ) => {
-  try {
-    await booksApi.apiBooksIdPut(query.id!, query)
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
+  await booksApi.apiBooksIdPut(query.id!, query)
 }
 
 export const deleteBook = async (
   id: number
 ) => {
-  try {
-    await booksApi.apiBooksIdDelete(id)
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
+  await booksApi.apiBooksIdDelete(id)
 }
 
 export const fetchBooksForModeration = async (
   query: GetPagedBooksForModerationQuery
 ): Promise<BookForModerationDtoPaginatedResult> => {
-  try {
-    const response = await booksApi.apiBooksPagedModeratedPost(query);
-    return response.data;
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
+  const response = await booksApi.apiBooksPagedModeratedPost(query);
+  return response.data;
 }
 
 export const fetchAutocompleteBooksSkipLoggedInIds = async (
@@ -70,22 +45,16 @@ export const fetchAutocompleteBooksSkipLoggedInIds = async (
     return [];
   }
 
-  try {
-    const response = await booksApi.apiBooksPagedPost({
-      pageSize: 10,
-      pageNumber: 1,
-      title: query,
-      orderByProperty: "title",
-      orderDirection: "asc",
-      skipLoggedInUserBooks: true
-    })
+  const response = await booksApi.apiBooksPagedPost({
+    pageSize: 10,
+    pageNumber: 1,
+    title: query,
+    orderByProperty: "title",
+    orderDirection: "asc",
+    skipLoggedInUserBooks: true
+  })
 
-    return mapAutocompleteBookPaginatedResultDtoToView(response.data);
-
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+  return mapAutocompleteBookPaginatedResultDtoToView(response.data);
 }
 
 export const fetchAutocompleteBooksSkipCustomIds = async (
@@ -96,20 +65,14 @@ export const fetchAutocompleteBooksSkipCustomIds = async (
     return [];
   }
 
-  try {
-    const response = await booksApi.apiBooksPagedPost({
-      pageSize: 10,
-      pageNumber: 1,
-      title: query,
-      orderByProperty: "title",
-      orderDirection: "asc",
-      idsToSkip
-    })
+  const response = await booksApi.apiBooksPagedPost({
+    pageSize: 10,
+    pageNumber: 1,
+    title: query,
+    orderByProperty: "title",
+    orderDirection: "asc",
+    idsToSkip
+  })
 
-    return mapAutocompleteBookPaginatedResultDtoToView(response.data);
-
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+  return mapAutocompleteBookPaginatedResultDtoToView(response.data);
 }

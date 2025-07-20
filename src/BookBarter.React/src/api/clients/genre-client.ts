@@ -6,19 +6,13 @@ const genresApi = new GenresApi(requestConfig)
 export const fetchPagedGenres = async (
   query: string
 ): Promise<GenreDto[]> => {
-  try {
-    const response = await genresApi.apiGenresPagedPost({
-      pageSize: 10,
-      pageNumber: 1,
-      orderByProperty: "name",
-      orderDirection: "asc",
-      query: query,
-    })
+  const response = await genresApi.apiGenresPagedPost({
+    pageSize: 10,
+    pageNumber: 1,
+    orderByProperty: "name",
+    orderDirection: "asc",
+    query: query,
+  })
 
-    return response.data.items ?? [];
-
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+  return response.data.items ?? [];
 }

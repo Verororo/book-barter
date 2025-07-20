@@ -9,13 +9,13 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { ThemeProvider } from '@mui/material/styles'
 import { AuthProvider } from './contexts/Auth/AuthContext';
 import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner'
-import ModeratorPanel from './pages/ModeratorPanel/ModeratorPanel'
 import { NotificationProvider } from './contexts/Notification/NotificationContext'
 
 const Home = lazy(() => import('./pages/Home/Home'))
 const Auth = lazy(() => import('./pages/Auth/Auth'))
 const UserProfile = lazy(() => import('./pages/UserProfile/UserProfile'))
 const OwnProfile = lazy(() => import('./pages/OwnProfile/OwnProfile'))
+const ModeratorPanel = lazy(() => import('./pages/Home/Home'))
 
 function App() {
   return (

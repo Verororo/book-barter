@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
@@ -142,6 +142,33 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
     }
   }
 
+  const onBookChange = useCallback((
+    _event: any,
+    newValue: any
+  ) => {
+    if (typeof newValue === 'string') {
+      return
+    }
+
+    if (newValue && newValue.inputValue) {
+      setDialogDefaultTitle(newValue.inputValue);
+      if (isGivingOut) {
+        setAnchorEl(inputRef.current as HTMLElement)
+      } else {
+        handleDialog()
+      }
+    }
+
+    else if (newValue) {
+      setValue(newValue);
+      if (isGivingOut) {
+        setAnchorEl(inputRef.current as HTMLElement)
+      } else {
+        addBookRelationship(newValue, /* isApproved = */ true)
+      }
+    }
+  }, [])
+
   return (
     <>
       <ClickAwayListener onClickAway={() => setOpenAutocomplete(false)}>
@@ -154,29 +181,7 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
               <Autocomplete
                 freeSolo
                 value={value}
-                onChange={(_event, newValue) => {
-                  if (typeof newValue === 'string') {
-                    return
-                  }
-
-                  if (newValue && newValue.inputValue) {
-                    setDialogDefaultTitle(newValue.inputValue);
-                    if (isGivingOut) {
-                      setAnchorEl(inputRef.current as HTMLElement)
-                    } else {
-                      handleDialog()
-                    }
-                  }
-
-                  else if (newValue) {
-                    setValue(newValue);
-                    if (isGivingOut) {
-                      setAnchorEl(inputRef.current as HTMLElement)
-                    } else {
-                      addBookRelationship(newValue, /* isApproved = */ true)
-                    }
-                  }
-                }}
+                onChange={onBookChange}
                 onInputChange={(_event, newInput) => setInputValue(newInput)}
                 loading={loading}
                 filterOptions={(options, params) => {
@@ -209,7 +214,7 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
                       input: {
                         ...params.InputProps,
                         classes: {
-                          input: styles.textInput,
+                          input: styles.input,
                         },
                         endAdornment: (
                           <>

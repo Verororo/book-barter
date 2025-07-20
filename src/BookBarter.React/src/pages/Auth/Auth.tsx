@@ -101,9 +101,6 @@ const Auth = () => {
           })
           formik.setFieldTouched("password", false, /* shouldValidate = */ false);
         }
-      } catch (error) {
-        // Notifications are already shown in AuthContext.tsx
-        console.error(error)
       } finally {
         setLoading(false)
       }
@@ -226,6 +223,7 @@ const Auth = () => {
               <SingleSearchBar
                 id="city"
                 label="City"
+                placeholder="Search for cities..."
                 value={formik.values.city}
                 getOptionLabel={(option) => option.nameWithCountry!}
                 onChange={onCityChange}
