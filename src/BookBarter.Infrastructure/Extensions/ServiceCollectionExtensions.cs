@@ -21,6 +21,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ICityRepository, CityRepository>();
         services.AddScoped<IGenreRepository, GenreRepository>();
         services.AddScoped<IPublisherRepository, PublisherRepository>();
+        services.AddScoped<IMessageRepository, MessageRepository>();
 
         services.AddIdentity<User, IdentityRole<int>>()
             .AddRoles<IdentityRole<int>>()

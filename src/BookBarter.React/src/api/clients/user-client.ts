@@ -22,6 +22,11 @@ export const fetchUserById = async (
   return mapUserDtoToView(response.data)
 }
 
+export const fetchUserChats = async () => {
+  const response = await usersApi.apiUsersMeChatsGet();
+  return response.data
+}
+
 export const updateUser = async (
   query: UpdateUserCommand
 ) => {

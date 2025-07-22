@@ -34,6 +34,8 @@ import type { GetPagedUsersQuery } from '../models';
 // @ts-ignore
 import type { ListedUserDtoPaginatedResult } from '../models';
 // @ts-ignore
+import type { MessagingUserDto } from '../models';
+// @ts-ignore
 import type { UpdateUserCommand } from '../models';
 // @ts-ignore
 import type { UserDto } from '../models';
@@ -110,6 +112,39 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
             if (excludeUnapprovedBooks !== undefined) {
                 localVarQueryParameter['excludeUnapprovedBooks'] = excludeUnapprovedBooks;
             }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiUsersMeChatsGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/Users/me/chats`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
     
@@ -389,6 +424,17 @@ export const UsersApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiUsersMeChatsGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<MessagingUserDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiUsersMeChatsGet(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UsersApi.apiUsersMeChatsGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @param {number} bookId 
          * @param {DeleteOwnedBookCommand} [deleteOwnedBookCommand] 
          * @param {*} [options] Override http request option.
@@ -492,6 +538,14 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
         },
         /**
          * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiUsersMeChatsGet(options?: RawAxiosRequestConfig): AxiosPromise<Array<MessagingUserDto>> {
+            return localVarFp.apiUsersMeChatsGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {number} bookId 
          * @param {DeleteOwnedBookCommand} [deleteOwnedBookCommand] 
          * @param {*} [options] Override http request option.
@@ -577,6 +631,16 @@ export class UsersApi extends BaseAPI {
      */
     public apiUsersIdGet(id: number, excludeUnapprovedBooks?: boolean, options?: RawAxiosRequestConfig) {
         return UsersApiFp(this.configuration).apiUsersIdGet(id, excludeUnapprovedBooks, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public apiUsersMeChatsGet(options?: RawAxiosRequestConfig) {
+        return UsersApiFp(this.configuration).apiUsersMeChatsGet(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

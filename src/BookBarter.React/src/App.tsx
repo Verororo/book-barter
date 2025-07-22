@@ -15,7 +15,8 @@ const Home = lazy(() => import('./pages/Home/Home'))
 const Auth = lazy(() => import('./pages/Auth/Auth'))
 const UserProfile = lazy(() => import('./pages/UserProfile/UserProfile'))
 const OwnProfile = lazy(() => import('./pages/OwnProfile/OwnProfile'))
-const ModeratorPanel = lazy(() => import('./pages/Home/Home'))
+const ModeratorPanel = lazy(() => import('./pages/ModeratorPanel/ModeratorPanel'))
+const Messages = lazy(() => import('./pages/Messages/Messages'))
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
                 <Route path='/users/:userId' element={<UserProfile />} />
                 <Route path='/users/me' element={<OwnProfile />} />
                 <Route path='/moderator' element={<ModeratorPanel />} />
+                <Route path='/messages' element={<Messages />} />
               </Routes>
             </Suspense>
           </Router>

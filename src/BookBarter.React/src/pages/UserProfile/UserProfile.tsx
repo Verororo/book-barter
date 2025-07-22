@@ -9,7 +9,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn'
 import { useAuth } from '../../contexts/Auth/UseAuth'
 import { useEffect, useState } from 'react'
 import { fetchUserById } from '../../api/clients/user-client'
-import { useParams } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 import type { User } from '../../api/view-models/user'
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner'
 import HomeButton from '../../components/Navigation/HomeButton'
@@ -41,6 +41,20 @@ const UserProfile = () => {
   const [loading, setLoading] = useState(false)
 
   const { showNotification } = useNotification();
+
+  const navigate = useNavigate()
+
+  const handleMessage = async () => {
+    try {
+/*      await signalRService.sendMessage({
+        receiverId: user!.id,
+        body: "Hello! I'd like to chat with you."
+      })*/
+      navigate('/messages')
+    } catch (error) {
+      navigate('/messages')
+    }
+  }
 
   useEffect(() => {
     setLoading(true)
@@ -86,6 +100,7 @@ const UserProfile = () => {
                 <Button
                   variant="contained"
                   startIcon={<ChatBubbleOutlineIcon fontSize="inherit" />}
+                  onClick={handleMessage}
                 >
                   Message
                 </Button>

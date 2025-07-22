@@ -1,4 +1,5 @@
 using BookBarter.API.Extensions;
+using BookBarter.API.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseHttpsRedirection();
+
 app.UseCors("DevPolicy");
 app.UseRequestLogging();
 app.UseExceptionHandling();
@@ -31,6 +34,8 @@ app.UseAuthorization();
 app.UseTransaction();
 
 app.MapControllers()
-    .RequireAuthorization();
+   .RequireAuthorization();
+
+app.MapHub<MessageHub>("/messageHub");
 
 app.Run();

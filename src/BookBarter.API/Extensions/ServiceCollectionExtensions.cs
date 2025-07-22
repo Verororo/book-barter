@@ -1,4 +1,5 @@
 ﻿using BookBarter.API.Common.Services;
+using BookBarter.API.Hubs.UserIdProvider;
 using BookBarter.Application.Common;
 using BookBarter.Application.Common.Interfaces;
 using BookBarter.Application.Extensions;
@@ -6,6 +7,7 @@ using BookBarter.Infrastructure;
 using BookBarter.Infrastructure.Extensions;
 using BookBarter.Infrastructure.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -32,6 +34,8 @@ public static class ServiceCollectionExtensions
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddScoped<ICurrentUserProvider, CurrentUserProvider>();
 
+        builder.Services.AddSingleton<IUserIdProvider, UserIdProvider>();
+
         builder.Services.AddCors(opts =>
             opts.AddPolicy("DevPolicy", builder =>
             builder.WithOrigins("http://localhost:5173")
@@ -40,6 +44,10 @@ public static class ServiceCollectionExtensions
            .AllowCredentials()
             )
         );
+        builder.Services.AddSignalR(hubOptions =>
+        {
+            hubOptions.EnableDetailedErrors = true;
+        });
     }
 
     public static IServiceCollection AddAuthentication(this IServiceCollection services, 
@@ -111,6 +119,21 @@ public static class ServiceCollectionExtensions
 
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = authOptions.GetSymmetricSecurityKey(),
+            };
+
+            // Support SignalR authentication
+            options.Events = new JwtBearerEvents
+            {
+                OnMessageReceived = context =>
+                {
+                    var accessToken = context.Request.Query["access_token"];
+                    var path = context.HttpContext.Request.Path;
+                    if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/messageHub"))
+                    {
+                        context.Token = accessToken;
+                    }
+                    return Task.CompletedTask;
+                }
             };
         });
     }

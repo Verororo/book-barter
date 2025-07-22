@@ -24,6 +24,8 @@ const Navigation = () => {
 
       {isAuthenticated && (
         <Button
+          component={Link}
+          to="/messages"
           variant="text"
           size="large"
           startIcon={<ForumIcon />}

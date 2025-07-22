@@ -32,6 +32,14 @@ public class UsersController : ControllerBase
         }, cancellationToken);
     }
 
+    [HttpGet]
+    [Route("me/chats")]
+    public Task<List<MessagingUserDto>> GetUserChats(CancellationToken cancellationToken)
+    {
+        var query = new GetUserChatsQuery { };
+        return _mediator.Send(query, cancellationToken);
+    }
+
     [HttpPost]
     [Route("paged")]
     [AllowAnonymous]

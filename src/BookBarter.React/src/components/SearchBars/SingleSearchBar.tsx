@@ -112,7 +112,12 @@ function SingleSearchBar<T extends BaseEntity>({
               className: styles.input,
               endAdornment: (
                 <>
-                  {loading && <CircularProgress size={20} />}
+                  {loading && (
+                    <CircularProgress
+                      size={20}
+                      sx={variant === 'standard' ? { position: 'absolute', right: '55px' } : {}}
+                    />
+                  )}
                   {params.InputProps.endAdornment}
                 </>
               ),

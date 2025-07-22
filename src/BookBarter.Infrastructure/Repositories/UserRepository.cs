@@ -3,6 +3,7 @@ using AutoMapper.QueryableExtensions;
 using BookBarter.Application.Common.Interfaces;
 using BookBarter.Application.Common.Interfaces.Repositories;
 using BookBarter.Application.Common.Models;
+using BookBarter.Application.Users.Responses;
 using BookBarter.Domain.Entities;
 using BookBarter.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -110,5 +111,48 @@ public class UserRepository : IUserRepository
         }
 
         return users.CreatePaginatedResultAsync<User, TDto>(request, _mapper, cancellationToken);
+    }
+
+    public async Task<List<MessagingUserDto>> GetUserChatsAsync(int userId, CancellationToken cancellationToken)
+    {
+        var sentMessagesQuery = _dbSet
+            .Where(u => u.Id == userId)
+            .SelectMany(u => u.SentMessages)
+            .Select(m => new
+            {
+                ChatUserId = m.ReceiverId,
+                ChatUserName = m.Receiver.UserName,
+                Message = m
+            });
+
+        var receivedMessagesQuery = _dbSet
+            .Where(u => u.Id == userId)
+            .SelectMany(u => u.ReceivedMessages)
+            .Select(m => new
+            {
+                ChatUserId = m.SenderId,
+                ChatUserName = m.Sender.UserName,
+                Message = m
+            });
+
+        var allMessagesQuery = sentMessagesQuery.Union(receivedMessagesQuery);
+
+        var allChats = await allMessagesQuery
+            .GroupBy(x => new { x.ChatUserId, x.ChatUserName })
+            .Select(g => new MessagingUserDto
+            {
+                Id = g.Key.ChatUserId,
+                UserName = g.Key.ChatUserName!,
+                LastMessage = g
+                    .OrderByDescending(x => x.Message.SentTime)
+                    .First().Message.Body,
+                LastMessageTime = g
+                    .OrderByDescending(x => x.Message.SentTime)
+                    .First().Message.SentTime
+            })
+            .OrderByDescending(x => x.LastMessageTime)
+            .ToListAsync(cancellationToken);
+
+        return allChats;
     }
 }

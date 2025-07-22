@@ -6,6 +6,7 @@ All URIs are relative to *http://localhost*
 |------------- | ------------- | -------------|
 |[**apiUsersIdDelete**](#apiusersiddelete) | **DELETE** /api/Users/{id} | |
 |[**apiUsersIdGet**](#apiusersidget) | **GET** /api/Users/{id} | |
+|[**apiUsersMeChatsGet**](#apiusersmechatsget) | **GET** /api/Users/me/chats | |
 |[**apiUsersMeOwnedBooksBookIdDelete**](#apiusersmeownedbooksbookiddelete) | **DELETE** /api/Users/me/ownedBooks/{bookId} | |
 |[**apiUsersMeOwnedBooksPost**](#apiusersmeownedbookspost) | **POST** /api/Users/me/ownedBooks | |
 |[**apiUsersMePut**](#apiusersmeput) | **PUT** /api/Users/me | |
@@ -98,6 +99,49 @@ const { status, data } = await apiInstance.apiUsersIdGet(
 ### Return type
 
 **UserDto**
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain, application/json, text/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiUsersMeChatsGet**
+> Array<MessagingUserDto> apiUsersMeChatsGet()
+
+
+### Example
+
+```typescript
+import {
+    UsersApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new UsersApi(configuration);
+
+const { status, data } = await apiInstance.apiUsersMeChatsGet();
+```
+
+### Parameters
+This endpoint does not have any parameters.
+
+
+### Return type
+
+**Array<MessagingUserDto>**
 
 ### Authorization
 

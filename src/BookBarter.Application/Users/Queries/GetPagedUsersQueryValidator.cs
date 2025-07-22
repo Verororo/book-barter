@@ -11,6 +11,6 @@ public class GetPagedUsersQueryValidator : AbstractValidator<GetPagedUsersQuery>
         RuleFor(x => x.OrderByProperty)
             .Must(x => string.IsNullOrEmpty(x) 
                 || new[] { "LastOnlineDate", "RegistrationDate", "UserName" }.Contains(x, StringComparer.OrdinalIgnoreCase))
-            .WithMessage("OrderByProperty must be one of: LastOnlineDate, RegistrationDate, UserName");
+            .WithMessage("OrderByProperty must be one of: LastOnlineDate, RegistrationDate, UserName.");
     }
 }

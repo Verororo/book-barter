@@ -1,0 +1,180 @@
+.messagesBox {
+  background-color: white;
+  border: 1px solid gray;
+  border-radius: 20px;
+  width: 750px;
+  max-width: 70%;
+  box-sizing: border-box;
+  margin: 0 auto;
+  overflow: hidden;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.messagesWrapper {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.chatList {
+  width: 300px;
+  border-right: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+}
+
+.chatListHeader {
+  padding: 16px;
+  font-weight: 500;
+}
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  padding: 20px;
+}
+
+.noChats {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+}
+
+.lastMessage {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #666;
+  font-size: 0.875em;
+}
+
+.messagePanel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.noSelectedChat {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.9em;
+  flex: 1;
+  padding: 40px;
+  text-align: center;
+}
+
+.chatHeader {
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.messagesArea {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 16px 0 16px;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.loadingMore {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
+.noMessages {
+  text-align: center;
+  color: #666;
+  margin-top: 40px;
+}
+
+.dateHeader {
+  font-size: 0.8em;
+  text-align: center;
+  color: #666;
+  margin: 16px 0;
+}
+
+.messageWrapper {
+  display: flex;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.ownMessage {
+  justify-content: flex-end;
+}
+
+.otherMessage {
+  justify-content: flex-start;
+}
+
+.messageBubble {
+  max-width: 70%;
+  padding: 8px 12px;
+  position: relative;
+  font-size: 0.9em;
+  border-radius: 15px;
+}
+
+.ownMessage .messageBubble {
+  background-color: #e3f2fd;
+}
+
+.otherMessage .messageBubble {
+  background-color: #f5f5f5;
+}
+
+.messageBody {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.messageTime {
+  display: block;
+  color: #666;
+  font-size: 0.75rem;
+  margin-top: 4px;
+}
+
+.messageActions {
+  position: absolute;
+  top: -30px;
+  right: 0;
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+}
+
+.messageInput {
+  border-top: 1px solid #e0e0e0;
+  padding: 16px;
+}
+
+.editingHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  padding: 4px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+
+.inputWrapper {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.pending {
+  opacity: 0.7;
+}
