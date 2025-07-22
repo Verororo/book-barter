@@ -26,7 +26,13 @@ public static class ServiceCollectionExtensions
         builder.Services.AddInfrastructure();
         builder.Services.AddApplication();
         builder.Services.AddAuthentication(builder.Configuration);
-        builder.Services.AddControllers();
+
+        builder.Services.AddControllers()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
+            });
+
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddAutoMapper(typeof(CommonProfile).Assembly);
         builder.Services.AddSwagger();
