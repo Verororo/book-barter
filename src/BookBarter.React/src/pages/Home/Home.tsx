@@ -17,10 +17,11 @@ import {
   Select,
   MenuItem,
   type SelectChangeEvent,
-  Grid
+  Grid,
+  TextField
 } from "@mui/material";
 import { useAuth } from "../../contexts/Auth/UseAuth";
-import type { AuthorDto, ListedBookDto, GenreDto, PublisherDto } from '../../api/generated';
+import { type AuthorDto, type ListedBookDto, type GenreDto, type PublisherDto, type CityDto } from '../../api/generated';
 import MultipleSearchBar from '../../components/SearchBars/MultipleSearchBar';
 import SingleSearchBar from '../../components/SearchBars/SingleSearchBar';
 import { fetchAutocompleteBooksSkipCustomIds } from '../../api/clients/book-client';
@@ -30,6 +31,7 @@ import { fetchPagedGenres } from '../../api/clients/genre-client';
 
 import styles from './Home.module.css'
 import { useNotification } from '../../contexts/Notification/UseNotification';
+import { fetchPagedCities } from '../../api/clients/city-client';
 
 const Home = () => {
   const { isAuthenticated } = useAuth();
@@ -42,6 +44,10 @@ const Home = () => {
 
   const [booksLookedFor, setBooksLookedFor] = useState<ListedBookDto[]>([]);
   const [booksGivenOut, setBooksGivenOut] = useState<ListedBookDto[]>([]);
+
+  // Advanced search states for users
+  const [userName, setUserName] = useState<string | null>(null)
+  const [userCity, setUserCity] = useState<CityDto | null>(null)
 
   // Advanced search states for owned books
   const [ownedBookAuthors, setOwnedBookAuthors] = useState<AuthorDto[]>([]);
@@ -60,6 +66,8 @@ const Home = () => {
   const [showAdvanced, setShowAdvanced] = useState(false);
 
   const [searchParams, setSearchParams] = useState({
+    userName,
+    userCity,
     booksLookedFor,
     booksGivenOut,
     ownedBookAuthors,
@@ -91,6 +99,8 @@ const Home = () => {
         const { items, total } = await fetchListedUsersPaginatedResult({
           pageNumber: currentPage,
           pageSize: ITEMS_PER_PAGE,
+          userName: userName || undefined,
+          cityId: userCity?.id || undefined,
           orderByProperty: searchParams.sortBy,
           orderDirection: searchParams.sortDirection,
           wantedBooksIds: searchParams.booksGivenOut.map(b => b.id!) || undefined,
@@ -134,6 +144,8 @@ const Home = () => {
   const handleSearch = () => {
     setCurrentPage(1);
     setSearchParams({
+      userName,
+      userCity,
       booksLookedFor,
       booksGivenOut,
       ownedBookAuthors,
@@ -148,6 +160,8 @@ const Home = () => {
   };
 
   const handleClearSearch = () => {
+    setUserName(null);
+    setUserCity(null);
     setBooksLookedFor([]);
     setBooksGivenOut([]);
     setOwnedBookAuthors([]);
@@ -160,6 +174,8 @@ const Home = () => {
     setSortDirection("desc");
     setCurrentPage(1);
     setSearchParams({
+      userName: null,
+      userCity: null,
       booksLookedFor: [],
       booksGivenOut: [],
       ownedBookAuthors: [],
@@ -255,6 +271,32 @@ const Home = () => {
 
           <Collapse in={showAdvanced}>
             <div className={styles.advancedSettingsContainer}>
+              <div className={styles.advancedSearchSection}>
+                <h3 className={styles.advancedSearchTitle}>User Properties</h3>
+                <Grid container spacing={2}>
+                  <Grid size={{ xs: 12, sm: 6 }}>
+                    <TextField
+                      className={styles.input}
+                      label="User Name"
+                      value={userName}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUserName(e.target.value)}
+                      variant="outlined"
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid size={{ xs: 12, sm: 6 }}>
+                    <SingleSearchBar<CityDto>
+                      label="User City"
+                      value={userCity}
+                      onChange={(_event, v) => setUserCity(v)}
+                      fetchMethod={fetchPagedCities}
+                      placeholder="Search for city..."
+                      styles={styles}
+                      getOptionLabel={(city) => city?.nameWithCountry || ''}
+                    />
+                  </Grid>
+                </Grid>
+              </div>
               <div className={styles.advancedSearchSection}>
                 <h3 className={styles.advancedSearchTitle}>I'm looking for...</h3>
                 <Grid container spacing={2}>
