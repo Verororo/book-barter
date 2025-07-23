@@ -39,8 +39,7 @@ public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand>
             author.Approved = true;
         }
 
-        // b => b.Authors has been removed from there. Test it
-        var book = await _repository.GetByIdAsync<Book>(request.Id, cancellationToken);
+        var book = await _repository.GetByIdAsync<Book>(request.Id, cancellationToken, b => b.Authors);
         _entityExistenceValidator.ValidateAsync(book, request.Id);
 
         book.Isbn = request.Isbn;
