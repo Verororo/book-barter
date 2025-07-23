@@ -125,7 +125,6 @@ const Messages = () => {
       try {
         await connection.start()
         setIsConnected(true)
-        console.log("Connected to hub")
       } catch (error) {
         console.error("SignalR connection error:", error)
 
@@ -217,8 +216,6 @@ const Messages = () => {
   }, [selectedChat?.id, loadMessages])
 
   const handleScroll = useCallback(() => {
-    console.log(messagesContainerRef.current?.scrollTop)
-
     if (!messagesContainerRef.current || loadingMore || !hasMore || !selectedChat) return
 
     const { scrollHeight, scrollTop } = messagesContainerRef.current
@@ -272,7 +269,6 @@ const Messages = () => {
       }
       await connectionRef.current.invoke("SendMessage", command)
     } catch (error) {
-      console.error(error)
       showNotification('Failed to send message.', 'error')
 
       const timeout = pendingMessagesRef.current.get(tempId)
@@ -294,9 +290,6 @@ const Messages = () => {
 
   const formatMessageDate = useCallback((sentTime: string) => {
     try {
-      if (!sentTime.endsWith("Z")) {
-        sentTime += 'Z'
-      }
       const date = new Date(sentTime)
       if (isNaN(date.getTime())) {
         return 'Invalid Date'
@@ -309,9 +302,6 @@ const Messages = () => {
 
   const formatMessageTime = useCallback((sentTime: string) => {
     try {
-      if (!sentTime.endsWith("Z")) {
-        sentTime += 'Z'
-      }
       const date = new Date(sentTime)
       if (isNaN(date.getTime())) {
         return ''

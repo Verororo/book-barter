@@ -39,6 +39,7 @@ public class BooksSeed
                 Title = "Tractatus Logico-Philosophicus",
                 PublicationDate = DateOnly.Parse("2007-09-06"),
                 AddedDate = DateTime.UtcNow,
+                Approved = true,
                 Genre = context.Genres.First(g => g.Name == "Philosophy"),
                 Publisher = context.Publishers.First(p => p.Name == "Book Jungle"),
                 Authors = [context.Authors.First(a => a.LastName == "Wittgenstein")]
@@ -62,6 +63,7 @@ public class BooksSeed
                 Title = "Structure and Implementation of Computer Programs",
                 PublicationDate = DateOnly.Parse("1996-09-01"),
                 AddedDate = DateTime.UtcNow,
+                Approved = true,
                 Genre = context.Genres.First(g => g.Name == "Textbook"),
                 Publisher = context.Publishers.First(p => p.Name == "The MIT Press"),
                 Authors = [context.Authors.First(a => a.LastName == "Sussman"),
@@ -86,6 +88,7 @@ public class BooksSeed
                 Title = "Understanding Analysis",
                 PublicationDate = DateOnly.Parse("2015-05-20"),
                 AddedDate = DateTime.UtcNow,
+                Approved = true,
                 Genre = context.Genres.First(g => g.Name == "Textbook"),
                 Publisher = context.Publishers.First(p => p.Name == "Springer"),
                 Authors = [context.Authors.First(a => a.LastName == "Abbott")]
@@ -97,6 +100,7 @@ public class BooksSeed
                 Title = "Introduction to Algorithms",
                 PublicationDate = DateOnly.Parse("2022-04-05"),
                 AddedDate = DateTime.UtcNow,
+                Approved = true,
                 Genre = context.Genres.First(g => g.Name == "Textbook"),
                 Publisher = context.Publishers.First(p => p.Name == "The MIT Press"),
                 Authors = [context.Authors.First(a => a.LastName == "Cormen")]
@@ -108,6 +112,7 @@ public class BooksSeed
                 Title = "The Art of Computer Programming, Volumes 1-4",
                 PublicationDate = DateOnly.Parse("2011-03-03"),
                 AddedDate = DateTime.UtcNow,
+                Approved = true,
                 Genre = context.Genres.First(g => g.Name == "Textbook"),
                 Publisher = context.Publishers.First(p => p.Name == "Addison-Wesley Professional"),
                 Authors = [context.Authors.First(a => a.LastName == "Knuth")]
@@ -119,6 +124,7 @@ public class BooksSeed
                 Title = "Concrete Mathematics",
                 PublicationDate = DateOnly.Parse("1994-02-28"),
                 AddedDate = DateTime.UtcNow,
+                Approved = true,
                 Genre = context.Genres.First(g => g.Name == "Textbook"),
                 Publisher = context.Publishers.First(p => p.Name == "Addison-Wesley Professional"),
                 Authors = [context.Authors.First(a => a.LastName == "Knuth"),
@@ -132,6 +138,7 @@ public class BooksSeed
                 Title = "The Idiot",
                 PublicationDate = DateOnly.Parse("2004-08-31"),
                 AddedDate = DateTime.UtcNow,
+                Approved = true,
                 Genre = context.Genres.First(g => g.Name == "Novel"),
                 Publisher = context.Publishers.First(p => p.Name == "Penguin Classics"),
                 Authors = [context.Authors.First(a => a.LastName == "Dostoevsky")]
@@ -143,6 +150,7 @@ public class BooksSeed
                 Title = "Moby Dick",
                 PublicationDate = DateOnly.Parse("2009-10-27"),
                 AddedDate = DateTime.UtcNow,
+                Approved = true,
                 Genre = context.Genres.First(g => g.Name == "Novel"),
                 Publisher = context.Publishers.First(p => p.Name == "Penguin Classics"),
                 Authors = [context.Authors.First(a => a.LastName == "Melville")]
@@ -154,6 +162,7 @@ public class BooksSeed
                 Title = "Paradise Lost",
                 PublicationDate = DateOnly.Parse("2003-04-29"),
                 AddedDate = DateTime.UtcNow,
+                Approved = true,
                 Genre = context.Genres.First(g => g.Name == "Poetry"),
                 Publisher = context.Publishers.First(p => p.Name == "Penguin Classics"),
                 Authors = [context.Authors.First(a => a.LastName == "Milton")]
@@ -165,6 +174,7 @@ public class BooksSeed
                 Title = "Blood Meridian",
                 PublicationDate = DateOnly.Parse("1992-05-05"),
                 AddedDate = DateTime.UtcNow,
+                Approved = true,
                 Genre = context.Genres.First(g => g.Name == "Novel"),
                 Publisher = context.Publishers.First(p => p.Name == "Vintage"),
                 Authors = [context.Authors.First(a => a.LastName == "McCarthy")]
@@ -176,6 +186,7 @@ public class BooksSeed
                 Title = "Economics Rules",
                 PublicationDate = DateOnly.Parse("2015-10-13"),
                 AddedDate = DateTime.UtcNow,
+                Approved = true,
                 Genre = context.Genres.First(g => g.Name == "Popular Science"),
                 Publisher = context.Publishers.First(p => p.Name == "W. W. Norton & Company"),
                 Authors = [context.Authors.First(a => a.LastName == "Rodrik")]
@@ -187,11 +198,132 @@ public class BooksSeed
                 Title = "Plato: Complete Works",
                 PublicationDate = DateOnly.Parse("1997-05-01"),
                 AddedDate = DateTime.UtcNow,
+                Approved = true,
                 Genre = context.Genres.First(g => g.Name == "Philosophy"),
                 Publisher = context.Publishers.First(p => p.Name == "Hackett Publishing Co."),
                 Authors = [context.Authors.First(a => a.LastName == "Plato"),
                            context.Authors.First(a => a.LastName == "Cooper"),
                            context.Authors.First(a => a.LastName == "Hutchinson")]
+            },
+
+            new Book
+            {
+                Isbn = "9780451524935",
+                Title = "1984",
+                PublicationDate = DateOnly.Parse("1977-07-01"),
+                AddedDate = DateTime.UtcNow,
+                Approved = true,
+                Genre = context.Genres.First(g => g.Name == "Novel"),
+                Publisher = context.Publishers.First(p => p.Name == "Signet"),
+                Authors = [context.Authors.First(a => a.LastName == "Orwell")]
+            },
+
+            new Book
+            {
+                Isbn = "9780061120084",
+                Title = "To Kill a Mockingbird",
+                PublicationDate = DateOnly.Parse("2006-05-23"),
+                AddedDate = DateTime.UtcNow,
+                Approved = true,
+                Genre = context.Genres.First(g => g.Name == "Novel"),
+                Publisher = context.Publishers.First(p => p.Name == "Harper Perennial Modern Classics"),
+                Authors = [context.Authors.First(a => a.LastName == "Lee")]
+            },
+
+            new Book
+            {
+                Isbn = "9780141439518",
+                Title = "Pride and Prejudice",
+                PublicationDate = DateOnly.Parse("2003-04-29"),
+                AddedDate = DateTime.UtcNow,
+                Approved = true,
+                Genre = context.Genres.First(g => g.Name == "Novel"),
+                Publisher = context.Publishers.First(p => p.Name == "Penguin Classics"),
+                Authors = [context.Authors.First(a => a.LastName == "Austen")]
+            },
+
+            new Book
+            {
+                Isbn = "9780060883287",
+                Title = "One Hundred Years of Solitude",
+                PublicationDate = DateOnly.Parse("2006-02-21"),
+                AddedDate = DateTime.UtcNow,
+                Approved = true,
+                Genre = context.Genres.First(g => g.Name == "Novel"),
+                Publisher = context.Publishers.First(p => p.Name == "Harper Perennial Modern Classics"),
+                Authors = [context.Authors.First(a => a.LastName == "Márquez")]
+            },
+
+            new Book
+            {
+                Isbn = "9780679720201",
+                Title = "The Stranger",
+                PublicationDate = DateOnly.Parse("1989-03-13"),
+                AddedDate = DateTime.UtcNow,
+                Approved = true,
+                Genre = context.Genres.First(g => g.Name == "Novel"),
+                Publisher = context.Publishers.First(p => p.Name == "Vintage"),
+                Authors = [context.Authors.First(a => a.LastName == "Camus")]
+            },
+
+            new Book
+            {
+                Isbn = "9780805210552",
+                Title = "The Metamorphosis",
+                PublicationDate = DateOnly.Parse("1972-01-01"),
+                AddedDate = DateTime.UtcNow,
+                Approved = true,
+                Genre = context.Genres.First(g => g.Name == "Novel"),
+                Publisher = context.Publishers.First(p => p.Name == "Harcourt Brace Jovanovich"),
+                Authors = [context.Authors.First(a => a.LastName == "Kafka")]
+            },
+
+            new Book
+            {
+                Isbn = "9780156907392",
+                Title = "To the Lighthouse",
+                PublicationDate = DateOnly.Parse("1989-09-26"),
+                AddedDate = DateTime.UtcNow,
+                Approved = true,
+                Genre = context.Genres.First(g => g.Name == "Novel"),
+                Publisher = context.Publishers.First(p => p.Name == "Harcourt Brace Jovanovich"),
+                Authors = [context.Authors.First(a => a.LastName == "Woolf")]
+            },
+
+            new Book
+            {
+                Isbn = "9780679722762",
+                Title = "Ulysses",
+                PublicationDate = DateOnly.Parse("1993-06-01"),
+                AddedDate = DateTime.UtcNow,
+                Approved = true,
+                Genre = context.Genres.First(g => g.Name == "Novel"),
+                Publisher = context.Publishers.First(p => p.Name == "Vintage"),
+                Authors = [context.Authors.First(a => a.LastName == "Joyce")]
+            },
+
+            new Book
+            {
+                Isbn = "9780679601396",
+                Title = "Hamlet",
+                PublicationDate = DateOnly.Parse("1992-10-06"),
+                AddedDate = DateTime.UtcNow,
+                Approved = true,
+                Genre = context.Genres.First(g => g.Name == "Poetry"),
+                Publisher = context.Publishers.First(p => p.Name == "Everyman's Library"),
+                Authors = [context.Authors.First(a => a.LastName == "Shakespeare")]
+            },
+
+            new Book
+            {
+                Isbn = "9780679417255",
+                Title = "Great Expectations",
+                PublicationDate = DateOnly.Parse("1992-10-13"),
+                AddedDate = DateTime.UtcNow,
+                Approved = true,
+                Genre = context.Genres.First(g => g.Name == "Novel"),
+                Publisher = context.Publishers.First(p => p.Name == "Modern Library"),
+                Authors = [context.Authors.First(a => a.LastName == "Dickens")]
             }
         ];
 

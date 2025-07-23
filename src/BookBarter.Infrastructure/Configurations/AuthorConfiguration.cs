@@ -11,15 +11,15 @@ public class AuthorConfiguration : IEntityTypeConfiguration<Author>
     {
         builder
             .Property(e => e.FirstName)
-            .HasMaxLength(20);
+            .HasMaxLength(30);
 
         builder
             .Property(e => e.MiddleName)
-            .HasMaxLength(20);
+            .HasMaxLength(30);
 
         builder
             .Property(e => e.LastName)
-            .HasMaxLength(20)
+            .HasMaxLength(30)
             .IsRequired();
 
         builder

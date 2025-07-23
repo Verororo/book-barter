@@ -11,7 +11,7 @@ public class PublisherConfiguration : IEntityTypeConfiguration<Publisher>
     {
         builder
             .Property(e => e.Name)
-            .HasMaxLength(30)
+            .HasMaxLength(50)
             .IsRequired();
 
         builder
