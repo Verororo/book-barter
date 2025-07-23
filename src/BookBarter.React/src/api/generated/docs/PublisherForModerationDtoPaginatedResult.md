@@ -1,14 +1,13 @@
 # PublisherForModerationDtoPaginatedResult
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**pageNumber** | **number** |  | [optional] [default to undefined]
-**pageSize** | **number** |  | [optional] [default to undefined]
-**total** | **number** |  | [optional] [default to undefined]
-**items** | [**Array&lt;PublisherForModerationDto&gt;**](PublisherForModerationDto.md) |  | [optional] [default to undefined]
+| Name           | Type                                                                       | Description | Notes                             |
+| -------------- | -------------------------------------------------------------------------- | ----------- | --------------------------------- |
+| **pageNumber** | **number**                                                                 |             | [optional] [default to undefined] |
+| **pageSize**   | **number**                                                                 |             | [optional] [default to undefined] |
+| **total**      | **number**                                                                 |             | [optional] [default to undefined] |
+| **items**      | [**Array&lt;PublisherForModerationDto&gt;**](PublisherForModerationDto.md) |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -16,10 +15,10 @@ Name | Type | Description | Notes
 import { PublisherForModerationDtoPaginatedResult } from './api';
 
 const instance: PublisherForModerationDtoPaginatedResult = {
-    pageNumber,
-    pageSize,
-    total,
-    items,
+  pageNumber,
+  pageSize,
+  total,
+  items,
 };
 ```
 

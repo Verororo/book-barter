@@ -1,10 +1,4 @@
-﻿using BookBarter.Application.Authors.Commands;
-using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentValidation;
 
 namespace BookBarter.Application.Messages.Commands;
 

@@ -1,8 +1,6 @@
 ﻿using BookBarter.Application.Common.Interfaces;
 using BookBarter.Application.Common.Interfaces.Repositories;
-using BookBarter.Application.Common.Services;
 using BookBarter.Domain.Entities;
-using BookBarter.Domain.Exceptions;
 using MediatR;
 
 namespace BookBarter.Application.Books.Commands;

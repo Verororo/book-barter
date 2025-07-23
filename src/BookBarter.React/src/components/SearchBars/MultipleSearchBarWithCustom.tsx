@@ -4,13 +4,13 @@ import {
   TextField,
   CircularProgress,
   debounce,
-  createFilterOptions
+  createFilterOptions,
 } from '@mui/material';
 import { useNotification } from '../../contexts/Notification/UseNotification';
 
 type BaseEntity = {
   id?: number;
-}
+};
 
 interface MultipleSearchBarWithCustomProps<T extends BaseEntity> {
   id?: string;
@@ -33,7 +33,7 @@ interface MultipleSearchBarWithCustomProps<T extends BaseEntity> {
 
 type CustomOption = {
   inputValue: string;
-}
+};
 
 const MINIMUM_SEARCH_LENGTH = 3;
 const DEBOUNCE_DELAY = 500;
@@ -50,37 +50,37 @@ function MultipleSearchBarWithCustom<T extends BaseEntity>({
   error,
   helperText,
   onBlur,
-  styles
+  styles,
 }: MultipleSearchBarWithCustomProps<T>) {
   const [options, setOptions] = useState<T[]>([]);
   const [loading, setLoading] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [openAddDialog, setOpenAddDialog] = useState(false);
-  const [dialogDefaultName, setDialogDefaultName] = useState<string | undefined>();
+  const [dialogDefaultName, setDialogDefaultName] = useState<
+    string | undefined
+  >();
 
   const { showNotification } = useNotification();
 
-  const filter = useMemo(
-    () => createFilterOptions<T | CustomOption>(),
-    []
-  );
+  const filter = useMemo(() => createFilterOptions<T | CustomOption>(), []);
 
-  const currentIds = useMemo(
-    () => value.map(item => item.id!),
-    [value]
-  );
+  const currentIds = useMemo(() => value.map((item) => item.id!), [value]);
 
   const debouncedFetch = useMemo(
-    () => debounce((query: string, idsToSkip: number[]) => {
-      fetchMethod(query, idsToSkip)
-        .then(setOptions)
-        .catch(_error => {
-          showNotification("Failed to fetch autocomplete options. Try again later.", "error")
-          setOptions([]);
-        })
-        .finally(() => setLoading(false));
-    }, DEBOUNCE_DELAY),
-    [fetchMethod]
+    () =>
+      debounce((query: string, idsToSkip: number[]) => {
+        fetchMethod(query, idsToSkip)
+          .then(setOptions)
+          .catch((_error) => {
+            showNotification(
+              'Failed to fetch autocomplete options. Try again later.',
+              'error',
+            );
+            setOptions([]);
+          })
+          .finally(() => setLoading(false));
+      }, DEBOUNCE_DELAY),
+    [fetchMethod],
   );
 
   useEffect(() => {
@@ -98,10 +98,13 @@ function MultipleSearchBarWithCustom<T extends BaseEntity>({
     };
   }, [inputValue, debouncedFetch, currentIds]);
 
-  const handleAddEntityCreated = useCallback((newEntity: T) => {
-    onChange(null as any, [...value, newEntity]);
-    setInputValue('');
-  }, [onChange, value]);
+  const handleAddEntityCreated = useCallback(
+    (newEntity: T) => {
+      onChange(null as any, [...value, newEntity]);
+      setInputValue('');
+    },
+    [onChange, value],
+  );
 
   const handleChange = useCallback(
     (event: React.SyntheticEvent, newValue: (T | CustomOption)[]) => {
@@ -112,21 +115,21 @@ function MultipleSearchBarWithCustom<T extends BaseEntity>({
         setOpenAddDialog(true);
         // Filter out the custom option
         const filteredValue = newValue.filter(
-          (item): item is T => !('inputValue' in item)
+          (item): item is T => !('inputValue' in item),
         );
         onChange(event, filteredValue);
       } else {
         onChange(event, newValue as T[]);
       }
     },
-    [onChange]
+    [onChange],
   );
 
   const handleInputChange = useCallback(
     (_event: React.SyntheticEvent, newInput: string) => {
       setInputValue(newInput);
     },
-    []
+    [],
   );
 
   const handleCloseDialog = useCallback(() => {
@@ -149,7 +152,7 @@ function MultipleSearchBarWithCustom<T extends BaseEntity>({
 
       return filtered;
     },
-    [filter, loading]
+    [filter, loading],
   );
 
   const getOptionLabelWrapper = useCallback(
@@ -160,7 +163,7 @@ function MultipleSearchBarWithCustom<T extends BaseEntity>({
       }
       return getOptionLabel(option);
     },
-    [getOptionLabel]
+    [getOptionLabel],
   );
 
   const isOptionEqualToValue = useCallback(
@@ -173,7 +176,7 @@ function MultipleSearchBarWithCustom<T extends BaseEntity>({
       }
       return false;
     },
-    []
+    [],
   );
 
   return (

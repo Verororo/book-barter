@@ -1,10 +1,15 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { Autocomplete, TextField, CircularProgress, debounce } from '@mui/material';
+import {
+  Autocomplete,
+  TextField,
+  CircularProgress,
+  debounce,
+} from '@mui/material';
 import { useNotification } from '../../contexts/Notification/UseNotification';
 
 type BaseEntity = {
   id?: number;
-}
+};
 
 interface MultipleSearchBarProps<T extends BaseEntity> {
   id?: string;
@@ -34,7 +39,7 @@ function MultipleSearchBar<T extends BaseEntity>({
   error,
   helperText,
   onBlur,
-  styles
+  styles,
 }: MultipleSearchBarProps<T>) {
   const [options, setOptions] = useState<T[]>([]);
   const [loading, setLoading] = useState(false);
@@ -42,22 +47,23 @@ function MultipleSearchBar<T extends BaseEntity>({
 
   const { showNotification } = useNotification();
 
-  const currentIds = useMemo(
-    () => value.map(item => item.id!),
-    [value]
-  );
+  const currentIds = useMemo(() => value.map((item) => item.id!), [value]);
 
   const debouncedFetch = useMemo(
-    () => debounce((query: string, idsToSkip: number[]) => {
-      fetchMethod(query, idsToSkip)
-        .then(setOptions)
-        .catch(_error => {
-          showNotification("Failed to fetch autocomplete options. Try again later.", "error")
-          setOptions([]);
-        })
-        .finally(() => setLoading(false));
-    }, DEBOUNCE_DELAY),
-    [fetchMethod]
+    () =>
+      debounce((query: string, idsToSkip: number[]) => {
+        fetchMethod(query, idsToSkip)
+          .then(setOptions)
+          .catch((_error) => {
+            showNotification(
+              'Failed to fetch autocomplete options. Try again later.',
+              'error',
+            );
+            setOptions([]);
+          })
+          .finally(() => setLoading(false));
+      }, DEBOUNCE_DELAY),
+    [fetchMethod],
   );
 
   useEffect(() => {
@@ -79,12 +85,12 @@ function MultipleSearchBar<T extends BaseEntity>({
     (_event: React.SyntheticEvent, newInput: string) => {
       setInputValue(newInput);
     },
-    []
+    [],
   );
 
   const isOptionEqualToValue = useCallback(
     (option: T, value: T) => option.id === value.id,
-    []
+    [],
   );
 
   return (

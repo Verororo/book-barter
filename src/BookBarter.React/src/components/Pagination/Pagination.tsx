@@ -1,4 +1,4 @@
-import styles from './Pagination.module.css'
+import styles from './Pagination.module.css';
 
 interface PaginationProps {
   pageNumber: number;
@@ -7,7 +7,12 @@ interface PaginationProps {
   onPageChange: (page: number) => void;
 }
 
-const Pagination = ({ pageNumber, pageSize, total, onPageChange }: PaginationProps) => {
+const Pagination = ({
+  pageNumber,
+  pageSize,
+  total,
+  onPageChange,
+}: PaginationProps) => {
   const totalPages = Math.ceil(total / pageSize);
 
   if (totalPages <= 1) {
@@ -20,12 +25,17 @@ const Pagination = ({ pageNumber, pageSize, total, onPageChange }: PaginationPro
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
+      behavior: 'smooth',
     });
   };
 
   const handlePageClick = (page: number) => {
-    if (onPageChange && page !== pageNumber && page >= 1 && page <= totalPages) {
+    if (
+      onPageChange &&
+      page !== pageNumber &&
+      page >= 1 &&
+      page <= totalPages
+    ) {
       onPageChange(page);
       setTimeout(scrollToTop, 50);
     }
@@ -46,7 +56,7 @@ const Pagination = ({ pageNumber, pageSize, total, onPageChange }: PaginationPro
         onClick={() => handlePageClick(pageNumber - 1)}
       >
         Previous
-      </button>
+      </button>,
     );
   }
 
@@ -58,14 +68,14 @@ const Pagination = ({ pageNumber, pageSize, total, onPageChange }: PaginationPro
         onClick={() => handlePageClick(1)}
       >
         1
-      </button>
+      </button>,
     );
 
     if (startPage > 2) {
       pages.push(
         <span key="ellipsis1" className={styles.ellipsis}>
           ...
-        </span>
+        </span>,
       );
     }
   }
@@ -74,13 +84,14 @@ const Pagination = ({ pageNumber, pageSize, total, onPageChange }: PaginationPro
     pages.push(
       <button
         key={i}
-        className={`${styles.paginationButton} ${i === pageNumber ? styles.active : ''
-          }`}
+        className={`${styles.paginationButton} ${
+          i === pageNumber ? styles.active : ''
+        }`}
         disabled={i === pageNumber}
         onClick={() => handlePageClick(i)}
       >
         {i}
-      </button>
+      </button>,
     );
   }
 
@@ -89,7 +100,7 @@ const Pagination = ({ pageNumber, pageSize, total, onPageChange }: PaginationPro
       pages.push(
         <span key="ellipsis2" className={styles.ellipsis}>
           ...
-        </span>
+        </span>,
       );
     }
 
@@ -100,7 +111,7 @@ const Pagination = ({ pageNumber, pageSize, total, onPageChange }: PaginationPro
         onClick={() => handlePageClick(totalPages)}
       >
         {totalPages}
-      </button>
+      </button>,
     );
   }
 
@@ -112,20 +123,19 @@ const Pagination = ({ pageNumber, pageSize, total, onPageChange }: PaginationPro
         onClick={() => handlePageClick(pageNumber + 1)}
       >
         Next
-      </button>
+      </button>,
     );
   }
 
   return (
     <div className={styles.pagination}>
       <div className={styles.paginationInfo}>
-        Showing {((pageNumber - 1) * pageSize) + 1} to {Math.min(pageNumber * pageSize, total)} of {total} results
+        Showing {(pageNumber - 1) * pageSize + 1} to{' '}
+        {Math.min(pageNumber * pageSize, total)} of {total} results
       </div>
-      <div className={styles.paginationButtons}>
-        {pages}
-      </div>
+      <div className={styles.paginationButtons}>{pages}</div>
     </div>
   );
-}
+};
 
 export default Pagination;

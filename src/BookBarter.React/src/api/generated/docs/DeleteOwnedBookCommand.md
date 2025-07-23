@@ -1,11 +1,10 @@
 # DeleteOwnedBookCommand
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**bookId** | **number** |  | [optional] [default to undefined]
+| Name       | Type       | Description | Notes                             |
+| ---------- | ---------- | ----------- | --------------------------------- |
+| **bookId** | **number** |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -13,7 +12,7 @@ Name | Type | Description | Notes
 import { DeleteOwnedBookCommand } from './api';
 
 const instance: DeleteOwnedBookCommand = {
-    bookId,
+  bookId,
 };
 ```
 

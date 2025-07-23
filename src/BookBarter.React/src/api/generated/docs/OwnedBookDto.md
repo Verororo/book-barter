@@ -1,14 +1,13 @@
 # OwnedBookDto
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**id** | **number** |  | [optional] [default to undefined]
-**book** | [**ListedBookDto**](ListedBookDto.md) |  | [optional] [default to undefined]
-**bookStateName** | **string** |  | [optional] [default to undefined]
-**addedDate** | **string** |  | [optional] [default to undefined]
+| Name              | Type                                  | Description | Notes                             |
+| ----------------- | ------------------------------------- | ----------- | --------------------------------- |
+| **id**            | **number**                            |             | [optional] [default to undefined] |
+| **book**          | [**ListedBookDto**](ListedBookDto.md) |             | [optional] [default to undefined] |
+| **bookStateName** | **string**                            |             | [optional] [default to undefined] |
+| **addedDate**     | **string**                            |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -16,10 +15,10 @@ Name | Type | Description | Notes
 import { OwnedBookDto } from './api';
 
 const instance: OwnedBookDto = {
-    id,
-    book,
-    bookStateName,
-    addedDate,
+  id,
+  book,
+  bookStateName,
+  addedDate,
 };
 ```
 

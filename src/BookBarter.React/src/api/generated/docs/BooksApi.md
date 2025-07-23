@@ -1,45 +1,39 @@
 # BooksApi
 
-All URIs are relative to *http://localhost*
+All URIs are relative to _http://localhost_
 
-|Method | HTTP request | Description|
-|------------- | ------------- | -------------|
-|[**apiBooksIdApprovePut**](#apibooksidapproveput) | **PUT** /api/Books/{id}/approve | |
-|[**apiBooksIdDelete**](#apibooksiddelete) | **DELETE** /api/Books/{id} | |
-|[**apiBooksIdGet**](#apibooksidget) | **GET** /api/Books/{id} | |
-|[**apiBooksIdPut**](#apibooksidput) | **PUT** /api/Books/{id} | |
-|[**apiBooksPagedModeratedPost**](#apibookspagedmoderatedpost) | **POST** /api/Books/paged/moderated | |
-|[**apiBooksPagedPost**](#apibookspagedpost) | **POST** /api/Books/paged | |
-|[**apiBooksPost**](#apibookspost) | **POST** /api/Books | |
+| Method                                                        | HTTP request                        | Description |
+| ------------------------------------------------------------- | ----------------------------------- | ----------- |
+| [**apiBooksIdApprovePut**](#apibooksidapproveput)             | **PUT** /api/Books/{id}/approve     |             |
+| [**apiBooksIdDelete**](#apibooksiddelete)                     | **DELETE** /api/Books/{id}          |             |
+| [**apiBooksIdGet**](#apibooksidget)                           | **GET** /api/Books/{id}             |             |
+| [**apiBooksIdPut**](#apibooksidput)                           | **PUT** /api/Books/{id}             |             |
+| [**apiBooksPagedModeratedPost**](#apibookspagedmoderatedpost) | **POST** /api/Books/paged/moderated |             |
+| [**apiBooksPagedPost**](#apibookspagedpost)                   | **POST** /api/Books/paged           |             |
+| [**apiBooksPost**](#apibookspost)                             | **POST** /api/Books                 |             |
 
 # **apiBooksIdApprovePut**
-> apiBooksIdApprovePut()
 
+> apiBooksIdApprovePut()
 
 ### Example
 
 ```typescript
-import {
-    BooksApi,
-    Configuration
-} from './api';
+import { BooksApi, Configuration } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new BooksApi(configuration);
 
 let id: number; // (default to undefined)
 
-const { status, data } = await apiInstance.apiBooksIdApprovePut(
-    id
-);
+const { status, data } = await apiInstance.apiBooksIdApprovePut(id);
 ```
 
 ### Parameters
 
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **id** | [**number**] |  | defaults to undefined|
-
+| Name   | Type         | Description | Notes                 |
+| ------ | ------------ | ----------- | --------------------- |
+| **id** | [**number**] |             | defaults to undefined |
 
 ### Return type
 
@@ -51,45 +45,39 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
-
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
+| ----------- | ----------- | ---------------- |
+| **200**     | OK          | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiBooksIdDelete**
-> apiBooksIdDelete()
 
+> apiBooksIdDelete()
 
 ### Example
 
 ```typescript
-import {
-    BooksApi,
-    Configuration
-} from './api';
+import { BooksApi, Configuration } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new BooksApi(configuration);
 
 let id: number; // (default to undefined)
 
-const { status, data } = await apiInstance.apiBooksIdDelete(
-    id
-);
+const { status, data } = await apiInstance.apiBooksIdDelete(id);
 ```
 
 ### Parameters
 
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **id** | [**number**] |  | defaults to undefined|
-
+| Name   | Type         | Description | Notes                 |
+| ------ | ------------ | ----------- | --------------------- |
+| **id** | [**number**] |             | defaults to undefined |
 
 ### Return type
 
@@ -101,45 +89,39 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
-
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
+| ----------- | ----------- | ---------------- |
+| **200**     | OK          | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiBooksIdGet**
-> BookDto apiBooksIdGet()
 
+> BookDto apiBooksIdGet()
 
 ### Example
 
 ```typescript
-import {
-    BooksApi,
-    Configuration
-} from './api';
+import { BooksApi, Configuration } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new BooksApi(configuration);
 
 let id: number; // (default to undefined)
 
-const { status, data } = await apiInstance.apiBooksIdGet(
-    id
-);
+const { status, data } = await apiInstance.apiBooksIdGet(id);
 ```
 
 ### Parameters
 
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **id** | [**number**] |  | defaults to undefined|
-
+| Name   | Type         | Description | Notes                 |
+| ------ | ------------ | ----------- | --------------------- |
+| **id** | [**number**] |             | defaults to undefined |
 
 ### Return type
 
@@ -151,29 +133,25 @@ const { status, data } = await apiInstance.apiBooksIdGet(
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: text/plain, application/json, text/json
-
+- **Content-Type**: Not defined
+- **Accept**: text/plain, application/json, text/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
+| ----------- | ----------- | ---------------- |
+| **200**     | OK          | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiBooksIdPut**
-> apiBooksIdPut()
 
+> apiBooksIdPut()
 
 ### Example
 
 ```typescript
-import {
-    BooksApi,
-    Configuration,
-    UpdateBookCommand
-} from './api';
+import { BooksApi, Configuration, UpdateBookCommand } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new BooksApi(configuration);
@@ -181,19 +159,15 @@ const apiInstance = new BooksApi(configuration);
 let id: number; // (default to undefined)
 let updateBookCommand: UpdateBookCommand; // (optional)
 
-const { status, data } = await apiInstance.apiBooksIdPut(
-    id,
-    updateBookCommand
-);
+const { status, data } = await apiInstance.apiBooksIdPut(id, updateBookCommand);
 ```
 
 ### Parameters
 
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **updateBookCommand** | **UpdateBookCommand**|  | |
-| **id** | [**number**] |  | defaults to undefined|
-
+| Name                  | Type                  | Description | Notes                 |
+| --------------------- | --------------------- | ----------- | --------------------- |
+| **updateBookCommand** | **UpdateBookCommand** |             |                       |
+| **id**                | [**number**]          |             | defaults to undefined |
 
 ### Return type
 
@@ -205,28 +179,28 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, text/json, application/*+json
- - **Accept**: Not defined
-
+- **Content-Type**: application/json, text/json, application/\*+json
+- **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
+| ----------- | ----------- | ---------------- |
+| **200**     | OK          | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiBooksPagedModeratedPost**
-> BookForModerationDtoPaginatedResult apiBooksPagedModeratedPost()
 
+> BookForModerationDtoPaginatedResult apiBooksPagedModeratedPost()
 
 ### Example
 
 ```typescript
 import {
-    BooksApi,
-    Configuration,
-    GetPagedBooksForModerationQuery
+  BooksApi,
+  Configuration,
+  GetPagedBooksForModerationQuery,
 } from './api';
 
 const configuration = new Configuration();
@@ -235,16 +209,15 @@ const apiInstance = new BooksApi(configuration);
 let getPagedBooksForModerationQuery: GetPagedBooksForModerationQuery; // (optional)
 
 const { status, data } = await apiInstance.apiBooksPagedModeratedPost(
-    getPagedBooksForModerationQuery
+  getPagedBooksForModerationQuery,
 );
 ```
 
 ### Parameters
 
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **getPagedBooksForModerationQuery** | **GetPagedBooksForModerationQuery**|  | |
-
+| Name                                | Type                                | Description | Notes |
+| ----------------------------------- | ----------------------------------- | ----------- | ----- |
+| **getPagedBooksForModerationQuery** | **GetPagedBooksForModerationQuery** |             |       |
 
 ### Return type
 
@@ -256,46 +229,40 @@ const { status, data } = await apiInstance.apiBooksPagedModeratedPost(
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, text/json, application/*+json
- - **Accept**: text/plain, application/json, text/json
-
+- **Content-Type**: application/json, text/json, application/\*+json
+- **Accept**: text/plain, application/json, text/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
+| ----------- | ----------- | ---------------- |
+| **200**     | OK          | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiBooksPagedPost**
-> BookDtoPaginatedResult apiBooksPagedPost()
 
+> BookDtoPaginatedResult apiBooksPagedPost()
 
 ### Example
 
 ```typescript
-import {
-    BooksApi,
-    Configuration,
-    GetPagedBooksQuery
-} from './api';
+import { BooksApi, Configuration, GetPagedBooksQuery } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new BooksApi(configuration);
 
 let getPagedBooksQuery: GetPagedBooksQuery; // (optional)
 
-const { status, data } = await apiInstance.apiBooksPagedPost(
-    getPagedBooksQuery
-);
+const { status, data } =
+  await apiInstance.apiBooksPagedPost(getPagedBooksQuery);
 ```
 
 ### Parameters
 
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **getPagedBooksQuery** | **GetPagedBooksQuery**|  | |
-
+| Name                   | Type                   | Description | Notes |
+| ---------------------- | ---------------------- | ----------- | ----- |
+| **getPagedBooksQuery** | **GetPagedBooksQuery** |             |       |
 
 ### Return type
 
@@ -307,46 +274,39 @@ const { status, data } = await apiInstance.apiBooksPagedPost(
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, text/json, application/*+json
- - **Accept**: text/plain, application/json, text/json
-
+- **Content-Type**: application/json, text/json, application/\*+json
+- **Accept**: text/plain, application/json, text/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
+| ----------- | ----------- | ---------------- |
+| **200**     | OK          | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiBooksPost**
-> number apiBooksPost()
 
+> number apiBooksPost()
 
 ### Example
 
 ```typescript
-import {
-    BooksApi,
-    Configuration,
-    CreateBookCommand
-} from './api';
+import { BooksApi, Configuration, CreateBookCommand } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new BooksApi(configuration);
 
 let createBookCommand: CreateBookCommand; // (optional)
 
-const { status, data } = await apiInstance.apiBooksPost(
-    createBookCommand
-);
+const { status, data } = await apiInstance.apiBooksPost(createBookCommand);
 ```
 
 ### Parameters
 
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **createBookCommand** | **CreateBookCommand**|  | |
-
+| Name                  | Type                  | Description | Notes |
+| --------------------- | --------------------- | ----------- | ----- |
+| **createBookCommand** | **CreateBookCommand** |             |       |
 
 ### Return type
 
@@ -358,14 +318,13 @@ const { status, data } = await apiInstance.apiBooksPost(
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, text/json, application/*+json
- - **Accept**: text/plain, application/json, text/json
-
+- **Content-Type**: application/json, text/json, application/\*+json
+- **Accept**: text/plain, application/json, text/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
+| ----------- | ----------- | ---------------- |
+| **200**     | OK          | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-

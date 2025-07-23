@@ -1,12 +1,11 @@
 # CreateMessageCommand
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**receiverId** | **number** |  | [optional] [default to undefined]
-**body** | **string** |  | [optional] [default to undefined]
+| Name           | Type       | Description | Notes                             |
+| -------------- | ---------- | ----------- | --------------------------------- |
+| **receiverId** | **number** |             | [optional] [default to undefined] |
+| **body**       | **string** |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -14,8 +13,8 @@ Name | Type | Description | Notes
 import { CreateMessageCommand } from './api';
 
 const instance: CreateMessageCommand = {
-    receiverId,
-    body,
+  receiverId,
+  body,
 };
 ```
 

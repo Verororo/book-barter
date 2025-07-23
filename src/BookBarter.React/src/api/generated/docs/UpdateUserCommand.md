@@ -1,12 +1,11 @@
 # UpdateUserCommand
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**about** | **string** |  | [optional] [default to undefined]
-**cityId** | **number** |  | [optional] [default to undefined]
+| Name       | Type       | Description | Notes                             |
+| ---------- | ---------- | ----------- | --------------------------------- |
+| **about**  | **string** |             | [optional] [default to undefined] |
+| **cityId** | **number** |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -14,8 +13,8 @@ Name | Type | Description | Notes
 import { UpdateUserCommand } from './api';
 
 const instance: UpdateUserCommand = {
-    about,
-    cityId,
+  about,
+  cityId,
 };
 ```
 

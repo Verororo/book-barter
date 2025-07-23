@@ -23,11 +23,13 @@ const BookItem = ({ book, onBookDeleted }: BookItemProps) => {
   };
 
   return (
-    <Tooltip title={
-      book.approved
-        ? ""
-        : "This book is currently being reviewed by the moderator. It's visible only to you and will appear publicly in your profile after it's validated."
-    } arrow
+    <Tooltip
+      title={
+        book.approved
+          ? ''
+          : "This book is currently being reviewed by the moderator. It's visible only to you and will appear publicly in your profile after it's validated."
+      }
+      arrow
     >
       <motion.div
         className={`${book.approved ? styles.bookItem : styles.unapprovedBookItem} ${getBackgroundStyle()}`}

@@ -1,6 +1,4 @@
-﻿
-using BookBarter.Application.Authors.Queries;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace BookBarter.Application.Books.Queries;
 

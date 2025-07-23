@@ -11,7 +11,7 @@ import { approveBook, deleteBook } from '../../api/clients/book-client';
 import type { BookForModerationDto } from '../../api/generated';
 import ActionButtons from './Buttons/ActionButtons';
 import BookForm from './Forms/BookForm';
-import styles from './List.module.css'
+import styles from './List.module.css';
 import { useNotification } from '../../contexts/Notification/UseNotification';
 
 interface BooksListProps {
@@ -26,17 +26,18 @@ const BooksList = ({ books, onRefresh, hasPagination }: BooksListProps) => {
 
   const { showNotification } = useNotification();
 
-  const handleAccordionChange = (bookId: number) => (_: any, isExpanded: boolean) => {
-    setExpandedId(isExpanded ? bookId : false);
-  };
+  const handleAccordionChange =
+    (bookId: number) => (_: any, isExpanded: boolean) => {
+      setExpandedId(isExpanded ? bookId : false);
+    };
 
   const handleBookApprove = async (bookId: number) => {
     try {
       await approveBook(bookId);
       await onRefresh();
-      showNotification("Succesfully approved the book.", "success");
+      showNotification('Succesfully approved the book.', 'success');
     } catch (error) {
-      showNotification("Failed to approve the book. Try again later.", "error");
+      showNotification('Failed to approve the book. Try again later.', 'error');
     }
   };
 
@@ -44,9 +45,9 @@ const BooksList = ({ books, onRefresh, hasPagination }: BooksListProps) => {
     try {
       await deleteBook(bookId);
       await onRefresh();
-      showNotification("Succesfully deleted the book.", "success");
+      showNotification('Succesfully deleted the book.', 'success');
     } catch (error) {
-      showNotification("Failed to delete the book. Try again later.", "error");
+      showNotification('Failed to delete the book. Try again later.', 'error');
     }
   };
 
@@ -65,10 +66,11 @@ const BooksList = ({ books, onRefresh, hasPagination }: BooksListProps) => {
             key={book.id}
             expanded={expandedId === book.id}
             onChange={handleAccordionChange(book.id!)}
-            className={`${hasPagination
-              ? styles.accordionItemLastWithPagination
-              : styles.accordionItem
-              }`}
+            className={`${
+              hasPagination
+                ? styles.accordionItemLastWithPagination
+                : styles.accordionItem
+            }`}
             disableGutters
             elevation={0}
           >
@@ -76,13 +78,19 @@ const BooksList = ({ books, onRefresh, hasPagination }: BooksListProps) => {
               <div>
                 <h3 className={styles.accordionTitle}>{book.title}</h3>
                 <p className={styles.accordionSubtitle}>
-                  Authors: {
-                    book.authors?.map(author =>
-                      `${[author.firstName, author.middleName, author.lastName]
-                        .filter(Boolean)
-                        .join(' ')}`)
-                      .join(', ')
-                  }
+                  Authors:{' '}
+                  {book.authors
+                    ?.map(
+                      (author) =>
+                        `${[
+                          author.firstName,
+                          author.middleName,
+                          author.lastName,
+                        ]
+                          .filter(Boolean)
+                          .join(' ')}`,
+                    )
+                    .join(', ')}
                 </p>
                 <p className={styles.accordionSubtitle}>
                   Added: {new Date(book.addedDate).toLocaleDateString()}
@@ -98,35 +106,46 @@ const BooksList = ({ books, onRefresh, hasPagination }: BooksListProps) => {
                 />
               ) : (
                 <div className={styles.detailsInfo}>
-                  <div className={[styles.infoGrid, styles.bookInfoGrid].join(" ")}>
+                  <div
+                    className={[styles.infoGrid, styles.bookInfoGrid].join(' ')}
+                  >
                     <div className={styles.infoRow}>
-                      <span className={styles.infoLabel}>Title:</span> {book.title}
+                      <span className={styles.infoLabel}>Title:</span>{' '}
+                      {book.title}
                     </div>
                     <div className={styles.infoRow}>
-                      <span className={styles.infoLabel}>ISBN:</span> {book.isbn}
+                      <span className={styles.infoLabel}>ISBN:</span>{' '}
+                      {book.isbn}
                     </div>
                     <div className={styles.infoRow}>
-                      <span className={styles.infoLabel}>Publication Date:</span> {book.publicationDate}
+                      <span className={styles.infoLabel}>
+                        Publication Date:
+                      </span>{' '}
+                      {book.publicationDate}
                     </div>
                     <div className={styles.infoRow}>
-                      <span className={styles.infoLabel}>Genre:</span> {book.genre?.name}
+                      <span className={styles.infoLabel}>Genre:</span>{' '}
+                      {book.genre?.name}
                     </div>
                     <div className={styles.infoRow}>
-                      <span className={styles.infoLabel}>Publisher:</span> {book.publisher?.name}
+                      <span className={styles.infoLabel}>Publisher:</span>{' '}
+                      {book.publisher?.name}
                     </div>
                   </div>
 
                   <div className={styles.authorsInfoRow}>
                     <span className={styles.infoLabel}>Authors:</span>
                     <Stack direction="row" spacing={1} flexWrap="wrap" mt={1}>
-                      {book.authors?.map(author => (
+                      {book.authors?.map((author) => (
                         <Chip
                           key={author?.id}
-                          label={
-                            [author.firstName, author.middleName, author.lastName]
-                              .filter(Boolean)
-                              .join(' ')
-                          }
+                          label={[
+                            author.firstName,
+                            author.middleName,
+                            author.lastName,
+                          ]
+                            .filter(Boolean)
+                            .join(' ')}
                           size="small"
                         />
                       ))}
@@ -136,7 +155,7 @@ const BooksList = ({ books, onRefresh, hasPagination }: BooksListProps) => {
                   <div className={styles.infoRow}>
                     <span className={styles.infoLabel}>Owned by:</span>
                     <Stack direction="row" spacing={1} flexWrap="wrap" mt={1}>
-                      {book.ownedByUsers?.map(user => (
+                      {book.ownedByUsers?.map((user) => (
                         <Chip
                           key={user.user?.id}
                           label={user.user?.userName}
@@ -149,7 +168,7 @@ const BooksList = ({ books, onRefresh, hasPagination }: BooksListProps) => {
                   <div className={styles.infoRow}>
                     <span className={styles.infoLabel}>Wanted by:</span>
                     <Stack direction="row" spacing={1} flexWrap="wrap" mt={1}>
-                      {book.wantedByUsers?.map(user => (
+                      {book.wantedByUsers?.map((user) => (
                         <Chip
                           key={user.user?.id}
                           label={user.user?.userName}
@@ -162,7 +181,11 @@ const BooksList = ({ books, onRefresh, hasPagination }: BooksListProps) => {
                   <ActionButtons
                     onDelete={() => handleBookDelete(book.id!)}
                     onEdit={() => setEditingBookId(book.id!)}
-                    onApprove={!book.approved ? () => handleBookApprove(book.id!) : undefined}
+                    onApprove={
+                      !book.approved
+                        ? () => handleBookApprove(book.id!)
+                        : undefined
+                    }
                   />
                 </div>
               )}

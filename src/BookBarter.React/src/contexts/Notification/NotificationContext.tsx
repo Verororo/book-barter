@@ -9,33 +9,40 @@ interface NotificationContextType {
 
 type NotificationProviderProps = {
   children: ReactNode;
-}
+};
 
 type NotificationState = {
   open: boolean;
   message: string;
   severity: AlertSeverity;
-}
+};
 
-export const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
+export const NotificationContext = createContext<
+  NotificationContextType | undefined
+>(undefined);
 
-export const NotificationProvider = ({ children }: NotificationProviderProps) => {
+export const NotificationProvider = ({
+  children,
+}: NotificationProviderProps) => {
   const [notification, setNotification] = useState<NotificationState>({
     open: false,
     message: '',
-    severity: 'info'
+    severity: 'info',
   });
 
-  const showNotification = (message: string, severity: AlertSeverity = 'info') => {
+  const showNotification = (
+    message: string,
+    severity: AlertSeverity = 'info',
+  ) => {
     setNotification({
       open: true,
       message,
-      severity
+      severity,
     });
   };
 
   const handleClose = () => {
-    setNotification(prev => ({ ...prev, open: false }));
+    setNotification((prev) => ({ ...prev, open: false }));
   };
 
   return (

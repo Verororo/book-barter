@@ -6,12 +6,30 @@ import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useFormik } from 'formik';
-import { type PublisherDto, type AuthorDto, type GenreDto, type CreateBookCommand, type ListedBookDto } from '../../api/generated';
+import {
+  type PublisherDto,
+  type AuthorDto,
+  type GenreDto,
+  type CreateBookCommand,
+  type ListedBookDto,
+} from '../../api/generated';
 import styles from './AddCustomBookDialog.module.css';
 import { fetchPagedGenres } from '../../api/clients/genre-client';
-import { createPublisherCommand, fetchPagedPublishers } from '../../api/clients/publisher-client';
-import { createAuthorCommand, fetchPagedAuthors } from '../../api/clients/author-client';
-import { MenuItem, Select, FormControl, InputLabel, FormHelperText } from '@mui/material';
+import {
+  createPublisherCommand,
+  fetchPagedPublishers,
+} from '../../api/clients/publisher-client';
+import {
+  createAuthorCommand,
+  fetchPagedAuthors,
+} from '../../api/clients/author-client';
+import {
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+  FormHelperText,
+} from '@mui/material';
 import { createBookCommand } from '../../api/clients/book-client';
 import { AddCustomAuthor } from './AddCustomAuthorDialog';
 import MultipleSearchBarWithCustom from '../SearchBars/MultipleSearchBarWithCustom';
@@ -19,30 +37,34 @@ import SingleSearchBarWithCustom from '../SearchBars/SingleSearchBarWithCustom';
 import { useNotification } from '../../contexts/Notification/UseNotification';
 
 type CustomBookValues = {
-  isbn: string
-  title: string
-  publicationDate: string
-  authors: AuthorDto[]
-  genre: GenreDto | null
-  publisher: PublisherDto | null
-}
+  isbn: string;
+  title: string;
+  publicationDate: string;
+  authors: AuthorDto[];
+  genre: GenreDto | null;
+  publisher: PublisherDto | null;
+};
 
 type CustomBookErrors = {
-  isbn?: string
-  title?: string
-  publicationDate?: string
-  authors?: string
-  genre?: string
-  publisher?: string
-}
+  isbn?: string;
+  title?: string;
+  publicationDate?: string;
+  authors?: string;
+  genre?: string;
+  publisher?: string;
+};
 
 interface AddCustomBookProps {
-  defaultTitle?: string
-  onClose: () => void
-  onBookCreated: (listedBook: ListedBookDto) => void
+  defaultTitle?: string;
+  onClose: () => void;
+  onBookCreated: (listedBook: ListedBookDto) => void;
 }
 
-export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: AddCustomBookProps) => {
+export const AddCustomBook = ({
+  defaultTitle = '',
+  onClose,
+  onBookCreated,
+}: AddCustomBookProps) => {
   const [loading, setLoading] = useState(false);
   const [genres, setGenres] = useState<GenreDto[]>([]);
   const { showNotification } = useNotification();
@@ -52,8 +74,11 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
       .then((response) => {
         setGenres(response);
       })
-      .catch(_error => {
-        showNotification("Failed to fetch genres from the server. Try again later.", "error");
+      .catch((_error) => {
+        showNotification(
+          'Failed to fetch genres from the server. Try again later.',
+          'error',
+        );
       });
   }, []);
 
@@ -61,27 +86,33 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
     const errors: CustomBookErrors = {};
 
     if (!values.isbn) errors.isbn = 'ISBN is required.';
-    else if (!/^\d+$/.test(values.isbn)) errors.isbn = 'ISBN must contain only digits.';
-    else if (values.isbn.length !== 13) errors.isbn = 'ISBN length should be 13.';
+    else if (!/^\d+$/.test(values.isbn))
+      errors.isbn = 'ISBN must contain only digits.';
+    else if (values.isbn.length !== 13)
+      errors.isbn = 'ISBN length should be 13.';
 
     if (!values.title) errors.title = 'Title is required.';
-    else if (values.title.length > 100) errors.title = 'Title cannot exceed 100 characters.';
+    else if (values.title.length > 100)
+      errors.title = 'Title cannot exceed 100 characters.';
 
-    if (!values.publicationDate) errors.publicationDate = 'Publication date is required.';
+    if (!values.publicationDate)
+      errors.publicationDate = 'Publication date is required.';
 
-    if (values.authors.length === 0) errors.authors = 'At least one author is required.';
+    if (values.authors.length === 0)
+      errors.authors = 'At least one author is required.';
 
     if (!values.genre?.id) errors.genre = 'Genre is required.';
 
     if (!values.publisher) errors.publisher = 'Publisher is required.';
-    else if (values.publisher.name!.length > 30) errors.publisher = 'Publisher name cannot exceed 30 characters.'
+    else if (values.publisher.name!.length > 30)
+      errors.publisher = 'Publisher name cannot exceed 30 characters.';
 
     return errors;
   }, []);
 
   async function resolveAuthorsIds(authors: AuthorDto[]): Promise<AuthorDto[]> {
     return Promise.all(
-      authors.map(async author => {
+      authors.map(async (author) => {
         if (author.id) return author;
 
         try {
@@ -92,14 +123,16 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
           });
           return { ...author, id: newId };
         } catch (error) {
-          console.log(error)
+          console.log(error);
           throw error;
         }
-      })
+      }),
     );
   }
 
-  async function resolvePublisherId(publisher: PublisherDto): Promise<PublisherDto> {
+  async function resolvePublisherId(
+    publisher: PublisherDto,
+  ): Promise<PublisherDto> {
     if (publisher.id) return publisher;
 
     try {
@@ -108,7 +141,7 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
       });
       return { ...publisher, id: newId };
     } catch (error) {
-      console.log(error)
+      console.log(error);
       throw error;
     }
   }
@@ -131,17 +164,17 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
       try {
         const [completeAuthors, completePublisher] = await Promise.all([
           resolveAuthorsIds(values.authors),
-          resolvePublisherId(values.publisher!)
+          resolvePublisherId(values.publisher!),
         ]);
 
         const command: CreateBookCommand = {
           isbn: values.isbn,
           title: values.title,
           publicationDate: values.publicationDate,
-          authorsIds: completeAuthors.map(a => a.id!),
+          authorsIds: completeAuthors.map((a) => a.id!),
           genreId: values.genre?.id!,
-          publisherId: completePublisher?.id!
-        }
+          publisherId: completePublisher?.id!,
+        };
 
         const newBookId = await createBookCommand(command);
         const newListedBook: ListedBookDto = {
@@ -150,48 +183,52 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
           publicationDate: values.publicationDate,
           genreName: values.genre?.name!,
           publisherName: completePublisher?.name!,
-          authors: completeAuthors
-        }
+          authors: completeAuthors,
+        };
 
-        onBookCreated(newListedBook)
-        onClose()
-        showNotification("The new book has succesfully been added.", "success");
+        onBookCreated(newListedBook);
+        onClose();
+        showNotification('The new book has succesfully been added.', 'success');
       } catch (error) {
-        showNotification("Failed to create the new book. Try again later.", "error");
+        showNotification(
+          'Failed to create the new book. Try again later.',
+          'error',
+        );
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
-  })
+    },
+  });
 
   const onAuthorsChange = useCallback(
     (_event: any, newValue: AuthorDto[]) => {
-      formik.setFieldValue("authors", newValue, /* shouldValidate = */ true);
-      formik.setFieldTouched("authors", true, /* shouldValidate = */ false);
+      formik.setFieldValue('authors', newValue, /* shouldValidate = */ true);
+      formik.setFieldTouched('authors', true, /* shouldValidate = */ false);
     },
-    [formik]
+    [formik],
   );
 
   const onPublisherChange = useCallback(
     (_event: any, newValue: any) => {
-      formik.setFieldValue("publisher", newValue, /* shouldValidate = */ true);
-      formik.setFieldTouched("publisher", true, /* shouldValidate = */ false);
+      formik.setFieldValue('publisher', newValue, /* shouldValidate = */ true);
+      formik.setFieldTouched('publisher', true, /* shouldValidate = */ false);
     },
-    [formik]
+    [formik],
   );
 
-  const genreOptions = useMemo(() =>
-    genres.map(genre => (
-      <MenuItem key={genre.id} value={genre.id}>
-        {genre.name}
-      </MenuItem>
-    )),
-    [genres]
+  const genreOptions = useMemo(
+    () =>
+      genres.map((genre) => (
+        <MenuItem key={genre.id} value={genre.id}>
+          {genre.name}
+        </MenuItem>
+      )),
+    [genres],
   );
 
-  const displayedErrorFields = Object
-    .keys(formik.errors)
-    .filter(field => formik.touched[field as keyof CustomBookValues]);
+  const displayedErrorFields = Object.keys(formik.errors).filter(
+    (field) => formik.touched[field as keyof CustomBookValues],
+  );
 
   const submitDisabled = displayedErrorFields.length > 0;
 
@@ -231,8 +268,13 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
               value={formik.values.publicationDate}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              error={formik.touched.publicationDate && Boolean(formik.errors.publicationDate)}
-              helperText={formik.touched.publicationDate && formik.errors.publicationDate}
+              error={
+                formik.touched.publicationDate &&
+                Boolean(formik.errors.publicationDate)
+              }
+              helperText={
+                formik.touched.publicationDate && formik.errors.publicationDate
+              }
             />
 
             <MultipleSearchBarWithCustom<AuthorDto>
@@ -260,14 +302,18 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
               getOptionLabel={(option) => option.name!}
               onChange={onPublisherChange}
               fetchMethod={fetchPagedPublishers}
-              createEntityFromName={(name) => ({id: undefined, name: name})}
+              createEntityFromName={(name) => ({ id: undefined, name: name })}
               styles={styles}
-              error={formik.touched.publisher && Boolean(formik.errors.publisher)}
+              error={
+                formik.touched.publisher && Boolean(formik.errors.publisher)
+              }
               helperText={formik.touched.publisher && formik.errors.publisher}
               onBlur={() => formik.setFieldTouched('publisher', true)}
             />
 
-            <FormControl error={formik.touched.genre && Boolean(formik.errors.genre)}>
+            <FormControl
+              error={formik.touched.genre && Boolean(formik.errors.genre)}
+            >
               <InputLabel id="genre-label">Genre</InputLabel>
               <Select
                 id="genre"
@@ -276,8 +322,9 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
                 value={formik.values.genre?.id || ''}
                 onChange={(event) => {
                   const genreId = event.target.value;
-                  const selectedGenre = genres.find(g => g.id === genreId) || null;
-                  formik.setFieldValue("genre", selectedGenre);
+                  const selectedGenre =
+                    genres.find((g) => g.id === genreId) || null;
+                  formik.setFieldValue('genre', selectedGenre);
                 }}
                 onBlur={formik.handleBlur}
               >
@@ -291,10 +338,7 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
         </DialogContent>
 
         <DialogActions>
-          <Button
-            onClick={onClose}
-            disabled={loading}
-          >
+          <Button onClick={onClose} disabled={loading}>
             Cancel
           </Button>
           <Button
@@ -308,5 +352,5 @@ export const AddCustomBook = ({ defaultTitle = '', onClose, onBookCreated }: Add
         </DialogActions>
       </form>
     </Dialog>
-  )
-}
+  );
+};

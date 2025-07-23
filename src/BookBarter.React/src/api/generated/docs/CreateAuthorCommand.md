@@ -1,13 +1,12 @@
 # CreateAuthorCommand
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**firstName** | **string** |  | [optional] [default to undefined]
-**middleName** | **string** |  | [optional] [default to undefined]
-**lastName** | **string** |  | [optional] [default to undefined]
+| Name           | Type       | Description | Notes                             |
+| -------------- | ---------- | ----------- | --------------------------------- |
+| **firstName**  | **string** |             | [optional] [default to undefined] |
+| **middleName** | **string** |             | [optional] [default to undefined] |
+| **lastName**   | **string** |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -15,9 +14,9 @@ Name | Type | Description | Notes
 import { CreateAuthorCommand } from './api';
 
 const instance: CreateAuthorCommand = {
-    firstName,
-    middleName,
-    lastName,
+  firstName,
+  middleName,
+  lastName,
 };
 ```
 

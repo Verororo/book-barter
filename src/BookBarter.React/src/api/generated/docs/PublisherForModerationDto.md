@@ -1,15 +1,14 @@
 # PublisherForModerationDto
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**id** | **number** |  | [optional] [default to undefined]
-**name** | **string** |  | [optional] [default to undefined]
-**approved** | **boolean** |  | [optional] [default to undefined]
-**addedDate** | **string** |  | [optional] [default to undefined]
-**books** | [**Array&lt;BookDto&gt;**](BookDto.md) |  | [optional] [default to undefined]
+| Name          | Type                                   | Description | Notes                             |
+| ------------- | -------------------------------------- | ----------- | --------------------------------- |
+| **id**        | **number**                             |             | [optional] [default to undefined] |
+| **name**      | **string**                             |             | [optional] [default to undefined] |
+| **approved**  | **boolean**                            |             | [optional] [default to undefined] |
+| **addedDate** | **string**                             |             | [optional] [default to undefined] |
+| **books**     | [**Array&lt;BookDto&gt;**](BookDto.md) |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -17,11 +16,11 @@ Name | Type | Description | Notes
 import { PublisherForModerationDto } from './api';
 
 const instance: PublisherForModerationDto = {
-    id,
-    name,
-    approved,
-    addedDate,
-    books,
+  id,
+  name,
+  approved,
+  addedDate,
+  books,
 };
 ```
 

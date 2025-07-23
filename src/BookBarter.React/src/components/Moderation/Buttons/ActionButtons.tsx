@@ -1,5 +1,5 @@
 import { Button, Tooltip } from '@mui/material';
-import styles from './ActionButtons.module.css'
+import styles from './ActionButtons.module.css';
 
 interface ActionButtonsProps {
   onDelete: () => void;
@@ -14,12 +14,12 @@ const ActionButtons = ({
   onEdit,
   onApprove,
   isDeleteDisabled = false,
-  deleteDisabledText
+  deleteDisabledText,
 }: ActionButtonsProps) => {
   return (
     <div className={styles.actionButtons}>
       {isDeleteDisabled ? (
-        <Tooltip title={deleteDisabledText || ""} arrow>
+        <Tooltip title={deleteDisabledText || ''} arrow>
           <span>
             <Button
               variant="contained"
@@ -32,28 +32,16 @@ const ActionButtons = ({
           </span>
         </Tooltip>
       ) : (
-        <Button
-          variant="contained"
-          color="error"
-          onClick={onDelete}
-        >
+        <Button variant="contained" color="error" onClick={onDelete}>
           Delete
         </Button>
       )}
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={onEdit}
-      >
+      <Button variant="contained" color="primary" onClick={onEdit}>
         Edit
       </Button>
 
       {onApprove && (
-        <Button
-          variant="contained"
-          color="success" 
-          onClick={onApprove}
-        >
+        <Button variant="contained" color="success" onClick={onApprove}>
           Approve
         </Button>
       )}

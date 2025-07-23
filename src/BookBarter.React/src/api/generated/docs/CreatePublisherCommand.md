@@ -1,11 +1,10 @@
 # CreatePublisherCommand
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**name** | **string** |  | [optional] [default to undefined]
+| Name     | Type       | Description | Notes                             |
+| -------- | ---------- | ----------- | --------------------------------- |
+| **name** | **string** |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -13,7 +12,7 @@ Name | Type | Description | Notes
 import { CreatePublisherCommand } from './api';
 
 const instance: CreatePublisherCommand = {
-    name,
+  name,
 };
 ```
 

@@ -1,13 +1,12 @@
 # WantedBookDto
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**id** | **number** |  | [optional] [default to undefined]
-**book** | [**ListedBookDto**](ListedBookDto.md) |  | [optional] [default to undefined]
-**addedDate** | **string** |  | [optional] [default to undefined]
+| Name          | Type                                  | Description | Notes                             |
+| ------------- | ------------------------------------- | ----------- | --------------------------------- |
+| **id**        | **number**                            |             | [optional] [default to undefined] |
+| **book**      | [**ListedBookDto**](ListedBookDto.md) |             | [optional] [default to undefined] |
+| **addedDate** | **string**                            |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -15,9 +14,9 @@ Name | Type | Description | Notes
 import { WantedBookDto } from './api';
 
 const instance: WantedBookDto = {
-    id,
-    book,
-    addedDate,
+  id,
+  book,
+  addedDate,
 };
 ```
 

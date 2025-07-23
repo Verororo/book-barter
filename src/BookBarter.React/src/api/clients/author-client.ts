@@ -1,52 +1,53 @@
-import { requestConfig } from "./common";
-import { AuthorsApi, type AuthorDto, type AuthorForModerationDtoPaginatedResult, type CreateAuthorCommand, type GetPagedAuthorsForModerationQuery, type UpdateAuthorCommand } from "../generated";
+import { requestConfig } from './common';
+import {
+  AuthorsApi,
+  type AuthorDto,
+  type AuthorForModerationDtoPaginatedResult,
+  type CreateAuthorCommand,
+  type GetPagedAuthorsForModerationQuery,
+  type UpdateAuthorCommand,
+} from '../generated';
 
-const authorsApi = new AuthorsApi(requestConfig)
+const authorsApi = new AuthorsApi(requestConfig);
 
 export const createAuthorCommand = async (
-  command: CreateAuthorCommand
+  command: CreateAuthorCommand,
 ): Promise<number | undefined> => {
-  const response = await authorsApi.apiAuthorsPost(command)
-  return response.data
-}
+  const response = await authorsApi.apiAuthorsPost(command);
+  return response.data;
+};
 
-export const approveAuthor = async (
-  id: number
-) => {
-  await authorsApi.apiAuthorsIdApprovePut(id)
-}
+export const approveAuthor = async (id: number) => {
+  await authorsApi.apiAuthorsIdApprovePut(id);
+};
 
-export const updateAuthor = async (
-  query: UpdateAuthorCommand
-) => {
-  await authorsApi.apiAuthorsIdPut(query.id!, query)
-}
+export const updateAuthor = async (query: UpdateAuthorCommand) => {
+  await authorsApi.apiAuthorsIdPut(query.id!, query);
+};
 
-export const deleteAuthor = async (
-  id: number
-) => {
-  await authorsApi.apiAuthorsIdDelete(id)
-}
+export const deleteAuthor = async (id: number) => {
+  await authorsApi.apiAuthorsIdDelete(id);
+};
 
 export const fetchAuthorsForModeration = async (
-  query: GetPagedAuthorsForModerationQuery
+  query: GetPagedAuthorsForModerationQuery,
 ): Promise<AuthorForModerationDtoPaginatedResult> => {
   const response = await authorsApi.apiAuthorsPagedModeratedPost(query);
   return response.data;
-}
+};
 
 export const fetchPagedAuthors = async (
   query: string,
-  idsToSkip?: number[]
+  idsToSkip?: number[],
 ): Promise<AuthorDto[]> => {
   const response = await authorsApi.apiAuthorsPagedPost({
     pageSize: 10,
     pageNumber: 1,
-    orderByProperty: "lastName",
-    orderDirection: "asc",
+    orderByProperty: 'lastName',
+    orderDirection: 'asc',
     query,
-    idsToSkip
-  })
+    idsToSkip,
+  });
 
   return response.data.items ?? [];
-}
+};

@@ -1,27 +1,30 @@
-import { useState, useRef, useEffect, useCallback } from "react";
-import AddIcon from "@mui/icons-material/Add";
-import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
-import TextField from "@mui/material/TextField";
-import ClickAwayListener from "@mui/material/ClickAwayListener";
-import styles from "./NewBookAutocomplete.module.css";
-import { fetchAutocompleteBooksSkipLoggedInIds } from "../../api/clients/book-client";
-import debounce from "@mui/utils/debounce";
-import { CircularProgress, MenuItem, Menu } from "@mui/material";
-import { addBookToOwned, addBookToWanted } from "../../api/clients/user-client";
-import type { ListedBookDto } from "../../api/generated";
-import { AddCustomBook } from "./AddCustomBookDialog";
-import { useNotification } from "../../contexts/Notification/UseNotification";
+import { useState, useRef, useEffect, useCallback } from 'react';
+import AddIcon from '@mui/icons-material/Add';
+import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
+import styles from './NewBookAutocomplete.module.css';
+import { fetchAutocompleteBooksSkipLoggedInIds } from '../../api/clients/book-client';
+import debounce from '@mui/utils/debounce';
+import { CircularProgress, MenuItem, Menu } from '@mui/material';
+import { addBookToOwned, addBookToWanted } from '../../api/clients/user-client';
+import type { ListedBookDto } from '../../api/generated';
+import { AddCustomBook } from './AddCustomBookDialog';
+import { useNotification } from '../../contexts/Notification/UseNotification';
 
 type ListedBookDtoOptions = ListedBookDto & {
   inputValue?: string;
-}
+};
 
 type NewBookAutocompleteProps = {
   isGivingOut?: boolean;
   onBookAdded?: (book: ListedBookDto, bookStateName?: string) => void;
-}
+};
 
-const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutocompleteProps) => {
+const NewBookAutocomplete = ({
+  isGivingOut = false,
+  onBookAdded,
+}: NewBookAutocompleteProps) => {
   const [openAutocomplete, setOpenAutocomplete] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -35,7 +38,9 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
   const [openAddDialog, setOpenAddDialog] = useState(false);
   const [dialogDefaultTitle, setDialogDefaultTitle] = useState<string>();
 
-  const [customBookStateId, setCustomBookStateId] = useState<number | null>(null);
+  const [customBookStateId, setCustomBookStateId] = useState<number | null>(
+    null,
+  );
 
   const { showNotification } = useNotification();
 
@@ -52,8 +57,8 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
   }, [openAutocomplete]);
 
   useEffect(() => {
-    setOpenAutocomplete(false)
-  }, [openAddDialog])
+    setOpenAutocomplete(false);
+  }, [openAddDialog]);
 
   useEffect(() => {
     if (inputValue.length < 3) {
@@ -63,58 +68,70 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
     }
 
     setLoading(true);
-    const handler = debounce(title => {
+    const handler = debounce((title) => {
       fetchAutocompleteBooksSkipLoggedInIds(title)
-        .then(options => setOptions(options))
-        .catch(_error => {
-          showNotification("Failed to fetch books from the server. Try again later.", "error");
+        .then((options) => setOptions(options))
+        .catch((_error) => {
+          showNotification(
+            'Failed to fetch books from the server. Try again later.',
+            'error',
+          );
         })
         .finally(() => setLoading(false));
     }, 500);
 
     handler(inputValue);
 
-    return () => { handler.clear(); }
+    return () => {
+      handler.clear();
+    };
   }, [inputValue]);
 
   const handleDialog = (bookStateId?: number) => {
     if (bookStateId) {
-      setCustomBookStateId(bookStateId)
+      setCustomBookStateId(bookStateId);
     }
-    setAnchorEl(null)
-    setOpenAddDialog(true)
-  }
+    setAnchorEl(null);
+    setOpenAddDialog(true);
+  };
 
   const addBookRelationship = async (
     book: ListedBookDto,
     isApproved: boolean,
-    bookStateId: number = 0
+    bookStateId: number = 0,
   ) => {
-    if (!book)
-      return
+    if (!book) return;
 
     if (isGivingOut) {
       try {
-        await addBookToOwned(
-          {
-            bookId: book.id,
-            bookStateId
-          }
+        await addBookToOwned({
+          bookId: book.id,
+          bookStateId,
+        });
+        showNotification(
+          'The book has succesfully been added to the giving out section.',
+          'success',
         );
-        showNotification("The book has succesfully been added to the giving out section.", "success");
       } catch (error) {
-        showNotification("Failed to add the book to the giving out section. Try again later.", "error");
+        showNotification(
+          'Failed to add the book to the giving out section. Try again later.',
+          'error',
+        );
       }
     } else {
       try {
-        await addBookToWanted(
-          {
-            bookId: book.id
-          }
+        await addBookToWanted({
+          bookId: book.id,
+        });
+        showNotification(
+          'The book has succesfully been added to the looking for section.',
+          'success',
         );
-        showNotification("The book has succesfully been added to the looking for section.", "success");
       } catch (error) {
-        showNotification("Failed to add the book to the looking for section. Try again later.", "error");
+        showNotification(
+          'Failed to add the book to the looking for section. Try again later.',
+          'error',
+        );
       }
     }
 
@@ -125,13 +142,14 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
 
     book.approved = isApproved;
     if (isGivingOut) {
-      const bookStateName = bookStates.find(bs => bs.id === bookStateId)!.label
+      const bookStateName = bookStates.find(
+        (bs) => bs.id === bookStateId,
+      )!.label;
       onBookAdded?.(book, bookStateName);
-    }
-    else {
+    } else {
       onBookAdded?.(book);
     }
-  }
+  };
 
   const handleCustomBookCreated = (book: ListedBookDto) => {
     if (customBookStateId !== null) {
@@ -140,34 +158,29 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
     } else {
       addBookRelationship(book, /* isApproved = */ false);
     }
-  }
+  };
 
-  const onBookChange = useCallback((
-    _event: any,
-    newValue: any
-  ) => {
+  const onBookChange = useCallback((_event: any, newValue: any) => {
     if (typeof newValue === 'string') {
-      return
+      return;
     }
 
     if (newValue && newValue.inputValue) {
       setDialogDefaultTitle(newValue.inputValue);
       if (isGivingOut) {
-        setAnchorEl(inputRef.current as HTMLElement)
+        setAnchorEl(inputRef.current as HTMLElement);
       } else {
-        handleDialog()
+        handleDialog();
       }
-    }
-
-    else if (newValue) {
+    } else if (newValue) {
       setValue(newValue);
       if (isGivingOut) {
-        setAnchorEl(inputRef.current as HTMLElement)
+        setAnchorEl(inputRef.current as HTMLElement);
       } else {
-        addBookRelationship(newValue, /* isApproved = */ true)
+        addBookRelationship(newValue, /* isApproved = */ true);
       }
     }
-  }, [])
+  }, []);
 
   return (
     <>
@@ -195,20 +208,24 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
                   return filtered;
                 }}
                 options={options}
-                getOptionLabel={option => {
+                getOptionLabel={(option) => {
                   if (typeof option === 'string') return option;
-                  if (option.inputValue) return `Add "${inputValue}" to our database...`;
+                  if (option.inputValue)
+                    return `Add "${inputValue}" to our database...`;
 
-                  const authors = option.authors!.length === 1
-                    ? `${option.authors![0].firstName} ${option.authors![0].lastName}`.trim()
-                    : option.authors?.map(a => a.lastName).join(', ');
+                  const authors =
+                    option.authors!.length === 1
+                      ? `${option.authors![0].firstName} ${option.authors![0].lastName}`.trim()
+                      : option.authors?.map((a) => a.lastName).join(', ');
 
                   return `${authors}. ${option.title}`;
                 }}
-                renderInput={params => (
+                renderInput={(params) => (
                   <TextField
                     {...params}
-                    inputRef={node => { if (node) inputRef.current = node; }}
+                    inputRef={(node) => {
+                      if (node) inputRef.current = node;
+                    }}
                     placeholder="Enter the title of a book…"
                     slotProps={{
                       input: {
@@ -228,7 +245,7 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
                 )}
                 onClose={() => {
                   if (!openAddDialog) {
-                    setOpenAutocomplete(false)
+                    setOpenAutocomplete(false);
                   }
                 }}
               />
@@ -238,14 +255,21 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
                 open={Boolean(anchorEl)}
                 onClose={() => setAnchorEl(null)}
               >
-                {bookStates.map(state => (
-                  <MenuItem key={state.id} onClick={() => {
-                    if (dialogDefaultTitle) {
-                      handleDialog(state.id)
-                    } else if (value) {
-                      addBookRelationship(value, /* isApproved = */ true, state.id)
-                    }
-                  }}>
+                {bookStates.map((state) => (
+                  <MenuItem
+                    key={state.id}
+                    onClick={() => {
+                      if (dialogDefaultTitle) {
+                        handleDialog(state.id);
+                      } else if (value) {
+                        addBookRelationship(
+                          value,
+                          /* isApproved = */ true,
+                          state.id,
+                        );
+                      }
+                    }}
+                  >
                     {state.label}
                   </MenuItem>
                 ))}
@@ -261,8 +285,8 @@ const NewBookAutocomplete = ({ isGivingOut = false, onBookAdded }: NewBookAutoco
         <AddCustomBook
           defaultTitle={dialogDefaultTitle}
           onClose={() => {
-            setDialogDefaultTitle(undefined)
-            setOpenAddDialog(false)
+            setDialogDefaultTitle(undefined);
+            setOpenAddDialog(false);
           }}
           onBookCreated={handleCustomBookCreated}
         />

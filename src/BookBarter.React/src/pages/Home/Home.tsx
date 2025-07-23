@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import UsersList from "../../components/UserItem/UsersList";
-import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import UsersList from '../../components/UserItem/UsersList';
+import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 
-import { fetchListedUsersPaginatedResult } from "../../api/clients/user-client";
-import type { ListedUser } from "../../api/view-models/listed-user";
+import { fetchListedUsersPaginatedResult } from '../../api/clients/user-client';
+import type { ListedUser } from '../../api/view-models/listed-user';
 
 import {
   Pagination,
@@ -18,10 +18,16 @@ import {
   MenuItem,
   type SelectChangeEvent,
   Grid,
-  TextField
-} from "@mui/material";
-import { useAuth } from "../../contexts/Auth/UseAuth";
-import { type AuthorDto, type ListedBookDto, type GenreDto, type PublisherDto, type CityDto } from '../../api/generated';
+  TextField,
+} from '@mui/material';
+import { useAuth } from '../../contexts/Auth/UseAuth';
+import {
+  type AuthorDto,
+  type ListedBookDto,
+  type GenreDto,
+  type PublisherDto,
+  type CityDto,
+} from '../../api/generated';
 import MultipleSearchBar from '../../components/SearchBars/MultipleSearchBar';
 import SingleSearchBar from '../../components/SearchBars/SingleSearchBar';
 import { fetchAutocompleteBooksSkipCustomIds } from '../../api/clients/book-client';
@@ -29,7 +35,7 @@ import { fetchPagedAuthors } from '../../api/clients/author-client';
 import { fetchPagedPublishers } from '../../api/clients/publisher-client';
 import { fetchPagedGenres } from '../../api/clients/genre-client';
 
-import styles from './Home.module.css'
+import styles from './Home.module.css';
 import { useNotification } from '../../contexts/Notification/UseNotification';
 import { fetchPagedCities } from '../../api/clients/city-client';
 
@@ -46,23 +52,25 @@ const Home = () => {
   const [booksGivenOut, setBooksGivenOut] = useState<ListedBookDto[]>([]);
 
   // Advanced search states for users
-  const [userName, setUserName] = useState<string | null>(null)
-  const [userCity, setUserCity] = useState<CityDto | null>(null)
+  const [userName, setUserName] = useState<string | null>(null);
+  const [userCity, setUserCity] = useState<CityDto | null>(null);
 
   // Advanced search states for owned books
   const [ownedBookAuthors, setOwnedBookAuthors] = useState<AuthorDto[]>([]);
   const [ownedBookGenre, setOwnedBookGenre] = useState<GenreDto | null>(null);
-  const [ownedBookPublisher, setOwnedBookPublisher] = useState<PublisherDto | null>(null);
+  const [ownedBookPublisher, setOwnedBookPublisher] =
+    useState<PublisherDto | null>(null);
 
   // Advanced search states for wanted books
   const [wantedBookAuthors, setWantedBookAuthors] = useState<AuthorDto[]>([]);
   const [wantedBookGenre, setWantedBookGenre] = useState<GenreDto | null>(null);
-  const [wantedBookPublisher, setWantedBookPublisher] = useState<PublisherDto | null>(null);
+  const [wantedBookPublisher, setWantedBookPublisher] =
+    useState<PublisherDto | null>(null);
 
   const [genres, setGenres] = useState<GenreDto[]>([]);
 
-  const [sortBy, setSortBy] = useState("lastOnlineDate");
-  const [sortDirection, setSortDirection] = useState("desc");
+  const [sortBy, setSortBy] = useState('lastOnlineDate');
+  const [sortDirection, setSortDirection] = useState('desc');
   const [showAdvanced, setShowAdvanced] = useState(false);
 
   const [searchParams, setSearchParams] = useState({
@@ -87,8 +95,11 @@ const Home = () => {
       .then((response) => {
         setGenres(response);
       })
-      .catch(_error => {
-        showNotification("Failed to fetch genres from the server. Try again later.", "error");
+      .catch((_error) => {
+        showNotification(
+          'Failed to fetch genres from the server. Try again later.',
+          'error',
+        );
       });
   }, []);
 
@@ -103,36 +114,48 @@ const Home = () => {
           cityId: userCity?.id || undefined,
           orderByProperty: searchParams.sortBy,
           orderDirection: searchParams.sortDirection,
-          wantedBooksIds: searchParams.booksGivenOut.map(b => b.id!) || undefined,
-          ownedBooksIds: searchParams.booksLookedFor.map(b => b.id!) || undefined,
-          ownedBookAuthorsIds: searchParams.ownedBookAuthors.length > 0
-            ? searchParams.ownedBookAuthors.map(a => a.id!)
-            : undefined,
+          wantedBooksIds:
+            searchParams.booksGivenOut.map((b) => b.id!) || undefined,
+          ownedBooksIds:
+            searchParams.booksLookedFor.map((b) => b.id!) || undefined,
+          ownedBookAuthorsIds:
+            searchParams.ownedBookAuthors.length > 0
+              ? searchParams.ownedBookAuthors.map((a) => a.id!)
+              : undefined,
           ownedBookGenreId: searchParams.ownedBookGenre?.id || undefined,
-          ownedBookPublisherId: searchParams.ownedBookPublisher?.id || undefined,
-          wantedBookAuthorsIds: searchParams.wantedBookAuthors.length > 0
-            ? searchParams.wantedBookAuthors.map(a => a.id!)
-            : undefined,
+          ownedBookPublisherId:
+            searchParams.ownedBookPublisher?.id || undefined,
+          wantedBookAuthorsIds:
+            searchParams.wantedBookAuthors.length > 0
+              ? searchParams.wantedBookAuthors.map((a) => a.id!)
+              : undefined,
           wantedBookGenreId: searchParams.wantedBookGenre?.id || undefined,
-          wantedBookPublisherId: searchParams.wantedBookPublisher?.id || undefined,
+          wantedBookPublisherId:
+            searchParams.wantedBookPublisher?.id || undefined,
         });
 
         // Color the found books looked for in the search blue
-        items.map(user => user.ownedBooks.map(b =>
-          booksLookedFor.map(blf => blf.id).includes(b.id)
-            ? b.color = "blue"
-            : b.color = undefined))
+        items.map((user) =>
+          user.ownedBooks.map((b) =>
+            booksLookedFor.map((blf) => blf.id).includes(b.id)
+              ? (b.color = 'blue')
+              : (b.color = undefined),
+          ),
+        );
 
         // Color the found books given out in the search orange
-        items.map(user => user.wantedBooks.map(book =>
-          booksGivenOut.map(blf => blf.id).includes(book.id)
-            ? book.color = "orange"
-            : book.color = undefined))
+        items.map((user) =>
+          user.wantedBooks.map((book) =>
+            booksGivenOut.map((blf) => blf.id).includes(book.id)
+              ? (book.color = 'orange')
+              : (book.color = undefined),
+          ),
+        );
 
         setUsers(items);
         setTotal(total);
       } catch (error) {
-        showNotification("Failed to fetch users. Try again later.", "error")
+        showNotification('Failed to fetch users. Try again later.', 'error');
       } finally {
         setLoading(false);
       }
@@ -155,7 +178,7 @@ const Home = () => {
       wantedBookGenre,
       wantedBookPublisher,
       sortBy,
-      sortDirection
+      sortDirection,
     });
   };
 
@@ -170,8 +193,8 @@ const Home = () => {
     setWantedBookAuthors([]);
     setWantedBookGenre(null);
     setWantedBookPublisher(null);
-    setSortBy("lastOnlineDate");
-    setSortDirection("desc");
+    setSortBy('lastOnlineDate');
+    setSortDirection('desc');
     setCurrentPage(1);
     setSearchParams({
       userName: null,
@@ -184,13 +207,12 @@ const Home = () => {
       wantedBookAuthors: [],
       wantedBookGenre: null,
       wantedBookPublisher: null,
-      sortBy: "lastOnlineDate",
-      sortDirection: "desc",
+      sortBy: 'lastOnlineDate',
+      sortDirection: 'desc',
     });
   };
 
-  const scrollToTop = () =>
-    window.scrollTo({ top: 600, behavior: 'smooth' });
+  const scrollToTop = () => window.scrollTo({ top: 600, behavior: 'smooth' });
 
   const handlePageChange = (_: any, page: number) => {
     setCurrentPage(page);
@@ -199,13 +221,13 @@ const Home = () => {
 
   const handleOwnedGenreChange = (event: SelectChangeEvent<number>) => {
     const genreId = event.target.value as number;
-    const selectedGenre = genres.find(g => g.id === genreId) || null;
+    const selectedGenre = genres.find((g) => g.id === genreId) || null;
     setOwnedBookGenre(selectedGenre);
   };
 
   const handleWantedGenreChange = (event: SelectChangeEvent<number>) => {
     const genreId = event.target.value as number;
-    const selectedGenre = genres.find(g => g.id === genreId) || null;
+    const selectedGenre = genres.find((g) => g.id === genreId) || null;
     setWantedBookGenre(selectedGenre);
   };
 
@@ -219,7 +241,9 @@ const Home = () => {
         <div className={styles.search}>
           <div className={styles.searchBarsContainer}>
             <div className={styles.multipleSearchBarRow}>
-              <span className={styles.multipleSearchBarLabel}>I'm looking for</span>
+              <span className={styles.multipleSearchBarLabel}>
+                I'm looking for
+              </span>
               <div className={styles.topSearchBar}>
                 <MultipleSearchBar<ListedBookDto>
                   value={booksLookedFor}
@@ -227,10 +251,13 @@ const Home = () => {
                   fetchMethod={fetchAutocompleteBooksSkipCustomIds}
                   placeholder="Enter the title of a book you'd like to get..."
                   styles={styles}
-                  getOptionLabel={book => {
-                    const authorName = book.authors!.length == 1
-                      ? `${book.authors![0].firstName} ${book.authors![0].lastName}`.trim()
-                      : book.authors?.map(((a: AuthorDto) => a.lastName)).join(", ")
+                  getOptionLabel={(book) => {
+                    const authorName =
+                      book.authors!.length == 1
+                        ? `${book.authors![0].firstName} ${book.authors![0].lastName}`.trim()
+                        : book.authors
+                            ?.map((a: AuthorDto) => a.lastName)
+                            .join(', ');
                     return `${authorName}. ${book.title}`;
                   }}
                 />
@@ -238,7 +265,9 @@ const Home = () => {
             </div>
 
             <div className={styles.multipleSearchBarRow}>
-              <span className={styles.multipleSearchBarLabel}>I'm giving out</span>
+              <span className={styles.multipleSearchBarLabel}>
+                I'm giving out
+              </span>
               <div className={styles.topSearchBar}>
                 <MultipleSearchBar<ListedBookDto>
                   value={booksGivenOut}
@@ -246,10 +275,13 @@ const Home = () => {
                   fetchMethod={fetchAutocompleteBooksSkipCustomIds}
                   placeholder="Enter the title of a book you're ready to swap out..."
                   styles={styles}
-                  getOptionLabel={book => {
-                    const authorName = book.authors!.length == 1
-                      ? `${book.authors![0].firstName} ${book.authors![0].lastName}`.trim()
-                      : book.authors?.map(((a: AuthorDto) => a.lastName)).join(", ")
+                  getOptionLabel={(book) => {
+                    const authorName =
+                      book.authors!.length == 1
+                        ? `${book.authors![0].firstName} ${book.authors![0].lastName}`.trim()
+                        : book.authors
+                            ?.map((a: AuthorDto) => a.lastName)
+                            .join(', ');
                     return `${authorName}. ${book.title}`;
                   }}
                 />
@@ -258,7 +290,10 @@ const Home = () => {
           </div>
 
           <div className={styles.controlButtons}>
-            <Button variant="text" onClick={() => setShowAdvanced(!showAdvanced)}>
+            <Button
+              variant="text"
+              onClick={() => setShowAdvanced(!showAdvanced)}
+            >
               Advanced
             </Button>
             <Button variant="contained" color="primary" onClick={handleSearch}>
@@ -279,7 +314,9 @@ const Home = () => {
                       className={styles.input}
                       label="User Name"
                       value={userName}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUserName(e.target.value)}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setUserName(e.target.value)
+                      }
                       variant="outlined"
                       fullWidth
                     />
@@ -298,7 +335,9 @@ const Home = () => {
                 </Grid>
               </div>
               <div className={styles.advancedSearchSection}>
-                <h3 className={styles.advancedSearchTitle}>I'm looking for...</h3>
+                <h3 className={styles.advancedSearchTitle}>
+                  I'm looking for...
+                </h3>
                 <Grid container spacing={2}>
                   <Grid size={12}>
                     <MultipleSearchBar<AuthorDto>
@@ -309,7 +348,9 @@ const Home = () => {
                       placeholder="Search for authors..."
                       styles={styles}
                       getOptionLabel={(author) =>
-                        author ? `${author.firstName} ${author.lastName}`.trim() : ''
+                        author
+                          ? `${author.firstName} ${author.lastName}`.trim()
+                          : ''
                       }
                     />
                   </Grid>
@@ -346,7 +387,9 @@ const Home = () => {
               </div>
 
               <div className={styles.advancedSearchSection}>
-                <h3 className={styles.advancedSearchTitle}>I'm giving out...</h3>
+                <h3 className={styles.advancedSearchTitle}>
+                  I'm giving out...
+                </h3>
                 <Grid container spacing={2}>
                   <Grid size={12}>
                     <MultipleSearchBar<AuthorDto>
@@ -357,7 +400,9 @@ const Home = () => {
                       placeholder="Search for authors..."
                       styles={styles}
                       getOptionLabel={(author) =>
-                        author ? `${author.firstName} ${author.lastName}`.trim() : ''
+                        author
+                          ? `${author.firstName} ${author.lastName}`.trim()
+                          : ''
                       }
                     />
                   </Grid>
@@ -395,18 +440,50 @@ const Home = () => {
 
               <div className={styles.orderingSettingsContainer}>
                 <div className={styles.orderingSettings}>
-                  <span><b>Sort by:</b></span>
-                  <RadioGroup row value={sortBy} onChange={e => setSortBy(e.target.value)}>
-                    <FormControlLabel value="lastOnlineDate" control={<Radio />} label="Last Online" />
-                    <FormControlLabel value="registrationDate" control={<Radio />} label="Registration Date" />
-                    <FormControlLabel value="userName" control={<Radio />} label="User Name" />
+                  <span>
+                    <b>Sort by:</b>
+                  </span>
+                  <RadioGroup
+                    row
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                  >
+                    <FormControlLabel
+                      value="lastOnlineDate"
+                      control={<Radio />}
+                      label="Last Online"
+                    />
+                    <FormControlLabel
+                      value="registrationDate"
+                      control={<Radio />}
+                      label="Registration Date"
+                    />
+                    <FormControlLabel
+                      value="userName"
+                      control={<Radio />}
+                      label="User Name"
+                    />
                   </RadioGroup>
                 </div>
                 <div className={styles.orderingSettings}>
-                  <span><b>Sort direction:</b></span>
-                  <RadioGroup row value={sortDirection} onChange={e => setSortDirection(e.target.value)}>
-                    <FormControlLabel value="asc" control={<Radio />} label="Ascending" />
-                    <FormControlLabel value="desc" control={<Radio />} label="Descending" />
+                  <span>
+                    <b>Sort direction:</b>
+                  </span>
+                  <RadioGroup
+                    row
+                    value={sortDirection}
+                    onChange={(e) => setSortDirection(e.target.value)}
+                  >
+                    <FormControlLabel
+                      value="asc"
+                      control={<Radio />}
+                      label="Ascending"
+                    />
+                    <FormControlLabel
+                      value="desc"
+                      control={<Radio />}
+                      label="Descending"
+                    />
                   </RadioGroup>
                 </div>
               </div>
@@ -414,11 +491,7 @@ const Home = () => {
           </Collapse>
         </div>
 
-        {loading ? (
-          <LoadingSpinner />
-        ) : (
-          <UsersList users={users} />
-        )}
+        {loading ? <LoadingSpinner /> : <UsersList users={users} />}
 
         <Pagination
           count={Math.ceil(total / ITEMS_PER_PAGE)}
@@ -428,7 +501,7 @@ const Home = () => {
         />
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

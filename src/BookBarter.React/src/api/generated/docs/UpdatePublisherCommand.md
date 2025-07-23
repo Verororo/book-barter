@@ -1,12 +1,11 @@
 # UpdatePublisherCommand
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**id** | **number** |  | [optional] [default to undefined]
-**name** | **string** |  | [optional] [default to undefined]
+| Name     | Type       | Description | Notes                             |
+| -------- | ---------- | ----------- | --------------------------------- |
+| **id**   | **number** |             | [optional] [default to undefined] |
+| **name** | **string** |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -14,8 +13,8 @@ Name | Type | Description | Notes
 import { UpdatePublisherCommand } from './api';
 
 const instance: UpdatePublisherCommand = {
-    id,
-    name,
+  id,
+  name,
 };
 ```
 

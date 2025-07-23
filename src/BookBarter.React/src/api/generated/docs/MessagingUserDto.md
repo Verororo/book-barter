@@ -1,14 +1,13 @@
 # MessagingUserDto
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**id** | **number** |  | [optional] [default to undefined]
-**userName** | **string** |  | [optional] [default to undefined]
-**lastMessage** | **string** |  | [optional] [default to undefined]
-**lastMessageTime** | **string** |  | [optional] [default to undefined]
+| Name                | Type       | Description | Notes                             |
+| ------------------- | ---------- | ----------- | --------------------------------- |
+| **id**              | **number** |             | [optional] [default to undefined] |
+| **userName**        | **string** |             | [optional] [default to undefined] |
+| **lastMessage**     | **string** |             | [optional] [default to undefined] |
+| **lastMessageTime** | **string** |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -16,10 +15,10 @@ Name | Type | Description | Notes
 import { MessagingUserDto } from './api';
 
 const instance: MessagingUserDto = {
-    id,
-    userName,
-    lastMessage,
-    lastMessageTime,
+  id,
+  userName,
+  lastMessage,
+  lastMessageTime,
 };
 ```
 

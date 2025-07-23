@@ -1,9 +1,7 @@
 ﻿using BookBarter.Application.Common.Models;
-using BookBarter.Application.Messages.Commands;
 using BookBarter.Application.Messages.Queries;
 using BookBarter.Application.Messages.Responses;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookBarter.API.Controllers;

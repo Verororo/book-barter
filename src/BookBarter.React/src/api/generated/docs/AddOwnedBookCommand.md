@@ -1,12 +1,11 @@
 # AddOwnedBookCommand
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**bookId** | **number** |  | [optional] [default to undefined]
-**bookStateId** | **number** |  | [optional] [default to undefined]
+| Name            | Type       | Description | Notes                             |
+| --------------- | ---------- | ----------- | --------------------------------- |
+| **bookId**      | **number** |             | [optional] [default to undefined] |
+| **bookStateId** | **number** |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -14,8 +13,8 @@ Name | Type | Description | Notes
 import { AddOwnedBookCommand } from './api';
 
 const instance: AddOwnedBookCommand = {
-    bookId,
-    bookStateId,
+  bookId,
+  bookStateId,
 };
 ```
 

@@ -1,47 +1,47 @@
-import styles from './UserProfile.module.css'
-import GivingOutSection from '../../components/UserItem/GivingOutSection'
-import LookingForSection from '../../components/UserItem/LookingForSection'
-import Button from '@mui/material/Button'
+import styles from './UserProfile.module.css';
+import GivingOutSection from '../../components/UserItem/GivingOutSection';
+import LookingForSection from '../../components/UserItem/LookingForSection';
+import Button from '@mui/material/Button';
 
-import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline'
-import PersonIcon from '@mui/icons-material/Person'
-import LocationOnIcon from '@mui/icons-material/LocationOn'
-import { useAuth } from '../../contexts/Auth/UseAuth'
-import { useEffect, useState } from 'react'
-import { fetchUserById } from '../../api/clients/user-client'
-import { useNavigate, useParams } from 'react-router'
-import type { User } from '../../api/view-models/user'
-import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner'
-import HomeButton from '../../components/Navigation/HomeButton'
-import { useNotification } from '../../contexts/Notification/UseNotification'
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import PersonIcon from '@mui/icons-material/Person';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { useAuth } from '../../contexts/Auth/UseAuth';
+import { useEffect, useState } from 'react';
+import { fetchUserById } from '../../api/clients/user-client';
+import { useNavigate, useParams } from 'react-router';
+import type { User } from '../../api/view-models/user';
+import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
+import HomeButton from '../../components/Navigation/HomeButton';
+import { useNotification } from '../../contexts/Notification/UseNotification';
 
 const formatLastOnline = (isoDate: string) => {
-  const date = new Date(isoDate)
-  const now = new Date()
-  const diffMs = now.getTime() - date.getTime()
-  const diffHrs = Math.floor(diffMs / (1000 * 60 * 60))
-  const diffDays = Math.floor(diffHrs / 24)
+  const date = new Date(isoDate);
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffHrs = Math.floor(diffMs / (1000 * 60 * 60));
+  const diffDays = Math.floor(diffHrs / 24);
 
   if (diffHrs < 1) {
-    return 'less than 1 hour ago'
+    return 'less than 1 hour ago';
   } else if (diffHrs < 24) {
-    return `${diffHrs} hour${diffHrs > 1 ? 's' : ''} ago`
+    return `${diffHrs} hour${diffHrs > 1 ? 's' : ''} ago`;
   } else {
-    return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`
+    return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
   }
-}
+};
 
 const UserProfile = () => {
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated } = useAuth();
 
-  let params = useParams()
-  const userId = Number(params.userId)
+  let params = useParams();
+  const userId = Number(params.userId);
 
-  const [user, setUser] = useState<User>()
-  const [loading, setLoading] = useState(false)
+  const [user, setUser] = useState<User>();
+  const [loading, setLoading] = useState(false);
 
   const { showNotification } = useNotification();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleMessage = async () => {
     try {
@@ -49,31 +49,34 @@ const UserProfile = () => {
         state: {
           selectedUser: {
             id: user!.id,
-            userName: user!.userName
-          }
-        }
-      })
+            userName: user!.userName,
+          },
+        },
+      });
     } catch (error) {
-      showNotification("Failed to message the user. Try again later.", "error")
+      showNotification('Failed to message the user. Try again later.', 'error');
     }
-  }
+  };
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     fetchUserById(userId, /* excludeUnapprovedBooks = */ true)
-      .then(user => setUser(user))
-      .catch(_error => {
-        showNotification("Failed to fetch user data. Try again later.", "error")
+      .then((user) => setUser(user))
+      .catch((_error) => {
+        showNotification(
+          'Failed to fetch user data. Try again later.',
+          'error',
+        );
       })
-      .finally(() => setLoading(false))
-  }, [userId])
+      .finally(() => setLoading(false));
+  }, [userId]);
 
   if (loading || !user) {
     return (
       <div className={styles.profileContainer}>
         <LoadingSpinner />
       </div>
-    )
+    );
   }
 
   return (
@@ -113,16 +116,20 @@ const UserProfile = () => {
 
         <div className={styles.profileAbout}>
           <b>About</b>
-          {user.about 
-            ? <p className={styles.aboutParagraph}>{user.about}</p>
-            : <p className={styles.aboutParagraph}>This user hasn't written about himself yet...</p>}
+          {user.about ? (
+            <p className={styles.aboutParagraph}>{user.about}</p>
+          ) : (
+            <p className={styles.aboutParagraph}>
+              This user hasn't written about himself yet...
+            </p>
+          )}
         </div>
 
         <GivingOutSection givingOutBooks={user.ownedBooks} />
         <LookingForSection lookingForBooks={user.wantedBooks} />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default UserProfile
+export default UserProfile;

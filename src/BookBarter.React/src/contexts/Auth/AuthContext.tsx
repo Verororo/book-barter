@@ -4,7 +4,10 @@ import { jwtDecode } from 'jwt-decode';
 import type { UserAuthData } from './types/UserAuthData';
 import type { JwtPayload } from './types/JwtPayload';
 import type { LoginCommand, RegisterCommand } from '../../api/generated';
-import { sendLoginCommand, sendRegisterCommand } from '../../api/clients/auth-client';
+import {
+  sendLoginCommand,
+  sendRegisterCommand,
+} from '../../api/clients/auth-client';
 import { useNotification } from '../Notification/UseNotification';
 
 interface AuthContextType {
@@ -17,9 +20,11 @@ interface AuthContextType {
 
 type AuthProviderProps = {
   children: ReactNode;
-}
+};
 
-export const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType | undefined>(
+  undefined,
+);
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [userAuthData, setUserAuthData] = useState<UserAuthData | null>(null);
@@ -53,7 +58,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const login = async (data: LoginCommand): Promise<void> => {
     try {
-      const token = await sendLoginCommand(data)
+      const token = await sendLoginCommand(data);
       // If the credentials are wrong, sendLoginCommand will throw an exception
 
       const decoded = jwtDecode<JwtPayload>(token);
@@ -69,19 +74,28 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       showNotification('Login successful!', 'success');
     } catch (error) {
       showNotification('Login failed.', 'error');
-      throw error
+      throw error;
     }
   };
 
   const register = async (data: RegisterCommand): Promise<void> => {
     try {
-      await sendRegisterCommand(data)
-      showNotification('Registration successful! You can now sign in.', 'success');
+      await sendRegisterCommand(data);
+      showNotification(
+        'Registration successful! You can now sign in.',
+        'success',
+      );
     } catch (error: any) {
       if (error.response?.data?.messages) {
-        showNotification('Registration failed: ' + error.response.data.messages.join(', '), 'error');
+        showNotification(
+          'Registration failed: ' + error.response.data.messages.join(', '),
+          'error',
+        );
       } else {
-        showNotification('Registration failed. Please try again later.', 'error');
+        showNotification(
+          'Registration failed. Please try again later.',
+          'error',
+        );
       }
       throw error;
     }

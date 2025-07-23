@@ -1,10 +1,15 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { Autocomplete, TextField, CircularProgress, debounce } from '@mui/material';
+import {
+  Autocomplete,
+  TextField,
+  CircularProgress,
+  debounce,
+} from '@mui/material';
 import { useNotification } from '../../contexts/Notification/UseNotification';
 
 type BaseEntity = {
   id?: number;
-}
+};
 
 interface SingleSearchBarProps<T extends BaseEntity> {
   id?: string;
@@ -36,7 +41,7 @@ function SingleSearchBar<T extends BaseEntity>({
   error,
   helperText,
   onBlur,
-  styles
+  styles,
 }: SingleSearchBarProps<T>) {
   const [options, setOptions] = useState<T[]>([]);
   const [loading, setLoading] = useState(false);
@@ -45,16 +50,20 @@ function SingleSearchBar<T extends BaseEntity>({
   const { showNotification } = useNotification();
 
   const debouncedFetch = useMemo(
-    () => debounce((query: string) => {
-      fetchMethod(query)
-        .then(setOptions)
-        .catch(_error => {
-          showNotification("Failed to fetch autocomplete options. Try again later.", "error")
-          setOptions([]);
-        })
-        .finally(() => setLoading(false));
-    }, DEBOUNCE_DELAY),
-    [fetchMethod]
+    () =>
+      debounce((query: string) => {
+        fetchMethod(query)
+          .then(setOptions)
+          .catch((_error) => {
+            showNotification(
+              'Failed to fetch autocomplete options. Try again later.',
+              'error',
+            );
+            setOptions([]);
+          })
+          .finally(() => setLoading(false));
+      }, DEBOUNCE_DELAY),
+    [fetchMethod],
   );
 
   useEffect(() => {
@@ -76,12 +85,12 @@ function SingleSearchBar<T extends BaseEntity>({
     (_event: React.SyntheticEvent, newInput: string) => {
       setInputValue(newInput);
     },
-    []
+    [],
   );
 
   const isOptionEqualToValue = useCallback(
     (option: T, value: T) => option.id === value.id,
-    []
+    [],
   );
 
   return (
@@ -115,7 +124,11 @@ function SingleSearchBar<T extends BaseEntity>({
                   {loading && (
                     <CircularProgress
                       size={20}
-                      sx={variant === 'standard' ? { position: 'absolute', right: '55px' } : {}}
+                      sx={
+                        variant === 'standard'
+                          ? { position: 'absolute', right: '55px' }
+                          : {}
+                      }
                     />
                   )}
                   {params.InputProps.endAdornment}

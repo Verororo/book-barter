@@ -1,5 +1,5 @@
 export type UserAuthData = {
-  id: number,
+  id: number;
   userName: string;
   role: 'Moderator' | null;
-}
+};

@@ -1,5 +1,5 @@
-import type { CityDto, CityDtoPaginatedResult } from "../generated"
+import type { CityDto, CityDtoPaginatedResult } from '../generated';
 
-export const mapCityPaginatedResultDtoToView = (dto: CityDtoPaginatedResult): CityDto[] => (
-  dto.items ?? []
-)
+export const mapCityPaginatedResultDtoToView = (
+  dto: CityDtoPaginatedResult,
+): CityDto[] => dto.items ?? [];

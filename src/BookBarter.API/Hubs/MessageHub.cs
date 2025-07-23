@@ -1,5 +1,4 @@
 ﻿using BookBarter.Application.Common.Interfaces;
-using BookBarter.Application.Common.Interfaces.Repositories;
 using BookBarter.Application.Messages.Commands;
 using BookBarter.Application.Messages.Responses;
 using MediatR;

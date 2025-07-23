@@ -1,14 +1,13 @@
 # RegisterCommand
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**userName** | **string** |  | [optional] [default to undefined]
-**email** | **string** |  | [optional] [default to undefined]
-**password** | **string** |  | [optional] [default to undefined]
-**cityId** | **number** |  | [optional] [default to undefined]
+| Name         | Type       | Description | Notes                             |
+| ------------ | ---------- | ----------- | --------------------------------- |
+| **userName** | **string** |             | [optional] [default to undefined] |
+| **email**    | **string** |             | [optional] [default to undefined] |
+| **password** | **string** |             | [optional] [default to undefined] |
+| **cityId**   | **number** |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -16,10 +15,10 @@ Name | Type | Description | Notes
 import { RegisterCommand } from './api';
 
 const instance: RegisterCommand = {
-    userName,
-    email,
-    password,
-    cityId,
+  userName,
+  email,
+  password,
+  cityId,
 };
 ```
 

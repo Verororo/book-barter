@@ -1,12 +1,11 @@
 # BookRelationshipWithUserDto
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**user** | [**CollapsedUserDto**](CollapsedUserDto.md) |  | [optional] [default to undefined]
-**addedDate** | **string** |  | [optional] [default to undefined]
+| Name          | Type                                        | Description | Notes                             |
+| ------------- | ------------------------------------------- | ----------- | --------------------------------- |
+| **user**      | [**CollapsedUserDto**](CollapsedUserDto.md) |             | [optional] [default to undefined] |
+| **addedDate** | **string**                                  |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -14,8 +13,8 @@ Name | Type | Description | Notes
 import { BookRelationshipWithUserDto } from './api';
 
 const instance: BookRelationshipWithUserDto = {
-    user,
-    addedDate,
+  user,
+  addedDate,
 };
 ```
 

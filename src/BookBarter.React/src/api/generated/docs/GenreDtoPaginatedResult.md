@@ -1,14 +1,13 @@
 # GenreDtoPaginatedResult
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**pageNumber** | **number** |  | [optional] [default to undefined]
-**pageSize** | **number** |  | [optional] [default to undefined]
-**total** | **number** |  | [optional] [default to undefined]
-**items** | [**Array&lt;GenreDto&gt;**](GenreDto.md) |  | [optional] [default to undefined]
+| Name           | Type                                     | Description | Notes                             |
+| -------------- | ---------------------------------------- | ----------- | --------------------------------- |
+| **pageNumber** | **number**                               |             | [optional] [default to undefined] |
+| **pageSize**   | **number**                               |             | [optional] [default to undefined] |
+| **total**      | **number**                               |             | [optional] [default to undefined] |
+| **items**      | [**Array&lt;GenreDto&gt;**](GenreDto.md) |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -16,10 +15,10 @@ Name | Type | Description | Notes
 import { GenreDtoPaginatedResult } from './api';
 
 const instance: GenreDtoPaginatedResult = {
-    pageNumber,
-    pageSize,
-    total,
-    items,
+  pageNumber,
+  pageSize,
+  total,
+  items,
 };
 ```
 

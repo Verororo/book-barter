@@ -18,34 +18,37 @@ type CustomAuthorValues = {
   firstName?: string;
   middleName?: string;
   lastName: string;
-}
+};
 
 type CustomAuthorErrors = {
   firstName?: string;
   middleName?: string;
   lastName?: string;
-}
+};
 
 export const AddCustomAuthor = ({
   defaultName,
   onClose,
-  onEntityCreated
+  onEntityCreated,
 }: AddCustomAuthorProps) => {
   const formik = useFormik({
     initialValues: {
       firstName: '',
       middleName: '',
-      lastName: defaultName || ''
+      lastName: defaultName || '',
     },
     validate: (values) => {
       const errors: CustomAuthorErrors = {};
 
-      if (values.firstName.length > 20) errors.firstName = 'First name must not exceed 20 characters.';
+      if (values.firstName.length > 20)
+        errors.firstName = 'First name must not exceed 20 characters.';
 
-      if (values.middleName.length > 20) errors.middleName = 'Middle name must not exceed 20 characters.';
+      if (values.middleName.length > 20)
+        errors.middleName = 'Middle name must not exceed 20 characters.';
 
       if (!values.lastName) errors.lastName = 'Last name is required.';
-      else if (values.lastName.length > 20) errors.lastName = 'Last name must not exceed 20 characters.';
+      else if (values.lastName.length > 20)
+        errors.lastName = 'Last name must not exceed 20 characters.';
 
       return errors;
     },
@@ -54,32 +57,30 @@ export const AddCustomAuthor = ({
         id: undefined,
         firstName: values.firstName || null,
         middleName: values.middleName || null,
-        lastName: values.lastName
+        lastName: values.lastName,
       };
       onEntityCreated(newAuthor);
       onClose();
-    }
+    },
   });
 
-  const displayedErrorFields = Object
-    .keys(formik.errors)
-    .filter(field => formik.touched[field as keyof CustomAuthorValues]);
+  const displayedErrorFields = Object.keys(formik.errors).filter(
+    (field) => formik.touched[field as keyof CustomAuthorValues],
+  );
 
   const submitDisabled = displayedErrorFields.length > 0;
 
   return (
-    <Dialog
-      open
-      onClose={onClose}
-      fullWidth
-      maxWidth="xs"
-    >
+    <Dialog open onClose={onClose} fullWidth maxWidth="xs">
       <DialogTitle>Add New Author</DialogTitle>
       <form onSubmit={formik.handleSubmit}>
         <DialogContent dividers>
           <div className={styles.dialogContents}>
-              The first name can be omitted in case if the author is known only by a single name (e.g. Plato, Aristotle).<br/>
-              Specify the middle name only if it's commonly spoken out when referring to the author (e.g. John Ronald Reuel Tolkien).
+            The first name can be omitted in case if the author is known only by
+            a single name (e.g. Plato, Aristotle).
+            <br />
+            Specify the middle name only if it's commonly spoken out when
+            referring to the author (e.g. John Ronald Reuel Tolkien).
             <TextField
               label="First Name"
               name="firstName"
@@ -89,7 +90,9 @@ export const AddCustomAuthor = ({
               variant="outlined"
               margin="normal"
               fullWidth
-              error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+              error={
+                formik.touched.firstName && Boolean(formik.errors.firstName)
+              }
               helperText={formik.touched.firstName && formik.errors.firstName}
             />
             <TextField
@@ -101,7 +104,9 @@ export const AddCustomAuthor = ({
               variant="outlined"
               margin="normal"
               fullWidth
-              error={formik.touched.middleName && Boolean(formik.errors.middleName)}
+              error={
+                formik.touched.middleName && Boolean(formik.errors.middleName)
+              }
               helperText={formik.touched.middleName && formik.errors.middleName}
             />
             <TextField
@@ -121,11 +126,7 @@ export const AddCustomAuthor = ({
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose}>Cancel</Button>
-          <Button
-            type="submit"
-            variant="contained"
-            disabled={submitDisabled}
-          >
+          <Button type="submit" variant="contained" disabled={submitDisabled}>
             Add Author
           </Button>
         </DialogActions>

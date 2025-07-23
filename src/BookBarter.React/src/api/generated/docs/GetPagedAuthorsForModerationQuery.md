@@ -1,16 +1,15 @@
 # GetPagedAuthorsForModerationQuery
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**pageSize** | **number** |  | [optional] [default to undefined]
-**pageNumber** | **number** |  | [optional] [default to undefined]
-**orderByProperty** | **string** |  | [optional] [default to undefined]
-**orderDirection** | **string** |  | [optional] [default to undefined]
-**approved** | **boolean** |  | [optional] [default to undefined]
-**query** | **string** |  | [optional] [default to undefined]
+| Name                | Type        | Description | Notes                             |
+| ------------------- | ----------- | ----------- | --------------------------------- |
+| **pageSize**        | **number**  |             | [optional] [default to undefined] |
+| **pageNumber**      | **number**  |             | [optional] [default to undefined] |
+| **orderByProperty** | **string**  |             | [optional] [default to undefined] |
+| **orderDirection**  | **string**  |             | [optional] [default to undefined] |
+| **approved**        | **boolean** |             | [optional] [default to undefined] |
+| **query**           | **string**  |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -18,12 +17,12 @@ Name | Type | Description | Notes
 import { GetPagedAuthorsForModerationQuery } from './api';
 
 const instance: GetPagedAuthorsForModerationQuery = {
-    pageSize,
-    pageNumber,
-    orderByProperty,
-    orderDirection,
-    approved,
-    query,
+  pageSize,
+  pageNumber,
+  orderByProperty,
+  orderDirection,
+  approved,
+  query,
 };
 ```
 

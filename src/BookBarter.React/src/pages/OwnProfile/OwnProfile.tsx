@@ -1,97 +1,104 @@
-import styles from './OwnProfile.module.css'
-import GivingOutSection from '../../components/UserItem/GivingOutSection'
-import LookingForSection from '../../components/UserItem/LookingForSection'
-import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
+import styles from './OwnProfile.module.css';
+import GivingOutSection from '../../components/UserItem/GivingOutSection';
+import LookingForSection from '../../components/UserItem/LookingForSection';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 
-import PersonIcon from '@mui/icons-material/Person'
-import LocationOnIcon from '@mui/icons-material/LocationOn'
+import PersonIcon from '@mui/icons-material/Person';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 
-import { useAuth } from '../../contexts/Auth/UseAuth'
-import { useEffect, useState } from 'react'
-import { fetchUserById, updateUser } from '../../api/clients/user-client'
-import { Navigate } from 'react-router'
-import type { User } from '../../api/view-models/user'
-import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner'
-import HomeButton from '../../components/Navigation/HomeButton'
-import { fetchPagedCities } from '../../api/clients/city-client'
-import type { CityDto } from '../../api/generated/models/city-dto'
-import SingleSearchBar from '../../components/SearchBars/SingleSearchBar'
-import { useNotification } from '../../contexts/Notification/UseNotification'
+import { useAuth } from '../../contexts/Auth/UseAuth';
+import { useEffect, useState } from 'react';
+import { fetchUserById, updateUser } from '../../api/clients/user-client';
+import { Navigate } from 'react-router';
+import type { User } from '../../api/view-models/user';
+import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
+import HomeButton from '../../components/Navigation/HomeButton';
+import { fetchPagedCities } from '../../api/clients/city-client';
+import type { CityDto } from '../../api/generated/models/city-dto';
+import SingleSearchBar from '../../components/SearchBars/SingleSearchBar';
+import { useNotification } from '../../contexts/Notification/UseNotification';
 
 const OwnProfile = () => {
-  const { isAuthenticated, userAuthData, logout } = useAuth()
+  const { isAuthenticated, userAuthData, logout } = useAuth();
   if (!isAuthenticated || !userAuthData) {
-    return <Navigate to="/auth" replace />
+    return <Navigate to="/auth" replace />;
   }
 
-  const [loading, setLoading] = useState(false)
-  const [saving, setSaving] = useState(false)
-  const [user, setUser] = useState<User>()
-  const [editMode, setEditMode] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [user, setUser] = useState<User>();
+  const [editMode, setEditMode] = useState(false);
 
-  const [aboutDraft, setAboutDraft] = useState('')
-  const isAboutTooLong = aboutDraft.length > 300
+  const [aboutDraft, setAboutDraft] = useState('');
+  const isAboutTooLong = aboutDraft.length > 300;
 
-  const [cityOption, setCityOption] = useState<CityDto | null>(null)
+  const [cityOption, setCityOption] = useState<CityDto | null>(null);
 
   const { showNotification } = useNotification();
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     fetchUserById(userAuthData.id, /* excludeUnapprovedBooks = */ false)
-      .then(user => {
-        setUser(user)
-        setAboutDraft(user.about)
+      .then((user) => {
+        setUser(user);
+        setAboutDraft(user.about);
       })
-      .catch(_error => {
-        showNotification("Failed to fetch user data. Try again later.", "error")
+      .catch((_error) => {
+        showNotification(
+          'Failed to fetch user data. Try again later.',
+          'error',
+        );
       })
-      .finally(() => setLoading(false))
-  }, [userAuthData.id])
+      .finally(() => setLoading(false));
+  }, [userAuthData.id]);
 
   const enterEdit = () => {
-    setEditMode(true)
+    setEditMode(true);
     setCityOption({
       id: user!.cityId,
-      nameWithCountry: user!.cityNameWithCountry
-    })
-  }
+      nameWithCountry: user!.cityNameWithCountry,
+    });
+  };
 
   const handleSave = async () => {
-    setSaving(true)
+    setSaving(true);
     updateUser({
       about: aboutDraft,
-      cityId: cityOption?.id ?? user!.cityId
+      cityId: cityOption?.id ?? user!.cityId,
     })
       .then(() => {
-        setUser(prev => prev && ({
-          ...prev,
-          about: aboutDraft,
-          cityId: cityOption?.id ?? prev.cityId,
-          cityNameWithCountry: cityOption?.nameWithCountry ?? prev.cityNameWithCountry
-        }))
-        setEditMode(false)
+        setUser(
+          (prev) =>
+            prev && {
+              ...prev,
+              about: aboutDraft,
+              cityId: cityOption?.id ?? prev.cityId,
+              cityNameWithCountry:
+                cityOption?.nameWithCountry ?? prev.cityNameWithCountry,
+            },
+        );
+        setEditMode(false);
       })
-      .catch(error => console.error(error))
-      .finally(() => setSaving(false))
-  }
+      .catch((error) => console.error(error))
+      .finally(() => setSaving(false));
+  };
 
   const handleCancel = () => {
-    setEditMode(false)
-    setAboutDraft(user!.about)
+    setEditMode(false);
+    setAboutDraft(user!.about);
     setCityOption({
       id: user!.cityId,
-      nameWithCountry: user!.cityNameWithCountry
-    })
-  }
+      nameWithCountry: user!.cityNameWithCountry,
+    });
+  };
 
   if (loading || !user) {
     return (
       <div className={styles.profileContainer}>
         <LoadingSpinner />
       </div>
-    )
+    );
   }
 
   return (
@@ -111,7 +118,7 @@ const OwnProfile = () => {
               ) : (
                 <SingleSearchBar
                   value={cityOption}
-                  getOptionLabel={option => option.nameWithCountry!}
+                  getOptionLabel={(option) => option.nameWithCountry!}
                   onChange={(_event, newValue) => setCityOption(newValue)}
                   fetchMethod={fetchPagedCities}
                   variant={'standard'}
@@ -125,10 +132,7 @@ const OwnProfile = () => {
             <div className={styles.profileHeaderButtons}>
               {!editMode ? (
                 <>
-                  <Button
-                    variant="contained"
-                    onClick={enterEdit}
-                  >
+                  <Button variant="contained" onClick={enterEdit}>
                     Settings
                   </Button>
                   <Button variant="outlined" onClick={logout}>
@@ -160,32 +164,36 @@ const OwnProfile = () => {
 
         <div className={styles.profileAbout}>
           <b>About</b>
-          {!editMode
-            ? user.about
-              ? <p className={styles.aboutParagraph}>{user.about}</p>
-              : <p className={styles.aboutParagraph}>This user hasn't written about himself yet...</p>
-            : (
-              <TextField
-                className={styles.aboutParagraph}
-                multiline
-                fullWidth
-                minRows={4}
-                maxRows={10}
-                variant="outlined"
-                value={aboutDraft}
-                onChange={e => setAboutDraft(e.target.value)}
-                error={isAboutTooLong}
-                helperText={`${aboutDraft.length}/300`}
-                disabled={saving}
-              />
-            )}
+          {!editMode ? (
+            user.about ? (
+              <p className={styles.aboutParagraph}>{user.about}</p>
+            ) : (
+              <p className={styles.aboutParagraph}>
+                This user hasn't written about himself yet...
+              </p>
+            )
+          ) : (
+            <TextField
+              className={styles.aboutParagraph}
+              multiline
+              fullWidth
+              minRows={4}
+              maxRows={10}
+              variant="outlined"
+              value={aboutDraft}
+              onChange={(e) => setAboutDraft(e.target.value)}
+              error={isAboutTooLong}
+              helperText={`${aboutDraft.length}/300`}
+              disabled={saving}
+            />
+          )}
         </div>
 
         <GivingOutSection givingOutBooks={user.ownedBooks} customizable />
         <LookingForSection lookingForBooks={user.wantedBooks} customizable />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default OwnProfile
+export default OwnProfile;

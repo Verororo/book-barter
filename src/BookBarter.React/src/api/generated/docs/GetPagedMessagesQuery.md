@@ -1,15 +1,14 @@
 # GetPagedMessagesQuery
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**pageSize** | **number** |  | [optional] [default to undefined]
-**pageNumber** | **number** |  | [optional] [default to undefined]
-**orderByProperty** | **string** |  | [optional] [default to undefined]
-**orderDirection** | **string** |  | [optional] [default to undefined]
-**collocutorId** | **number** |  | [optional] [default to undefined]
+| Name                | Type       | Description | Notes                             |
+| ------------------- | ---------- | ----------- | --------------------------------- |
+| **pageSize**        | **number** |             | [optional] [default to undefined] |
+| **pageNumber**      | **number** |             | [optional] [default to undefined] |
+| **orderByProperty** | **string** |             | [optional] [default to undefined] |
+| **orderDirection**  | **string** |             | [optional] [default to undefined] |
+| **collocutorId**    | **number** |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -17,11 +16,11 @@ Name | Type | Description | Notes
 import { GetPagedMessagesQuery } from './api';
 
 const instance: GetPagedMessagesQuery = {
-    pageSize,
-    pageNumber,
-    orderByProperty,
-    orderDirection,
-    collocutorId,
+  pageSize,
+  pageNumber,
+  orderByProperty,
+  orderDirection,
+  collocutorId,
 };
 ```
 

@@ -1,12 +1,11 @@
 # LoginCommand
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**email** | **string** |  | [optional] [default to undefined]
-**password** | **string** |  | [optional] [default to undefined]
+| Name         | Type       | Description | Notes                             |
+| ------------ | ---------- | ----------- | --------------------------------- |
+| **email**    | **string** |             | [optional] [default to undefined] |
+| **password** | **string** |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -14,8 +13,8 @@ Name | Type | Description | Notes
 import { LoginCommand } from './api';
 
 const instance: LoginCommand = {
-    email,
-    password,
+  email,
+  password,
 };
 ```
 

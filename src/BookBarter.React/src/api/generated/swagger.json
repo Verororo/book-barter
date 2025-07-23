@@ -7,9 +7,7 @@
   "paths": {
     "/api/Auth/register": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -38,9 +36,7 @@
     },
     "/api/Auth/login": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -86,9 +82,7 @@
     },
     "/api/Authors/paged": {
       "post": {
-        "tags": [
-          "Authors"
-        ],
+        "tags": ["Authors"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -134,9 +128,7 @@
     },
     "/api/Authors/paged/moderated": {
       "post": {
-        "tags": [
-          "Authors"
-        ],
+        "tags": ["Authors"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -182,9 +174,7 @@
     },
     "/api/Authors": {
       "post": {
-        "tags": [
-          "Authors"
-        ],
+        "tags": ["Authors"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -233,9 +223,7 @@
     },
     "/api/Authors/{id}": {
       "put": {
-        "tags": [
-          "Authors"
-        ],
+        "tags": ["Authors"],
         "parameters": [
           {
             "name": "id",
@@ -273,9 +261,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Authors"
-        ],
+        "tags": ["Authors"],
         "parameters": [
           {
             "name": "id",
@@ -296,9 +282,7 @@
     },
     "/api/Authors/{id}/approve": {
       "put": {
-        "tags": [
-          "Authors"
-        ],
+        "tags": ["Authors"],
         "parameters": [
           {
             "name": "id",
@@ -319,9 +303,7 @@
     },
     "/api/Books/{id}": {
       "get": {
-        "tags": [
-          "Books"
-        ],
+        "tags": ["Books"],
         "parameters": [
           {
             "name": "id",
@@ -357,9 +339,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Books"
-        ],
+        "tags": ["Books"],
         "parameters": [
           {
             "name": "id",
@@ -397,9 +377,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Books"
-        ],
+        "tags": ["Books"],
         "parameters": [
           {
             "name": "id",
@@ -420,9 +398,7 @@
     },
     "/api/Books/paged": {
       "post": {
-        "tags": [
-          "Books"
-        ],
+        "tags": ["Books"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -468,9 +444,7 @@
     },
     "/api/Books/paged/moderated": {
       "post": {
-        "tags": [
-          "Books"
-        ],
+        "tags": ["Books"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -516,9 +490,7 @@
     },
     "/api/Books": {
       "post": {
-        "tags": [
-          "Books"
-        ],
+        "tags": ["Books"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -567,9 +539,7 @@
     },
     "/api/Books/{id}/approve": {
       "put": {
-        "tags": [
-          "Books"
-        ],
+        "tags": ["Books"],
         "parameters": [
           {
             "name": "id",
@@ -590,9 +560,7 @@
     },
     "/api/Cities/paged": {
       "post": {
-        "tags": [
-          "Cities"
-        ],
+        "tags": ["Cities"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -638,9 +606,7 @@
     },
     "/api/Genres/paged": {
       "post": {
-        "tags": [
-          "Genres"
-        ],
+        "tags": ["Genres"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -686,9 +652,7 @@
     },
     "/api/Messages/paged": {
       "post": {
-        "tags": [
-          "Messages"
-        ],
+        "tags": ["Messages"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -734,9 +698,7 @@
     },
     "/api/Messages": {
       "post": {
-        "tags": [
-          "Messages"
-        ],
+        "tags": ["Messages"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -785,9 +747,7 @@
     },
     "/api/Publishers/paged": {
       "post": {
-        "tags": [
-          "Publishers"
-        ],
+        "tags": ["Publishers"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -833,9 +793,7 @@
     },
     "/api/Publishers/paged/moderated": {
       "post": {
-        "tags": [
-          "Publishers"
-        ],
+        "tags": ["Publishers"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -881,9 +839,7 @@
     },
     "/api/Publishers": {
       "post": {
-        "tags": [
-          "Publishers"
-        ],
+        "tags": ["Publishers"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -935,9 +891,7 @@
     },
     "/api/Publishers/{id}": {
       "put": {
-        "tags": [
-          "Publishers"
-        ],
+        "tags": ["Publishers"],
         "parameters": [
           {
             "name": "id",
@@ -975,9 +929,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Publishers"
-        ],
+        "tags": ["Publishers"],
         "parameters": [
           {
             "name": "id",
@@ -998,9 +950,7 @@
     },
     "/api/Publishers/{id}/approve": {
       "put": {
-        "tags": [
-          "Publishers"
-        ],
+        "tags": ["Publishers"],
         "parameters": [
           {
             "name": "id",
@@ -1021,9 +971,7 @@
     },
     "/api/Users/{id}": {
       "get": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "parameters": [
           {
             "name": "id",
@@ -1066,9 +1014,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "parameters": [
           {
             "name": "id",
@@ -1089,9 +1035,7 @@
     },
     "/api/Users/me/chats": {
       "get": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "responses": {
           "200": {
             "description": "OK",
@@ -1127,9 +1071,7 @@
     },
     "/api/Users/paged": {
       "post": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1175,9 +1117,7 @@
     },
     "/api/Users/me": {
       "put": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1206,9 +1146,7 @@
     },
     "/api/Users/me/ownedBooks": {
       "post": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1237,9 +1175,7 @@
     },
     "/api/Users/me/wantedBooks": {
       "post": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1268,9 +1204,7 @@
     },
     "/api/Users/me/ownedBooks/{bookId}": {
       "delete": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "parameters": [
           {
             "name": "bookId",
@@ -1310,9 +1244,7 @@
     },
     "/api/Users/me/wantedBooks/{bookId}": {
       "delete": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "parameters": [
           {
             "name": "bookId",
@@ -1551,10 +1483,7 @@
         "additionalProperties": false
       },
       "BookForModerationDto": {
-        "required": [
-          "addedDate",
-          "publicationDate"
-        ],
+        "required": ["addedDate", "publicationDate"],
         "type": "object",
         "properties": {
           "id": {
@@ -2710,7 +2639,7 @@
   },
   "security": [
     {
-      "Bearer": [ ]
+      "Bearer": []
     }
   ]
 }

@@ -1,12 +1,11 @@
 # CollapsedUserDto
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**id** | **number** |  | [optional] [default to undefined]
-**userName** | **string** |  | [optional] [default to undefined]
+| Name         | Type       | Description | Notes                             |
+| ------------ | ---------- | ----------- | --------------------------------- |
+| **id**       | **number** |             | [optional] [default to undefined] |
+| **userName** | **string** |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -14,8 +13,8 @@ Name | Type | Description | Notes
 import { CollapsedUserDto } from './api';
 
 const instance: CollapsedUserDto = {
-    id,
-    userName,
+  id,
+  userName,
 };
 ```
 

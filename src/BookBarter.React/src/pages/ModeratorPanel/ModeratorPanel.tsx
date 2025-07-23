@@ -1,7 +1,14 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/Auth/UseAuth';
-import { Tab, ToggleButton, ToggleButtonGroup, TextField, Button, Collapse } from '@mui/material';
+import {
+  Tab,
+  ToggleButton,
+  ToggleButtonGroup,
+  TextField,
+  Button,
+  Collapse,
+} from '@mui/material';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
@@ -18,18 +25,16 @@ import type {
   AuthorForModerationDto,
   BookForModerationDto,
   PublisherDto,
-  PublisherForModerationDto
+  PublisherForModerationDto,
 } from '../../api/generated';
 import {
   fetchAuthorsForModeration,
-  fetchPagedAuthors
+  fetchPagedAuthors,
 } from '../../api/clients/author-client';
-import {
-  fetchBooksForModeration,
-} from '../../api/clients/book-client';
+import { fetchBooksForModeration } from '../../api/clients/book-client';
 import {
   fetchPagedPublishers,
-  fetchPublishersForModeration
+  fetchPublishersForModeration,
 } from '../../api/clients/publisher-client';
 import { useNotification } from '../../contexts/Notification/UseNotification';
 
@@ -58,7 +63,8 @@ const ModeratorPanel = () => {
   const [authorSearch, setAuthorSearch] = useState('');
   const [publisherSearch, setPublisherSearch] = useState('');
   const [selectedAuthor, setSelectedAuthor] = useState<AuthorDto | null>(null);
-  const [selectedPublisher, setSelectedPublisher] = useState<PublisherDto | null>(null);
+  const [selectedPublisher, setSelectedPublisher] =
+    useState<PublisherDto | null>(null);
 
   const { showNotification } = useNotification();
 
@@ -85,8 +91,8 @@ const ModeratorPanel = () => {
       const data = await fetchBooksForModeration({
         pageNumber: currentPage,
         pageSize: ITEMS_PER_PAGE,
-        orderByProperty: "addedDate",
-        orderDirection: "desc",
+        orderByProperty: 'addedDate',
+        orderDirection: 'desc',
         approved: showApproved,
         title: searchParams.bookName || undefined,
         authorId: searchParams.authorId || undefined,
@@ -95,24 +101,30 @@ const ModeratorPanel = () => {
       setBooks(data.items || []);
       setTotalBooks(data.total || 0);
     } catch (error) {
-      showNotification("Failed to fetch books. Try again later.", "error")
+      showNotification('Failed to fetch books. Try again later.', 'error');
     }
-  }, [currentPage, showApproved, searchParams.bookName, searchParams.authorId, searchParams.publisherId]);
+  }, [
+    currentPage,
+    showApproved,
+    searchParams.bookName,
+    searchParams.authorId,
+    searchParams.publisherId,
+  ]);
 
   const fetchAuthors = useCallback(async () => {
     try {
       const data = await fetchAuthorsForModeration({
         pageNumber: currentPage,
         pageSize: ITEMS_PER_PAGE,
-        orderByProperty: "addedDate",
-        orderDirection: "desc",
+        orderByProperty: 'addedDate',
+        orderDirection: 'desc',
         approved: showApproved,
         query: searchParams.authorName || undefined,
       });
       setAuthors(data.items || []);
       setTotalAuthors(data.total || 0);
     } catch (error) {
-      showNotification("Failed to fetch books. Try again later.", "error")
+      showNotification('Failed to fetch books. Try again later.', 'error');
     }
   }, [currentPage, showApproved, searchParams.authorName]);
 
@@ -121,239 +133,267 @@ const ModeratorPanel = () => {
       const data = await fetchPublishersForModeration({
         pageNumber: currentPage,
         pageSize: ITEMS_PER_PAGE,
-        orderByProperty: "addedDate",
-        orderDirection: "desc",
+        orderByProperty: 'addedDate',
+        orderDirection: 'desc',
         approved: showApproved,
         query: searchParams.publisherName || undefined,
       });
       setPublishers(data.items || []);
       setTotalPublishers(data.total || 0);
     } catch (error) {
-      showNotification("Failed to fetch books. Try again later.", "error")
+      showNotification('Failed to fetch books. Try again later.', 'error');
     }
   }, [currentPage, showApproved, searchParams.publisherName]);
 
   const fetchData = useCallback(async () => {
     setLoading(true);
     switch (mainTab) {
-      case "1":
+      case '1':
         await fetchBooks();
         break;
-      case "2":
+      case '2':
         await fetchAuthors();
         break;
-      case "3":
+      case '3':
         await fetchPublishers();
         break;
     }
     setLoading(false);
   }, [mainTab, fetchBooks, fetchAuthors, fetchPublishers]);
 
-useEffect(() => {
-  fetchData();
-}, [fetchData]);
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
-const handleSearch = useCallback(() => {
-  setCurrentPage(1);
-  setSearchParams({
-    bookName: bookNameSearch,
-    authorName: authorSearch,
-    publisherName: publisherSearch,
-    authorId: selectedAuthor?.id || null,
-    publisherId: selectedPublisher?.id || null,
-  });
-}, [bookNameSearch, authorSearch, publisherSearch, selectedAuthor, selectedPublisher]);
+  const handleSearch = useCallback(() => {
+    setCurrentPage(1);
+    setSearchParams({
+      bookName: bookNameSearch,
+      authorName: authorSearch,
+      publisherName: publisherSearch,
+      authorId: selectedAuthor?.id || null,
+      publisherId: selectedPublisher?.id || null,
+    });
+  }, [
+    bookNameSearch,
+    authorSearch,
+    publisherSearch,
+    selectedAuthor,
+    selectedPublisher,
+  ]);
 
-const clearSearch = useCallback(() => {
-  setBookNameSearch('');
-  setAuthorSearch('');
-  setPublisherSearch('');
-  setSelectedAuthor(null);
-  setSelectedPublisher(null);
-  setSearchParams({
-    bookName: '',
-    authorName: '',
-    publisherName: '',
-    authorId: null,
-    publisherId: null,
-  });
-}, []);
+  const clearSearch = useCallback(() => {
+    setBookNameSearch('');
+    setAuthorSearch('');
+    setPublisherSearch('');
+    setSelectedAuthor(null);
+    setSelectedPublisher(null);
+    setSearchParams({
+      bookName: '',
+      authorName: '',
+      publisherName: '',
+      authorId: null,
+      publisherId: null,
+    });
+  }, []);
 
-const scrollToTop = useCallback(() =>
-  window.scrollTo({ top: 0, behavior: 'smooth' }), []);
+  const scrollToTop = useCallback(
+    () => window.scrollTo({ top: 0, behavior: 'smooth' }),
+    [],
+  );
 
-const handlePageChange = useCallback((page: number) => {
-  setCurrentPage(page);
-  setTimeout(scrollToTop, 50);
-}, [scrollToTop]);
+  const handlePageChange = useCallback(
+    (page: number) => {
+      setCurrentPage(page);
+      setTimeout(scrollToTop, 50);
+    },
+    [scrollToTop],
+  );
 
-const getCurrentTotal = useMemo(() => {
-  switch (mainTab) {
-    case "1": return totalBooks;
-    case "2": return totalAuthors;
-    case "3": return totalPublishers;
-    default: return 0;
-  }
-}, [mainTab, totalBooks, totalAuthors, totalPublishers]);
+  const getCurrentTotal = useMemo(() => {
+    switch (mainTab) {
+      case '1':
+        return totalBooks;
+      case '2':
+        return totalAuthors;
+      case '3':
+        return totalPublishers;
+      default:
+        return 0;
+    }
+  }, [mainTab, totalBooks, totalAuthors, totalPublishers]);
 
-const handleBookNameChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-  setBookNameSearch(e.target.value);
-}, []);
+  const handleBookNameChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setBookNameSearch(e.target.value);
+    },
+    [],
+  );
 
-const handleAuthorChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-  setAuthorSearch(e.target.value);
-}, []);
+  const handleAuthorChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setAuthorSearch(e.target.value);
+    },
+    [],
+  );
 
-const handlePublisherChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-  setPublisherSearch(e.target.value);
-}, []);
+  const handlePublisherChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setPublisherSearch(e.target.value);
+    },
+    [],
+  );
 
-const handleToggleAdvanced = useCallback(() => {
-  setShowAdvanced(prev => !prev);
-}, []);
+  const handleToggleAdvanced = useCallback(() => {
+    setShowAdvanced((prev) => !prev);
+  }, []);
 
-return (
-  <div className={styles.moderatorBox}>
-    <HomeButton />
+  return (
+    <div className={styles.moderatorBox}>
+      <HomeButton />
 
-    <TabContext value={mainTab}>
-      <TabList
-        onChange={(_event, newValue: string) => setMainTab(newValue)}
-        className={styles.tabsContainer}
-        variant='fullWidth'
-      >
-        <Tab label='Books' value='1'></Tab>
-        <Tab label='Authors' value='2'></Tab>
-        <Tab label='Publishers' value='3'></Tab>
-      </TabList>
-
-      <div className={styles.filterToggle}>
-        <ToggleButtonGroup
-          value={showApproved ? 'approved' : 'unapproved'}
-          exclusive
-          onChange={(_, val) => val && setShowApproved(val === 'approved')}
-          size="small"
+      <TabContext value={mainTab}>
+        <TabList
+          onChange={(_event, newValue: string) => setMainTab(newValue)}
+          className={styles.tabsContainer}
+          variant="fullWidth"
         >
-          <ToggleButton value="approved">Approved</ToggleButton>
-          <ToggleButton value="unapproved">Unapproved</ToggleButton>
-        </ToggleButtonGroup>
-      </div>
+          <Tab label="Books" value="1"></Tab>
+          <Tab label="Authors" value="2"></Tab>
+          <Tab label="Publishers" value="3"></Tab>
+        </TabList>
 
-      <div className={styles.search}>
-        <div className={styles.searchBarsContainer}>
-          {mainTab === '1' && (
-            <>
+        <div className={styles.filterToggle}>
+          <ToggleButtonGroup
+            value={showApproved ? 'approved' : 'unapproved'}
+            exclusive
+            onChange={(_, val) => val && setShowApproved(val === 'approved')}
+            size="small"
+          >
+            <ToggleButton value="approved">Approved</ToggleButton>
+            <ToggleButton value="unapproved">Unapproved</ToggleButton>
+          </ToggleButtonGroup>
+        </div>
+
+        <div className={styles.search}>
+          <div className={styles.searchBarsContainer}>
+            {mainTab === '1' && (
+              <>
+                <TextField
+                  className={styles.input}
+                  label="Search by book name..."
+                  value={bookNameSearch}
+                  onChange={handleBookNameChange}
+                  variant="outlined"
+                  fullWidth
+                />
+                <Button variant="text" onClick={handleToggleAdvanced}>
+                  Advanced
+                </Button>
+              </>
+            )}
+            {mainTab === '2' && (
               <TextField
                 className={styles.input}
-                label="Search by book name..."
-                value={bookNameSearch}
-                onChange={handleBookNameChange}
+                label="Search by author name..."
+                value={authorSearch}
+                onChange={handleAuthorChange}
                 variant="outlined"
                 fullWidth
               />
-              <Button variant="text" onClick={handleToggleAdvanced}>
-                Advanced
-              </Button>
+            )}
+            {mainTab === '3' && (
+              <TextField
+                className={styles.input}
+                label="Search by publisher name..."
+                value={publisherSearch}
+                onChange={handlePublisherChange}
+                variant="outlined"
+                fullWidth
+              />
+            )}
+          </div>
+
+          {mainTab === '1' && (
+            <Collapse in={showAdvanced}>
+              <div className={styles.advancedSearchContainer}>
+                <SingleSearchBar
+                  label="Search by author..."
+                  value={selectedAuthor}
+                  onChange={(_event, newValue) => setSelectedAuthor(newValue)}
+                  fetchMethod={fetchPagedAuthors}
+                  variant="outlined"
+                  styles={styles}
+                  getOptionLabel={(option) =>
+                    option
+                      ? `${option.firstName} ${option.lastName}`.trim()
+                      : ''
+                  }
+                />
+                <SingleSearchBar
+                  label="Search by publisher..."
+                  value={selectedPublisher}
+                  onChange={(_event, newValue) =>
+                    setSelectedPublisher(newValue)
+                  }
+                  fetchMethod={fetchPagedPublishers}
+                  variant="outlined"
+                  styles={styles}
+                  getOptionLabel={(option) => option?.name || ''}
+                />
+              </div>
+            </Collapse>
+          )}
+
+          <div className={styles.controlButtons}>
+            <Button variant="outlined" onClick={clearSearch}>
+              Clear
+            </Button>
+            <Button variant="contained" color="primary" onClick={handleSearch}>
+              Search
+            </Button>
+          </div>
+        </div>
+
+        <div className={styles.contentContainer}>
+          {loading ? (
+            <LoadingSpinner />
+          ) : (
+            <>
+              <TabPanel value="1" style={{ padding: 0 }}>
+                <BooksList
+                  books={books}
+                  onRefresh={fetchBooks}
+                  hasPagination={totalBooks > ITEMS_PER_PAGE}
+                />
+              </TabPanel>
+              <TabPanel value="2" style={{ padding: 0 }}>
+                <AuthorsList
+                  authors={authors}
+                  onRefresh={fetchAuthors}
+                  hasPagination={totalAuthors > ITEMS_PER_PAGE}
+                />
+              </TabPanel>
+              <TabPanel value="3" style={{ padding: 0 }}>
+                <PublishersList
+                  publishers={publishers}
+                  onRefresh={fetchPublishers}
+                  hasPagination={totalPublishers > ITEMS_PER_PAGE}
+                />
+              </TabPanel>
             </>
           )}
-          {mainTab === '2' && (
-            <TextField
-              className={styles.input}
-              label="Search by author name..."
-              value={authorSearch}
-              onChange={handleAuthorChange}
-              variant="outlined"
-              fullWidth
-            />
-          )}
-          {mainTab === '3' && (
-            <TextField
-              className={styles.input}
-              label="Search by publisher name..."
-              value={publisherSearch}
-              onChange={handlePublisherChange}
-              variant="outlined"
-              fullWidth
-            />
-          )}
         </div>
 
-        {mainTab === '1' && (
-          <Collapse in={showAdvanced}>
-            <div className={styles.advancedSearchContainer}>
-              <SingleSearchBar
-                label="Search by author..."
-                value={selectedAuthor}
-                onChange={(_event, newValue) => setSelectedAuthor(newValue)}
-                fetchMethod={fetchPagedAuthors}
-                variant="outlined"
-                styles={styles}
-                getOptionLabel={(option) =>
-                  option ? `${option.firstName} ${option.lastName}`.trim() : ''
-                }
-              />
-              <SingleSearchBar
-                label="Search by publisher..."
-                value={selectedPublisher}
-                onChange={(_event, newValue) => setSelectedPublisher(newValue)}
-                fetchMethod={fetchPagedPublishers}
-                variant="outlined"
-                styles={styles}
-                getOptionLabel={(option) => option?.name || ''}
-              />
-            </div>
-          </Collapse>
-        )}
-
-        <div className={styles.controlButtons}>
-          <Button variant="outlined" onClick={clearSearch}>
-            Clear
-          </Button>
-          <Button variant="contained" color="primary" onClick={handleSearch}>
-            Search
-          </Button>
-        </div>
-      </div>
-
-      <div className={styles.contentContainer}>
-        {loading ? (
-          <LoadingSpinner />
-        ) : (
-          <>
-            <TabPanel value="1" style={{ padding: 0 }}>
-              <BooksList
-                books={books}
-                onRefresh={fetchBooks}
-                hasPagination={totalBooks > ITEMS_PER_PAGE}
-              />
-            </TabPanel>
-            <TabPanel value="2" style={{ padding: 0 }}>
-              <AuthorsList
-                authors={authors}
-                onRefresh={fetchAuthors}
-                hasPagination={totalAuthors > ITEMS_PER_PAGE}
-              />
-            </TabPanel>
-            <TabPanel value="3" style={{ padding: 0 }}>
-              <PublishersList
-                publishers={publishers}
-                onRefresh={fetchPublishers}
-                hasPagination={totalPublishers > ITEMS_PER_PAGE}
-              />
-            </TabPanel>
-          </>
-        )}
-      </div>
-
-      <Pagination
-        pageNumber={currentPage}
-        pageSize={ITEMS_PER_PAGE}
-        total={getCurrentTotal}
-        onPageChange={handlePageChange}
-      />
-    </TabContext>
-  </div>
-);
+        <Pagination
+          pageNumber={currentPage}
+          pageSize={ITEMS_PER_PAGE}
+          total={getCurrentTotal}
+          onPageChange={handlePageChange}
+        />
+      </TabContext>
+    </div>
+  );
 };
 
 export default ModeratorPanel;

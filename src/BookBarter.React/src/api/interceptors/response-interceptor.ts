@@ -10,6 +10,6 @@ if (import.meta.env.DEV) {
         console.error('Intercepted error response:', error.response);
       }
       return Promise.reject(error);
-    }
+    },
   );
 }

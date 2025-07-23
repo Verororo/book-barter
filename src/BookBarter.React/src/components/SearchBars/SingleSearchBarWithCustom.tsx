@@ -4,13 +4,13 @@ import {
   TextField,
   CircularProgress,
   debounce,
-  createFilterOptions
+  createFilterOptions,
 } from '@mui/material';
 import { useNotification } from '../../contexts/Notification/UseNotification';
 
 type BaseEntity = {
   id?: number;
-}
+};
 
 interface SingleSearchBarWithCustomProps<T extends BaseEntity> {
   id?: string;
@@ -34,7 +34,7 @@ interface SingleSearchBarWithCustomProps<T extends BaseEntity> {
 
 type CustomOption = {
   inputValue: string;
-}
+};
 
 const MINIMUM_SEARCH_LENGTH = 3;
 const DEBOUNCE_DELAY = 500;
@@ -52,32 +52,35 @@ function SingleSearchBarWithCustom<T extends BaseEntity>({
   helperText,
   onBlur,
   styles,
-  createEntityFromName
+  createEntityFromName,
 }: SingleSearchBarWithCustomProps<T>) {
   const [options, setOptions] = useState<T[]>([]);
   const [loading, setLoading] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [openAddDialog, setOpenAddDialog] = useState(false);
-  const [dialogDefaultName, setDialogDefaultName] = useState<string | undefined>();
+  const [dialogDefaultName, setDialogDefaultName] = useState<
+    string | undefined
+  >();
 
   const { showNotification } = useNotification();
 
-  const filter = useMemo(
-    () => createFilterOptions<T | CustomOption>(),
-    []
-  );
+  const filter = useMemo(() => createFilterOptions<T | CustomOption>(), []);
 
   const debouncedFetch = useMemo(
-    () => debounce((query: string) => {
-      fetchMethod(query)
-        .then(setOptions)
-        .catch(_error => {
-          showNotification("Failed to fetch autocomplete options. Try again later.", "error")
-          setOptions([]);
-        })
-        .finally(() => setLoading(false));
-    }, DEBOUNCE_DELAY),
-    [fetchMethod]
+    () =>
+      debounce((query: string) => {
+        fetchMethod(query)
+          .then(setOptions)
+          .catch((_error) => {
+            showNotification(
+              'Failed to fetch autocomplete options. Try again later.',
+              'error',
+            );
+            setOptions([]);
+          })
+          .finally(() => setLoading(false));
+      }, DEBOUNCE_DELAY),
+    [fetchMethod],
   );
 
   useEffect(() => {
@@ -95,13 +98,19 @@ function SingleSearchBarWithCustom<T extends BaseEntity>({
     };
   }, [inputValue, debouncedFetch]);
 
-  const handleAddEntityCreated = useCallback((newEntity: T) => {
-    onChange(null as any, newEntity);
-    setInputValue('');
-  }, [onChange]);
+  const handleAddEntityCreated = useCallback(
+    (newEntity: T) => {
+      onChange(null as any, newEntity);
+      setInputValue('');
+    },
+    [onChange],
+  );
 
   const handleChange = useCallback(
-    (event: React.SyntheticEvent, newValue: (T | CustomOption) | null | string) => {
+    (
+      event: React.SyntheticEvent,
+      newValue: (T | CustomOption) | null | string,
+    ) => {
       if (typeof newValue === 'string' || newValue === null) {
         return;
       }
@@ -119,14 +128,14 @@ function SingleSearchBarWithCustom<T extends BaseEntity>({
         onChange(event, newValue);
       }
     },
-    [onChange, AddDialog, createEntityFromName]
+    [onChange, AddDialog, createEntityFromName],
   );
 
   const handleInputChange = useCallback(
     (_event: React.SyntheticEvent, newInput: string) => {
       setInputValue(newInput);
     },
-    []
+    [],
   );
 
   const handleCloseDialog = useCallback(() => {
@@ -149,7 +158,7 @@ function SingleSearchBarWithCustom<T extends BaseEntity>({
 
       return filtered;
     },
-    [filter, loading]
+    [filter, loading],
   );
 
   const getOptionLabelWrapper = useCallback(
@@ -160,7 +169,7 @@ function SingleSearchBarWithCustom<T extends BaseEntity>({
       }
       return getOptionLabel(option);
     },
-    [getOptionLabel]
+    [getOptionLabel],
   );
 
   const isOptionEqualToValue = useCallback(
@@ -173,7 +182,7 @@ function SingleSearchBarWithCustom<T extends BaseEntity>({
       }
       return false;
     },
-    []
+    [],
   );
 
   return (

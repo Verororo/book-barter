@@ -1,47 +1,41 @@
 # UsersApi
 
-All URIs are relative to *http://localhost*
+All URIs are relative to _http://localhost_
 
-|Method | HTTP request | Description|
-|------------- | ------------- | -------------|
-|[**apiUsersIdDelete**](#apiusersiddelete) | **DELETE** /api/Users/{id} | |
-|[**apiUsersIdGet**](#apiusersidget) | **GET** /api/Users/{id} | |
-|[**apiUsersMeChatsGet**](#apiusersmechatsget) | **GET** /api/Users/me/chats | |
-|[**apiUsersMeOwnedBooksBookIdDelete**](#apiusersmeownedbooksbookiddelete) | **DELETE** /api/Users/me/ownedBooks/{bookId} | |
-|[**apiUsersMeOwnedBooksPost**](#apiusersmeownedbookspost) | **POST** /api/Users/me/ownedBooks | |
-|[**apiUsersMePut**](#apiusersmeput) | **PUT** /api/Users/me | |
-|[**apiUsersMeWantedBooksBookIdDelete**](#apiusersmewantedbooksbookiddelete) | **DELETE** /api/Users/me/wantedBooks/{bookId} | |
-|[**apiUsersMeWantedBooksPost**](#apiusersmewantedbookspost) | **POST** /api/Users/me/wantedBooks | |
-|[**apiUsersPagedPost**](#apiuserspagedpost) | **POST** /api/Users/paged | |
+| Method                                                                      | HTTP request                                  | Description |
+| --------------------------------------------------------------------------- | --------------------------------------------- | ----------- |
+| [**apiUsersIdDelete**](#apiusersiddelete)                                   | **DELETE** /api/Users/{id}                    |             |
+| [**apiUsersIdGet**](#apiusersidget)                                         | **GET** /api/Users/{id}                       |             |
+| [**apiUsersMeChatsGet**](#apiusersmechatsget)                               | **GET** /api/Users/me/chats                   |             |
+| [**apiUsersMeOwnedBooksBookIdDelete**](#apiusersmeownedbooksbookiddelete)   | **DELETE** /api/Users/me/ownedBooks/{bookId}  |             |
+| [**apiUsersMeOwnedBooksPost**](#apiusersmeownedbookspost)                   | **POST** /api/Users/me/ownedBooks             |             |
+| [**apiUsersMePut**](#apiusersmeput)                                         | **PUT** /api/Users/me                         |             |
+| [**apiUsersMeWantedBooksBookIdDelete**](#apiusersmewantedbooksbookiddelete) | **DELETE** /api/Users/me/wantedBooks/{bookId} |             |
+| [**apiUsersMeWantedBooksPost**](#apiusersmewantedbookspost)                 | **POST** /api/Users/me/wantedBooks            |             |
+| [**apiUsersPagedPost**](#apiuserspagedpost)                                 | **POST** /api/Users/paged                     |             |
 
 # **apiUsersIdDelete**
-> apiUsersIdDelete()
 
+> apiUsersIdDelete()
 
 ### Example
 
 ```typescript
-import {
-    UsersApi,
-    Configuration
-} from './api';
+import { UsersApi, Configuration } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new UsersApi(configuration);
 
 let id: number; // (default to undefined)
 
-const { status, data } = await apiInstance.apiUsersIdDelete(
-    id
-);
+const { status, data } = await apiInstance.apiUsersIdDelete(id);
 ```
 
 ### Parameters
 
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **id** | [**number**] |  | defaults to undefined|
-
+| Name   | Type         | Description | Notes                 |
+| ------ | ------------ | ----------- | --------------------- |
+| **id** | [**number**] |             | defaults to undefined |
 
 ### Return type
 
@@ -53,28 +47,25 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
-
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
+| ----------- | ----------- | ---------------- |
+| **200**     | OK          | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiUsersIdGet**
-> UserDto apiUsersIdGet()
 
+> UserDto apiUsersIdGet()
 
 ### Example
 
 ```typescript
-import {
-    UsersApi,
-    Configuration
-} from './api';
+import { UsersApi, Configuration } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new UsersApi(configuration);
@@ -83,18 +74,17 @@ let id: number; // (default to undefined)
 let excludeUnapprovedBooks: boolean; // (optional) (default to undefined)
 
 const { status, data } = await apiInstance.apiUsersIdGet(
-    id,
-    excludeUnapprovedBooks
+  id,
+  excludeUnapprovedBooks,
 );
 ```
 
 ### Parameters
 
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **id** | [**number**] |  | defaults to undefined|
-| **excludeUnapprovedBooks** | [**boolean**] |  | (optional) defaults to undefined|
-
+| Name                       | Type          | Description | Notes                            |
+| -------------------------- | ------------- | ----------- | -------------------------------- |
+| **id**                     | [**number**]  |             | defaults to undefined            |
+| **excludeUnapprovedBooks** | [**boolean**] |             | (optional) defaults to undefined |
 
 ### Return type
 
@@ -106,28 +96,25 @@ const { status, data } = await apiInstance.apiUsersIdGet(
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: text/plain, application/json, text/json
-
+- **Content-Type**: Not defined
+- **Accept**: text/plain, application/json, text/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
+| ----------- | ----------- | ---------------- |
+| **200**     | OK          | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiUsersMeChatsGet**
-> Array<MessagingUserDto> apiUsersMeChatsGet()
 
+> Array<MessagingUserDto> apiUsersMeChatsGet()
 
 ### Example
 
 ```typescript
-import {
-    UsersApi,
-    Configuration
-} from './api';
+import { UsersApi, Configuration } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new UsersApi(configuration);
@@ -136,8 +123,8 @@ const { status, data } = await apiInstance.apiUsersMeChatsGet();
 ```
 
 ### Parameters
-This endpoint does not have any parameters.
 
+This endpoint does not have any parameters.
 
 ### Return type
 
@@ -149,29 +136,25 @@ This endpoint does not have any parameters.
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: text/plain, application/json, text/json
-
+- **Content-Type**: Not defined
+- **Accept**: text/plain, application/json, text/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
+| ----------- | ----------- | ---------------- |
+| **200**     | OK          | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiUsersMeOwnedBooksBookIdDelete**
-> apiUsersMeOwnedBooksBookIdDelete()
 
+> apiUsersMeOwnedBooksBookIdDelete()
 
 ### Example
 
 ```typescript
-import {
-    UsersApi,
-    Configuration,
-    DeleteOwnedBookCommand
-} from './api';
+import { UsersApi, Configuration, DeleteOwnedBookCommand } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new UsersApi(configuration);
@@ -180,18 +163,17 @@ let bookId: number; // (default to undefined)
 let deleteOwnedBookCommand: DeleteOwnedBookCommand; // (optional)
 
 const { status, data } = await apiInstance.apiUsersMeOwnedBooksBookIdDelete(
-    bookId,
-    deleteOwnedBookCommand
+  bookId,
+  deleteOwnedBookCommand,
 );
 ```
 
 ### Parameters
 
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **deleteOwnedBookCommand** | **DeleteOwnedBookCommand**|  | |
-| **bookId** | [**number**] |  | defaults to undefined|
-
+| Name                       | Type                       | Description | Notes                 |
+| -------------------------- | -------------------------- | ----------- | --------------------- |
+| **deleteOwnedBookCommand** | **DeleteOwnedBookCommand** |             |                       |
+| **bookId**                 | [**number**]               |             | defaults to undefined |
 
 ### Return type
 
@@ -203,46 +185,40 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, text/json, application/*+json
- - **Accept**: Not defined
-
+- **Content-Type**: application/json, text/json, application/\*+json
+- **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
+| ----------- | ----------- | ---------------- |
+| **200**     | OK          | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiUsersMeOwnedBooksPost**
-> apiUsersMeOwnedBooksPost()
 
+> apiUsersMeOwnedBooksPost()
 
 ### Example
 
 ```typescript
-import {
-    UsersApi,
-    Configuration,
-    AddOwnedBookCommand
-} from './api';
+import { UsersApi, Configuration, AddOwnedBookCommand } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new UsersApi(configuration);
 
 let addOwnedBookCommand: AddOwnedBookCommand; // (optional)
 
-const { status, data } = await apiInstance.apiUsersMeOwnedBooksPost(
-    addOwnedBookCommand
-);
+const { status, data } =
+  await apiInstance.apiUsersMeOwnedBooksPost(addOwnedBookCommand);
 ```
 
 ### Parameters
 
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **addOwnedBookCommand** | **AddOwnedBookCommand**|  | |
-
+| Name                    | Type                    | Description | Notes |
+| ----------------------- | ----------------------- | ----------- | ----- |
+| **addOwnedBookCommand** | **AddOwnedBookCommand** |             |       |
 
 ### Return type
 
@@ -254,46 +230,39 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, text/json, application/*+json
- - **Accept**: Not defined
-
+- **Content-Type**: application/json, text/json, application/\*+json
+- **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
+| ----------- | ----------- | ---------------- |
+| **200**     | OK          | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiUsersMePut**
-> apiUsersMePut()
 
+> apiUsersMePut()
 
 ### Example
 
 ```typescript
-import {
-    UsersApi,
-    Configuration,
-    UpdateUserCommand
-} from './api';
+import { UsersApi, Configuration, UpdateUserCommand } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new UsersApi(configuration);
 
 let updateUserCommand: UpdateUserCommand; // (optional)
 
-const { status, data } = await apiInstance.apiUsersMePut(
-    updateUserCommand
-);
+const { status, data } = await apiInstance.apiUsersMePut(updateUserCommand);
 ```
 
 ### Parameters
 
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **updateUserCommand** | **UpdateUserCommand**|  | |
-
+| Name                  | Type                  | Description | Notes |
+| --------------------- | --------------------- | ----------- | ----- |
+| **updateUserCommand** | **UpdateUserCommand** |             |       |
 
 ### Return type
 
@@ -305,29 +274,25 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, text/json, application/*+json
- - **Accept**: Not defined
-
+- **Content-Type**: application/json, text/json, application/\*+json
+- **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
+| ----------- | ----------- | ---------------- |
+| **200**     | OK          | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiUsersMeWantedBooksBookIdDelete**
-> apiUsersMeWantedBooksBookIdDelete()
 
+> apiUsersMeWantedBooksBookIdDelete()
 
 ### Example
 
 ```typescript
-import {
-    UsersApi,
-    Configuration,
-    DeleteWantedBookCommand
-} from './api';
+import { UsersApi, Configuration, DeleteWantedBookCommand } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new UsersApi(configuration);
@@ -336,18 +301,17 @@ let bookId: number; // (default to undefined)
 let deleteWantedBookCommand: DeleteWantedBookCommand; // (optional)
 
 const { status, data } = await apiInstance.apiUsersMeWantedBooksBookIdDelete(
-    bookId,
-    deleteWantedBookCommand
+  bookId,
+  deleteWantedBookCommand,
 );
 ```
 
 ### Parameters
 
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **deleteWantedBookCommand** | **DeleteWantedBookCommand**|  | |
-| **bookId** | [**number**] |  | defaults to undefined|
-
+| Name                        | Type                        | Description | Notes                 |
+| --------------------------- | --------------------------- | ----------- | --------------------- |
+| **deleteWantedBookCommand** | **DeleteWantedBookCommand** |             |                       |
+| **bookId**                  | [**number**]                |             | defaults to undefined |
 
 ### Return type
 
@@ -359,46 +323,40 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, text/json, application/*+json
- - **Accept**: Not defined
-
+- **Content-Type**: application/json, text/json, application/\*+json
+- **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
+| ----------- | ----------- | ---------------- |
+| **200**     | OK          | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiUsersMeWantedBooksPost**
-> apiUsersMeWantedBooksPost()
 
+> apiUsersMeWantedBooksPost()
 
 ### Example
 
 ```typescript
-import {
-    UsersApi,
-    Configuration,
-    AddWantedBookCommand
-} from './api';
+import { UsersApi, Configuration, AddWantedBookCommand } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new UsersApi(configuration);
 
 let addWantedBookCommand: AddWantedBookCommand; // (optional)
 
-const { status, data } = await apiInstance.apiUsersMeWantedBooksPost(
-    addWantedBookCommand
-);
+const { status, data } =
+  await apiInstance.apiUsersMeWantedBooksPost(addWantedBookCommand);
 ```
 
 ### Parameters
 
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **addWantedBookCommand** | **AddWantedBookCommand**|  | |
-
+| Name                     | Type                     | Description | Notes |
+| ------------------------ | ------------------------ | ----------- | ----- |
+| **addWantedBookCommand** | **AddWantedBookCommand** |             |       |
 
 ### Return type
 
@@ -410,46 +368,40 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, text/json, application/*+json
- - **Accept**: Not defined
-
+- **Content-Type**: application/json, text/json, application/\*+json
+- **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
+| ----------- | ----------- | ---------------- |
+| **200**     | OK          | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiUsersPagedPost**
-> ListedUserDtoPaginatedResult apiUsersPagedPost()
 
+> ListedUserDtoPaginatedResult apiUsersPagedPost()
 
 ### Example
 
 ```typescript
-import {
-    UsersApi,
-    Configuration,
-    GetPagedUsersQuery
-} from './api';
+import { UsersApi, Configuration, GetPagedUsersQuery } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new UsersApi(configuration);
 
 let getPagedUsersQuery: GetPagedUsersQuery; // (optional)
 
-const { status, data } = await apiInstance.apiUsersPagedPost(
-    getPagedUsersQuery
-);
+const { status, data } =
+  await apiInstance.apiUsersPagedPost(getPagedUsersQuery);
 ```
 
 ### Parameters
 
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **getPagedUsersQuery** | **GetPagedUsersQuery**|  | |
-
+| Name                   | Type                   | Description | Notes |
+| ---------------------- | ---------------------- | ----------- | ----- |
+| **getPagedUsersQuery** | **GetPagedUsersQuery** |             |       |
 
 ### Return type
 
@@ -461,14 +413,13 @@ const { status, data } = await apiInstance.apiUsersPagedPost(
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, text/json, application/*+json
- - **Accept**: text/plain, application/json, text/json
-
+- **Content-Type**: application/json, text/json, application/\*+json
+- **Accept**: text/plain, application/json, text/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
+| ----------- | ----------- | ---------------- |
+| **200**     | OK          | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-

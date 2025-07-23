@@ -18,48 +18,48 @@ export const theme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         body: {
-          paddingTop: "24px",
-          paddingBottom: "24px",
+          paddingTop: '24px',
+          paddingBottom: '24px',
         },
       },
     },
     MuiPagination: {
       defaultProps: {
-        variant: "outlined",
-        shape: "rounded",
-        color: "primary"
+        variant: 'outlined',
+        shape: 'rounded',
+        color: 'primary',
       },
       styleOverrides: {
         root: {
-          marginTop: "24px"
-        }
-      }
+          marginTop: '24px',
+        },
+      },
     },
     MuiButton: {
       defaultProps: {
-        disableElevation: true
+        disableElevation: true,
       },
       styleOverrides: {
         root: {
-          textTransform: "none"
-        }
-      }
+          textTransform: 'none',
+        },
+      },
     },
     MuiTab: {
       styleOverrides: {
         root: {
-          textTransform: "none"
-        }
-      }
+          textTransform: 'none',
+        },
+      },
     },
     MuiToggleButton: {
       styleOverrides: {
         root: {
-          textTransform: "none"
-        }
-      }
-    }
-  }
-})
+          textTransform: 'none',
+        },
+      },
+    },
+  },
+});
 
-export default theme
+export default theme;

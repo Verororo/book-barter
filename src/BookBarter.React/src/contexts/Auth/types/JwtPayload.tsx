@@ -3,4 +3,4 @@ export type JwtPayload = {
   identifier: number;
   role: string;
   exp: number;
-}
+};

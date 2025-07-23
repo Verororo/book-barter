@@ -1,17 +1,17 @@
-import { AuthApi, type LoginCommand, type RegisterCommand } from "../generated";
-import { requestConfig } from "./common";
+import { AuthApi, type LoginCommand, type RegisterCommand } from '../generated';
+import { requestConfig } from './common';
 
-const authApi = new AuthApi(requestConfig)
+const authApi = new AuthApi(requestConfig);
 
 export const sendLoginCommand = async (
-  command: LoginCommand
+  command: LoginCommand,
 ): Promise<string> => {
-  const response = await authApi.apiAuthLoginPost(command)
-  return response.data
-}
+  const response = await authApi.apiAuthLoginPost(command);
+  return response.data;
+};
 
 export const sendRegisterCommand = async (
-  command: RegisterCommand
+  command: RegisterCommand,
 ): Promise<void> => {
-  await authApi.apiAuthRegisterPost(command)
-}
+  await authApi.apiAuthRegisterPost(command);
+};

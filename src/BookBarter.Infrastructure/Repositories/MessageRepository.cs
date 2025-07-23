@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Azure.Core;
 using BookBarter.Application.Common.Interfaces.Repositories;
 using BookBarter.Application.Common.Models;
 using BookBarter.Application.Messages.Queries;

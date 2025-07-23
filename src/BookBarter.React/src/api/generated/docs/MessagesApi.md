@@ -1,24 +1,20 @@
 # MessagesApi
 
-All URIs are relative to *http://localhost*
+All URIs are relative to _http://localhost_
 
-|Method | HTTP request | Description|
-|------------- | ------------- | -------------|
-|[**apiMessagesPagedPost**](#apimessagespagedpost) | **POST** /api/Messages/paged | |
-|[**apiMessagesPost**](#apimessagespost) | **POST** /api/Messages | |
+| Method                                            | HTTP request                 | Description |
+| ------------------------------------------------- | ---------------------------- | ----------- |
+| [**apiMessagesPagedPost**](#apimessagespagedpost) | **POST** /api/Messages/paged |             |
+| [**apiMessagesPost**](#apimessagespost)           | **POST** /api/Messages       |             |
 
 # **apiMessagesPagedPost**
-> MessageDtoPaginatedResult apiMessagesPagedPost()
 
+> MessageDtoPaginatedResult apiMessagesPagedPost()
 
 ### Example
 
 ```typescript
-import {
-    MessagesApi,
-    Configuration,
-    GetPagedMessagesQuery
-} from './api';
+import { MessagesApi, Configuration, GetPagedMessagesQuery } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new MessagesApi(configuration);
@@ -26,16 +22,15 @@ const apiInstance = new MessagesApi(configuration);
 let getPagedMessagesQuery: GetPagedMessagesQuery; // (optional)
 
 const { status, data } = await apiInstance.apiMessagesPagedPost(
-    getPagedMessagesQuery
+  getPagedMessagesQuery,
 );
 ```
 
 ### Parameters
 
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **getPagedMessagesQuery** | **GetPagedMessagesQuery**|  | |
-
+| Name                      | Type                      | Description | Notes |
+| ------------------------- | ------------------------- | ----------- | ----- |
+| **getPagedMessagesQuery** | **GetPagedMessagesQuery** |             |       |
 
 ### Return type
 
@@ -47,46 +42,40 @@ const { status, data } = await apiInstance.apiMessagesPagedPost(
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, text/json, application/*+json
- - **Accept**: text/plain, application/json, text/json
-
+- **Content-Type**: application/json, text/json, application/\*+json
+- **Accept**: text/plain, application/json, text/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
+| ----------- | ----------- | ---------------- |
+| **200**     | OK          | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiMessagesPost**
-> number apiMessagesPost()
 
+> number apiMessagesPost()
 
 ### Example
 
 ```typescript
-import {
-    MessagesApi,
-    Configuration,
-    CreateMessageCommand
-} from './api';
+import { MessagesApi, Configuration, CreateMessageCommand } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new MessagesApi(configuration);
 
 let createMessageCommand: CreateMessageCommand; // (optional)
 
-const { status, data } = await apiInstance.apiMessagesPost(
-    createMessageCommand
-);
+const { status, data } =
+  await apiInstance.apiMessagesPost(createMessageCommand);
 ```
 
 ### Parameters
 
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **createMessageCommand** | **CreateMessageCommand**|  | |
-
+| Name                     | Type                     | Description | Notes |
+| ------------------------ | ------------------------ | ----------- | ----- |
+| **createMessageCommand** | **CreateMessageCommand** |             |       |
 
 ### Return type
 
@@ -98,14 +87,13 @@ const { status, data } = await apiInstance.apiMessagesPost(
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, text/json, application/*+json
- - **Accept**: text/plain, application/json, text/json
-
+- **Content-Type**: application/json, text/json, application/\*+json
+- **Accept**: text/plain, application/json, text/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
+| ----------- | ----------- | ---------------- |
+| **200**     | OK          | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-

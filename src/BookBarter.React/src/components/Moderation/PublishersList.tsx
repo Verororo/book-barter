@@ -8,10 +8,13 @@ import {
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PublisherForm from './Forms/PublisherForm';
-import { approvePublisher, deletePublisher } from '../../api/clients/publisher-client';
+import {
+  approvePublisher,
+  deletePublisher,
+} from '../../api/clients/publisher-client';
 import type { PublisherForModerationDto } from '../../api/generated';
 import ActionButtons from './Buttons/ActionButtons';
-import styles from './List.module.css'
+import styles from './List.module.css';
 import { useNotification } from '../../contexts/Notification/UseNotification';
 
 interface PublishersListProps {
@@ -20,33 +23,46 @@ interface PublishersListProps {
   hasPagination: boolean;
 }
 
-const PublishersList = ({ publishers, onRefresh, hasPagination }: PublishersListProps) => {
-  const [editingPublisherId, setEditingPublisherId] = useState<number | null>(null);
+const PublishersList = ({
+  publishers,
+  onRefresh,
+  hasPagination,
+}: PublishersListProps) => {
+  const [editingPublisherId, setEditingPublisherId] = useState<number | null>(
+    null,
+  );
   const [expandedId, setExpandedId] = useState<number | false>(false);
 
   const { showNotification } = useNotification();
 
-  const handleAccordionChange = (publisherId: number) => (_: any, isExpanded: boolean) => {
-    setExpandedId(isExpanded ? publisherId : false);
-  };
+  const handleAccordionChange =
+    (publisherId: number) => (_: any, isExpanded: boolean) => {
+      setExpandedId(isExpanded ? publisherId : false);
+    };
 
   const handlePublisherApprove = async (publisherId: number) => {
     try {
       await approvePublisher(publisherId);
-      showNotification("Succesfully approved the publisher.", "success");
+      showNotification('Succesfully approved the publisher.', 'success');
       await onRefresh();
     } catch (error) {
-      showNotification("Failed to approve the publisher. Try again later.", "error");
+      showNotification(
+        'Failed to approve the publisher. Try again later.',
+        'error',
+      );
     }
   };
 
   const handlePublisherDelete = async (publisherId: number) => {
     try {
       await deletePublisher(publisherId);
-      showNotification("Succesfully deleted the publisher.", "success");
+      showNotification('Succesfully deleted the publisher.', 'success');
       await onRefresh();
     } catch (error) {
-      showNotification("Failed to delete the publisher. Try again later.", "error");
+      showNotification(
+        'Failed to delete the publisher. Try again later.',
+        'error',
+      );
     }
   };
 
@@ -65,10 +81,11 @@ const PublishersList = ({ publishers, onRefresh, hasPagination }: PublishersList
             key={publisher.id}
             expanded={expandedId === publisher.id}
             onChange={handleAccordionChange(publisher.id!)}
-            className={`${hasPagination
-              ? styles.accordionItemLastWithPagination
-              : styles.accordionItem
-              }`}
+            className={`${
+              hasPagination
+                ? styles.accordionItemLastWithPagination
+                : styles.accordionItem
+            }`}
             disableGutters
             elevation={0}
           >
@@ -86,21 +103,22 @@ const PublishersList = ({ publishers, onRefresh, hasPagination }: PublishersList
                 />
               ) : (
                 <div className={styles.detailsInfo}>
-                  <div className={[styles.infoGrid, styles.publisherInfoGrid].join(" ")}>
+                  <div
+                    className={[styles.infoGrid, styles.publisherInfoGrid].join(
+                      ' ',
+                    )}
+                  >
                     <div className={styles.infoRow}>
-                      <span className={styles.infoLabel}>Name:</span> {publisher.name}
+                      <span className={styles.infoLabel}>Name:</span>{' '}
+                      {publisher.name}
                     </div>
                   </div>
 
                   <div className={styles.infoRow}>
                     <span className={styles.infoLabel}>Books:</span>
                     <Stack direction="row" spacing={1} flexWrap="wrap" mt={1}>
-                      {publisher.books?.map(book => (
-                        <Chip
-                          key={book.id}
-                          label={book.title}
-                          size="small"
-                        />
+                      {publisher.books?.map((book) => (
+                        <Chip key={book.id} label={book.title} size="small" />
                       ))}
                     </Stack>
                   </div>
@@ -108,8 +126,14 @@ const PublishersList = ({ publishers, onRefresh, hasPagination }: PublishersList
                   <ActionButtons
                     onDelete={() => handlePublisherDelete(publisher.id!)}
                     onEdit={() => setEditingPublisherId(publisher.id!)}
-                    onApprove={!publisher.approved ? () => handlePublisherApprove(publisher.id!) : undefined}
-                    isDeleteDisabled={publisher.books ? publisher.books.length > 0 : false}
+                    onApprove={
+                      !publisher.approved
+                        ? () => handlePublisherApprove(publisher.id!)
+                        : undefined
+                    }
+                    isDeleteDisabled={
+                      publisher.books ? publisher.books.length > 0 : false
+                    }
                     deleteDisabledText="Deleting a publisher referred by the existing books is forbidden. Delete the referring books first."
                   />
                 </div>

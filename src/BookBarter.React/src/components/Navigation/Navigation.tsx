@@ -1,4 +1,4 @@
-import styles from './Navigation.module.css'
+import styles from './Navigation.module.css';
 import Button from '@mui/material/Button';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -34,7 +34,7 @@ const Navigation = () => {
         </Button>
       )}
 
-      {isAuthenticated && (userAuthData?.role === 'Moderator') && (
+      {isAuthenticated && userAuthData?.role === 'Moderator' && (
         <Button
           component={Link}
           to="/moderator"

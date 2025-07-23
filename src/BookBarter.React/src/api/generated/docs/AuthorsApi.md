@@ -1,44 +1,38 @@
 # AuthorsApi
 
-All URIs are relative to *http://localhost*
+All URIs are relative to _http://localhost_
 
-|Method | HTTP request | Description|
-|------------- | ------------- | -------------|
-|[**apiAuthorsIdApprovePut**](#apiauthorsidapproveput) | **PUT** /api/Authors/{id}/approve | |
-|[**apiAuthorsIdDelete**](#apiauthorsiddelete) | **DELETE** /api/Authors/{id} | |
-|[**apiAuthorsIdPut**](#apiauthorsidput) | **PUT** /api/Authors/{id} | |
-|[**apiAuthorsPagedModeratedPost**](#apiauthorspagedmoderatedpost) | **POST** /api/Authors/paged/moderated | |
-|[**apiAuthorsPagedPost**](#apiauthorspagedpost) | **POST** /api/Authors/paged | |
-|[**apiAuthorsPost**](#apiauthorspost) | **POST** /api/Authors | |
+| Method                                                            | HTTP request                          | Description |
+| ----------------------------------------------------------------- | ------------------------------------- | ----------- |
+| [**apiAuthorsIdApprovePut**](#apiauthorsidapproveput)             | **PUT** /api/Authors/{id}/approve     |             |
+| [**apiAuthorsIdDelete**](#apiauthorsiddelete)                     | **DELETE** /api/Authors/{id}          |             |
+| [**apiAuthorsIdPut**](#apiauthorsidput)                           | **PUT** /api/Authors/{id}             |             |
+| [**apiAuthorsPagedModeratedPost**](#apiauthorspagedmoderatedpost) | **POST** /api/Authors/paged/moderated |             |
+| [**apiAuthorsPagedPost**](#apiauthorspagedpost)                   | **POST** /api/Authors/paged           |             |
+| [**apiAuthorsPost**](#apiauthorspost)                             | **POST** /api/Authors                 |             |
 
 # **apiAuthorsIdApprovePut**
-> apiAuthorsIdApprovePut()
 
+> apiAuthorsIdApprovePut()
 
 ### Example
 
 ```typescript
-import {
-    AuthorsApi,
-    Configuration
-} from './api';
+import { AuthorsApi, Configuration } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new AuthorsApi(configuration);
 
 let id: number; // (default to undefined)
 
-const { status, data } = await apiInstance.apiAuthorsIdApprovePut(
-    id
-);
+const { status, data } = await apiInstance.apiAuthorsIdApprovePut(id);
 ```
 
 ### Parameters
 
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **id** | [**number**] |  | defaults to undefined|
-
+| Name   | Type         | Description | Notes                 |
+| ------ | ------------ | ----------- | --------------------- |
+| **id** | [**number**] |             | defaults to undefined |
 
 ### Return type
 
@@ -50,45 +44,39 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
-
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
+| ----------- | ----------- | ---------------- |
+| **200**     | OK          | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiAuthorsIdDelete**
-> apiAuthorsIdDelete()
 
+> apiAuthorsIdDelete()
 
 ### Example
 
 ```typescript
-import {
-    AuthorsApi,
-    Configuration
-} from './api';
+import { AuthorsApi, Configuration } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new AuthorsApi(configuration);
 
 let id: number; // (default to undefined)
 
-const { status, data } = await apiInstance.apiAuthorsIdDelete(
-    id
-);
+const { status, data } = await apiInstance.apiAuthorsIdDelete(id);
 ```
 
 ### Parameters
 
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **id** | [**number**] |  | defaults to undefined|
-
+| Name   | Type         | Description | Notes                 |
+| ------ | ------------ | ----------- | --------------------- |
+| **id** | [**number**] |             | defaults to undefined |
 
 ### Return type
 
@@ -100,29 +88,25 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
-
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
+| ----------- | ----------- | ---------------- |
+| **200**     | OK          | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiAuthorsIdPut**
-> apiAuthorsIdPut()
 
+> apiAuthorsIdPut()
 
 ### Example
 
 ```typescript
-import {
-    AuthorsApi,
-    Configuration,
-    UpdateAuthorCommand
-} from './api';
+import { AuthorsApi, Configuration, UpdateAuthorCommand } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new AuthorsApi(configuration);
@@ -131,18 +115,17 @@ let id: number; // (default to undefined)
 let updateAuthorCommand: UpdateAuthorCommand; // (optional)
 
 const { status, data } = await apiInstance.apiAuthorsIdPut(
-    id,
-    updateAuthorCommand
+  id,
+  updateAuthorCommand,
 );
 ```
 
 ### Parameters
 
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **updateAuthorCommand** | **UpdateAuthorCommand**|  | |
-| **id** | [**number**] |  | defaults to undefined|
-
+| Name                    | Type                    | Description | Notes                 |
+| ----------------------- | ----------------------- | ----------- | --------------------- |
+| **updateAuthorCommand** | **UpdateAuthorCommand** |             |                       |
+| **id**                  | [**number**]            |             | defaults to undefined |
 
 ### Return type
 
@@ -154,28 +137,28 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, text/json, application/*+json
- - **Accept**: Not defined
-
+- **Content-Type**: application/json, text/json, application/\*+json
+- **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
+| ----------- | ----------- | ---------------- |
+| **200**     | OK          | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiAuthorsPagedModeratedPost**
-> AuthorForModerationDtoPaginatedResult apiAuthorsPagedModeratedPost()
 
+> AuthorForModerationDtoPaginatedResult apiAuthorsPagedModeratedPost()
 
 ### Example
 
 ```typescript
 import {
-    AuthorsApi,
-    Configuration,
-    GetPagedAuthorsForModerationQuery
+  AuthorsApi,
+  Configuration,
+  GetPagedAuthorsForModerationQuery,
 } from './api';
 
 const configuration = new Configuration();
@@ -184,16 +167,15 @@ const apiInstance = new AuthorsApi(configuration);
 let getPagedAuthorsForModerationQuery: GetPagedAuthorsForModerationQuery; // (optional)
 
 const { status, data } = await apiInstance.apiAuthorsPagedModeratedPost(
-    getPagedAuthorsForModerationQuery
+  getPagedAuthorsForModerationQuery,
 );
 ```
 
 ### Parameters
 
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **getPagedAuthorsForModerationQuery** | **GetPagedAuthorsForModerationQuery**|  | |
-
+| Name                                  | Type                                  | Description | Notes |
+| ------------------------------------- | ------------------------------------- | ----------- | ----- |
+| **getPagedAuthorsForModerationQuery** | **GetPagedAuthorsForModerationQuery** |             |       |
 
 ### Return type
 
@@ -205,46 +187,40 @@ const { status, data } = await apiInstance.apiAuthorsPagedModeratedPost(
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, text/json, application/*+json
- - **Accept**: text/plain, application/json, text/json
-
+- **Content-Type**: application/json, text/json, application/\*+json
+- **Accept**: text/plain, application/json, text/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
+| ----------- | ----------- | ---------------- |
+| **200**     | OK          | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiAuthorsPagedPost**
-> AuthorDtoPaginatedResult apiAuthorsPagedPost()
 
+> AuthorDtoPaginatedResult apiAuthorsPagedPost()
 
 ### Example
 
 ```typescript
-import {
-    AuthorsApi,
-    Configuration,
-    GetPagedAuthorsQuery
-} from './api';
+import { AuthorsApi, Configuration, GetPagedAuthorsQuery } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new AuthorsApi(configuration);
 
 let getPagedAuthorsQuery: GetPagedAuthorsQuery; // (optional)
 
-const { status, data } = await apiInstance.apiAuthorsPagedPost(
-    getPagedAuthorsQuery
-);
+const { status, data } =
+  await apiInstance.apiAuthorsPagedPost(getPagedAuthorsQuery);
 ```
 
 ### Parameters
 
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **getPagedAuthorsQuery** | **GetPagedAuthorsQuery**|  | |
-
+| Name                     | Type                     | Description | Notes |
+| ------------------------ | ------------------------ | ----------- | ----- |
+| **getPagedAuthorsQuery** | **GetPagedAuthorsQuery** |             |       |
 
 ### Return type
 
@@ -256,46 +232,39 @@ const { status, data } = await apiInstance.apiAuthorsPagedPost(
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, text/json, application/*+json
- - **Accept**: text/plain, application/json, text/json
-
+- **Content-Type**: application/json, text/json, application/\*+json
+- **Accept**: text/plain, application/json, text/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
+| ----------- | ----------- | ---------------- |
+| **200**     | OK          | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiAuthorsPost**
-> number apiAuthorsPost()
 
+> number apiAuthorsPost()
 
 ### Example
 
 ```typescript
-import {
-    AuthorsApi,
-    Configuration,
-    CreateAuthorCommand
-} from './api';
+import { AuthorsApi, Configuration, CreateAuthorCommand } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new AuthorsApi(configuration);
 
 let createAuthorCommand: CreateAuthorCommand; // (optional)
 
-const { status, data } = await apiInstance.apiAuthorsPost(
-    createAuthorCommand
-);
+const { status, data } = await apiInstance.apiAuthorsPost(createAuthorCommand);
 ```
 
 ### Parameters
 
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **createAuthorCommand** | **CreateAuthorCommand**|  | |
-
+| Name                    | Type                    | Description | Notes |
+| ----------------------- | ----------------------- | ----------- | ----- |
+| **createAuthorCommand** | **CreateAuthorCommand** |             |       |
 
 ### Return type
 
@@ -307,14 +276,13 @@ const { status, data } = await apiInstance.apiAuthorsPost(
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, text/json, application/*+json
- - **Accept**: text/plain, application/json, text/json
-
+- **Content-Type**: application/json, text/json, application/\*+json
+- **Accept**: text/plain, application/json, text/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
+| ----------- | ----------- | ---------------- |
+| **200**     | OK          | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-

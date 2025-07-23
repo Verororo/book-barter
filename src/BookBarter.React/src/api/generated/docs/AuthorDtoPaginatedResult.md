@@ -1,14 +1,13 @@
 # AuthorDtoPaginatedResult
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**pageNumber** | **number** |  | [optional] [default to undefined]
-**pageSize** | **number** |  | [optional] [default to undefined]
-**total** | **number** |  | [optional] [default to undefined]
-**items** | [**Array&lt;AuthorDto&gt;**](AuthorDto.md) |  | [optional] [default to undefined]
+| Name           | Type                                       | Description | Notes                             |
+| -------------- | ------------------------------------------ | ----------- | --------------------------------- |
+| **pageNumber** | **number**                                 |             | [optional] [default to undefined] |
+| **pageSize**   | **number**                                 |             | [optional] [default to undefined] |
+| **total**      | **number**                                 |             | [optional] [default to undefined] |
+| **items**      | [**Array&lt;AuthorDto&gt;**](AuthorDto.md) |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -16,10 +15,10 @@ Name | Type | Description | Notes
 import { AuthorDtoPaginatedResult } from './api';
 
 const instance: AuthorDtoPaginatedResult = {
-    pageNumber,
-    pageSize,
-    total,
-    items,
+  pageNumber,
+  pageSize,
+  total,
+  items,
 };
 ```
 
