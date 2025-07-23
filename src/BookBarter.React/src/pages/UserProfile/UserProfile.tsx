@@ -41,18 +41,20 @@ const UserProfile = () => {
   const [loading, setLoading] = useState(false)
 
   const { showNotification } = useNotification();
-
   const navigate = useNavigate()
 
   const handleMessage = async () => {
     try {
-/*      await signalRService.sendMessage({
-        receiverId: user!.id,
-        body: "Hello! I'd like to chat with you."
-      })*/
-      navigate('/messages')
+      navigate('/messages', {
+        state: {
+          selectedUser: {
+            id: user!.id,
+            userName: user!.userName
+          }
+        }
+      })
     } catch (error) {
-      navigate('/messages')
+      showNotification("Failed to message the user. Try again later.", "error")
     }
   }
 

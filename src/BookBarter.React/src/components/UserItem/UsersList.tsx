@@ -8,7 +8,8 @@ import PersonIcon from '@mui/icons-material/Person';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useAuth } from '../../contexts/Auth/UseAuth'
 import type { ListedUser } from '../../api/view-models/listed-user'
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
+import { useNotification } from '../../contexts/Notification/UseNotification';
 
 const formatLastOnline = (isoDate: string) => {
   const date = new Date(isoDate)
@@ -34,8 +35,28 @@ type usersListProps = {
 const UsersList = ({ users }: usersListProps) => {
   const { isAuthenticated } = useAuth();
 
+  const { showNotification } = useNotification();
+  const navigate = useNavigate()
+
+  
+
   return (
     users.map((user) => {
+      const handleMessage = async () => {
+        try {
+          navigate('/messages', {
+            state: {
+              selectedUser: {
+                id: user!.id,
+                userName: user!.userName
+              }
+            }
+          })
+        } catch (error) {
+          showNotification("Failed to message the user. Try again later.", "error")
+        }
+      }
+
       return (
         <div key={user.id} className={styles.usersList}>
           <div className={styles.usersListHeader}>
@@ -68,10 +89,9 @@ const UsersList = ({ users }: usersListProps) => {
 
                 {isAuthenticated && (
                   <Button
-                    variant='contained'
-                    startIcon={
-                      <ChatBubbleOutlineIcon fontSize="inherit" />
-                    }
+                    variant="contained"
+                    startIcon={<ChatBubbleOutlineIcon fontSize="inherit" />}
+                    onClick={handleMessage}
                   >
                     Message
                   </Button>

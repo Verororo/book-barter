@@ -23,6 +23,7 @@ import type { CreateMessageCommand } from '../../api/generated'
 import { fetchUserChats } from '../../api/clients/user-client'
 import { fetchMessagesPaginatedResult } from '../../api/clients/message-client'
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner'
+import { useLocation } from 'react-router-dom'
 
 const MESSAGES_PAGE_SIZE = 20
 const SCROLL_THRESHOLD_PERCENTAGE = 0.4
@@ -36,6 +37,7 @@ const Messages = () => {
   const { userAuthData } = useAuth()
   const { showNotification } = useNotification()
   const navigate = useNavigate()
+  const location = useLocation()
 
   const [chats, setChats] = useState<MessagingUserDto[]>([])
   const [selectedChat, setSelectedChat] = useState<MessagingUserDto | null>(null)
@@ -48,115 +50,25 @@ const Messages = () => {
   const [messageText, setMessageText] = useState('')
   const [isConnected, setIsConnected] = useState(false)
 
+  const selectedChatRef = useRef<MessagingUserDto | null>(null)
+
   const messagesContainerRef = useRef<HTMLDivElement>(null)
 
   const connectionRef = useRef<signalR.HubConnection | null>(null)
-  const selectedChatIdRef = useRef<number | null>(null)
   const pendingMessagesRef = useRef<Map<string, any>>(new Map())
 
   useEffect(() => {
-    selectedChatIdRef.current = selectedChat?.id || null
+    selectedChatRef.current = selectedChat
   }, [selectedChat])
-
-  // SignalR connection setup
-  useEffect(() => {
-    if (!userAuthData?.id) return
-
-    const connection = new signalR.HubConnectionBuilder()
-      .withUrl(`${import.meta.env.VITE_API_BASE_URL}/messageHub`, {
-        accessTokenFactory: () => localStorage.getItem('authToken') || ''
-      })
-      .configureLogging(signalR.LogLevel.Debug)
-      .withAutomaticReconnect()
-      .build()
-
-    connectionRef.current = connection
-
-    connection.on("ReceiveMessage", (message: MessageDto) => {
-      const currentSelectedChatId = selectedChatIdRef.current
-      const currentUserId = userAuthData.id
-
-      // Check if this message belongs to the current conversation
-      const isCurrentConversation = currentSelectedChatId && (
-        (message.senderId == currentSelectedChatId && message.receiverId == currentUserId) ||
-        (message.senderId == currentUserId && message.receiverId == currentSelectedChatId)
-      )
-
-      if (isCurrentConversation) {
-        setMessages(prev => {
-          // If this is from us, we need to replace the optimistic message
-          if (message.senderId == currentUserId) {
-            const updatedMessages = prev.map(prevMessage => {
-              if (prevMessage.tempId &&
-                prevMessage.receiverId == message.receiverId &&
-                prevMessage.body === message.body &&
-                prevMessage.senderId == currentUserId) {
-
-                const timeout = pendingMessagesRef.current.get(prevMessage.tempId)
-                if (timeout) {
-                  clearTimeout(timeout)
-                  pendingMessagesRef.current.delete(prevMessage.tempId)
-                }
-
-                return message
-              }
-              return prevMessage
-            })
-            return updatedMessages
-          } else {
-            // This gets called twice when in StrictMode, causing the message to appear two times
-            return [...prev, message]
-          }
-        })
-      }
-
-      setChats(prevChats =>
-        prevChats.map(chat => {
-          if (chat.id == message.senderId && message.receiverId == currentUserId ||
-            chat.id == message.receiverId && message.senderId == currentUserId) {
-            return { ...chat, lastMessage: message.body }
-          }
-          return chat
-        })
-      )
-    })
-
-    const startConnection = async () => {
-      try {
-        await connection.start()
-        setIsConnected(true)
-      } catch (error) {
-        console.error("SignalR connection error:", error)
-
-        // Strict mode causes the first connection attempt to fail
-        // Retry silently first
-        setTimeout(() => {
-          if (connection.state === signalR.HubConnectionState.Disconnected) {
-            startConnection()
-          }
-        }, 3000)
-      }
-    }
-
-    connection.onclose(() => {
-      setIsConnected(false)
-    })
-
-    connection.onreconnected(() => {
-      setIsConnected(true)
-    })
-
-    startConnection()
-
-    return () => {
-      pendingMessagesRef.current.forEach(timeout => clearTimeout(timeout))
-      pendingMessagesRef.current.clear()
-      connection.stop()
-    }
-  }, [userAuthData?.id, showNotification])
 
   useEffect(() => {
     loadChats()
+  }, [])
+
+  const scrollToBottom = useCallback(() => {
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = 0
+    }
   }, [])
 
   const loadChats = useCallback(async () => {
@@ -205,6 +117,32 @@ const Messages = () => {
     }
   }, [showNotification])
 
+  // Handle the case where the page is entered via the other user's Message button
+  useEffect(() => {
+    if (location.state?.selectedUser && !loadingChats) {
+      const { id, userName } = location.state.selectedUser
+
+      const existingChat = chats.find(chat => chat.id === id)
+
+      if (existingChat) {
+        handleChatSelect(existingChat)
+      } else {
+        setSelectedChat({
+          id: id,
+          userName: userName,
+          lastMessage: '',
+          lastMessageTime: new Date().toISOString()
+        })
+        setMessages([])
+        setPage(1)
+        setHasMore(true)
+        loadMessages(id, 1)
+      }
+
+      window.history.replaceState({}, document.title)
+    }
+  }, [location.state, loadingChats, chats, loadMessages])
+
   const handleChatSelect = useCallback((chat: MessagingUserDto) => {
     if (chat.id == selectedChat?.id) return
 
@@ -213,7 +151,7 @@ const Messages = () => {
     setPage(1)
     setHasMore(true)
     loadMessages(chat.id!, 1)
-  }, [selectedChat?.id, loadMessages])
+  }, [selectedChat?.id])
 
   const handleScroll = useCallback(() => {
     if (!messagesContainerRef.current || loadingMore || !hasMore || !selectedChat) return
@@ -228,11 +166,125 @@ const Messages = () => {
     }
   }, [loadingMore, hasMore, selectedChat, page, loadMessages])
 
-  const scrollToBottom = useCallback(() => {
-    if (messagesContainerRef.current) {
-      messagesContainerRef.current.scrollTop = 0
+  // SignalR connection setup
+  useEffect(() => {
+    if (!userAuthData?.id) return
+
+    const connection = new signalR.HubConnectionBuilder()
+      .withUrl(`${import.meta.env.VITE_API_BASE_URL}/messageHub`, {
+        accessTokenFactory: () => localStorage.getItem('authToken') || ''
+      })
+      .configureLogging(signalR.LogLevel.Debug)
+      .withAutomaticReconnect()
+      .build()
+
+    connectionRef.current = connection
+
+    connection.on("ReceiveMessage", (message: MessageDto) => {
+      const currentSelectedChat = selectedChatRef.current
+      const currentUserId = userAuthData.id
+
+      // Check if this message belongs to the current conversation
+      const isCurrentConversation = currentSelectedChat?.id && (
+        (message.senderId == currentSelectedChat.id && message.receiverId == currentUserId) ||
+        (message.senderId == currentUserId && message.receiverId == currentSelectedChat.id)
+      )
+
+      if (isCurrentConversation) {
+        setMessages(prev => {
+          // If this is from us, we need to replace the optimistic message
+          if (message.senderId == currentUserId) {
+            const updatedMessages = prev.map(prevMessage => {
+              if (prevMessage.tempId &&
+                prevMessage.receiverId == message.receiverId &&
+                prevMessage.body === message.body &&
+                prevMessage.senderId == currentUserId) {
+
+                const timeout = pendingMessagesRef.current.get(prevMessage.tempId)
+                if (timeout) {
+                  clearTimeout(timeout)
+                  pendingMessagesRef.current.delete(prevMessage.tempId)
+                }
+
+                return message
+              }
+              return prevMessage
+            })
+            return updatedMessages
+          } else {
+            // This gets called twice when in StrictMode, causing the message to appear two times
+            return [...prev, message]
+          }
+        })
+      }
+
+      setChats(prevChats => {
+        // Determine the other user in this conversation
+        const otherUserId = message.senderId == currentUserId ? message.receiverId : message.senderId
+        const otherUserName = message.senderId == currentUserId
+          ? (currentSelectedChat?.id == message.receiverId ? currentSelectedChat?.userName : undefined)
+          : undefined
+
+        const existingChatIndex = prevChats.findIndex(chat => chat.id == otherUserId)
+
+        if (existingChatIndex !== -1) {
+          const updatedChats = [...prevChats]
+          updatedChats[existingChatIndex] = {
+            ...updatedChats[existingChatIndex],
+            lastMessage: message.body,
+            lastMessageTime: new Date().toISOString()
+          }
+
+          // Move the chat to top
+          if (existingChatIndex !== 0) {
+            const [updatedChat] = updatedChats.splice(existingChatIndex, 1)
+            updatedChats.unshift(updatedChat)
+          }
+
+          return updatedChats
+        } else {
+          if (message.senderId == currentUserId && otherUserName) {
+            loadChats()
+          }
+
+          return prevChats
+        }
+      })
+    })
+
+    const startConnection = async () => {
+      try {
+        await connection.start()
+        setIsConnected(true)
+      } catch (error) {
+        console.error("SignalR connection error:", error)
+
+        // Strict mode causes the first connection attempt to fail
+        // Retry silently first
+        setTimeout(() => {
+          if (connection.state === signalR.HubConnectionState.Disconnected) {
+            startConnection()
+          }
+        }, 3000)
+      }
     }
-  }, [])
+
+    connection.onclose(() => {
+      setIsConnected(false)
+    })
+
+    connection.onreconnected(() => {
+      setIsConnected(true)
+    })
+
+    startConnection()
+
+    return () => {
+      pendingMessagesRef.current.forEach(timeout => clearTimeout(timeout))
+      pendingMessagesRef.current.clear()
+      connection.stop()
+    }
+  }, [userAuthData?.id, showNotification])
 
   const handleSendMessage = useCallback(async () => {
     if (!messageText.trim() || !selectedChat || !connectionRef.current || !isConnected) return
@@ -253,6 +305,28 @@ const Messages = () => {
       setMessageText('')
 
       scrollToBottom()
+
+      setChats(prevChats => {
+        const existingChatIndex = prevChats.findIndex(chat => chat.id === selectedChat.id)
+        if (existingChatIndex !== -1) {
+          const updatedChats = [...prevChats]
+          updatedChats[existingChatIndex] = {
+            ...updatedChats[existingChatIndex],
+            lastMessage: messageBody,
+            lastMessageTime: new Date().toISOString()
+          }
+
+          // Move to top if not already there
+          if (existingChatIndex !== 0) {
+            const [updatedChat] = updatedChats.splice(existingChatIndex, 1)
+            updatedChats.unshift(updatedChat)
+          }
+
+          return updatedChats
+        }
+        // Don't add the chat here - wait for the ReceiveMessage event
+        return prevChats
+      })
 
       const timeout = setTimeout(() => {
         showNotification('Message delivery failed. Please refresh the page and try again.', 'error')
