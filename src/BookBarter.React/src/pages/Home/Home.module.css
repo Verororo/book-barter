@@ -140,3 +140,7 @@
 .topSearchBar {
   width: 80%;
 }
+
+.input {
+  flex-wrap: wrap;
+}
